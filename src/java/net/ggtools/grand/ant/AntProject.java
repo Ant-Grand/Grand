@@ -54,6 +54,7 @@ import org.apache.tools.ant.Task;
 public class AntProject implements GraphProducer {
 
     private static final String ANTCALL_TASK_NAME = "antcall";
+
     private org.apache.tools.ant.Project antProject;
 
     /**
@@ -72,7 +73,7 @@ public class AntProject implements GraphProducer {
         antProject.setSystemProperties();
         antProject.init();
         antProject.setUserProperty("ant.file", source.getAbsolutePath());
-
+        
         ProjectHelper loader = ProjectHelper.getProjectHelper();
         antProject.addReference("ant.projectHelper", loader);
         loader.parse(antProject, source);
@@ -167,7 +168,7 @@ public class AntProject implements GraphProducer {
 
                 if (endNode == null) {
                     Log.log("Node " + startNodeName + " has dependency to non existent node "
-                            + depName,Log.MSG_WARN);
+                            + depName, Log.MSG_WARN);
                 } else {
                     graph.createLink(null, startNode, endNode);
                 }
@@ -177,18 +178,20 @@ public class AntProject implements GraphProducer {
             for (int i = 0; i < tasks.length; i++) {
                 final Task task = tasks[i];
                 if (ANTCALL_TASK_NAME.equals(task.getTaskType())) {
-                //if (task.getTaskType().equals(ANTCALL_TASK_NAME)) {
+                    //if (task.getTaskType().equals(ANTCALL_TASK_NAME)) {
                     final RuntimeConfigurable wrapper = task.getRuntimeConfigurableWrapper();
-                    final String called = (String) wrapper.getAttributeMap().get("target");
+                    final String called = antProject.replaceProperties((String) wrapper
+                            .getAttributeMap().get("target"));
 
                     // Ant call can call targets which won't exists at the moment
                     // so we call a dummy target if none is available.
                     Node calledNode = graph.getNode(called);
                     if (calledNode == null) {
-                        Log.log("Creating dummy node for missing antcall target "+called);
+                        Log.log("Creating dummy node for missing antcall target " + called);
                         calledNode = graph.createNode(called);
                     }
-                    final Link link = graph.createLink(ANTCALL_TASK_NAME,startNode,calledNode);
+                    final Link link = graph
+                            .createLink(ANTCALL_TASK_NAME, startNode, calledNode);
                     link.setAttributes(Link.ATTR_WEAK_LINK);
                 }
             }

@@ -4,8 +4,13 @@
 	<description>
 		My little test bed for distribs.
 	</description>
+	<property name="antcall.target" value="init"/>
 	<target name="init">
-		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/grand-0.2.jar"/>
+		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/grand-0.3.1-pre.jar"/>
+	</target>
+
+	<target name="antcalltarget">
+		<antcall target="${antcall.target}"/>
 	</target>
 
 	<target name="current-project" depends="init">
@@ -24,3 +29,4 @@
 	
 	<target name="graph" depends="current-project, ant-build"/>
 </project>
+
