@@ -1,5 +1,10 @@
 $Id$
 
+Release 1.4:
+
+* Small fixes needed by release 0.2 of the GUI.
+
+
 Release 1.3:
 
 * Major rework in the way the ant file tasks are processed,
