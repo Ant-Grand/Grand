@@ -1,5 +1,17 @@
 $Id$
 
+Release 1.1:
+
+* Compile with Ant 1.6.1 rather than 1.6,
+
+* Add the FilterChain class to handle a set of filters as one
+  filter,
+
+* Implements a preliminary support for ant task,
+
+* Some code cleanup.
+
+
 Release 1.0:
 
 * Code cleanup: removed Jikes warning on tests.

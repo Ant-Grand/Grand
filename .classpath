@@ -6,7 +6,7 @@
 	<classpathentry exported="true" kind="var" path="CLOVER_RUNTIME"/>
 	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.0.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
 	<classpathentry sourcepath="JRE_SRC" kind="var" path="JRE_LIB"/>
-	<classpathentry sourcepath="ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.jar"/>
-	<classpathentry sourcepath="ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-launcher-1.6.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.1.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/ant/jars/ant-launcher-1.6.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
