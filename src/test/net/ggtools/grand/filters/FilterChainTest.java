@@ -149,8 +149,7 @@ public class FilterChainTest extends TestCase {
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         filter1 = new DummyFilter("1");
         filter2 = new DummyFilter("2");
         filter3 = new DummyFilter("3");
