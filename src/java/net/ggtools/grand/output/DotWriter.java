@@ -148,7 +148,7 @@ public class DotWriter implements GraphWriter {
     private StringBuffer getNodeAsDot(Node node) {
         String currentNodeAttributes = null;
 
-        if (node.hasAttribute(Node.ATTR_MAIN_NODE)) {
+        if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
             final String mainNodeProps = mainNodeAttributes;
 
             if (mainNodeProps != null) {

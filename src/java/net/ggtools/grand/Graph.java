@@ -140,8 +140,9 @@ public class Graph {
     /**
      * Get the nodes contained in the graph. The implementing class should
      * garantee that the Iterator will only returns object implementing the
-     * Node interface. The returned iterator does not have to implement the
-     * optional {@link Iterator#remove()}method.
+     * Node interface. The returned iterator should implement the
+     * optional {@link Iterator#remove()}method in order to allow
+     * the filters to remove nodes.
      * 
      * @return an iterator to the graph's nodes.
      */

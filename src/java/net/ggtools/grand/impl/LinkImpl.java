@@ -40,7 +40,7 @@ import net.ggtools.grand.Node;
  * 
  * @author Christophe Labouisse
  */
-public class LinkImpl implements Link {
+public class LinkImpl extends AttributeManager implements Link {
 
     private Node startNode;
     private Node endNode;
@@ -50,8 +50,8 @@ public class LinkImpl implements Link {
     /**
      * Creates a new Link.
      * 
-     * @param name
-     * @param graph
+     * @param name link's name, may be <code>null</code>.
+     * @param graph owning graph.
      */
     public LinkImpl(String name, Graph graph, Node startNode, Node endNode) {
         this.name = name;

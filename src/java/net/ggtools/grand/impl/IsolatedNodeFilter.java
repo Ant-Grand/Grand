@@ -28,56 +28,53 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.ggtools.grand;
 
-import java.util.List;
+package net.ggtools.grand.impl;
+
+import java.util.Iterator;
+
+import net.ggtools.grand.Graph;
+import net.ggtools.grand.GraphFilter;
+import net.ggtools.grand.GraphProducer;
+import net.ggtools.grand.Log;
+import net.ggtools.grand.Node;
+import net.ggtools.grand.exceptions.GrandException;
 
 /**
- * Interface implementated by nodes populating the graph.
+ * A filter to remove isolated nodes in a graph.
  * 
  * @author Christophe Labouisse
  */
-public interface Node extends GraphObject {
-    //TODO should I use a class for this ?
+public class IsolatedNodeFilter implements GraphFilter {
     
-    /**
-     * Attribute bit to be set on <i>main</i> nodes. The definition
-     * of a main node depends on the graph's source. For Ant a main
-     * node will be a target with a description attribute.
-     */
-    int ATTR_MAIN_NODE = 1 << 0;
-    
-    /**
-     * Returns the node's links. The implementing class should insure that the
-     * returned list only contains objects implementing the Link interface.
-     * 
-     * The returned list may throw an {@link UnsupportedOperationException}on
-     * modification operations.
-     * 
-     * @return list of links.
-     */
-    List getLinks();
+    GraphProducer graphProducer;
 
-    /**
-     * Add a link to the node. This method should be called when the link
-     * starts from the node. The implementations should preserve the order in
-     * which the nodes were added.
-     * 
-     * @param link
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphProducer#getGraph()
      */
-    void addLink(Link link);
+    public Graph getGraph() throws GrandException {
+        Log.log("Triggering IsolatedNodeFilter",Log.MSG_VERBOSE);
+        Graph graph = graphProducer.getGraph();
+        
+        for (Iterator iter = graph.getNodes() ; iter.hasNext(); ) {
+            Node node = (Node) iter.next();
 
-    /**
-     * Returns a short description (one line of less) of the node.
-     * 
-     * @return description.
+            // FIXME take in consideration back links for filtering.
+            if (node.getLinks().size() == 0) {
+                Log.log("Removing node "+node.getName(),Log.MSG_DEBUG);
+                // FIXME Remove the main node from the graph if necessary
+                iter.remove();
+            }
+        }
+        
+        return graph;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
      */
-    String getDescription();
-    
-    /**
-     * Sets the node description.
-     * 
-     * @param description
-     */
-    void setDescription(String description);
+    public void setProducer(GraphProducer producer) {
+        graphProducer = producer;
+    }
+
 }

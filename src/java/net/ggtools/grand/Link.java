@@ -40,16 +40,23 @@ package net.ggtools.grand;
 public interface Link extends GraphObject {
 
     /**
+     * Attribute bit to be set on <i>weak</i> links. The definition
+     * of weak depends on the graph source. For Ant weak links will
+     * be dependencies underlying ant, antcall, subant, etc. task.
+     */
+    int ATTR_WEAK_LINK = 1 << 0;
+    
+    /**
      * Return the node located at the start of the link.
      * 
-     * @return
+     * @return start node
      */
     Node getStartNode();
     
     /**
      * Return the node located at the end of the link.
      * 
-     * @return
+     * @return end node
      */
     Node getEndNode();
 }

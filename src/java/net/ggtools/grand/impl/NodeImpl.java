@@ -44,19 +44,16 @@ import net.ggtools.grand.Node;
  * 
  * @author Christophe Labouisse
  */
-public class NodeImpl implements Node {
+public class NodeImpl extends AttributeManager implements Node {
     
     private String name;
     private Graph graph;
     private String description;
     private List links;
-    private int attributes;
-    
     public NodeImpl(String name, Graph graph) {
         this.name = name;
         this.graph = graph;
         links = new LinkedList();
-        attributes = 0;
     }
 
     /* (non-Javadoc)
@@ -99,41 +96,6 @@ public class NodeImpl implements Node {
      */
     public void addLink(Link link) {
         links.add(link);
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#setAttribute(int)
-     */
-    public void setAttribute(int attribute) {
-        attributes |= attribute;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#setAttribute(int)
-     */
-    public void unsetAttribute(int attribute) {
-        attributes &= -1 ^ attribute;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#setAttributes(int)
-     */
-    public void setAttributes(int attributes) {
-        this.attributes = attributes;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#hasAttribute(int)
-     */
-    public boolean hasAttribute(int attribute) {
-        return (attributes & attribute) == attribute;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#getAttributes()
-     */
-    public int getAttributes() {
-        return attributes;
     }
 
 }

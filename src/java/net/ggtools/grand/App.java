@@ -36,6 +36,7 @@ import java.io.IOException;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.impl.IsolatedNodeFilter;
 import net.ggtools.grand.output.DotWriter;
 
 /**
@@ -56,7 +57,8 @@ public final class App {
             return;
         }
 
-        System.err.println("Start conversion of " + args[0]);
+        Log.setLogLevel(Log.MSG_DEBUG);
+        Log.log("Start conversion of " + args[0]);
         App appli = new App(args[0]);
 
         try {
@@ -94,7 +96,9 @@ public final class App {
     private void run(final String output) throws IOException, GrandException {
         GraphProducer producer = new AntProject(buildFile);
         GraphWriter writer = new DotWriter();
-        writer.setProducer(producer);
+        GraphFilter filter = new IsolatedNodeFilter();
+        filter.setProducer(producer);
+        writer.setProducer(filter);
         writer.write(new File(output));
     }
 }

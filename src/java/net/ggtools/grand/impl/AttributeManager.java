@@ -28,56 +28,38 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.ggtools.grand;
 
-import java.util.List;
+package net.ggtools.grand.impl;
+
+import net.ggtools.grand.GraphObject;
 
 /**
- * Interface implementated by nodes populating the graph.
+ * Abstract class to manage GraphObjet's attributes.
  * 
  * @author Christophe Labouisse
  */
-public interface Node extends GraphObject {
-    //TODO should I use a class for this ?
+public abstract class AttributeManager implements GraphObject {
+    private int attributes = 0;
     
-    /**
-     * Attribute bit to be set on <i>main</i> nodes. The definition
-     * of a main node depends on the graph's source. For Ant a main
-     * node will be a target with a description attribute.
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#setAttribute(int)
      */
-    int ATTR_MAIN_NODE = 1 << 0;
-    
-    /**
-     * Returns the node's links. The implementing class should insure that the
-     * returned list only contains objects implementing the Link interface.
-     * 
-     * The returned list may throw an {@link UnsupportedOperationException}on
-     * modification operations.
-     * 
-     * @return list of links.
-     */
-    List getLinks();
+    public void setAttributes(int attributeMask) {
+        attributes |= attributeMask;
+    }
 
-    /**
-     * Add a link to the node. This method should be called when the link
-     * starts from the node. The implementations should preserve the order in
-     * which the nodes were added.
-     * 
-     * @param link
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#setAttribute(int)
      */
-    void addLink(Link link);
+    public void clearAttributes(int attributeMask) {
+        attributes &= -1 ^ attributeMask;
+    }
 
-    /**
-     * Returns a short description (one line of less) of the node.
-     * 
-     * @return description.
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#hasAttribute(int)
      */
-    String getDescription();
+    public boolean hasAttributes(int attributeMask) {
+        return (attributes & attributeMask) == attributeMask;
+    }
     
-    /**
-     * Sets the node description.
-     * 
-     * @param description
-     */
-    void setDescription(String description);
 }

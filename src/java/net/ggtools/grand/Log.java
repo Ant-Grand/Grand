@@ -43,10 +43,20 @@ import org.apache.tools.ant.Project;
  * @author Christophe Labouisse
  */
 public class Log {
+    /** Message priority of "error". */
+    public static final int MSG_ERR = Project.MSG_ERR;
+    /** Message priority of "warning". */
+    public static final int MSG_WARN = Project.MSG_ERR;
+    /** Message priority of "information". */
+    public static final int MSG_INFO = Project.MSG_ERR;
+    /** Message priority of "verbose". */
+    public static final int MSG_VERBOSE = Project.MSG_ERR;
+    /** Message priority of "debug". */
+    public static final int MSG_DEBUG = Project.MSG_ERR;
     
     private static PrintStream logStream = System.out;
     private static WeakReference projectRef;
-    private static int logLevel = Project.MSG_INFO;
+    private static int logLevel = MSG_INFO;
     
     /**
      * Private constructor since this class should not but
@@ -62,7 +72,7 @@ public class Log {
      */
 
     public static void log(String message) {
-        log(message, Project.MSG_INFO);
+        log(message, MSG_INFO);
     }
 
     /**
@@ -92,5 +102,19 @@ public class Log {
      */
     public static void setProject(Project project) {
         projectRef = new WeakReference(project);
+    }
+    
+    /**
+     * @param logLevel The logLevel to set.
+     */
+    public static void setLogLevel(int logLevel) {
+        Log.logLevel = logLevel;
+    }
+    
+    /**
+     * @param logStream The logStream to set.
+     */
+    public static void setLogStream(PrintStream logStream) {
+        Log.logStream = logStream;
     }
 }

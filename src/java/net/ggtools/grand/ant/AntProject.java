@@ -99,6 +99,8 @@ public class AntProject implements GraphProducer {
      * @see net.ggtools.grand.GraphProducer#getGraph(net.ggtools.grand.GraphFactory)
      */
     public Graph getGraph() throws GrandException {
+        Log.log("Triggering AntProject",Log.MSG_VERBOSE);
+        
         final String defaultTarget = antProject.getDefaultTarget();
         final Graph graph = new Graph(antProject.getName());
 
@@ -114,7 +116,7 @@ public class AntProject implements GraphProducer {
 
             final String targetDescription = target.getDescription();
             if ((targetDescription != null) && (!targetDescription.equals(""))) {
-                node.setAttribute(Node.ATTR_MAIN_NODE);
+                node.setAttributes(Node.ATTR_MAIN_NODE);
                 node.setDescription(targetDescription);
             }
         }
