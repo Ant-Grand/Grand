@@ -6,7 +6,7 @@
 	</description>
 	<property name="antcall.target" value="init"/>
 	<target name="init">
-		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes"/>
+		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes:../src/conf"/>
 		<macrodef name="mkgraph">
 			<attribute name="name"/>
 			<sequential>

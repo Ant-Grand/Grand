@@ -35,8 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Collection;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -45,7 +44,6 @@ import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.GraphWriter;
-import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.log.LoggerManager;
 
@@ -78,48 +76,79 @@ import org.apache.commons.logging.Log;
  * @see <a href="http://www.research.att.com/~erg/graphviz/info/attrs.html">Dot attributes</a>
  */
 public class DotWriter implements GraphWriter {
+    /**
+     * @author Christophe Labouisse
+     */
+    private static class Output implements DotWriterOutput {
+        /**
+         * Escapes a string from special dot chars.
+         * 
+         * @param str string to escape.
+         * @return the escaped string.
+         */
+        private static String escapeString(final String str) {
+            if (str == null) { return null; }
+            return str.replaceAll("(\\\"\\s)", "\\\\\\1");
+        }
+
+
+        private final PrintWriter writer;
+
+        /**
+         * 
+         */
+        private Output(final OutputStream stream) {
+            this.writer = new PrintWriter(stream);
+        }
+
+        /* (non-Javadoc)
+         * @see net.ggtools.grand.output.DotWriterOutput#append(java.lang.String)
+         */
+        public DotWriterOutput append(String strValue) {
+            writer.print(strValue);
+            return this;
+        }
+
+        /* (non-Javadoc)
+         * @see net.ggtools.grand.output.DotWriterOutput#appendEscaped(java.lang.String)
+         */
+        public DotWriterOutput appendEscaped(String strValue) {
+            writer.print(escapeString(strValue));
+            return this;
+        }
+
+        /* (non-Javadoc)
+         * @see net.ggtools.grand.output.DotWriterOutput#append(int)
+         */
+        public DotWriterOutput append(int intValue) {
+            writer.print(intValue);
+            return this;
+        }
+
+        /* (non-Javadoc)
+         * @see net.ggtools.grand.output.DotWriterOutput#newLine()
+         */
+        public DotWriterOutput newLine() {
+            writer.println();
+            return this;
+        }
+
+        private void close() {
+            writer.close();
+        }
+    }
     private static final Log log = LoggerManager.getLog(DotWriter.class);
-
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
     private static final String DOT_GRAPH_ATTRIBUTES = "dot.graph.attributes";
 
     private static final String DOT_LINK_ATTRIBUTES = "dot.link.attributes";
 
-    private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
-
-    private static final String DOT_MAINNODE_ATTRIBUTES = "dot.mainnode.attributes";
-
-    private static final String DOT_MISSINGNODE_ATTRIBUTES = "dot.missingnode.attributes";
 
     private static final String DOT_NODE_ATTRIBUTES = "dot.node.attributes";
-
-    private static final String DOT_STARTNODE_ATTRIBUTES = "dot.startnode.attributes";
-
-    /**
-     * Escapes a string from special dot chars.
-     * 
-     * @param str string to escape.
-     * @return the escaped string.
-     */
-    private static String escapeString(final String str) {
-        if (str == null) { return null; }
-        return str.replaceAll("(\\\"\\s)", "\\\\\\1");
-    }
-
     private String graphAttributes;
 
     private String linkAttributes;
 
-    private String weakLinkAttributes;
-
-    private String mainNodeAttributes;
-
-    private String missingNodeAttributes;
-
     private String nodeAttributes;
-
-    private String startNodeAttributes;
 
     private final Configuration config;
 
@@ -147,90 +176,7 @@ public class DotWriter implements GraphWriter {
         config = Configuration.getConfiguration(override);
         graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);
         linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
-        weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);
-        mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);
-        missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);
         nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
-        startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);
-    }
-
-    /**
-     * Generates the dot code for a node an its dependencies. This method
-     * automatically find out the node style depending on the node category and
-     * the writer properties.
-     * 
-     * @param node
-     *            the node to be processed.
-     * @return a string buffer holding the node information in dot language.
-     */
-    private StringBuffer getNodeAsDot(final Node node) {
-        String currentNodeAttributes = null;
-
-        if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
-            if (mainNodeAttributes != null) {
-                currentNodeAttributes = mainNodeAttributes;
-            } else {
-                currentNodeAttributes = "";
-            }
-
-            currentNodeAttributes += ",comment=\"" + escapeString(node.getDescription()) + "\"";
-        } else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {
-            currentNodeAttributes = missingNodeAttributes;
-        }
-
-        return getNodeAsDot(node, currentNodeAttributes);
-    }
-
-    /**
-     * Generates the dot code for a node an its dependencies.
-     * 
-     * @param node
-     *            the node to be processed.
-     * @param attributes
-     *            attributes for the processed node.
-     * @return a string buffer holding the node information in dot language.
-     */
-    private StringBuffer getNodeAsDot(final Node node, final String attributes) {
-        StringBuffer strBuf = new StringBuffer();
-        strBuf.append("\"").append(escapeString(node.getName())).append("\"");
-        String nodeInfo = strBuf.toString();
-
-        if (attributes != null) {
-            strBuf.append(" [").append(attributes).append("];");
-        }
-
-        strBuf.append(LINE_SEPARATOR);
-
-        Collection deps = node.getLinks();
-        int index = 1;
-        final int numDeps = deps.size();
-
-        for (Iterator iter = deps.iterator(); iter.hasNext();) {
-            Link link = (Link) iter.next();
-            Node depNode = link.getEndNode();
-
-            strBuf.append(nodeInfo).append(" -> \"").append(escapeString(depNode.getName()))
-                    .append("\"");
-
-            // TODO create a proper attribute manager.
-            if (numDeps > 1 || link.hasAttributes(Link.ATTR_WEAK_LINK)) {
-                strBuf.append(" [");
-                if (numDeps > 1) {
-                    strBuf.append("label=\"").append(index++).append("\"");
-                }
-                if (link.hasAttributes(Link.ATTR_WEAK_LINK)) {
-                    if (numDeps > 1) {
-                        strBuf.append(", ");
-                    }
-
-                    strBuf.append(weakLinkAttributes);
-                }
-                strBuf.append("]");
-            }
-            strBuf.append(";").append(LINE_SEPARATOR);
-        }
-
-        return strBuf;
     }
 
     /*
@@ -252,97 +198,39 @@ public class DotWriter implements GraphWriter {
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.OutputStream)
      */
     public void write(final OutputStream stream) throws GrandException {
-        PrintStream output = new PrintStream(stream);
+        final Output output = new Output(stream);
 
-        Graph graph = graphProducer.getGraph();
+        final Graph graph = graphProducer.getGraph();
 
-        StringBuffer header = new StringBuffer();
-        header.append("digraph \"").append(escapeString(graph.getName())).append("\" {")
-                .append(LINE_SEPARATOR);
-        header.append("graph [").append(graphAttributes);
+        output.append("digraph \"").appendEscaped(graph.getName()).append("\" {")
+                .newLine();
+        output.append("graph [").append(graphAttributes);
         if (showGraphName) {
-            header.append(",label=\"").append(graph.getName()).append("\"");
+            output.append(",label=\"").append(graph.getName()).append("\"");
         }
-        header.append("];").append(LINE_SEPARATOR);
-        header.append("node [").append(nodeAttributes).append("];").append(LINE_SEPARATOR);
-        header.append("edge [").append(linkAttributes).append("];");
-        output.println(header);
+        output.append("];").newLine();
+        output.append("node [").append(nodeAttributes).append("];").newLine();
+        output.append("edge [").append(linkAttributes).append("];").newLine();
 
+        final DotWriterVisitor visitor = new DotWriterVisitor(output,config);
         final Node startNode = graph.getStartNode();
 
         if (startNode != null) {
-            output.println(getNodeAsDot(startNode, startNodeAttributes));
+            startNode.accept(visitor);
         }
 
         for (Iterator iter = graph.getNodes(); iter.hasNext();) {
-            Node node = (Node) iter.next();
+            final Node node = (Node) iter.next();
 
             if (node.equals(startNode) || node.getName().equals("")) {
                 continue;
             }
-            output.println(getNodeAsDot(node));
+            node.accept(visitor);
         }
-        output.println("}");
-    }
-
-    /**
-     * @return Returns the graphAttributes.
-     */
-    public String getGraphAttributes() {
-        return graphAttributes;
-    }
-
-    /**
-     * @param graphAttributes
-     *            The graphAttributes to set.
-     */
-    public void setGraphAttributes(final String graphAttributes) {
-        this.graphAttributes = graphAttributes;
-    }
-
-    /**
-     * @return Returns the linkAttributes.
-     */
-    public String getLinkAttributes() {
-        return linkAttributes;
-    }
-
-    /**
-     * @param linkAttributes
-     *            The linkAttributes to set.
-     */
-    public void setLinkAttributes(final String linkAttributes) {
-        this.linkAttributes = linkAttributes;
-    }
-
-    /**
-     * @return Returns the mainNodeAttributes.
-     */
-    public String getMainNodeAttributes() {
-        return mainNodeAttributes;
-    }
-
-    /**
-     * @param mainNodeAttributes
-     *            The mainNodeAttributes to set.
-     */
-    public void setMainNodeAttributes(final String mainNodeAttributes) {
-        this.mainNodeAttributes = mainNodeAttributes;
-    }
-
-    /**
-     * @return Returns the nodeAttributes.
-     */
-    public String getNodeAttributes() {
-        return nodeAttributes;
-    }
-
-    /**
-     * @param nodeAttributes
-     *            The nodeAttributes to set.
-     */
-    public void setNodeAttributes(final String nodeAttributes) {
-        this.nodeAttributes = nodeAttributes;
+        
+        output.append("}").newLine();
+        
+        output.close();
     }
 
     /* (non-Javadoc)

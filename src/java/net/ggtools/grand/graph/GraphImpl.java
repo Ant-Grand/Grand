@@ -132,7 +132,13 @@ public class GraphImpl implements Graph {
      *            to be marked as the starting node of the graph.
      */
     public void setStartNode(final Node node) {
+        if (graphStartNode != null) {
+            graphStartNode.clearAttributes(Node.ATTR_START_NODE);
+        }
         graphStartNode = node;
+        if (graphStartNode != null) {
+            graphStartNode.setAttributes(Node.ATTR_START_NODE);
+        }
     }
 
     /**
