@@ -1,4 +1,4 @@
-//$Id$
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
@@ -27,23 +27,30 @@
  */
 package net.ggtools.grand.log;
 
+import org.apache.commons.logging.Log;
+
 /**
- * Abstraction interface to be able to log to different systems.
+ * Interface implemented by classes providing loggers. This interface is design
+ * to be used only through the {@link net.ggtools.grand.log.LoggerManager}
+ * class.
  * 
  * @author Christophe Labouisse
  */
-public interface Logger {
+public interface LoggerFactory {
+
     /**
-     * Log a message to a specific level.
+     * Get a logger named from a specific class.
      * 
-     * @param message
-     * @param logLevel
+     * @param clazz
+     * @return
      */
-    void log(String message, int logLevel);
-    
+    Log getLog(Class clazz);
+
     /**
-     * Changes the log level.
-     * @param logLevel
+     * Get a named logger.
+     * 
+     * @param name
+     * @return
      */
-    void setLogLevel(int logLevel);
+    Log getLog(String name);
 }

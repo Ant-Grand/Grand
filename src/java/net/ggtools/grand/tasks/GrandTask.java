@@ -43,13 +43,12 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.filters.GraphFilter;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.GraphWriter;
-import net.ggtools.grand.log.AntLogger;
+import net.ggtools.grand.log.AntLog;
 import net.ggtools.grand.output.DotWriter;
 
 import org.apache.tools.ant.BuildException;
@@ -233,8 +232,8 @@ public class GrandTask extends Task {
      */
     public void setProject(final Project project) {
         super.setProject(project);
-
-        Log.setLogger(new AntLogger(project));
+        AntLog.setCurrentProject(project);
+        AntLog.setCurrentTask(this);
     }
 
     /**

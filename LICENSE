@@ -30,7 +30,8 @@
  
 SUBCOMPONENTS:
 
-Some classes in the test directory and the log4j build.xml file
+The org/apache/commons/logging/Log.java file,
+some classes in the test directory and the log4j build.xml file
 are subject to the following term and license:
 
 /* ====================================================================

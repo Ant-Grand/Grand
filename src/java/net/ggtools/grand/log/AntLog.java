@@ -27,38 +27,53 @@
  */
 package net.ggtools.grand.log;
 
+import org.apache.commons.logging.Log;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
 
 /**
- * A logger implementation wrapping the
- * {@link org.apache.tools.ant.Project#log(java.lang.String, int)}method.
- * 
  * @author Christophe Labouisse
  */
-public class AntLogger implements Logger {
+public class AntLog extends SimpleLog implements Log {
 
-    private final Project project;
+    private static Project currentProject;
+
+    private static Task currentTask;
+
+    public static void setCurrentProject(Project newProject) {
+        currentProject = newProject;
+    }
+
+    public static void setCurrentTask(Task newTask) {
+        currentTask = newTask;
+    }
 
     /**
-     *  
+     * Package only instanciation.
      */
-    public AntLogger(final Project project) {
-        this.project = project;
+    AntLog() {
     }
 
     /*
      * (non-Javadoc)
-     * @see net.ggtools.grand.log.Logger#log(java.lang.String, int)
+     * @see net.ggtools.grand.log.SimpleLog#log(java.lang.Object,
+     *      java.lang.Throwable, int)
      */
-    public void log(String message, int logLevel) {
-        project.log(message, logLevel);
-    }
+    protected void log(final Object message, final Throwable t, final int level) {
+        if (currentProject != null) {
+            // Translate into ant log levels.
+            int antMsgLevel = level - LEVEL_ERROR + Project.MSG_ERR;
+            if (antMsgLevel < Project.MSG_ERR) antMsgLevel = Project.MSG_ERR;
+            else if (antMsgLevel > Project.MSG_DEBUG) antMsgLevel = Project.MSG_DEBUG;
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.log.Logger#setLogLevel(int)
-     */
-    public void setLogLevel(int logLevel) {
-        // Nothing.
+            // TODO add a target.
+            if (currentTask == null) currentProject.log(message.toString(), antMsgLevel);
+            else
+                currentProject.log(currentTask, message.toString(), antMsgLevel);
+        }
+        else {
+            super.log(message, t, level);
+        }
     }
 
 }

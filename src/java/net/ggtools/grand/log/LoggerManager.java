@@ -1,4 +1,4 @@
-//$Id$
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
@@ -27,43 +27,50 @@
  */
 package net.ggtools.grand.log;
 
-import java.io.PrintStream;
-
-import net.ggtools.grand.Log;
+import org.apache.commons.logging.Log;
 
 /**
- * A basic logger implementation using System.out.
- * 
  * @author Christophe Labouisse
  */
-public class SimpleLogger implements Logger {
-    
-    private PrintStream logStream = System.out;
+public class LoggerManager {
 
-    private int logLevel = Log.MSG_INFO;
+    private static LoggerFactory currentFactory;
 
-    /**
-     * 
-     */
-    public SimpleLogger() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    private final static LoggerFactory defaultFactory = new LoggerFactory() {
+        public Log getLog(Class clazz) {
+            return new AntLog();
+        }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.log.Logger#log(java.lang.String, int)
-     */
-    public void log(String message, int msgLevel) {
-        if (msgLevel <= logLevel) {
-            logStream.println(message);
+        public Log getLog(String name) {
+            return new AntLog();
+        }
+    };
+
+    public static Log getLog(Class clazz) {
+        if (currentFactory != null) {
+            return currentFactory.getLog(clazz);
+        }
+        else {
+            return defaultFactory.getLog(clazz);
         }
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.log.Logger#setLogLevel(int)
-     */
-    public void setLogLevel(int logLevel) {
-        this.logLevel = logLevel;
+    public static Log getLog(String name) {
+        if (currentFactory != null) {
+            return currentFactory.getLog(name);
+        }
+        else {
+            return defaultFactory.getLog(name);
+        }
     }
 
+    public static void setFactory(LoggerFactory factory) {
+        currentFactory = factory;
+    }
+
+    /**
+     * No instanciation allowed.
+     */
+    private LoggerManager() {
+    }
 }

@@ -31,8 +31,7 @@
 
 package net.ggtools.grand;
 
-import net.ggtools.grand.log.Logger;
-import net.ggtools.grand.log.SimpleLogger;
+import net.ggtools.grand.log.LoggerManager;
 
 import org.apache.tools.ant.Project;
 
@@ -41,9 +40,11 @@ import org.apache.tools.ant.Project;
  * facility implementation working with or without an Ant project set up.
  * 
  * @author Christophe Labouisse
- * TODO Add a task reference for cleaner logging.
+ * @deprecated
  */
 public final class Log {
+    private static org.apache.commons.logging.Log log = LoggerManager.getLog("Grand");
+    
     /** Message priority of "error". */
     public static final int MSG_ERR = Project.MSG_ERR;
 
@@ -59,8 +60,6 @@ public final class Log {
     /** Message priority of "debug". */
     public static final int MSG_DEBUG = Project.MSG_DEBUG;
     
-    private static Logger logger = new SimpleLogger();
-
     /**
      * Private constructor since this class should not but
      * instanciated.
@@ -73,6 +72,7 @@ public final class Log {
      * Writes a message to the log with the default log level
      * of MSG_INFO
      * @param message The text to log. Should not be <code>null</code>.
+     * @deprecated
      */
 
     public static void log(final String message) {
@@ -83,19 +83,29 @@ public final class Log {
      * Writes a project level message to the log with the given log level.
      * @param message The text to log. Should not be <code>null</code>.
      * @param msgLevel The priority level to log at.
+     * @deprecated
      */
     public static void log(final String message, final int msgLevel) {
-        logger.log(message,msgLevel);
-    }
+        switch (msgLevel) {
+        case net.ggtools.grand.Log.MSG_DEBUG:
+            log.trace(message);
+            break;
 
-    /**
-     * @param level The logLevel to set.
-     */
-    public static void setLogLevel(final int level) {
-        logger.setLogLevel(level);
-    }
-    
-    public static void setLogger(final Logger newLogger) {
-        logger = newLogger;
+        case net.ggtools.grand.Log.MSG_VERBOSE:
+            log.debug(message);
+            break;
+
+        case net.ggtools.grand.Log.MSG_INFO:
+            log.info(message);
+            break;
+
+        case net.ggtools.grand.Log.MSG_WARN:
+            log.warn(message);
+            break;
+
+        case net.ggtools.grand.Log.MSG_ERR:
+            log.error(message);
+            break;
+        }
     }
 }
