@@ -101,7 +101,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                         + e.getMessage(), Log.MSG_WARN);
             } catch (InvocationTargetException e) {
                 // Process the exception raised by the method invokation.
-                // GrandException & RuntimeException are propaged.
+                // GrandException & RuntimeException are propagated.
                 final Throwable cause = e.getCause();
                 if (cause instanceof GrandException) {
                     throw (GrandException) cause;
