@@ -248,14 +248,6 @@ public class AntProject implements GraphProducer {
         }
     }
 
-    private static final String ANT_TASK_NAME = "ant";
-
-    private static final String ANTCALL_TASK_NAME = "antcall";
-
-    private static final String FOREACH_TASK_NAME = "foreach";
-
-    static final String BUILD_XML = "build.xml";
-
     private org.apache.tools.ant.Project antProject;
 
     private final TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
