@@ -130,6 +130,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
         } catch (Throwable t) {
             System.err.println("Ooops test failed: " + getName() + " "
                     + project.getProperty(TEMP_FILE_PROP));
+            System.err.println("Log was: "+getLog());
             testOk = false;
             throw t;
         }
