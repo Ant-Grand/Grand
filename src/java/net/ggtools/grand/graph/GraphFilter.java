@@ -29,23 +29,14 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
-
-import net.ggtools.grand.exceptions.GrandException;
+package net.ggtools.grand.graph;
 
 /**
- * Interface for class creating graphs. 
+ * Interface for class implementing filters. A filter is basically
+ * the combination of a consumer and a producer.
  * 
  * @author Christophe Labouisse
  */
-public interface GraphProducer {
+public interface GraphFilter extends GraphProducer, GraphConsumer {
 
-    /**
-     * Ask the producer to create a graph.
-     * The created graph can be modified by the caller object.
-     * 
-     * @return new graph.
-     * @throws GrandException is an error occurs contructing the graph.
-     */
-    Graph getGraph() throws GrandException;
 }

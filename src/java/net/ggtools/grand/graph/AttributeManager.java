@@ -31,7 +31,6 @@
 
 package net.ggtools.grand.graph;
 
-import net.ggtools.grand.GraphObject;
 
 /**
  * Abstract class to manage GraphObjet's attributes.

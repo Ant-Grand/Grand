@@ -34,10 +34,7 @@ package net.ggtools.grand.graph;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.Link;
 import net.ggtools.grand.Log;
-import net.ggtools.grand.Node;
 
 /**
  * 

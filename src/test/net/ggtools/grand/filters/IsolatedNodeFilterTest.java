@@ -33,10 +33,10 @@ package net.ggtools.grand.filters;
 
 import java.io.File;
 
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.GraphFilter;
-import net.ggtools.grand.GraphProducer;
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphFilter;
+import net.ggtools.grand.graph.GraphProducer;
 
 import org.apache.tools.ant.BuildFileTest;
 

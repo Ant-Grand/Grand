@@ -29,34 +29,23 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.graph;
+
+import net.ggtools.grand.exceptions.GrandException;
 
 /**
- * Interface for class representing links. A link is an object connecting
- * exactly two Nodes: the start node and the end node.
+ * Interface for class creating graphs. 
  * 
  * @author Christophe Labouisse
  */
-public interface Link extends GraphObject {
+public interface GraphProducer {
 
     /**
-     * Attribute bit to be set on <i>weak</i> links. The definition
-     * of weak depends on the graph source. For Ant weak links will
-     * be dependencies underlying ant, antcall, subant, etc. task.
-     */
-    int ATTR_WEAK_LINK = 1 << 0;
-    
-    /**
-     * Return the node located at the start of the link.
+     * Ask the producer to create a graph.
+     * The created graph can be modified by the caller object.
      * 
-     * @return start node
+     * @return new graph.
+     * @throws GrandException is an error occurs contructing the graph.
      */
-    Node getStartNode();
-    
-    /**
-     * Return the node located at the end of the link.
-     * 
-     * @return end node
-     */
-    Node getEndNode();
+    Graph getGraph() throws GrandException;
 }

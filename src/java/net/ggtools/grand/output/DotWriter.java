@@ -41,13 +41,13 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import net.ggtools.grand.Configuration;
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.GraphProducer;
-import net.ggtools.grand.GraphWriter;
-import net.ggtools.grand.Link;
 import net.ggtools.grand.Log;
-import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.GraphWriter;
+import net.ggtools.grand.graph.Link;
+import net.ggtools.grand.graph.Node;
 
 /**
  * A class to write dependency graph in dot format.

@@ -36,11 +36,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import net.ggtools.grand.GraphProducer;
-import net.ggtools.grand.GraphWriter;
 import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.GraphWriter;
 import net.ggtools.grand.output.DotWriter;
 
 import org.apache.tools.ant.BuildException;

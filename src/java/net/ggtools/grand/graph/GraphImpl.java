@@ -35,10 +35,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.Link;
 import net.ggtools.grand.Log;
-import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 
 /**

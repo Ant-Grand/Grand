@@ -29,35 +29,34 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import net.ggtools.grand.exceptions.GrandException;
+package net.ggtools.grand.graph;
 
 /**
- * Interface for graph writers.
+ * Interface for class representing links. A link is an object connecting
+ * exactly two Nodes: the start node and the end node.
  * 
  * @author Christophe Labouisse
  */
-public interface GraphWriter extends GraphConsumer {
+public interface Link extends GraphObject {
+
     /**
-     * Write a project's graph to a file.
-     * 
-     * @param output file to write the graph to.
-     * @throws IOException if the file cannot be written.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * Attribute bit to be set on <i>weak</i> links. The definition
+     * of weak depends on the graph source. For Ant weak links will
+     * be dependencies underlying ant, antcall, subant, etc. task.
      */
-    void write(File output) throws GrandException, IOException;
+    int ATTR_WEAK_LINK = 1 << 0;
     
     /**
-     * Write a project's graph to a stream.
-     * @param stream The stream to write to.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * Return the node located at the start of the link.
+     * 
+     * @return start node
      */
-    void write(OutputStream stream) throws GrandException;
+    Node getStartNode();
+    
+    /**
+     * Return the node located at the end of the link.
+     * 
+     * @return end node
+     */
+    Node getEndNode();
 }

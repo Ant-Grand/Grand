@@ -33,15 +33,16 @@ package net.ggtools.grand.filters;
 
 import java.util.Iterator;
 
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.GraphFilter;
-import net.ggtools.grand.GraphProducer;
-import net.ggtools.grand.Link;
 import net.ggtools.grand.Log;
-import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphFilter;
 import net.ggtools.grand.graph.GraphImpl;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.Link;
+import net.ggtools.grand.graph.Node;
+
 
 /**
  * 

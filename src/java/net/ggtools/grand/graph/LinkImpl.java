@@ -31,9 +31,6 @@
 
 package net.ggtools.grand.graph;
 
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.Link;
-import net.ggtools.grand.Node;
 
 /**
  * 
