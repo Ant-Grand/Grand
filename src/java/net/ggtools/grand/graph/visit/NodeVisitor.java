@@ -1,7 +1,7 @@
-// $Id$
+//$Id$
 /*
  * ====================================================================
- * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,49 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package net.ggtools.grand.graph.visit;
 
-package net.ggtools.grand.graph;
-
-import net.ggtools.grand.graph.visit.LinkVisitor;
+import net.ggtools.grand.ant.AntTargetNode;
+import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.graph.NodeImpl;
 
 /**
- * Interface for class representing links. A link is an object connecting
- * exactly two Nodes: the start node and the end node.
+ * An interface to be implemented by classes visiting Nodes.
  * 
  * @author Christophe Labouisse
  */
-public interface Link extends GraphObject {
+public interface NodeVisitor {
 
     /**
-     * Attribute bit to be set on <i>weak </i> links. The definition of weak
-     * depends on the graph source. For Ant weak links will be dependencies
-     * underlying ant, antcall, subant, etc. task.
+     * Visits a basic node. Can also be used to visit {@link NodeImpl} which is
+     * a simple implementation of the interface.
+     *
+     * @param node to to visit.
      */
-    int ATTR_WEAK_LINK = 1 << 0;
-
+    void visitNode(Node node);
+    
     /**
-     * Attribute bit to be set on link subject to a condition.
-     */
-    int ATTR_CONDITIONAL_LINK = 1 << 1;
-
-    /**
-     * Return the node located at the start of the link.
+     * Visits a ant target node.
      * 
-     * @return start node
+     * @param node
      */
-    Node getStartNode();
-
-    /**
-     * Return the node located at the end of the link.
-     * 
-     * @return end node
-     */
-    Node getEndNode();
-
-    /**
-     * Accepts a visitor. The implementation must call the appropriate
-     * <code>visitLink</code> method.
-     * @param visitor
-     */
-    void accept(LinkVisitor visitor);
+    void visitNode(AntTargetNode node);
 }

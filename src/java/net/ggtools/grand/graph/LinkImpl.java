@@ -31,6 +31,8 @@
 
 package net.ggtools.grand.graph;
 
+import net.ggtools.grand.graph.visit.LinkVisitor;
+
 /**
  * 
  * 
@@ -95,6 +97,13 @@ public class LinkImpl extends AttributeManager implements Link {
      */
     public String getName() {
         return name;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
+     */
+    public void accept(LinkVisitor visitor) {
+        visitor.visitLink(this);
     }
 
 }

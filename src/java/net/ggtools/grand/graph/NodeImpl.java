@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import net.ggtools.grand.Log;
+import net.ggtools.grand.graph.visit.NodeVisitor;
 
 /**
  * 
@@ -173,5 +174,12 @@ public class NodeImpl extends AttributeManager implements Node {
     public void removeBackLink(final Link link) {
         Log.log(name + ": removing back link " + link, Log.MSG_DEBUG);
         backLinks.remove(link);
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
+     */
+    public void accept(NodeVisitor visitor) {
+        visitor.visitNode(this);
     }
 }

@@ -30,6 +30,7 @@ package net.ggtools.grand.ant;
 
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.NodeImpl;
+import net.ggtools.grand.graph.visit.NodeVisitor;
 
 /**
  * A node implementation specialized for ant target.
@@ -104,6 +105,13 @@ public class AntTargetNode extends NodeImpl {
      */
     final void setUnlessCondition(String unlessCondition) {
         this.unlessCondition = unlessCondition;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
+     */
+    public void accept(NodeVisitor visitor) {
+        visitor.visitNode(this);
     }
 
 }

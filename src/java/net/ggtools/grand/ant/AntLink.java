@@ -34,6 +34,7 @@ package net.ggtools.grand.ant;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.LinkImpl;
 import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.graph.visit.LinkVisitor;
 
 /**
  * A class specialized in link within ant build files.
@@ -94,5 +95,12 @@ public class AntLink extends LinkImpl {
      */
     final void setType(int type) {
         this.type = type;
+    }
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
+     */
+    public void accept(LinkVisitor visitor) {
+        visitor.visitLink(this);
     }
 }
