@@ -36,7 +36,7 @@ import java.io.IOException;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.impl.IsolatedNodeFilter;
+import net.ggtools.grand.filters.IsolatedNodeFilter;
 import net.ggtools.grand.output.DotWriter;
 
 /**
