@@ -46,13 +46,13 @@ public class Log {
     /** Message priority of "error". */
     public static final int MSG_ERR = Project.MSG_ERR;
     /** Message priority of "warning". */
-    public static final int MSG_WARN = Project.MSG_ERR;
+    public static final int MSG_WARN = Project.MSG_WARN;
     /** Message priority of "information". */
-    public static final int MSG_INFO = Project.MSG_ERR;
+    public static final int MSG_INFO = Project.MSG_INFO;
     /** Message priority of "verbose". */
-    public static final int MSG_VERBOSE = Project.MSG_ERR;
+    public static final int MSG_VERBOSE = Project.MSG_VERBOSE;
     /** Message priority of "debug". */
-    public static final int MSG_DEBUG = Project.MSG_ERR;
+    public static final int MSG_DEBUG = Project.MSG_DEBUG;
     
     private static PrintStream logStream = System.out;
     private static WeakReference projectRef;

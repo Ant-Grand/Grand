@@ -24,7 +24,10 @@
   <inceptionYear>2004</inceptionYear>
   <package>net.ggtools.grand</package>
   <description>
-    An collection of class to represent ant build dependencies in a graphical form.
+    Grand is a set of tools to create a visual representation of Ant target
+    dependencies. It works by taking an Ant build file and creating a "dot" file.
+    It differs from the existing tools by relying on the Ant API rather than XML
+    parsing to get the dependencies.
   </description>
   <!-- a short description of what the project does -->
   <shortDescription>
