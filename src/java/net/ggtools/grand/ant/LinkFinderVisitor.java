@@ -136,13 +136,16 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         if (antFile == null) {
             antFile = BUILD_XML;
         }
+        else {
+            antFile = antProject.replaceProperties(antFile);
+        }
 
         final File targetBuildFile;
         if (targetBuildDirectoryName == null) {
             targetBuildFile = new File(antProject.getBaseDir(), antFile);
         }
         else {
-            targetBuildFile = new File(targetBuildDirectoryName, antFile);
+            targetBuildFile = new File(antProject.replaceProperties(targetBuildDirectoryName), antFile);
         }
 
         final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
@@ -227,6 +230,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private void addNestPropertiesParameters(final RuntimeConfigurable wrapper,
             final AntTaskLink link, final String elementName) {
+        final Project antProject = project.getAntProject();
         final Enumeration children = wrapper.getChildren();
         while (children.hasMoreElements()) {
             final RuntimeConfigurable child = (RuntimeConfigurable) children.nextElement();
@@ -234,7 +238,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 final Hashtable childAttributeMap = child.getAttributeMap();
                 final String name = (String) childAttributeMap.get(ATTR_NAME);
                 if (name != null) {
-                    link.setParameter(name, (String) childAttributeMap.get(ATTR_VALUE));
+                    link.setParameter(name, antProject.replaceProperties((String) childAttributeMap.get(ATTR_VALUE)));
                 }
             }
         }
