@@ -46,9 +46,10 @@ public class ToNodeFilter extends GraphWalkFilter {
     private final LinkFinder linkFinder = new BackwardLinkFinder();
     
     /**
-     * @param nodeName
+     * Creates a new filter.
+     * @param nodeName node to search from.
      */
-    public ToNodeFilter(String nodeName) {
+    public ToNodeFilter(final String nodeName) {
         super(nodeName);
     }
 

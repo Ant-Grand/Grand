@@ -49,7 +49,7 @@ public class DuplicateNodeException extends GrandException {
     /**
      * Creates a new exception.
      * 
-     * @param message
+     * @param message explainatory message of the exception cause.
      */
     public DuplicateNodeException(final String message) {
         super(message);
@@ -58,8 +58,8 @@ public class DuplicateNodeException extends GrandException {
     /**
      * Creates a new exception.
      * 
-     * @param message
-     * @param cause
+     * @param message explainatory message of the exception cause.
+     * @param cause root cause.
      */
     public DuplicateNodeException(final String message, final Throwable cause) {
         super(message, cause);
@@ -68,7 +68,7 @@ public class DuplicateNodeException extends GrandException {
     /**
      * Creates a new exception.
      * 
-     * @param cause
+     * @param cause root cause
      */
     public DuplicateNodeException(final Throwable cause) {
         super(cause);

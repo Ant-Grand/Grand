@@ -51,36 +51,41 @@ public class GraphImpl implements Graph {
      */
     private class NodeIterator implements Iterator {
         private Iterator underlying;
+
         private Object lastNode;
-        
+
         /**
-         * @param iterator
+         * @param iterator underlying iterator.
          */
-        public NodeIterator(Iterator iterator) {
+        public NodeIterator(final Iterator iterator) {
             this.underlying = iterator;
         }
+
         /**
-         * @return
+         * @return true if the iterator still has elements
          */
         public boolean hasNext() {
             return underlying.hasNext();
         }
+
         /**
-         * @return
+         * @return the next element.
          */
         public Object next() {
             lastNode = underlying.next();
             return lastNode;
         }
+
         /**
          * 
          */
         public void remove() {
             underlying.remove();
             // lastNode should not be null here since remove succeed.
-            unlinkNode((Node)lastNode);
+            unlinkNode((Node) lastNode);
         }
     }
+
     private String name;
 
     private Map nodeList = new LinkedHashMap();
@@ -119,7 +124,7 @@ public class GraphImpl implements Graph {
     /**
      * Sets the graph starting node.
      * 
-     * @param node
+     * @param node to be marked as the starting node of the graph.
      */
     public void setStartNode(final Node node) {
         startNode = node;
@@ -156,8 +161,7 @@ public class GraphImpl implements Graph {
      *            end node
      * @return new link
      */
-    public Link createLink(final String linkName, final Node startNode,
-            final Node endNode) {
+    public Link createLink(final String linkName, final Node startNode, final Node endNode) {
         Link link = new LinkImpl(linkName, this, startNode, endNode);
         startNode.addLink(link);
         endNode.addBackLink(link);
@@ -167,7 +171,7 @@ public class GraphImpl implements Graph {
     /**
      * Find a node from its name.
      * 
-     * @param nodeName
+     * @param nodeName name of the node to find.
      * @return the node or null if not found.
      */
     public Node getNode(final String nodeName) {
@@ -177,7 +181,7 @@ public class GraphImpl implements Graph {
     /* (non-Javadoc)
      * @see net.ggtools.grand.Graph#hasNode(java.lang.String)
      */
-    public boolean hasNode(String nodeName) {
+    public boolean hasNode(final String nodeName) {
         return nodeList.containsKey(nodeName);
     }
 
@@ -193,30 +197,30 @@ public class GraphImpl implements Graph {
     public Iterator getNodes() {
         return new NodeIterator(nodeList.values().iterator());
     }
-    
+
     /**
      * Remove all links starting from or ending to the node.
      * This method do not remove the node from nodeList.
      *  
      * @param node node to remove from the links.
      */
-    protected void unlinkNode(Node node) {
-        Log.log("Unlinking node "+node,Log.MSG_DEBUG);
-        
-        for (Iterator iter = node.getLinks().iterator(); iter.hasNext(); ) {
+    protected void unlinkNode(final Node node) {
+        Log.log("Unlinking node " + node, Log.MSG_DEBUG);
+
+        for (Iterator iter = node.getLinks().iterator(); iter.hasNext();) {
             Link link = (Link) iter.next();
             iter.remove();
             Node endNode = link.getEndNode();
             endNode.removeBackLink(link);
         }
-        
-        for (Iterator iter = node.getBackLinks().iterator(); iter.hasNext(); ) {
+
+        for (Iterator iter = node.getBackLinks().iterator(); iter.hasNext();) {
             Link link = (Link) iter.next();
             iter.remove();
             Node startNode = link.getStartNode();
             startNode.removeLink(link);
         }
-        
+
         if (node == startNode) {
             startNode = null;
         }

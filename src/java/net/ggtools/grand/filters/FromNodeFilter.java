@@ -46,7 +46,11 @@ public class FromNodeFilter extends GraphWalkFilter implements GraphFilter {
 
     private final LinkFinder linkFinder = new ForwardLinkFinder();
     
-    public FromNodeFilter(String nodeName) {
+    /**
+     * Creates a new filter.
+     * @param nodeName node to search from.
+     */
+    public FromNodeFilter(final String nodeName) {
         super(nodeName);
     }
 

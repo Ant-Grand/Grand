@@ -78,7 +78,7 @@ attribute to process another file:
 
 	<grand output="build.dot" buildfile="ant-build.xml"/>
 
-A two filter example:
+A two filters example:
 
 	<grand output="build.dot" buildfile="ant-build.xml">
 	    <filter name="fromnode" node="dist"/>

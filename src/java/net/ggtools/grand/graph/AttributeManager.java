@@ -43,7 +43,7 @@ abstract class AttributeManager implements GraphObject {
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#setAttribute(int)
      */
-    public void setAttributes(int attributeMask) {
+    public void setAttributes(final int attributeMask) {
         attributes |= attributeMask;
     }
 
@@ -57,14 +57,14 @@ abstract class AttributeManager implements GraphObject {
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#setAttribute(int)
      */
-    public void clearAttributes(int attributeMask) {
+    public void clearAttributes(final int attributeMask) {
         attributes &= -1 ^ attributeMask;
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#hasAttribute(int)
      */
-    public boolean hasAttributes(int attributeMask) {
+    public boolean hasAttributes(final int attributeMask) {
         return (attributes & attributeMask) == attributeMask;
     }
     

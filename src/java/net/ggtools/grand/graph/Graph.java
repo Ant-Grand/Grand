@@ -59,7 +59,7 @@ public interface Graph {
     /**
      * Sets the graph starting node.
      * 
-     * @param node
+     * @param node the node to declare a the start of the graph.
      */
     void setStartNode(final Node node);
 
@@ -93,7 +93,7 @@ public interface Graph {
     /**
      * Find a node from its name.
      * 
-     * @param nodeName
+     * @param nodeName name of the node to find.
      * @return the node or null if not found.
      */
     Node getNode(final String nodeName);

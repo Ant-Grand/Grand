@@ -96,10 +96,10 @@ public class DotWriter implements GraphWriter {
     /**
      * Escapes a string from special dot chars.
      * 
-     * @param str
-     * @return
+     * @param str string to escape.
+     * @return the escaped string.
      */
-    private static String escapeString(String str) {
+    private static String escapeString(final String str) {
         if (str == null) { return null; }
         return str.replaceAll("(\\\"\\s)", "\\\\\\1");
     }
@@ -126,6 +126,7 @@ public class DotWriter implements GraphWriter {
 
     /**
      * Creates a new DotWriter using default configuration.
+     * @throws IOException when the default configuration cannot be loaded.
      */
     public DotWriter() throws IOException {
         this(null);
@@ -137,8 +138,9 @@ public class DotWriter implements GraphWriter {
      * 
      * @param override
      *            custom configuration.
+     * @throws IOException when the configuration cannot be loaded.
      */
-    public DotWriter(Properties override) throws IOException {
+    public DotWriter(final Properties override) throws IOException {
         config = Configuration.getConfiguration(override);
         graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);
         linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
@@ -158,7 +160,7 @@ public class DotWriter implements GraphWriter {
      *            the node to be processed.
      * @return a string buffer holding the node information in dot language.
      */
-    private StringBuffer getNodeAsDot(Node node) {
+    private StringBuffer getNodeAsDot(final Node node) {
         String currentNodeAttributes = null;
 
         if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
@@ -185,7 +187,7 @@ public class DotWriter implements GraphWriter {
      *            attributes for the processed node.
      * @return a string buffer holding the node information in dot language.
      */
-    private StringBuffer getNodeAsDot(Node node, String attributes) {
+    private StringBuffer getNodeAsDot(final Node node, final String attributes) {
         StringBuffer strBuf = new StringBuffer();
         strBuf.append("\"").append(escapeString(node.getName())).append("\"");
         String nodeInfo = strBuf.toString();
@@ -200,7 +202,7 @@ public class DotWriter implements GraphWriter {
         int index = 1;
         final int numDeps = deps.size();
 
-        for (Iterator iter = deps.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = deps.iterator(); iter.hasNext();) {
             Link link = (Link) iter.next();
             Node depNode = link.getEndNode();
 
@@ -233,7 +235,7 @@ public class DotWriter implements GraphWriter {
      * 
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.File)
      */
-    public void write(File output) throws IOException, GrandException {
+    public void write(final File output) throws IOException, GrandException {
         Log.log("Outputing to " + output);
         FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
@@ -246,7 +248,7 @@ public class DotWriter implements GraphWriter {
      * 
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.OutputStream)
      */
-    public void write(OutputStream stream) throws GrandException {
+    public void write(final OutputStream stream) throws GrandException {
         PrintStream output = new PrintStream(stream);
 
         Graph graph = graphProducer.getGraph();
@@ -269,7 +271,7 @@ public class DotWriter implements GraphWriter {
             output.println(getNodeAsDot(startNode, startNodeAttributes));
         }
 
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
             Node node = (Node) iter.next();
 
             if (node.equals(startNode) || node.getName().equals("")) {
@@ -291,7 +293,7 @@ public class DotWriter implements GraphWriter {
      * @param graphAttributes
      *            The graphAttributes to set.
      */
-    public void setGraphAttributes(String graphAttributes) {
+    public void setGraphAttributes(final String graphAttributes) {
         this.graphAttributes = graphAttributes;
     }
 
@@ -306,7 +308,7 @@ public class DotWriter implements GraphWriter {
      * @param linkAttributes
      *            The linkAttributes to set.
      */
-    public void setLinkAttributes(String linkAttributes) {
+    public void setLinkAttributes(final String linkAttributes) {
         this.linkAttributes = linkAttributes;
     }
 
@@ -321,7 +323,7 @@ public class DotWriter implements GraphWriter {
      * @param mainNodeAttributes
      *            The mainNodeAttributes to set.
      */
-    public void setMainNodeAttributes(String mainNodeAttributes) {
+    public void setMainNodeAttributes(final String mainNodeAttributes) {
         this.mainNodeAttributes = mainNodeAttributes;
     }
 
@@ -336,21 +338,21 @@ public class DotWriter implements GraphWriter {
      * @param nodeAttributes
      *            The nodeAttributes to set.
      */
-    public void setNodeAttributes(String nodeAttributes) {
+    public void setNodeAttributes(final String nodeAttributes) {
         this.nodeAttributes = nodeAttributes;
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
      */
-    public void setProducer(GraphProducer producer) {
+    public void setProducer(final GraphProducer producer) {
         graphProducer = producer;
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.GraphWriter#setShowGraphName(boolean)
      */
-    public void setShowGraphName(boolean show) {
+    public void setShowGraphName(final boolean show) {
         showGraphName = show;
     }
 

@@ -63,6 +63,7 @@ import org.apache.tools.ant.Task;
 public class AntProject implements GraphProducer {
 
     private static final String ANTCALL_TASK_NAME = "antcall";
+
     private static final String FOREACH_TASK_NAME = "foreach";
 
     private org.apache.tools.ant.Project antProject;
@@ -93,7 +94,7 @@ public class AntProject implements GraphProducer {
     /**
      * Creates a new project from an existing ant project.
      * 
-     * @param project
+     * @param project project to create the graph from.
      */
     public AntProject(final Project project) {
         antProject = project;
@@ -127,7 +128,7 @@ public class AntProject implements GraphProducer {
         final Graph graph = new GraphImpl(antProject.getName());
 
         // First pass, create the nodes.
-        for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
+        for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
             final Target target = (Target) iter.next();
             if (target.getName().equals("")) {
                 continue;
@@ -155,7 +156,7 @@ public class AntProject implements GraphProducer {
         }
 
         // Second pass, create the links
-        for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
+        for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
             final Target target = (Target) iter.next();
             if (target.getName().equals("")) {
                 continue;
@@ -172,7 +173,8 @@ public class AntProject implements GraphProducer {
             final Task[] tasks = target.getTasks();
             for (int i = 0; i < tasks.length; i++) {
                 final Task task = tasks[i];
-                if (ANTCALL_TASK_NAME.equals(task.getTaskType()) || FOREACH_TASK_NAME.equals(task.getTaskType())) {
+                if (ANTCALL_TASK_NAME.equals(task.getTaskType())
+                        || FOREACH_TASK_NAME.equals(task.getTaskType())) {
                     final RuntimeConfigurable wrapper = task.getRuntimeConfigurableWrapper();
                     final String called = antProject.replaceProperties((String) wrapper
                             .getAttributeMap().get("target"));
@@ -194,7 +196,7 @@ public class AntProject implements GraphProducer {
     public Project getAntProject() {
         return antProject;
     }
-    
+
     /**
      * Creates a new link. The end node will be created if needed with the
      * MISSING_NODE attribute set.
@@ -203,6 +205,7 @@ public class AntProject implements GraphProducer {
      * @param linkName name of the created link, can be <code>null</code>.
      * @param startNode start node of the link.
      * @param endNodeName name of the end node.
+     * @return a new link.
      * @throws DuplicateNodeException if there is already a node name <code>endNodeName</code>
      * in the graph.
      */
@@ -211,13 +214,13 @@ public class AntProject implements GraphProducer {
         Node endNode = graph.getNode(endNodeName);
 
         if (endNode == null) {
-            Log.log("Target " + startNode + " has dependency to non existent target " + endNodeName
-                    + ", creating a dummy node", Log.MSG_WARN);
+            Log.log("Target " + startNode + " has dependency to non existent target "
+                    + endNodeName + ", creating a dummy node", Log.MSG_WARN);
             endNode = graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
 
-        Log.log("Creating link from "+startNode+" to "+endNodeName,Log.MSG_VERBOSE);
+        Log.log("Creating link from " + startNode + " to " + endNodeName, Log.MSG_VERBOSE);
         return graph.createLink(linkName, startNode, endNode);
     }
 }

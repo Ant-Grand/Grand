@@ -81,7 +81,7 @@ public interface Node extends GraphObject {
      * starts from the node. The implementations should try to preserve
      * the order in which the nodes were added.
      * 
-     * @param link
+     * @param link link to add
      */
     void addLink(Link link);
 
@@ -90,7 +90,7 @@ public interface Node extends GraphObject {
      * ends at the node. The implementations should try to preserve
      * the order in which the nodes were added.
      * 
-     * @param link
+     * @param link link to add
      */
     void addBackLink(Link link);
 
@@ -118,9 +118,9 @@ public interface Node extends GraphObject {
     String getDescription();
     
     /**
-     * Sets the node description.
+     * Sets the node's description.
      * 
-     * @param description
+     * @param description node's description
      */
     void setDescription(String description);
 }

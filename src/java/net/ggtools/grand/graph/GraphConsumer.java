@@ -41,6 +41,8 @@ public interface GraphConsumer {
     /**
      * Set the graph producer. Such a producer will be called whenever the
      * consumer needs a graph.
+     * 
+     * @param producer the producer to get the graph from.
      */
-    void setProducer(GraphProducer producer);
+    void setProducer(final GraphProducer producer);
 }

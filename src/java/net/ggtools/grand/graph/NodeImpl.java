@@ -42,39 +42,48 @@ import net.ggtools.grand.Log;
  * @author Christophe Labouisse
  */
 public class NodeImpl extends AttributeManager implements Node {
-    
+
     private String name;
+
     private Graph graph;
+
     private String description;
+
     private LinkedHashSet links;
+
     private LinkedHashSet backLinks;
-    
-    public NodeImpl(String name, Graph graph) {
+
+    /**
+     * Creates an new NodeImpl.
+     * 
+     * @param name node's name
+     * @param graph owner graph.
+     */
+    public NodeImpl(final String name, final Graph graph) {
         this.name = name;
         this.graph = graph;
         links = new LinkedHashSet();
         backLinks = new LinkedHashSet();
     }
-    
+
     /**
      * Returns true of the current object and <code>obj</code> are
      * equals. Two Nodes are equals when they belong to the same graph
      * and they have the same name.
      * 
+     * @param obj object to compare the node to.
      * @return true if this is equal to obj.
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
+    public boolean equals(final Object obj) {
+        if (this == obj) { return true; }
         if (obj instanceof Node) {
-            Node otherNode = (Node)obj;
+            Node otherNode = (Node) obj;
             return (graph == otherNode.getGraph()) && (name.equals(otherNode.getName()));
         }
         return false;
     }
-    
+
     /**
      * Compute a hash code for the current node.
      * A Node's hash will be his name's hashcode.
@@ -86,7 +95,7 @@ public class NodeImpl extends AttributeManager implements Node {
     public int hashCode() {
         return name.hashCode();
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
@@ -118,7 +127,7 @@ public class NodeImpl extends AttributeManager implements Node {
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#setDescription(java.lang.String)
      */
-    public void setDescription(String desc) {
+    public void setDescription(final String desc) {
         description = desc;
     }
 
@@ -139,30 +148,30 @@ public class NodeImpl extends AttributeManager implements Node {
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#addLink(net.ggtools.grand.Link)
      */
-    public void addLink(Link link) {
+    public void addLink(final Link link) {
         links.add(link);
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#addLink(net.ggtools.grand.Link)
      */
-    public void addBackLink(Link link) {
+    public void addBackLink(final Link link) {
         backLinks.add(link);
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#removeLink(net.ggtools.grand.Link)
      */
-    public void removeLink(Link link) {
-        Log.log(name+": removing link "+link,Log.MSG_DEBUG);
+    public void removeLink(final Link link) {
+        Log.log(name + ": removing link " + link, Log.MSG_DEBUG);
         links.remove(link);
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#removeBackLink(net.ggtools.grand.Link)
      */
-    public void removeBackLink(Link link) {
-        Log.log(name+": removing back link "+link,Log.MSG_DEBUG);
+    public void removeBackLink(final Link link) {
+        Log.log(name + ": removing back link " + link, Log.MSG_DEBUG);
         backLinks.remove(link);
     }
 }

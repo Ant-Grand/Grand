@@ -31,7 +31,6 @@
 
 package net.ggtools.grand.graph;
 
-
 /**
  * 
  * 
@@ -40,30 +39,36 @@ package net.ggtools.grand.graph;
 public class LinkImpl extends AttributeManager implements Link {
 
     private Node startNode;
+
     private Node endNode;
+
     private Graph graph;
+
     private String name;
-    
+
     /**
      * Creates a new Link.
      * 
      * @param name link's name, may be <code>null</code>.
      * @param graph owning graph.
+     * @param startNode start node of the link
+     * @param endNode link's end node.
      */
-    public LinkImpl(String name, Graph graph, Node startNode, Node endNode) {
+    public LinkImpl(final String name, final Graph graph, final Node startNode,
+            final Node endNode) {
         this.name = name;
         this.graph = graph;
         this.startNode = startNode;
         this.endNode = endNode;
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return (name == null ? "" : name)+" ("+startNode+" -> "+endNode+")";
+        return (name == null ? "" : name) + " (" + startNode + " -> " + endNode + ")";
     }
-    
+
     /* (non-Javadoc)
      * @see net.ggtools.grand.Link#getStartNode()
      */

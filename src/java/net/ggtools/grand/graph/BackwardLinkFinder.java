@@ -45,16 +45,16 @@ public class BackwardLinkFinder implements LinkFinder {
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
-    public Collection getLinks(Node node) {
+    public Collection getLinks(final Node node) {
         Collection links = node.getBackLinks();
-        
+
         LinkedHashSet result = new LinkedHashSet();
-        
-        for (Iterator iter = links.iterator(); iter.hasNext(); ) {
+
+        for (Iterator iter = links.iterator(); iter.hasNext();) {
             Link link = (Link) iter.next();
             result.add(link.getStartNode());
         }
-        
+
         return result;
     }
 

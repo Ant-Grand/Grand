@@ -53,10 +53,10 @@ public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilte
     public Collection getFilteredNodes() throws GrandException {
         Graph graph = getProducersGraph();
         LinkedHashSet result = new LinkedHashSet();
-        
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
-            
+
+        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
+            Node node = (Node) iter.next();
+
             if (!node.hasAttributes(Node.ATTR_MISSING_NODE)) {
                 result.add(node);
             }

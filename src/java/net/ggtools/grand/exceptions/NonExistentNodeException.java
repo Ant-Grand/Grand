@@ -46,24 +46,24 @@ public class NonExistentNodeException extends GrandException {
     }
 
     /**
-     * @param message
+     * @param message an explainatory message for the exeception.
      */
-    public NonExistentNodeException(String message) {
+    public NonExistentNodeException(final String message) {
         super(message);
     }
 
     /**
-     * @param cause
+     * @param cause root cause
      */
-    public NonExistentNodeException(Throwable cause) {
+    public NonExistentNodeException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message an explainatory message for the exeception.
+     * @param cause root cause
      */
-    public NonExistentNodeException(String message, Throwable cause) {
+    public NonExistentNodeException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

@@ -41,30 +41,37 @@ import org.apache.tools.ant.Project;
  * facility implementation working with or without an Ant project set up.
  * 
  * @author Christophe Labouisse
- * @todo Add a task reference for cleaner logging.
+ * TODO Add a task reference for cleaner logging.
  */
-public class Log {
+public final class Log {
     /** Message priority of "error". */
     public static final int MSG_ERR = Project.MSG_ERR;
+
     /** Message priority of "warning". */
     public static final int MSG_WARN = Project.MSG_WARN;
+
     /** Message priority of "information". */
     public static final int MSG_INFO = Project.MSG_INFO;
+
     /** Message priority of "verbose". */
     public static final int MSG_VERBOSE = Project.MSG_VERBOSE;
+
     /** Message priority of "debug". */
     public static final int MSG_DEBUG = Project.MSG_DEBUG;
-    
+
     private static PrintStream logStream = System.out;
+
     private static WeakReference projectRef;
+
     private static int logLevel = MSG_INFO;
-    
+
     /**
      * Private constructor since this class should not but
      * instanciated.
      *
      */
-    private Log() {}
+    private Log() {
+    }
 
     /**
      * Writes a message to the log with the default log level
@@ -72,7 +79,7 @@ public class Log {
      * @param message The text to log. Should not be <code>null</code>.
      */
 
-    public static void log(String message) {
+    public static void log(final String message) {
         log(message, MSG_INFO);
     }
 
@@ -81,41 +88,41 @@ public class Log {
      * @param message The text to log. Should not be <code>null</code>.
      * @param msgLevel The priority level to log at.
      */
-    public static void log(String message, int msgLevel) {
+    public static void log(final String message, final int msgLevel) {
         Project project = null;
-        
+
         if (projectRef != null) {
-            project = (Project)projectRef.get();
+            project = (Project) projectRef.get();
         }
-        
+
         if (project == null) {
             if (msgLevel <= logLevel) {
                 logStream.println(message);
             }
         } else {
-            project.log(message,msgLevel);
+            project.log(message, msgLevel);
         }
     }
-    
+
     /**
      * Sets the project to log to.
-     * @param project
+     * @param project project to use for ant logging
      */
-    public static void setProject(Project project) {
+    public static void setProject(final Project project) {
         projectRef = new WeakReference(project);
     }
-    
+
     /**
-     * @param logLevel The logLevel to set.
+     * @param level The logLevel to set.
      */
-    public static void setLogLevel(int logLevel) {
-        Log.logLevel = logLevel;
+    public static void setLogLevel(final int level) {
+        Log.logLevel = level;
     }
-    
+
     /**
-     * @param logStream The logStream to set.
+     * @param stream The logStream to set.
      */
-    public static void setLogStream(PrintStream logStream) {
-        Log.logStream = logStream;
+    public static void setLogStream(final PrintStream stream) {
+        Log.logStream = stream;
     }
 }

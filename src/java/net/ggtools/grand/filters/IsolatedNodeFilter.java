@@ -52,10 +52,10 @@ public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilt
     public Collection getFilteredNodes() throws GrandException {
         Graph graph = getProducersGraph();
         LinkedHashSet result = new LinkedHashSet();
-        
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
-            
+
+        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
+            Node node = (Node) iter.next();
+
             if (node.getLinks().size() > 0 || node.getBackLinks().size() > 0) {
                 result.add(node);
             }

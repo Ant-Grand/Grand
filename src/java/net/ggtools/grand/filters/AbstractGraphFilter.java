@@ -48,6 +48,7 @@ import net.ggtools.grand.graph.Node;
 public abstract class AbstractGraphFilter implements GraphFilter {
 
     private GraphProducer graphProducer;
+
     private Graph producersGraph;
 
     /* (non-Javadoc)
@@ -57,53 +58,54 @@ public abstract class AbstractGraphFilter implements GraphFilter {
         Log.log("Triggering GraphWalkfilter", Log.MSG_VERBOSE);
         final Graph graph = getProducersGraph();
         final Collection nodeList = getFilteredNodes();
-        
-        for (Iterator iter = nodeList.iterator(); iter.hasNext(); ) {
+
+        for (Iterator iter = nodeList.iterator(); iter.hasNext();) {
             Node node = (Node) iter.next();
         }
-        
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+
+        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
             Node node = (Node) iter.next();
-            
+
             if (!nodeList.contains(node)) {
                 iter.remove();
             }
         }
-        
+
         // The graph had been filtered so it must not be used if the filter is called
         // again.
         producersGraph = null;
-        
+
         return graph;
     }
-    
+
     /* (non-Javadoc)
      * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
      */
-    public void setProducer(GraphProducer producer) {
+    public void setProducer(final GraphProducer producer) {
         graphProducer = producer;
         producersGraph = null;
     }
-    
+
     /**
      * Returns the current graph producer.
      * 
      * @return graph producer.
      */
-    final protected GraphProducer getGraphProducer() {
+    protected final GraphProducer getGraphProducer() {
         return graphProducer;
     }
-    
+
     /**
      * Returns the graph from the current producer. This method is intended
      * to prevent calling several time the producer to get a graph.
      * 
      * @return current graph.
+     * @throws GrandException if something goes wrong.
      */
-    final protected Graph getProducersGraph() throws GrandException {
-       if (producersGraph == null) {
-           producersGraph = graphProducer.getGraph();
-       }
-       return producersGraph;
+    protected final Graph getProducersGraph() throws GrandException {
+        if (producersGraph == null) {
+            producersGraph = graphProducer.getGraph();
+        }
+        return producersGraph;
     }
 }

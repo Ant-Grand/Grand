@@ -55,13 +55,13 @@ public interface GraphObject {
     
     /**
      * Gets the owner graph of the object.
-     * @return
+     * @return the owning graph.
      */
     Graph getGraph();
     
     /**
      * Gets the object's name.
-     * @return
+     * @return object's name.
      */
     String getName();
 
@@ -77,7 +77,7 @@ public interface GraphObject {
 
     /**
      * Returns a bitmask of all set attributes.
-     * @return
+     * @return object's attributes.
      */
     int getAttributes();
     

@@ -40,7 +40,6 @@ import net.ggtools.grand.graph.GraphCrawler;
 import net.ggtools.grand.graph.LinkFinder;
 import net.ggtools.grand.graph.Node;
 
-
 /**
  * An abstract class implementing generic filtering from a graph walk.
  * Derived class need to implemented the getLinkFinder method. 
@@ -51,7 +50,11 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter implements Gra
 
     private final String startNodeName;
 
-    public GraphWalkFilter(String nodeName) {
+    /**
+     * Creates a new filter.
+     * @param nodeName node to search from.
+     */
+    public GraphWalkFilter(final String nodeName) {
         startNodeName = nodeName;
     }
 
@@ -61,15 +64,22 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter implements Gra
     public Collection getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
         final Node fromNode = graph.getNode(startNodeName);
-        
-        if (fromNode == null) {
-            throw new NonExistentNodeException("Node "+startNodeName+" do not exist");
-        }
-        
-        final GraphCrawler crawler = new GraphCrawler(graph,getLinkFinder());
-        
+
+        if (fromNode == null) { throw new NonExistentNodeException("Node " + startNodeName
+                + " do not exist"); }
+
+        final GraphCrawler crawler = new GraphCrawler(graph, getLinkFinder());
+
         return crawler.crawl(fromNode);
     }
     
+    /**
+     * Returns an object finding the links to follow from a specific node.
+     * This object will be used when walking the graph in {@link #getFilteredNodes()}
+     * to find the filtered nodes. 
+     * 
+     * @return the <code>LinkFinder</code> object used for filtering.
+     * @see LinkFinder
+     */
     public abstract LinkFinder getLinkFinder();
 }

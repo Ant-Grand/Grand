@@ -48,7 +48,7 @@ public class GrandException extends Exception {
     /**
      * Creates an new exception.
      * 
-     * @param message
+     * @param message explainatory message of the exception cause.
      */
     public GrandException(final String message) {
         super(message);
@@ -57,7 +57,7 @@ public class GrandException extends Exception {
     /**
      * Creates an new exception.
      * 
-     * @param cause
+     * @param cause root cause
      */
     public GrandException(final Throwable cause) {
         super(cause);
@@ -66,8 +66,8 @@ public class GrandException extends Exception {
     /**
      * Creates an new exception.
      * 
-     * @param message
-     * @param cause
+     * @param message explainatory message of the exception cause.
+     * @param cause root cause
      */
     public GrandException(final String message, final Throwable cause) {
         super(message, cause);

@@ -45,7 +45,11 @@ public class ConnectedToNodeFilter extends GraphWalkFilter implements GraphFilte
 
     private final LinkFinder linkFinder = new ConnectedNodesFinder();
     
-    public ConnectedToNodeFilter(String nodeName) {
+    /**
+     * Creates a new filter.
+     * @param nodeName node to search from.
+     */
+    public ConnectedToNodeFilter(final String nodeName) {
         super(nodeName);
     }
 

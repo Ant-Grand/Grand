@@ -52,7 +52,7 @@ public class GraphCrawler {
      * @param graph graph to inspect
      * @param finder finder to use.
      */
-    public GraphCrawler(Graph graph, LinkFinder finder) {
+    public GraphCrawler(final Graph graph, final LinkFinder finder) {
         this.graph = graph;
         this.finder = finder;
     }
@@ -70,10 +70,10 @@ public class GraphCrawler {
      * 
      * This continue until there is no node to visit.
      * 
-     * @param startNode
+     * @param startNode node to start the crawl from.
      * @return a collection containing the traversed nodes.
      */
-    public Collection crawl(Node startNode) {
+    public Collection crawl(final Node startNode) {
         LinkedHashSet result = new LinkedHashSet();
         LinkedList nodesToVisit = new LinkedList();
         nodesToVisit.add(startNode);

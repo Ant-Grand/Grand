@@ -48,9 +48,10 @@ public class ConnectedFilterType implements GraphFilterType {
     private Project project;
 
     /**
-     * 
+     * Create new filter type.
+     * @param antProject owner's project.
      */
-    public ConnectedFilterType(Project antProject) {
+    public ConnectedFilterType(final Project antProject) {
         project = antProject;
     }
 
@@ -75,7 +76,7 @@ public class ConnectedFilterType implements GraphFilterType {
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
-    public void setNodeName(String name) {
+    public void setNodeName(final String name) {
         nodeName = name;
     }
 
