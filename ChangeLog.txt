@@ -2,6 +2,7 @@ $Id$
 
 Release 1.5:
 
+* Support for the subant task,
 * AntProject(File) now throws a Grand Exception when the build file
   cannot be opened,
 * Relative paths in the dir attribute of the ant task are now handled
