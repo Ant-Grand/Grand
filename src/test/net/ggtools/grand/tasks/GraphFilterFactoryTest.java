@@ -74,10 +74,28 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
         return TESTCASES_DIR + "empty.xml";
     }
 
-    public final void testGetFilterType() {
+    public final void testTypeIsolatedNode() {
         GraphFilterType filter = factory.getFilterType(project, "isolatednode");
         assertEquals("Wrong class for isolatednode",
                 net.ggtools.grand.tasks.IsolatedNodeFilterType.class, filter.getClass());
+    }
+
+    public final void testTypeFromNode() {
+        GraphFilterType filter = factory.getFilterType(project, "fromnode");
+        assertEquals("Wrong class for fromnode",
+                net.ggtools.grand.tasks.FromNodeFilterType.class, filter.getClass());
+    }
+
+    public final void testTypeToNode() {
+        GraphFilterType filter = factory.getFilterType(project, "tonode");
+        assertEquals("Wrong class for tonode",
+                net.ggtools.grand.tasks.ToNodeFilterType.class, filter.getClass());
+    }
+
+    public final void testTypeConnected() {
+        GraphFilterType filter = factory.getFilterType(project, "connected");
+        assertEquals("Wrong class for connected",
+                net.ggtools.grand.tasks.ConnectedFilterType.class, filter.getClass());
     }
 
     public final void testNotConfigurated() {
