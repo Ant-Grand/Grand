@@ -144,9 +144,9 @@
     </javadoc>
   </target>
   <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/ant-1.6.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.jar">
+    <get dest="${libdir}/ant-1.6.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.1.jar">
     </get>
-    <get dest="${libdir}/ant-launcher-1.6.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-launcher-1.6.jar">
+    <get dest="${libdir}/ant-launcher-1.6.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-launcher-1.6.1.jar">
     </get>
     <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar">
     </get>
