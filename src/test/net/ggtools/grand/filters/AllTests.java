@@ -41,8 +41,10 @@ import junit.framework.TestSuite;
  */
 public class AllTests
 {
-    private AllTests() {}
-    
+    private AllTests()
+    {
+    }
+
     public static Test suite()
     {
         TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
@@ -52,6 +54,7 @@ public class AllTests
         suite.addTestSuite(IsolatedNodeFilterTest.class);
         suite.addTestSuite(ToNodeFilterTest.class);
         suite.addTestSuite(MissingNodeFilterTest.class);
+        suite.addTestSuite(AbstractGraphFilterTest.class);
         //$JUnit-END$
         return suite;
     }
