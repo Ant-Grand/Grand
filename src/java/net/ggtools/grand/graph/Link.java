@@ -47,6 +47,11 @@ public interface Link extends GraphObject {
     int ATTR_WEAK_LINK = 1 << 0;
     
     /**
+     * Attribute bit to be set on link subject to a condition.
+     */
+    int ATTR_CONDITIONAL_LINK = 1 << 1;
+    
+    /**
      * Return the node located at the start of the link.
      * 
      * @return start node

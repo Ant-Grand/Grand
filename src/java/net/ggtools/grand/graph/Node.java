@@ -55,6 +55,14 @@ public interface Node extends GraphObject {
     int ATTR_MISSING_NODE = 1 << 1;
     
     /**
+     * Attribute bit to be set on conditional nodes. A node is conditional
+     * if the whole content's execution is subject to a condition such like
+     * targets in ant with a <code>if</code> or <code>unless</code> attribute
+     * set.
+     */
+    int ATTR_CONDITIONAL_NODE = 1 << 2;
+    
+    /**
      * Returns links originating from the node. The implementing class should
      * insure that the returned list only contains objects implementing the
      * Link interface.
