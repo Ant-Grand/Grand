@@ -51,10 +51,10 @@ class IsolatedNodeFilterType implements GraphFilterType {
      * 
      * @param antProject project within which the filter will run.
      */
-    public IsolatedNodeFilterType(Project antProject) {
+    public IsolatedNodeFilterType(final Project antProject) {
         project = antProject;
     }
-    
+
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
@@ -72,8 +72,8 @@ class IsolatedNodeFilterType implements GraphFilterType {
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
-    public void setNodeName(String name) {
-        project.log("Node parameter useless for isolatednode",Project.MSG_WARN);
+    public void setNodeName(final String name) {
+        project.log("Node parameter useless for isolatednode", Project.MSG_WARN);
     }
 
 }

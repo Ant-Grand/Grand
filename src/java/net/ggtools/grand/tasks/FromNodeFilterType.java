@@ -38,7 +38,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * 
+ * Ant's front end for the FromFilter.
  * 
  * @author Christophe Labouisse
  */
@@ -48,9 +48,11 @@ public class FromNodeFilterType implements GraphFilterType {
     private Project project;
 
     /**
+     * Creates a new filter.
      * 
+     * @param antProject owner's project.
      */
-    public FromNodeFilterType(Project antProject) {
+    public FromNodeFilterType(final Project antProject) {
         project = antProject;
     }
 
@@ -75,7 +77,7 @@ public class FromNodeFilterType implements GraphFilterType {
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
-    public void setNodeName(String name) {
+    public void setNodeName(final String name) {
         nodeName = name;
     }
 

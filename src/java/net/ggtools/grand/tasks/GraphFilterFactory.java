@@ -48,6 +48,9 @@ import org.apache.tools.ant.Project;
  * @author Christophe Labouisse
  */
 final class GraphFilterFactory {
+    /**
+     * Properties giving the java class to use for a filter name.
+     */
     static final Properties CONFIGURATION = new Properties();
 
     static {
@@ -68,7 +71,8 @@ final class GraphFilterFactory {
      * @return a GraphFilterType object.
      * @throws BuildException
      */
-    GraphFilterType getFilterType(Project project, String name) throws BuildException {
+    GraphFilterType getFilterType(final Project project, final String name)
+            throws BuildException {
         project.log("Creating filter for name " + name, Project.MSG_DEBUG);
 
         String filterClassName = CONFIGURATION.getProperty(name);

@@ -94,7 +94,7 @@ public class GrandTask extends Task {
             throw new BuildException(message);
         }
 
-        for (Iterator iter = filters.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = filters.iterator(); iter.hasNext();) {
             FilterType filter = (FilterType) iter.next();
             filter.checkParameters();
         }
@@ -114,7 +114,7 @@ public class GrandTask extends Task {
         GraphProducer producer = graphProject;
         int numFilters = 0;
 
-        for (Iterator iter = filters.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = filters.iterator(); iter.hasNext();) {
             FilterType f = (FilterType) iter.next();
             log("Adding filter " + f.getFilterName(), Project.MSG_VERBOSE);
             GraphFilter filter = f.getFilter();
@@ -171,13 +171,13 @@ public class GrandTask extends Task {
             antProject = loadNewProject();
         }
 
-        for (Iterator iter = propertySets.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = propertySets.iterator(); iter.hasNext();) {
             PropertySet ps = (PropertySet) iter.next();
             addAlmostAll(antProject, ps.getProperties());
         }
 
         if (properties.size() > 0) {
-            for (Iterator iter = properties.iterator(); iter.hasNext(); ) {
+            for (Iterator iter = properties.iterator(); iter.hasNext();) {
                 Property prop = (Property) iter.next();
                 prop.setProject(antProject);
                 prop.setTaskName("property");
@@ -200,7 +200,7 @@ public class GrandTask extends Task {
         // in order to get some trace if we need to execute some tasks
         // in the graphed project.
         final Vector listeners = getProject().getBuildListeners();
-        for (Iterator iter = listeners.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
             antProject.addBuildListener((BuildListener) iter.next());
 
         }
@@ -230,7 +230,7 @@ public class GrandTask extends Task {
     /* (non-Javadoc)
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
-    public void setProject(Project project) {
+    public void setProject(final Project project) {
         super.setProject(project);
 
         Log.setProject(project);
@@ -241,7 +241,7 @@ public class GrandTask extends Task {
      * 
      * @param file
      */
-    public void setBuildFile(File file) {
+    public void setBuildFile(final File file) {
         buildFile = file;
     }
 
@@ -250,7 +250,7 @@ public class GrandTask extends Task {
      * 
      * @param file
      */
-    public void setOutput(File file) {
+    public void setOutput(final File file) {
         output = file;
     }
 
@@ -259,9 +259,9 @@ public class GrandTask extends Task {
      * @param outputConfigurationFile The outputConfigurationFile to set.
      * @deprecated use {@link #setOutputConfigFile(File)}.
      */
-    public void setPropertyFile(File propertyFile) {
+    public void setPropertyFile(final File propertyFile) {
         log(
-                "Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
+"Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
                 Project.MSG_WARN);
         this.outputConfigurationFile = propertyFile;
     }
@@ -270,11 +270,11 @@ public class GrandTask extends Task {
      * Set a property file to override the output default configuration.
      * @param outputConfigurationFile The outputConfigurationFile to set.
      */
-    public void setOutputConfigFile(File propertyFile) {
+    public void setOutputConfigFile(final File propertyFile) {
         this.outputConfigurationFile = propertyFile;
     }
 
-    public void setShowGraphName(boolean show) {
+    public void setShowGraphName(final boolean show) {
         showGraphName = show;
     }
 
@@ -283,7 +283,7 @@ public class GrandTask extends Task {
      * Defaults to true.
      * @param value if true pass all properties to the new Ant project.
      */
-    public void setInheritAll(boolean value) {
+    public void setInheritAll(final boolean value) {
         inheritAll = value;
     }
 
@@ -291,7 +291,7 @@ public class GrandTask extends Task {
      * Add a filter to the task.
      * @param filter
      */
-    public void addFilter(FilterType filter) {
+    public void addFilter(final FilterType filter) {
         filters.add(filter);
     }
 
@@ -300,7 +300,7 @@ public class GrandTask extends Task {
      * 
      * @param p the property to set.
      */
-    public void addProperty(Property p) {
+    public void addProperty(final Property p) {
         properties.add(p);
     }
 
@@ -309,7 +309,7 @@ public class GrandTask extends Task {
      *
      * @param ps property set to add
      */
-    public void addPropertyset(PropertySet ps) {
+    public void addPropertyset(final PropertySet ps) {
         propertySets.add(ps);
     }
 
@@ -320,7 +320,7 @@ public class GrandTask extends Task {
      * @param props properties to copy to the new project
      * @since Ant 1.6
      */
-    private void addAlmostAll(Project destProject, Hashtable props) {
+    private void addAlmostAll(final Project destProject, final Hashtable props) {
         Enumeration e = props.keys();
         while (e.hasMoreElements()) {
             String key = e.nextElement().toString();

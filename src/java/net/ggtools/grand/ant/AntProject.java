@@ -120,7 +120,7 @@ public class AntProject implements GraphProducer {
      * 
      * @return a graph representing the dependency of the ant project.
      * @throws GrandException if the project cannot be converted to a graph.
-     * @see net.ggtools.grand.GraphProducer#getGraph(net.ggtools.grand.GraphFactory)
+     * @see GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
         Log.log("Triggering AntProject", Log.MSG_VERBOSE);

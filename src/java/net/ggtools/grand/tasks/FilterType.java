@@ -56,12 +56,17 @@ public class FilterType {
 
     private Project project;
 
-    public FilterType(Project project) {
-        this.project = project;
+    /**
+     * Creates a new filter typ.
+     * 
+     * @param prj the owner's project.
+     */
+    public FilterType(final Project prj) {
+        this.project = prj;
     }
 
     /**
-     * 
+     * Create the actual filter if it does not yet exit.
      */
     private void checkFilter() {
         if (filter == null) {
@@ -74,6 +79,11 @@ public class FilterType {
         }
     }
 
+    /**
+     * Cheks if the filter parameters are correct.
+     * 
+     * @throws BuildException if the parameters are not ok
+     */
     void checkParameters() throws BuildException {
         if (filterName == null) {
             final String message = "required attribute missing";
@@ -84,16 +94,31 @@ public class FilterType {
         filter.checkParameters();
     }
 
-    GraphFilter getFilter() {
+    /**
+     * Return the actual filter after creating it if needed.
+     * 
+     * @return the actual filter.
+     */
+    public GraphFilter getFilter() {
         checkFilter();
         return filter.getFilter();
     }
 
-    public void setName(String name) {
+    /**
+     * Sets the filter's name
+     * 
+     * @param name filter's name
+     */
+    public void setName(final String name) {
         filterName = name;
     }
 
-    public void setNode(String node) {
+    /**
+     * Sets the filter's node name.
+     * 
+     * @param node node's name.
+     */
+    public void setNode(final String node) {
         nodeName = node;
     }
 
