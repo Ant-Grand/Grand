@@ -28,18 +28,27 @@
 package net.ggtools.grand.ant;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import net.ggtools.grand.Log;
+import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Node;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
 
 /**
  * A task visitor looking for links created by tasks like <code>ant</code>,
@@ -60,6 +69,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     private static final String ANT_FILE_PROPERTY = "ant.file";
 
     private static final String ATTR_ANTFILE = "antfile";
+
+    private static final String ATTR_BUILDPATH = "buildpath";
+
+    private static final String ATTR_BUILDPATHREF = "buildpathref";
 
     private static final String ATTR_DIR = "dir";
 
@@ -156,30 +169,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
         }
 
-        final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
-
-        final boolean isSameBuildFile = projectFile.equals(targetBuildFile);
-
-        final String endNodeName;
-
-        String targetName = antProject.replaceProperties((String) wrapper.getAttributeMap().get(
-                ATTR_TARGET));
-
-        if (isSameBuildFile) {
-            endNodeName = targetName == null ? antProject.getDefaultTarget() : targetName;
-        }
-        else {
-            endNodeName = "[" + (targetName == null ? "'default'" : targetName) + "]";
-        }
-
-        final AntTargetNode endNode = findOrCreateNode(endNodeName);
-
-        Log.log("Creating link from " + startNode + " to " + endNodeName, Log.MSG_VERBOSE);
-        final AntTaskLink link = graph.createTaskLink(null, startNode, endNode, wrapper
-                .getElementTag());
-
-        // TODO check that I'm not overriding a previously set file.
-        if (!isSameBuildFile) endNode.setBuildFile(targetBuildFile.getAbsolutePath());
+        final AntTaskLink link = createAntTaskLink(targetBuildFile, wrapper.getElementTag(),
+                (String) wrapper.getAttributeMap().get(ATTR_TARGET));
 
         // Look to params children.
         addNestPropertiesParameters(wrapper, link, PROPERTY_ELEMENT);
@@ -216,6 +207,100 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
+     * Process <code>subant</code> task. Depending of the existence of the
+     * <code>genericantfile</code> attribute, this method will either create a
+     * special link holding a list of directories or a set of <i>ant taskish
+     * </i> links. During those creations, the end nodes will be created with
+     * the {@link Node#ATTR_MISSING_NODE}attribute if needed.
+     * 
+     * @param wrapper
+     *            wrapper to process.
+     * @throws DuplicateNodeException
+     *             if a duplicate node is created (should not happen).
+     */
+    public void reflectVisit_subant(final RuntimeConfigurable wrapper)
+            throws DuplicateNodeException {
+        Log.log("Processing subant target in " + startNode.getName(), Log.MSG_INFO);
+        // TODO implement it
+        final Project antProject = project.getAntProject();
+
+        // Configure the wrapper's proxy and get the configured task.
+        ((Task) wrapper.getProxy()).maybeConfigure();
+        final Object proxy = wrapper.getProxy();
+        if (proxy instanceof SubAntHelper) {
+            final SubAntHelper helper = (SubAntHelper) proxy;
+
+            final Path buildPath = helper.getBuildpath();
+            final String antfile = helper.getAntfile();
+            final File genericantfile = helper.getGenericantfile();
+            final Collection properties = helper.getProperties();
+            final String target = helper.getTarget();
+
+            final List genericantfileDirs = new LinkedList();
+
+            if ((buildPath == null) || (buildPath.size() == 0)) {
+                Log.log("buildPath is null or empty, subant task probably won't work",Log.MSG_WARN);
+                return;
+            }
+
+            final String[] filenames = buildPath.list();
+
+            for (int i = 0; i < filenames.length; i++) {
+                final String currentFileName = filenames[i];
+                File file = null;
+                File directory = null;
+                file = new File(filenames[i]);
+                if (file.isDirectory()) {
+                    if (genericantfile != null) {
+                        directory = file;
+                        file = genericantfile;
+                    }
+                    else {
+                        file = new File(file, antfile);
+                    }
+                }
+
+                if (directory == null) {
+                    // First case: antfile.
+                    final AntTaskLink link = createAntTaskLink(file, wrapper.getElementTag(),
+                            target);
+
+                    for (Iterator iter = properties.iterator(); iter.hasNext();) {
+                        final Set entries = ((Properties) iter.next()).entrySet();
+                        for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
+                            final Map.Entry current = (Map.Entry) iterator.next();
+                            link.setParameter((String) current.getKey(), antProject
+                                    .replaceProperties((String) current.getValue()));
+                        }
+                    }
+                }
+                else {
+                    // Second case, genericantfile, push the directory on a list
+                    // to be used latter.
+                    genericantfileDirs.add(directory);
+                }
+            }
+
+            if (genericantfileDirs.size() > 0) {
+                final AntTargetNode endNode = findOrCreateNodeInFile(genericantfile, target);
+                Log.log("Creating link from " + startNode + " to " + endNode.getName(),
+                        Log.MSG_VERBOSE);
+                final SubantTaskLink link = graph.createSubantTaskLink(null, startNode, endNode,
+                        wrapper.getElementTag());
+
+                for (Iterator iter = genericantfileDirs.iterator(); iter.hasNext();) {
+                    final File currentDir = (File) iter.next();
+                    link.addDirectory(currentDir.getAbsolutePath());
+                }
+            }
+        }
+        else {
+            Log.log("Cannot get information for subant task");
+            Log.log("Task should be instance of SubAntHelper but is " + proxy, Log.MSG_VERBOSE);
+        }
+    }
+
+    /**
      * @param graph
      *            The graph to set.
      */
@@ -232,9 +317,14 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
+     * Add to a given link the properties contained in an element.
+     * 
      * @param wrapper
+     *            wrapper for the task.
      * @param link
+     *            link to populate.
      * @param elementName
+     *            name of the elements holding the properties.
      */
     private void addNestPropertiesParameters(final RuntimeConfigurable wrapper,
             final AntTaskLink link, final String elementName) {
@@ -254,9 +344,25 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
+     * @param antProject
+     * @param targetBuildFile
+     * @param taskName
+     * @param target
+     * @return
+     * @throws DuplicateNodeException
+     */
+    private AntTaskLink createAntTaskLink(final File targetBuildFile, final String taskName,
+            final String target) throws DuplicateNodeException {
+        final AntTargetNode endNode = findOrCreateNodeInFile(targetBuildFile, target);
+
+        Log.log("Creating link from " + startNode + " to " + endNode.getName(), Log.MSG_VERBOSE);
+        return graph.createTaskLink(null, startNode, endNode, taskName);
+    }
+
+    /**
      * @param endNodeName
-     * @return @throws
-     *         DuplicateNodeException
+     * @return
+     * @throws DuplicateNodeException
      */
     private AntTargetNode findOrCreateNode(final String endNodeName) throws DuplicateNodeException {
         AntTargetNode endNode = (AntTargetNode) graph.getNode(endNodeName);
@@ -267,6 +373,51 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             endNode = (AntTargetNode) graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
+        return endNode;
+    }
+
+    /**
+     * @param targetBuildFile
+     * @param target
+     * @param antProject
+     * @return
+     * @throws DuplicateNodeException
+     */
+    private AntTargetNode findOrCreateNodeInFile(final File targetBuildFile, final String target)
+            throws DuplicateNodeException {
+        final Project antProject = project.getAntProject();
+        final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
+
+        final boolean isSameBuildFile = projectFile.equals(targetBuildFile);
+
+        final String endNodeName;
+
+        String targetName = antProject.replaceProperties(target);
+
+        if (isSameBuildFile) {
+            endNodeName = targetName == null ? antProject.getDefaultTarget() : targetName;
+        }
+        else {
+            if (targetName == null) {
+                try {
+                    // TODO Caching.
+                    Log.log("Reading project file " + targetBuildFile, Log.MSG_VERBOSE);
+                    final AntProject tmpProj = new AntProject(targetBuildFile);
+                    targetName = tmpProj.getAntProject().getDefaultTarget();
+                } catch (GrandException e) {
+                    Log.log("Caught exception trying to read " + targetBuildFile
+                            + " using default target name", Log.MSG_ERR);
+                    targetName = "'default'";
+                }
+
+            }
+            endNodeName = "[" + targetName + "]";
+        }
+
+        final AntTargetNode endNode = findOrCreateNode(endNodeName);
+
+        // TODO check that I'm not overriding a previously set file.
+        if (!isSameBuildFile) endNode.setBuildFile(targetBuildFile.getAbsolutePath());
         return endNode;
     }
 }

@@ -72,6 +72,25 @@ public class AntGraph extends GraphImpl {
         return link;
     }
 
+
+    /**
+     * Creates a link representing a call by a <code>subant</code> task.
+     * 
+     * @param linkName
+     * @param startNode
+     * @param endNode
+     * @param taskName
+     * @return
+     */
+    public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,
+            final Node endNode, final String taskName) {
+        final SubantTaskLink link = getFactoryInternal().createSubantTaskLink(linkName, startNode, endNode,
+                taskName);
+        startNode.addLink(link);
+        endNode.addBackLink(link);
+        return link;
+    }
+
     /**
      * Returns the project.
      * @return

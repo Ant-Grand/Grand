@@ -132,6 +132,14 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-complex.dot");
     }
 
+    public void testSubant() throws IOException {
+        expectLogContaining("subant", "Loading project ");
+        assertLogContaining("subant.xml");
+
+        // TODO fix this test under maven.
+        //assertTempFileMatchExpected("src/etc/testcases/subant.dot");
+    }
+
     public void testNonExistentDefaultTarget() {
         expectLogContaining("non-existent-default-target", "Loading project ");
         assertLogContaining("non-existent-default-target.xml");

@@ -30,6 +30,8 @@ package net.ggtools.grand.ant;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import net.ggtools.grand.exceptions.GrandException;
@@ -204,6 +206,36 @@ public class AntProjectTest extends AbstractAntTester {
     public void testSubant() throws GrandException {
         AntProject antProject = new AntProject(project);
         Graph graph = antProject.getGraph();
+
+        // Test for genericantfile.
+        AntTargetNode node = (AntTargetNode) graph.getNode("subant-generic");
+        Collection links = node.getLinks();
+        assertEquals("Should have found 1 link",1,links.size());
+        AntLink link = (AntLink) links.iterator().next();
+        assertNotNull("shoud have found a link", link);
+        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        assertEquals("Target", "subant-generic-target", endNode.getName());
+        assertNull("Build file should be the currentFile", endNode.getBuildFile());
+
+        // Test with antfile & dir set
+        node = (AntTargetNode) graph.getNode("subant-antfile");
+        links = node.getLinks();
+        assertEquals("Should have found 2 links",2,links.size());
+        final Iterator iterator = links.iterator();
+        link = (AntLink) iterator.next();
+        assertNotNull("shoud have found a link", link);
+        endNode = (AntTargetNode) link.getEndNode();
+        assertEquals("Target", "[init]", endNode.getName());
+        String buildFile = new File(project.getBaseDir(),"subant-1/build.xml").getAbsolutePath();
+        assertEquals("Build file should be build.xml in the subant-1 dir", buildFile,endNode.getBuildFile());
+
+        link = (AntLink) iterator.next();
+        assertNotNull("shoud have found a link", link);
+        endNode = (AntTargetNode) link.getEndNode();
+        assertEquals("Target", "[target]", endNode.getName());
+        buildFile = new File(project.getBaseDir(),"subant-2/build.xml").getAbsolutePath();
+        assertEquals("Build file should be build.xml in the subant-2 dir", buildFile,endNode.getBuildFile());
+
     }
     
 }

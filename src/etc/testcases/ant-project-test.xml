@@ -53,4 +53,23 @@
 	    </if>
 	</target>
 
+    <target name="subant-generic">
+        <subant genericantfile="${ant.file}" target="subant-generic-target">
+            <dirset dir="." includes="subant-*" />
+        </subant>
+    </target>
+
+    <target name="subant-antfile">
+        <subant>
+            <fileset dir="." includes="subant-1/build.xml"/>
+            <dirset dir="." includes="subant-2" />
+        </subant>
+    </target>
+
+    <!-- Target to be call through genericantfile -->
+    <target name="subant-generic-target">
+        <echo>Init from dir ${basedir}</echo>
+    </target>
+
+
 </project>

@@ -34,13 +34,16 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import net.ggtools.grand.Log;
+import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
 
+import org.apache.tools.ant.AntTypeDefinition;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.ComponentHelper;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Target;
@@ -255,7 +258,7 @@ public class AntProject implements GraphProducer {
 
     private final TargetTasksExplorer targetExplorer = new TargetTasksExplorer(this);
 
-    private final LinkFinderVisitor taskLinkFinder;
+    private LinkFinderVisitor taskLinkFinder;
 
     /**
      * Creates a new project from an ant build file.
@@ -286,7 +289,30 @@ public class AntProject implements GraphProducer {
             throw new GrandException("Cannot open project file " + source, e);
         }
 
+        postInit();
+    }
+
+    /**
+     * Perform common operations after the object building.
+     */
+    private void postInit() {
         taskLinkFinder = new LinkFinderVisitor(this);
+
+        // Change the component helper to instanciate SubAntHelper for subant task. 
+        final ComponentHelper helper = (ComponentHelper) antProject
+                .getReference("ant.ComponentHelper");
+        if (helper != null) {
+            final AntTypeDefinition subAntDef = helper.getDefinition("subant");
+            if (subAntDef == null) {
+                Log.log("No definition found for the subant task in ComponentHelper, disabling");
+            }
+            else {
+                subAntDef.setClass(SubAntHelper.class);
+            }
+        }
+        else {
+            Log.log("No component helper in current project",Log.MSG_WARN);
+        }
     }
 
     /**
@@ -297,7 +323,7 @@ public class AntProject implements GraphProducer {
      */
     public AntProject(final Project project) {
         antProject = project;
-        taskLinkFinder = new LinkFinderVisitor(this);
+        postInit();
     }
 
     /**

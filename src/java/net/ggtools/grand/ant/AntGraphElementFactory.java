@@ -80,4 +80,20 @@ class AntGraphElementFactory implements GraphElementFactory {
         return new AntTaskLink(linkName, graph, startNode, endNode, taskName);
     }
 
+    /**
+     * Creates a link for a subant task call. Although it can be used for any
+     * kind of link resulting from a subant task, this method is intented to be
+     * called for the <em>genericantfile</em> version of the task.
+     * 
+     * @param linkName
+     * @param startNode
+     * @param endNode
+     * @param taskName
+     * @return
+     */
+    public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,
+            final Node endNode, final String taskName) {
+        return new SubantTaskLink(linkName, graph, startNode, endNode, taskName);
+    }
+
 }
