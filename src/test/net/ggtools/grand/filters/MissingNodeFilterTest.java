@@ -79,6 +79,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
         assertNotNull("Target not found",graph.getNode("depend-1"));
         assertNotNull("Target not found",graph.getNode("depend-2"));
         assertNotNull("Target not found",graph.getNode("depend-3"));
+        assertNotNull("Target not found",graph.getNode("missing"));
     }
 
     
@@ -95,6 +96,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
         assertNotNull("Normal node should not have been removed",graph.getNode("init"));
         assertNotNull("Normal node should not have been removed",graph.getNode("depend-1"));
         assertNotNull("Normal node should not have been removed",graph.getNode("depend-2"));
-        assertNull("Missing node should have been found",graph.getNode("depend-3"));
+        assertNotNull("Normal node should not have been removed",graph.getNode("depend-3"));
+        assertNull("Missing node should have been found",graph.getNode("missing"));
     }
 }

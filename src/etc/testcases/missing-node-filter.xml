@@ -11,6 +11,8 @@
 
 	<target name="depend-1" depends="init"/>
 	
-	<target name="depend-2" depends="depend-3,init"/>
+	<target name="depend-2" depends="missing,init"/>
+	
+	<target name="depend-3" depends="missing"/>
 	
 </project>
