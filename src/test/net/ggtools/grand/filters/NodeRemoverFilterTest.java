@@ -73,6 +73,23 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     }
 
     /**
+     * Process the build file, trying to removed with an empty list.
+     * 
+     */
+    public void testNonNode() throws GrandException {
+        final Set toRemove = new HashSet();
+        final GraphFilter filter = new NodeRemoverFilter(toRemove);
+        filter.setProducer(producer);
+        Graph graph = producer.getGraph();
+        int numNode = countNodes(graph);
+        graph = filter.getGraph();
+        int numNodeAfterFiltering = countNodes(graph);
+        assertEquals("Graph should have the same node count before and after filtering", numNode,
+                numNodeAfterFiltering);
+    }
+
+
+    /**
      * Process log4j 1.2.8 build.xml and remove the "init" node.
      * 
      */
