@@ -35,8 +35,6 @@ import net.ggtools.grand.utils.*;
  */
 public class GraphFilterTypeTest extends AbstractAntTester {
 
-    private static final String TEMP_FILE_PROP = "temp.file";
-
     public GraphFilterTypeTest(String name) {
         super(name);
     }
