@@ -3,6 +3,7 @@ $Id$
 Release 1.7 (build number XX):
 
 * Fixed an exception when parsing a file with a <taskdef> outside of a target.
+* Added a new filter type: removenode.
 
 
 Release 1.6 (build number 80):
