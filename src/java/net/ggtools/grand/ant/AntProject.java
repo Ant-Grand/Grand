@@ -34,6 +34,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
+import net.ggtools.grand.ant.taskhelpers.TaskDefHelper;
 import net.ggtools.grand.exceptions.DuplicateElementException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -282,6 +283,8 @@ public class AntProject implements GraphProducer {
         antProject.init();
         antProject.setUserProperty("ant.file", source.getAbsolutePath());
 
+        postInit();
+
         try {
             final ProjectHelper loader = ProjectHelper.getProjectHelper();
             antProject.addReference("ant.projectHelper", loader);
@@ -293,8 +296,6 @@ public class AntProject implements GraphProducer {
             // TODO Better rethrowing?
             throw new GrandException(message, e);
         }
-
-        postInit();
     }
 
     /**
@@ -311,10 +312,18 @@ public class AntProject implements GraphProducer {
             final AntTypeDefinition subAntDef = helper.getDefinition("subant");
             if (subAntDef == null) {
                 log
-                        .info("No definition found for the subant task in ComponentHelper, disabling subant");
+                        .warn("No definition found for the subant task in ComponentHelper, disabling subant");
             }
             else {
                 subAntDef.setClass(SubAntHelper.class);
+            }
+            final AntTypeDefinition taskDefDef = helper.getDefinition("taskdef");
+            if (subAntDef == null) {
+                log
+                        .warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
+            }
+            else {
+                taskDefDef.setClass(TaskDefHelper.class);
             }
         }
         else {
