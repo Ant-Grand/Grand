@@ -35,9 +35,11 @@ import org.apache.tools.ant.BuildFileTest;
 
 /**
  * An abstract class for Ant test featuring a standard project setup and a
- * tearDown method removing temporary file after running a test. This clean up
- * can be disable on error by setting the <code>CleanupOnError</code> system
- * property to <code>false</code>.
+ * tearDown method removing temporary file after running a test.
+ * 
+ * This clean up is disabled is the test fails. However this behaviour can be
+ * overriden by setting the <code>CleanupOnError</code> system property to
+ * <code>true</code>.
  * 
  * @author Christophe Labouisse
  */
@@ -72,7 +74,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
         final String tempFile = project.getProperty(TEMP_FILE_PROP);
 
         if (tempFile != null) {
-            if (testOk || Boolean.parseBoolean(System.getProperty("CleanupOnError", "true"))) {
+            if (testOk || Boolean.parseBoolean(System.getProperty("CleanupOnError", "false"))) {
                 final File f = new File(tempFile);
                 f.delete();
             }
