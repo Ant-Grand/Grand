@@ -55,7 +55,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
-        Log.log("Triggering GraphWalkfilter", Log.MSG_VERBOSE);
+        Log.log("Triggering AbstractGraphFilter", Log.MSG_VERBOSE);
         final Graph graph = getProducersGraph();
         final Collection nodeList = getFilteredNodes();
 
