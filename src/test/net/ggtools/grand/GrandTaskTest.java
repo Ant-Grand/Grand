@@ -46,6 +46,10 @@ import org.apache.tools.ant.taskdefs.Taskdef;
 public class GrandTaskTest extends TestCase {
 
     private Project project;
+    
+    public GrandTaskTest(String name) {
+        super(name);
+    }
 
     /*
      * @see TestCase#setUp()
@@ -86,4 +90,5 @@ public class GrandTaskTest extends TestCase {
         assertNotNull("grand task class not found",graphTaskClass);
         assertEquals("Wrong class found for task",GrandTask.class,graphTaskClass);
     }
+
 }
