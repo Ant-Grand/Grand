@@ -1,7 +1,7 @@
 // $Id$
 /*
  * ====================================================================
- * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -111,15 +111,15 @@ public class AntProject implements GraphProducer {
          * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Task)
          */
         public String getIfCondition(final Target target) {
-           String result = null;
-           
+            String result = null;
+
             try {
                 result = (String) ifCondition.get(target);
                 if ("".equals(result)) result = null;
             } catch (Exception e) {
                 Log.log("Caugh exception, returning null " + e, Log.MSG_ERR);
             }
-            
+
             return result;
         }
 
@@ -129,15 +129,15 @@ public class AntProject implements GraphProducer {
          * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Task)
          */
         public String getUnlessCondition(final Target target) {
-           String result = null;
-           
+            String result = null;
+
             try {
                 result = (String) unlessCondition.get(target);
                 if ("".equals(result)) result = null;
             } catch (Exception e) {
                 Log.log("Caugh exception, returning null " + e, Log.MSG_ERR);
             }
-            
+
             return result;
         }
 
@@ -204,7 +204,7 @@ public class AntProject implements GraphProducer {
 
     private static final String ANTCALL_TASK_NAME = "antcall";
 
-    private static final String BUILD_XML = "build.xml";
+    static final String BUILD_XML = "build.xml";
 
     private static final String FOREACH_TASK_NAME = "foreach";
 
@@ -342,7 +342,7 @@ public class AntProject implements GraphProducer {
                     link.setAttributes(Link.ATTR_WEAK_LINK);
                     if (ANTCALL_TASK_NAME.equals(task.getTaskType())) {
                         link.setType(AntLink.LINK_ANTCALL);
-                        
+
                     } else {
                         link.setType(AntLink.LINK_FOREACH);
                     }
@@ -370,7 +370,8 @@ public class AntProject implements GraphProducer {
                         }
 
                         final String buildFilename = filenameBuffer.toString();
-                        if (!BUILD_XML.equals(buildFilename)) {
+                        final File buildFile = new File(buildFilename);
+                        if (!buildFile.getAbsolutePath().equals(buildFilename)) {
                             endNode.setDescription(buildFilename);
                             endNode.setBuildFile(buildFilename);
                         }
