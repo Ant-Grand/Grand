@@ -34,6 +34,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
+import net.ggtools.grand.ant.taskhelpers.TaskDefHelper;
 import net.ggtools.grand.exceptions.DuplicateElementException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -49,7 +50,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.helper.AntXMLContext;
 
 /**
  * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
@@ -64,25 +64,6 @@ import org.apache.tools.ant.helper.AntXMLContext;
  */
 public class AntProject implements GraphProducer {
     private static final Log log = LoggerManager.getLog(AntProject.class);
-
-    /**
-     * A custom {@link AntXMLContext}always returning an empty implicit target.
-     * This prevent the implicit target to be executed on parsing.
-     * 
-     * @author Christophe Labouisse
-     */
-    private static final class AntXMLContextWithoutImplicitTarget extends AntXMLContext {
-        private AntXMLContextWithoutImplicitTarget(Project project) {
-            super(project);
-        }
-
-        public Target getImplicitTarget() {
-            final Target dummyImplicitTarget = new Target();
-            dummyImplicitTarget.setProject(getProject());
-            dummyImplicitTarget.setName("");
-            return dummyImplicitTarget;
-        }
-    }
 
     /**
      * A condition helper using the {@link Target#getIf()}&
@@ -302,11 +283,7 @@ public class AntProject implements GraphProducer {
         antProject.init();
         antProject.setUserProperty("ant.file", source.getAbsolutePath());
 
-        // Ticket #79: add a specially tailored XML context preventing the
-        // project helper to execute the implicit target on parsing.
-        final AntXMLContext context = new AntXMLContextWithoutImplicitTarget(antProject);
-        antProject.addReference("ant.parsing.context", context);
-        antProject.addReference("ant.targets", context.getTargets());
+        postInit();
 
         try {
             final ProjectHelper loader = ProjectHelper.getProjectHelper();
@@ -319,8 +296,6 @@ public class AntProject implements GraphProducer {
             // TODO Better rethrowing?
             throw new GrandException(message, e);
         }
-
-        postInit();
     }
 
     /**
@@ -341,6 +316,14 @@ public class AntProject implements GraphProducer {
             }
             else {
                 subAntDef.setClass(SubAntHelper.class);
+            }
+            final AntTypeDefinition taskDefDef = helper.getDefinition("taskdef");
+            if (subAntDef == null) {
+                log
+                        .warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
+            }
+            else {
+                taskDefDef.setClass(TaskDefHelper.class);
             }
         }
         else {
