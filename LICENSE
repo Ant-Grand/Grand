@@ -1,4 +1,4 @@
- * $Id: LICENSE 37 2003-08-26 07:44:42Z moi $
+ * $Id$
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
  *
@@ -30,7 +30,8 @@
  
 SUBCOMPONENTS:
 
-Some classes in the test directory are subject to the following term and license:
+Some classes in the test directory and the log4j build.xml file
+are subject to the following term and license:
 
 /* ====================================================================
  * The Apache Software License, Version 1.1

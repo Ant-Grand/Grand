@@ -32,10 +32,15 @@
 package net.ggtools.grand.filters;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import net.ggtools.grand.Graph;
 import net.ggtools.grand.GraphFilter;
 import net.ggtools.grand.GraphProducer;
+import net.ggtools.grand.Log;
+import net.ggtools.grand.Node;
 import net.ggtools.grand.ant.AntProject;
 
 import org.apache.tools.ant.BuildFileTest;
@@ -45,15 +50,22 @@ import org.apache.tools.ant.BuildFileTest;
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilterTest extends BuildFileTest {
+public class FromNodeFilterTest extends BuildFileTest {
     private static final String TEMP_FILE_PROP = "temp.file";
+
     private GraphProducer producer;
-    
+
+    private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
+            .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
+                    "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
+                    "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
+                    "jmxCheck"}));
+
     /**
      * Constructor for IsolatedNodeFilterTest.
      * @param name
      */
-    public IsolatedNodeFilterTest(String name) {
+    public FromNodeFilterTest(String name) {
         super(name);
     }
 
@@ -61,7 +73,7 @@ public class IsolatedNodeFilterTest extends BuildFileTest {
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
-        configureProject("src/etc/testcases/isolated-node-filter.xml");
+        configureProject("src/etc/testcases/log4j-build.xml");
         project.setBasedir("src/etc/testcases");
         producer = new AntProject(project);
     }
@@ -79,51 +91,54 @@ public class IsolatedNodeFilterTest extends BuildFileTest {
     }
 
     /**
-     * Check the full graph completness.
-     *
-     */
-    public void testFullGraph() throws Exception {
-        Graph graph = producer.getGraph();
-        
-        assertNotNull("Target not found",graph.getNode("init"));
-        assertNotNull("Target not found",graph.getNode("depend-1"));
-        assertNotNull("Target not found",graph.getNode("depend-2"));
-        assertNotNull("Target not found",graph.getNode("isolated"));
-        assertNotNull("Start node not found",graph.getStartNode());
-    }
-
-    
-    /**
-     * Process the full graph through an IsolatedNodeFilter and check the
-     * remaining nodes. This test includes removing the project's start node.
-     *
-     */
-    public void testFilter() throws Exception {
-        GraphFilter filter = new IsolatedNodeFilter();
-        filter.setProducer(producer);
-        Graph graph = filter.getGraph();
-        
-        assertNotNull("Connected node should not have been removed",graph.getNode("init"));
-        assertNotNull("Connected node should not have been removed",graph.getNode("depend-1"));
-        assertNotNull("Connected node should not have been removed",graph.getNode("depend-2"));
-        assertNull("Isolated node should not have been found",graph.getNode("isolated"));
-        assertNull("Isolated start node should have been removed",graph.getStartNode());
-    }
-    
-    
-    /**
-     * Process the full graph through an IsolatedNodeFilter and check that a connected
-     * node as start node is not removed.
+     * Process log4j 1.2.8 build.xml and from the "build" node and check
+     * if we get what we want.
      *
      */
     public void testConnectedStartNode() throws Exception {
-        GraphFilter filter = new IsolatedNodeFilter();
+        GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
-        project.setDefault("depend-1");
         Graph graph = filter.getGraph();
+
+        int numNodes = 0;
+        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+            numNodes++;
+            String nodeName = ((Node) iter.next()).getName();
+
+            assertTrue("Node " + nodeName + " should have been filtered out",
+                    NODES_AFTER_FILTERING.contains(nodeName));
+        }
+
+        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
+                .size(), numNodes);
         
-        assertNotNull("Connected start node should not have been removed",graph.getStartNode());
+        assertNull("Start node 'usage' should have be filtered out",graph.getStartNode());
+    }
+    
+    /**
+     * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
+     * target as default. Check if the project start node has not been filtered out.
+     *
+     */
+    public void testNotFilteredStartNode() throws Exception {
+        GraphFilter filter = new FromNodeFilter("build");
+        filter.setProducer(producer);
+        project.setDefault("build");
+        Graph graph = filter.getGraph();
+
+        int numNodes = 0;
+        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+            numNodes++;
+            String nodeName = ((Node) iter.next()).getName();
+
+            assertTrue("Node " + nodeName + " should have been filtered out",
+                    NODES_AFTER_FILTERING.contains(nodeName));
+        }
+
+        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
+                .size(), numNodes);
+        
+        assertNotNull("Start node 'build' should not have be filtered out",graph.getStartNode());
     }
 
-    
 }

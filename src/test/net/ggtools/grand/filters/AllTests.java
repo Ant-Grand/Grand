@@ -39,12 +39,15 @@ import junit.framework.TestSuite;
  * 
  * @author Christophe Labouisse
  */
-public class AllTests {
+public class AllTests
+{
 
-    public static Test suite() {
+    public static Test suite()
+    {
         TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
         //$JUnit-BEGIN$
         suite.addTestSuite(IsolatedNodeFilterTest.class);
+        suite.addTestSuite(FromNodeFilterTest.class);
         //$JUnit-END$
         return suite;
     }
