@@ -25,7 +25,7 @@ Release 0.4:
 Release 0.3.1:
 
 * Bug: antcall crashed when the target do not exists (property defined for
-instance).
+  instance).
 
 * Bug: antcall search crashes if getTaskType returned null.
 
@@ -42,10 +42,11 @@ Release 0.3:
 
 * antcall now generate weak link
 
+
 Release 0.2:
 
 * Prefered method to load classes is now Ant lib since it allow to define both
-the task and type in the same file.
+  the task and type in the same file.
 
 * Internal refactoring to prepare for filtering.
 
