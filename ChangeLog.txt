@@ -8,7 +8,7 @@ Release 1.5:
   correctly,
 * The Ant task no longer crashes when no target is supplied,
 * Use new ant 1.6.2 API to get target execution conditions,
-
+* Minor bugfixes.
 
 Release 1.4:
 

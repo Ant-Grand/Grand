@@ -1,17 +1,38 @@
-<project
-    default="java:jar"
-    xmlns:j="jelly:core"
-    xmlns:maven="jelly:maven"
-    xmlns:util="jelly:util"
-    xmlns:ant="jelly:ant">
+<project default="jar:jar" xmlns:j="jelly:core"
+	xmlns:maven="jelly:maven" xmlns:util="jelly:util"
+	xmlns:ant="jelly:ant">
 
-  <!-- ============== JAR ================== -->
-  <preGoal name="java:jar-resources">
-	<ant:propertyfile file="src/conf/net/ggtools/grand/buildnum.properties">
-		<ant:entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
-		<ant:entry key="build.time" type="date" value="now" pattern="HH:mm:ss"/>
-		<ant:entry key="build.number" type="int" operation="+" default="0"/>
-		<ant:entry key="build.version.string" type="string" value="${pom.currentVersion}"/>
-	</ant:propertyfile>
-  </preGoal>
+	<!-- ============== JAR ================== -->
+	<preGoal name="java:jar-resources">
+		<ant:taskdef resource="svntask.properties">
+			<ant:classpath>
+				<ant:pathelement path="${grand.antlib}/svnant.jar" />
+				<ant:pathelement
+					path="${grand.antlib}/svnClientAdapter.jar" />
+				<ant:pathelement
+					path="${grand.antlib}/svn-javahl.jar" />
+			</ant:classpath>
+		</ant:taskdef>
+		<ant:svn>
+			<ant:update
+				file="${grand.buildnum.file}" />
+		</ant:svn>
+		<ant:propertyfile
+			file="${grand.buildnum.file}">
+			<ant:entry key="build.date" type="date" value="now"
+				pattern="yyyy-MM-dd" />
+			<ant:entry key="build.time" type="date" value="now"
+				pattern="HH:mm:ss" />
+			<ant:entry key="build.number" type="int" operation="+"
+				default="0" />
+			<ant:entry key="build.version.string" type="string"
+				value="${pom.currentVersion}" />
+		</ant:propertyfile>
+        <ant:property file="${grand.buildnum.file}" />
+		<ant:svn>
+			<ant:commit
+				file="${grand.buildnum.file}"
+				message="Setting buildnum to ${build.number} for Grand" />
+		</ant:svn>
+	</preGoal>
 </project>

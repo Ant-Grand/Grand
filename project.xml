@@ -22,10 +22,14 @@
     parsing to get the dependencies.
   </description>
   <shortDescription>
-    A tool to create a visual representation of Ant target dependencies. 
+    A tool to create a representation of Ant target dependencies. 
   </shortDescription>
 
   <url>http://www.ggtools.net/grand/</url>
+
+  <repository>
+  	<connection>scm|svn|file:///home/moi/svn/public/trunk/java/Grand</connection>
+  </repository>
 
   <developers>
   	<developer>
