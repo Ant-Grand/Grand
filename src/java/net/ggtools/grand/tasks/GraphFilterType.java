@@ -31,25 +31,36 @@
 
 package net.ggtools.grand.tasks;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import net.ggtools.grand.graph.GraphFilter;
+
+import org.apache.tools.ant.BuildException;
 
 /**
- * 
+ * Interface implemented by actual GraphFilterType.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
-
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        //$JUnit-END$
-        return suite;
-    }
+interface GraphFilterType {
+    /**
+     * Checks if the filter is properly configured.
+     * 
+     * @throws BuildException if the filter is not properly configured.
+     */
+    void checkParameters() throws BuildException;
+    
+    /**
+     * Returns the actual GraphFilter underlying the ant filter.
+     * 
+     * @return the actual configured filter.
+     */
+    GraphFilter getFilter();
+    
+    /**
+     * Sets a node name parameter. The meaning of the node will be
+     * different with implementations and may even be meaningless for
+     * some filter.
+     * 
+     * @param name
+     */
+    void setNodeName(String name);
 }

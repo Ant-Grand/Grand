@@ -31,40 +31,52 @@
 
 package net.ggtools.grand.filters;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import net.ggtools.grand.Log;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphCrawler;
 import net.ggtools.grand.graph.GraphFilter;
 import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.LinkFinder;
 import net.ggtools.grand.graph.Node;
 
+
 /**
- * A filter to remove isolated nodes in a graph.
+ * An abstract class implementing generic filtering from a graph walk.
+ * Derived class need to implemented the getLinkFinder method. 
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter implements GraphFilter {
+public abstract class GraphWalkFilter implements GraphFilter {
 
-    GraphProducer graphProducer;
+    private final String startNodeName;
+    private GraphProducer graphProducer;
+
+    public GraphWalkFilter(String nodeName) {
+        startNodeName = nodeName;
+    }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
-        Log.log("Triggering IsolatedNodeFilter", Log.MSG_VERBOSE);
-        Graph graph = graphProducer.getGraph();
-
+        Log.log("Triggering GraphWalkfilter", Log.MSG_VERBOSE);
+        final Graph graph = graphProducer.getGraph();
+        final Node fromNode = graph.getNode(startNodeName);
+        final GraphCrawler crawler = new GraphCrawler(graph,getLinkFinder());
+        final Collection nodeList = crawler.crawl(fromNode);
+        
         for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
             Node node = (Node) iter.next();
-
-            if (node.getLinks().size() == 0 && node.getBackLinks().size() == 0) {
-                Log.log("IsolatedNodeFilter: Removing node " + node.getName(), Log.MSG_DEBUG);
+            
+            if (!nodeList.contains(node)) {
                 iter.remove();
             }
         }
-
+        
         return graph;
     }
 
@@ -74,5 +86,6 @@ public class IsolatedNodeFilter implements GraphFilter {
     public void setProducer(GraphProducer producer) {
         graphProducer = producer;
     }
-
+    
+    public abstract LinkFinder getLinkFinder();
 }

@@ -34,11 +34,14 @@ package net.ggtools.grand.tasks;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Properties;
 
 import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.GraphFilter;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.GraphWriter;
 import net.ggtools.grand.output.DotWriter;
@@ -61,6 +64,8 @@ public class GrandTask extends Task {
     private File output;
 
     private File propertyFile;
+    
+    private LinkedList filters = new LinkedList();
 
     /**
      * Check the parameters validity before execution.
@@ -71,6 +76,11 @@ public class GrandTask extends Task {
             final String message = "Required attribute missing";
             log(message, Project.MSG_ERR);
             throw new BuildException(message);
+        }
+        
+        for (Iterator iter = filters.iterator(); iter.hasNext(); ) {
+            FilterType filter = (FilterType) iter.next();
+            filter.checkParameters();
         }
     }
 
@@ -92,6 +102,25 @@ public class GrandTask extends Task {
             graphProject = new AntProject(buildFile);
         }
 
+        log("Done loading project ",Project.MSG_VERBOSE);
+        
+        log("Setting up filter chain");
+        GraphProducer producer = graphProject;
+        int numFilters = 0;
+        
+        for (Iterator iter = filters.iterator(); iter.hasNext(); ) {
+            FilterType f = (FilterType) iter.next();
+            log("Adding filter "+f.getFilterName(),Project.MSG_VERBOSE);
+            GraphFilter filter = f.getFilter();
+            filter.setProducer(producer);
+            producer = filter;
+            numFilters++;
+        }
+        
+        if (numFilters > 0) {
+            log("Loaded "+numFilters+(numFilters > 1 ? " filters":" filter"));
+        }
+        
         try {
             Properties override = null;
             if (propertyFile != null) {
@@ -99,8 +128,9 @@ public class GrandTask extends Task {
                 override = new Properties();
                 override.load(new FileInputStream(propertyFile));
             }
+            
             GraphWriter writer = new DotWriter(override);
-            writer.setProducer(graphProject);
+            writer.setProducer(producer);
 
             log("Writing output to " + output);
             writer.write(output);
@@ -113,6 +143,15 @@ public class GrandTask extends Task {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
+     */
+    public void setProject(Project project) {
+        super.setProject(project);
+
+        Log.setProject(project);
+    }
+    
     /**
      * Sets the buildFile.
      * 
@@ -138,13 +177,9 @@ public class GrandTask extends Task {
     public void setPropertyFile(File propertyFile) {
         this.propertyFile = propertyFile;
     }
-
-    /* (non-Javadoc)
-     * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
-     */
-    public void setProject(Project project) {
-        super.setProject(project);
-
-        Log.setProject(project);
+    
+    public void addFilter(FilterType filter) {
+        filters.add(filter);
     }
+
 }

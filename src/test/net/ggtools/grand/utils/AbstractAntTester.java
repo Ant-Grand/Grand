@@ -29,27 +29,52 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.tasks;
+package net.ggtools.grand.utils;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.io.File;
+
+import org.apache.tools.ant.BuildFileTest;
 
 /**
- * 
- * 
+ * An abstract class for Ant test featuring a standard project setup
+ * and a tearDown method removing temporary file after running a test.
+ *  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
-
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        //$JUnit-END$
-        return suite;
+public abstract class AbstractAntTester extends BuildFileTest {
+    public static final String TEMP_FILE_PROP = "temp.file";
+    public static final String TESTCASES_DIR = "src/etc/testcases/";
+    
+    public AbstractAntTester(String name) {
+        super(name);
     }
+
+    /*
+     * (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
+    protected void setUp() throws Exception {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see junit.framework.TestCase#tearDown()
+     */
+    protected void tearDown() throws Exception {
+        String tempFile = project.getProperty(TEMP_FILE_PROP);
+
+        if (tempFile != null) {
+            File f = new File(tempFile);
+            f.delete();
+        }
+    }
+
+    /**
+     * Returns this test case's ant build file.
+     *  
+     * @return the full or relative path to the build file.
+     */
+    protected abstract String getTestBuildFileName();
 }

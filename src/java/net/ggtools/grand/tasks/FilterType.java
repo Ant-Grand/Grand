@@ -29,50 +29,68 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.filters;
+package net.ggtools.grand.tasks;
 
-import java.util.Iterator;
-
-import net.ggtools.grand.Log;
-import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphFilter;
-import net.ggtools.grand.graph.GraphProducer;
-import net.ggtools.grand.graph.Node;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
- * A filter to remove isolated nodes in a graph.
+ * A meta class for graph filters. This class will be instanciated
+ * and configure by Ant and passed to graph task. On execution, the
+ * enclosing task need to call the {@link #checkParameters()} method
+ * to check if the filter is properly configured and {@link #getFilter()}
+ * to get the actual graph filter.
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter implements GraphFilter {
+public class FilterType {
+    private static GraphFilterFactory filterFactory = new GraphFilterFactory();
+    private GraphFilterType filter;
 
-    GraphProducer graphProducer;
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphProducer#getGraph()
+    private String filterName;
+    private String nodeName;
+    private Project project;
+    
+    public FilterType(Project project) {
+        this.project = project;
+    }
+    
+    /**
+     * 
      */
-    public Graph getGraph() throws GrandException {
-        Log.log("Triggering IsolatedNodeFilter", Log.MSG_VERBOSE);
-        Graph graph = graphProducer.getGraph();
-
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node) iter.next();
-
-            if (node.getLinks().size() == 0 && node.getBackLinks().size() == 0) {
-                Log.log("IsolatedNodeFilter: Removing node " + node.getName(), Log.MSG_DEBUG);
-                iter.remove();
-            }
+    private void checkFilter() {
+        if (filter == null) {
+            filter = filterFactory.getFilterType(project,filterName);
+            filter.setNodeName(nodeName);
+            // Use an HashMap for parameters?
+            // Pb: type conversion check ant's utility classes
         }
-
-        return graph;
+    }
+    
+    void checkParameters() throws BuildException {
+        checkFilter();
+        filter.checkParameters();
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
+    GraphFilter getFilter() {
+        checkFilter();
+        return filter.getFilter();
+    }
+    
+    public void setName(String name) {
+        filterName = name;
+    }
+    
+    public void setNode(String node) {
+        nodeName = node;
+    }
+    
+    /**
+     * @return Returns the filterName.
      */
-    public void setProducer(GraphProducer producer) {
-        graphProducer = producer;
+    public String getFilterName() {
+        return filterName;
     }
-
 }

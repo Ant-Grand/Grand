@@ -29,27 +29,22 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.tasks;
+package net.ggtools.grand.graph;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.Collection;
 
 /**
- * 
+ * An interface used to find out what the possible links from a node.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
-
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        //$JUnit-END$
-        return suite;
-    }
+public interface LinkFinder {
+    /**
+     * Returns all the accessible nodes from a specific one. Implementations
+     * should insure that the returned collection will only contains Node objects.
+     * 
+     * @param node node to consider.
+     * @return a collection of accessible nodes.
+     */
+    Collection getLinks(Node node);
 }

@@ -29,7 +29,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.tasks;
+package net.ggtools.grand.graph;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -39,16 +39,12 @@ import junit.framework.TestSuite;
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+public class AllTests {
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
+    public static Test suite() {
+        TestSuite suite = new TestSuite("Test for net.ggtools.grand.graph");
         //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
+        suite.addTestSuite(GraphCrawlerTest.class);
         //$JUnit-END$
         return suite;
     }

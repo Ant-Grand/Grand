@@ -31,17 +31,9 @@
 
 package net.ggtools.grand.filters;
 
-import java.util.Iterator;
-
-import net.ggtools.grand.Log;
-import net.ggtools.grand.exceptions.DuplicateNodeException;
-import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.ForwardLinkFinder;
 import net.ggtools.grand.graph.GraphFilter;
-import net.ggtools.grand.graph.GraphImpl;
-import net.ggtools.grand.graph.GraphProducer;
-import net.ggtools.grand.graph.Link;
-import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.graph.LinkFinder;
 
 
 /**
@@ -49,64 +41,18 @@ import net.ggtools.grand.graph.Node;
  * 
  * @author Christophe Labouisse
  */
-public class FromNodeFilter implements GraphFilter {
+public class FromNodeFilter extends GraphWalkFilter implements GraphFilter {
 
-    GraphProducer graphProducer;
-
-    private final String fromNodeName;
+    private final LinkFinder linkFinder = new ForwardLinkFinder();
     
     public FromNodeFilter(String nodeName) {
-        fromNodeName = nodeName;
+        super(nodeName);
     }
 
     /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphProducer#getGraph()
+     * @see net.ggtools.grand.filters.GraphWalkFilter#getLinkFinder()
      */
-    public Graph getGraph() throws GrandException {
-        Log.log("Triggering IsolatedNodeFilter", Log.MSG_VERBOSE);
-        final Graph graph = graphProducer.getGraph();
-        final Node fromNode = graph.getNode(fromNodeName);
-        
-        final Graph filteredGraph = new GraphImpl(graph.getName());
-        
-        copyNodeAndChildren(fromNode,filteredGraph);
-        
-        final Node startNode = filteredGraph.getNode(graph.getStartNode().getName());
-        if (startNode != null) {
-            filteredGraph.setStartNode(startNode);
-        }
-        
-        return filteredGraph;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
-     */
-    public void setProducer(GraphProducer producer) {
-        graphProducer = producer;
-    }
-
-    private Node copyNodeAndChildren(Node node, Graph toGraph) throws DuplicateNodeException {
-        Log.log("FromNodeFilter: copying node "+node,Log.MSG_DEBUG);
-        final Graph graph = node.getGraph();
-        Node copiedNode = toGraph.createNode(node.getName());
-        copiedNode.setDescription(node.getDescription());
-        copiedNode.setAttributes(node.getAttributes());
-        
-        for (Iterator iter = node.getLinks().iterator(); iter.hasNext(); ) {
-            Link link = (Link) iter.next();
-            
-            Node endNode = link.getEndNode();
-            Node copiedEndNode = toGraph.getNode(endNode.getName());
-            
-            if (copiedEndNode == null) {
-                copiedEndNode = copyNodeAndChildren(endNode,toGraph);
-            }
-            
-            Link copiedLink = toGraph.createLink(link.getName(),copiedNode,copiedEndNode);
-            copiedLink.setAttributes(link.getAttributes());
-        }
-        
-        return copiedNode;
+    public LinkFinder getLinkFinder() {
+        return linkFinder;
     }
 }

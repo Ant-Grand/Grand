@@ -3,4 +3,5 @@
 <!-- $Id$ -->
 <antlib>
 	<taskdef name="grand" classname="net.ggtools.grand.tasks.GrandTask"/>
+	<!--typedef name="filter" classname="net.ggtools.grand.tasks.GraphFilterType"/-->
 </antlib>

@@ -31,22 +31,18 @@
 
 package net.ggtools.grand.filters;
 
-import java.io.File;
-
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphFilter;
 import net.ggtools.grand.graph.GraphProducer;
-
-import org.apache.tools.ant.BuildFileTest;
+import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
  * 
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilterTest extends BuildFileTest {
-    private static final String TEMP_FILE_PROP = "temp.file";
+public class IsolatedNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
     
     /**
@@ -61,21 +57,15 @@ public class IsolatedNodeFilterTest extends BuildFileTest {
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
-        configureProject("src/etc/testcases/isolated-node-filter.xml");
-        project.setBasedir("src/etc/testcases");
+        super.setUp();
         producer = new AntProject(project);
     }
 
-    /*
-     * @see TestCase#tearDown()
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
-    protected void tearDown() throws Exception {
-        String tempFile = project.getProperty(TEMP_FILE_PROP);
-
-        if (tempFile != null) {
-            File f = new File(tempFile);
-            f.delete();
-        }
+    protected String getTestBuildFileName() {
+        return TESTCASES_DIR+"isolated-node-filter.xml";
     }
 
     /**

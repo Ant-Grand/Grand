@@ -31,25 +31,49 @@
 
 package net.ggtools.grand.tasks;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import net.ggtools.grand.filters.IsolatedNodeFilter;
+import net.ggtools.grand.graph.GraphFilter;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
- * 
+ * Ant frontend to {@link net.ggtools.grand.filters.IsolatedNodeFilter}.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+class IsolatedNodeFilterType implements GraphFilterType {
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        //$JUnit-END$
-        return suite;
+    private Project project;
+
+    /**
+     * Creates a new object.
+     * 
+     * @param antProject project within which the filter will run.
+     */
+    public IsolatedNodeFilterType(Project antProject) {
+        project = antProject;
     }
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
+     */
+    public void checkParameters() throws BuildException {
+        // Do nothing.
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
+     */
+    public GraphFilter getFilter() {
+        return new IsolatedNodeFilter();
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
+     */
+    public void setNodeName(String name) {
+        project.log("Name parameter useless for isolatednode",Project.MSG_WARN);
+    }
+
 }

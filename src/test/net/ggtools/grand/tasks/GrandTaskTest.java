@@ -29,23 +29,17 @@ package net.ggtools.grand.tasks;
 import java.io.File;
 import java.io.IOException;
 
+import net.ggtools.grand.utils.*;
 import net.ggtools.grand.utils.FileComparator;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.BuildFileTest;
 
 /**
  * Tests for GrandTask.
  * 
- * 413f951e5a6db291d751afb32841269ea06a6c07  build-import.dot
- * 4fd05ee05abf302f597e925bcff29bc8f1da5031  build-simple.dot
- * fbeac4ca0c4e9a7c01883d260f3b6731a12dc2e6  override.dot
- * 
  * @author Christophe Labouisse
  */
-public class GrandTaskTest extends BuildFileTest {
-
-    private static final String TEMP_FILE_PROP = "temp.file";
+public class GrandTaskTest extends AbstractAntTester {
 
     private static final String BUILD_SIMPLE_SHA1 = "4fd05ee05abf302f597e925bcff29bc8f1da5031";
 
@@ -73,24 +67,15 @@ public class GrandTaskTest extends BuildFileTest {
         FileComparator comparator = new FileComparator(referenceFile, tempFile);
         comparator.assertLinesMatch();
     }
-
-    /*
-     * @see TestCase#setUp()
+    
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
-    protected void setUp() throws Exception {
-        configureProject("src/etc/testcases/grand-task.xml");
-        project.setBasedir("src/etc/testcases");
+    protected String getTestBuildFileName() {
+        return TESTCASES_DIR+"grand-task.xml";
     }
-
-    protected void tearDown() throws Exception {
-        String tempFile = project.getProperty(TEMP_FILE_PROP);
-
-        if (tempFile != null) {
-            File f = new File(tempFile);
-            f.delete();
-        }
-    }
-
+    
     public void testSuitability() {
         boolean suitable;
 

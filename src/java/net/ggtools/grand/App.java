@@ -98,7 +98,7 @@ public final class App {
         GraphProducer producer = new AntProject(buildFile);
         GraphWriter writer = new DotWriter();
         //GraphFilter filter = new IsolatedNodeFilter();
-        GraphFilter filter = new FromNodeFilter("main");
+        GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
         writer.setProducer(filter);
         writer.write(new File(output));

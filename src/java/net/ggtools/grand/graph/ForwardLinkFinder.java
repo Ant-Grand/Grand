@@ -29,27 +29,33 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.tasks;
+package net.ggtools.grand.graph;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
- * 
+ * A link finder returning links starting from nodes.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+public class ForwardLinkFinder implements LinkFinder {
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        //$JUnit-END$
-        return suite;
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
+     */
+    public Collection getLinks(Node node) {
+        Collection links = node.getLinks();
+        
+        LinkedHashSet result = new LinkedHashSet();
+        
+        for (Iterator iter = links.iterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            result.add(link.getEndNode());
+        }
+        
+        return result;
     }
+
 }

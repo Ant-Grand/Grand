@@ -29,15 +29,17 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.filters;
+package net.ggtools.grand.graph;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.graph.ForwardLinkFinder;
 import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.GraphFilter;
+import net.ggtools.grand.graph.GraphCrawler;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
@@ -47,7 +49,7 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * 
  * @author Christophe Labouisse
  */
-public class FromNodeFilterTest extends AbstractAntTester {
+public class GraphCrawlerTest extends AbstractAntTester {
     private GraphProducer producer;
 
     private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
@@ -57,77 +59,49 @@ public class FromNodeFilterTest extends AbstractAntTester {
                     "jmxCheck"}));
 
     /**
-     * Constructor for IsolatedNodeFilterTest.
-     * @param name
+     * Constructor for GraphCrawlerTest.
+     * @param arg0
      */
-    public FromNodeFilterTest(String name) {
-        super(name);
+    public GraphCrawlerTest(String arg0) {
+        super(arg0);
     }
 
     /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
+     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
+     */
+    protected String getTestBuildFileName() {
+        return TESTCASES_DIR + "log4j-build.xml";
+    }
+
+    /*
+     * @see AbstractTaskTester#setUp()
      */
     protected void setUp() throws Exception {
         super.setUp();
         producer = new AntProject(project);
     }
-    
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
+
+    /*
+     * @see AbstractTaskTester#tearDown()
      */
-    protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"log4j-build.xml";
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
 
-    /**
-     * Process log4j 1.2.8 build.xml and from the "build" node and check
-     * if we get what we want.
-     *
-     */
-    public void testConnectedStartNode() throws Exception {
-        GraphFilter filter = new FromNodeFilter("build");
-        filter.setProducer(producer);
-        Graph graph = filter.getGraph();
+    public final void testCrawl() throws Exception {
+        final Graph graph = producer.getGraph();
+        final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());
+        final Collection result = crawler.crawl(graph.getNode("build"));
 
-        int numNodes = 0;
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            numNodes++;
-            String nodeName = ((Node) iter.next()).getName();
-
+        assertEquals("Result and reference do not have the same size", NODES_AFTER_FILTERING
+                .size(), result.size());
+        
+        for (Iterator iter = result.iterator(); iter.hasNext(); ) {
+            final Node node = (Node) iter.next();
+            final String nodeName = node.getName();
             assertTrue("Node " + nodeName + " should have been filtered out",
                     NODES_AFTER_FILTERING.contains(nodeName));
         }
 
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
-        
-        assertNull("Start node 'usage' should have be filtered out",graph.getStartNode());
     }
-    
-    /**
-     * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
-     * target as default. Check if the project start node has not been filtered out.
-     *
-     */
-    public void testNotFilteredStartNode() throws Exception {
-        GraphFilter filter = new FromNodeFilter("build");
-        filter.setProducer(producer);
-        project.setDefault("build");
-        Graph graph = filter.getGraph();
-
-        int numNodes = 0;
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            numNodes++;
-            String nodeName = ((Node) iter.next()).getName();
-
-            assertTrue("Node " + nodeName + " should have been filtered out",
-                    NODES_AFTER_FILTERING.contains(nodeName));
-        }
-
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
-        
-        assertNotNull("Start node 'build' should not have be filtered out",graph.getStartNode());
-    }
-
 }
