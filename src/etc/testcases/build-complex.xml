@@ -1,4 +1,4 @@
-<!-- $Id -->
+<!-- $Id$ -->
 <project basedir="../../.." name="Grand complex build file" default="compile">
 	<description>
 		A more complex build file to test Grand.

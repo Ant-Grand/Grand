@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: grand-task.xml 214 2004-01-29 23:02:49Z moi $ -->
+<!-- $Id$ -->
 <project name="AntCallWithProperties" default="isolated">
 	<target name="target-with-undef-task">
 		<idontexist/>

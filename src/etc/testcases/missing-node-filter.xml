@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: isolated-node-filter.xml 252 2004-02-05 22:56:30Z moi $ -->
+<!-- $Id$ -->
 <project name="IsolatedNodeFilter" default="init">
 	<description>
 		Ant build file for running the MissingNodeFilterTest JUnit tests.

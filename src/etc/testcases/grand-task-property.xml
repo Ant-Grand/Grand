@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: ant-project-test.xml 252 2004-02-05 22:56:30Z moi $ -->
+<!-- $Id$ -->
 <project name="AntProjectTest" default="test-no-param">
 	<description>
 		Ant build file for running the AntProjectTest JUnit tests.
