@@ -29,32 +29,22 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.filters;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.ggtools.grand.tasks.GrandTaskTest;
-import net.ggtools.grand.utils.FileComparatorTest;
 
 /**
  * 
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+public class AllTests {
 
-    public static void main(String[] args)
-    {
-        junit.swingui.TestRunner.run(AllTests.class);
-    }
-
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for org.ggtools.grand");
+    public static Test suite() {
+        TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
         //$JUnit-BEGIN$
-        suite.addTestSuite(FileComparatorTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
+        suite.addTestSuite(IsolatedNodeFilterTest.class);
         //$JUnit-END$
         return suite;
     }

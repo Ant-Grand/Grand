@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- $Id: grand-task.xml 214 2004-01-29 23:02:49Z moi $ -->
+<project name="IsolatedNodeFilter" default="isolated">
+	<description>
+		Ant build file for running the IsolatedNodeFilterTest JUnit tests.
+	</description>
+	<target name="init">
+		<typedef resource="net/ggtools/grand/antlib.xml"/>
+		<tempfile property="temp.file" suffix=".dot"/>
+	</target>
+
+	<target name="depend-1" depends="init"/>
+	
+	<target name="depend-2" depends="depend-1,init"/>
+	
+	<target name="isolated"/>
+</project>
