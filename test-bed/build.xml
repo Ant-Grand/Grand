@@ -6,11 +6,29 @@
 	</description>
 	<property name="antcall.target" value="init"/>
 	<target name="init">
-		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/grand-0.3.1-pre.jar"/>
+		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/grand-1.0.jar"/>
+		<macrodef name="mkgraph">
+			<attribute name="name"/>
+			<sequential>
+				<grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot"/>
+				<exec executable="dot" >
+				    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o @{name}.ps @{name}.dot"/>
+				</exec>
+			</sequential>
+		</macrodef>
 	</target>
 
 	<target name="antcalltarget">
 		<antcall target="${antcall.target}"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir=".">
+			<fileset>
+				<include name="*.dot"/>
+				<include name="*.ps"/>
+			</fileset>
+		</delete>
 	</target>
 
 	<target name="current-project" depends="init">
@@ -21,12 +39,15 @@
 	</target>	
 
 	<target name="ant-build" depends="init">
-		<grand buildfile="ant-build.xml" output="ant.dot"/>
-		<exec executable="dot" >
-		    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o ant.ps ant.dot"/>
-		</exec>
+		<mkgraph name="ant-build"/>
 	</target>
 	
-	<target name="graph" depends="current-project, ant-build"/>
+
+	<target name="test-build" depends="init">
+		<mkgraph name="test-build"/>
+	</target>
+	
+	<target name="graph" depends="current-project, ant-build, test-build"/>
+
 </project>
 
