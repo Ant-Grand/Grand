@@ -79,7 +79,7 @@ class TargetTasksExplorer {
         }
 
         if (node.getUnlessCondition() != null) {
-            addText(" if=\"", AntTargetNode.SOURCE_MARKUP);
+            addText(" unless=\"", AntTargetNode.SOURCE_MARKUP);
             addText(node.getUnlessCondition(), AntTargetNode.SOURCE_ATTRIBUTE);
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
