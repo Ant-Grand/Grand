@@ -15,7 +15,7 @@
   </property>
   <property name="javadocdir" value="dist/docs/api">
   </property>
-  <property name="final.name" value="grand-1.4">
+  <property name="final.name" value="grand-1.5">
   </property>
   <target name="init" description="o Initializes some properties">
     <mkdir dir="${libdir}">
@@ -130,7 +130,7 @@
     </tstamp>
     <property name="copyright" value="Copyright &amp;copy;  ggTools. All Rights Reserved.">
     </property>
-    <property name="title" value="Grand: Graphical Representation of ANt Dependencies 1.4 API">
+    <property name="title" value="Grand: Graphical Representation of ANt Dependencies 1.5 API">
     </property>
     <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" sourcepath="src/java" packagenames="net.ggtools.grand.*">
       <classpath>
@@ -144,9 +144,9 @@
     </javadoc>
   </target>
   <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/ant-1.6.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.1.jar">
+    <get dest="${libdir}/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.2.jar">
     </get>
-    <get dest="${libdir}/ant-launcher-1.6.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-launcher-1.6.1.jar">
+    <get dest="${libdir}/ant-launcher-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-launcher-1.6.2.jar">
     </get>
     <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar">
     </get>
