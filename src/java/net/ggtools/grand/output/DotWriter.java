@@ -75,12 +75,13 @@ import net.ggtools.grand.graph.Node;
  */
 public class DotWriter implements GraphWriter {
 
-    private static final String LINE_SEPARATOR = System
-            .getProperty("line.separator");
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private static final String DOT_GRAPH_ATTRIBUTES = "dot.graph.attributes";
 
     private static final String DOT_LINK_ATTRIBUTES = "dot.link.attributes";
+
+    private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
 
     private static final String DOT_MAINNODE_ATTRIBUTES = "dot.mainnode.attributes";
 
@@ -102,6 +103,8 @@ public class DotWriter implements GraphWriter {
     private String graphAttributes;
 
     private String linkAttributes;
+
+    private String weakLinkAttributes;
 
     private String mainNodeAttributes;
 
@@ -131,6 +134,7 @@ public class DotWriter implements GraphWriter {
         config = Configuration.getConfiguration(override);
         graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);
         linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
+        weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);
         mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);
         nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
         startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);
@@ -157,8 +161,7 @@ public class DotWriter implements GraphWriter {
                 currentNodeAttributes = "";
             }
 
-            currentNodeAttributes += ",comment=\""
-                    + escapeString(node.getDescription()) + "\"";
+            currentNodeAttributes += ",comment=\"" + escapeString(node.getDescription()) + "\"";
         }
 
         return getNodeAsDot(node, currentNodeAttributes);
@@ -187,16 +190,28 @@ public class DotWriter implements GraphWriter {
         Collection deps = node.getLinks();
         int index = 1;
         final int numDeps = deps.size();
-        
+
         for (Iterator iter = deps.iterator(); iter.hasNext(); ) {
             Link link = (Link) iter.next();
             Node depNode = link.getEndNode();
-            
-            strBuf.append(nodeInfo).append(" -> \"").append(
-                    escapeString(depNode.getName())).append("\"");
 
-            if (numDeps > 1) {
-                strBuf.append(" [label=\"").append(index++).append("\"]");
+            strBuf.append(nodeInfo).append(" -> \"").append(escapeString(depNode.getName()))
+                    .append("\"");
+
+            // TODO create a proper attribute manager.
+            if (numDeps > 1 || link.hasAttributes(Link.ATTR_WEAK_LINK)) {
+                strBuf.append(" [");
+                if (numDeps > 1) {
+                    strBuf.append("label=\"").append(index++).append("\"");
+                }
+                if (link.hasAttributes(Link.ATTR_WEAK_LINK)) {
+                    if (numDeps > 1) {
+                        strBuf.append(", ");
+                    }
+                    
+                    strBuf.append(weakLinkAttributes);
+                }
+                strBuf.append("]");
             }
             strBuf.append(";").append(LINE_SEPARATOR);
         }
@@ -210,7 +225,7 @@ public class DotWriter implements GraphWriter {
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.File)
      */
     public void write(File output) throws IOException, GrandException {
-        Log.log("Outputing to "+output);
+        Log.log("Outputing to " + output);
         FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();
@@ -226,14 +241,12 @@ public class DotWriter implements GraphWriter {
         PrintStream output = new PrintStream(stream);
 
         Graph graph = graphProducer.getGraph();
-        
+
         StringBuffer header = new StringBuffer();
-        header.append("digraph \"").append(escapeString(graph.getName()))
-                .append("\" {").append(LINE_SEPARATOR);
-        header.append("graph [").append(graphAttributes).append("];").append(
-                LINE_SEPARATOR);
-        header.append("node [").append(nodeAttributes).append("];").append(
-                LINE_SEPARATOR);
+        header.append("digraph \"").append(escapeString(graph.getName())).append("\" {")
+                .append(LINE_SEPARATOR);
+        header.append("graph [").append(graphAttributes).append("];").append(LINE_SEPARATOR);
+        header.append("node [").append(nodeAttributes).append("];").append(LINE_SEPARATOR);
         header.append("edge [").append(linkAttributes).append("];");
         output.println(header);
 

@@ -144,6 +144,13 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-import.dot");
     }
 
+    public void testAntCall() throws Exception {
+        expectLogContaining("antcall", "Loading project ");
+        assertLogContaining("src/etc/testcases/build-complex.xml");
+
+        assertTempFileMatchExpected("src/etc/testcases/build-complex.dot");
+    }
+
     public void testNonExistentDefaultTarget() {
         expectLogContaining("non-existent-default-target", "Loading project ");
         assertLogContaining("src/etc/testcases/non-existent-default-target.xml");

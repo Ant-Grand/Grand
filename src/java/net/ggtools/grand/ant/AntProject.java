@@ -39,11 +39,14 @@ import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphImpl;
 import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Task;
 
 /**
  * @author Christophe Labouisse
@@ -136,7 +139,7 @@ public class AntProject implements GraphProducer {
             }
         }
 
-        
+        // Sets the start node if needed.
         final String defaultTarget = antProject.getDefaultTarget();
         if (defaultTarget != null) {
             final Node startNode = graph.getNode(defaultTarget);
@@ -146,6 +149,7 @@ public class AntProject implements GraphProducer {
             }
         }
 
+        // Second pass, create the links
         for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
             final Target target = (Target) iter.next();
             if (target.getName().equals("")) {
@@ -158,13 +162,26 @@ public class AntProject implements GraphProducer {
 
             while (deps.hasMoreElements()) {
                 final String depName = (String) deps.nextElement();
-                Node endNode = graph.getNode(depName);
+                final Node endNode = graph.getNode(depName);
 
                 if (endNode == null) {
                     Log.log("Node " + startNodeName + " has dependency to non existent node "
                             + depName);
                 } else {
                     graph.createLink(null, startNode, endNode);
+                }
+            }
+
+            final Task[] tasks = target.getTasks();
+            for (int i = 0; i < tasks.length; i++) {
+                final Task task = tasks[i];
+                if (task.getTaskType().equals("antcall")) {
+                    final RuntimeConfigurable wrapper = task.getRuntimeConfigurableWrapper();
+                    final String called = (String) wrapper.getAttributeMap().get("target");
+                    
+                    final Node calledNode = graph.getNode(called);
+                    final Link link = graph.createLink(null,startNode,calledNode);
+                    link.setAttributes(Link.ATTR_WEAK_LINK);
                 }
             }
         }

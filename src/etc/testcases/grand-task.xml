@@ -37,4 +37,8 @@
 	<target name="import" depends="init">
 		<grand buildfile="build-import.xml" output="${temp.file}"/>
 	</target>
+
+	<target name="antcall" depends="init">
+		<grand buildfile="build-complex.xml" output="${temp.file}"/>
+	</target>
 </project>
