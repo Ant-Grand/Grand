@@ -1,4 +1,4 @@
-// $Id$
+// $Id: IsolatedNodeFilterType.java 252 2004-02-05 22:56:30Z moi $
 /* ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
@@ -31,26 +31,49 @@
 
 package net.ggtools.grand.tasks;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import net.ggtools.grand.filters.GraphFilter;
+import net.ggtools.grand.filters.MissingNodeFilter;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
- * 
+ * Ant frontend to {@link net.ggtools.grand.filters.MissingNodeFilter}.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+class MissingNodeFilterType implements GraphFilterType {
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        suite.addTestSuite(GrandTaskPropertyTest.class);
-        //$JUnit-END$
-        return suite;
+    private Project project;
+
+    /**
+     * Creates a new object.
+     * 
+     * @param antProject project within which the filter will run.
+     */
+    public MissingNodeFilterType(Project antProject) {
+        project = antProject;
     }
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
+     */
+    public void checkParameters() throws BuildException {
+        // Do nothing.
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
+     */
+    public GraphFilter getFilter() {
+        return new MissingNodeFilter();
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
+     */
+    public void setNodeName(String name) {
+        project.log("Node parameter useless for isolatednode",Project.MSG_WARN);
+    }
+
 }

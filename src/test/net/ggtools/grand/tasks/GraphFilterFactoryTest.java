@@ -98,6 +98,12 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
                 net.ggtools.grand.tasks.ConnectedFilterType.class, filter.getClass());
     }
 
+    public final void testTypeMissingNode() {
+        GraphFilterType filter = factory.getFilterType(project, "missingnode");
+        assertEquals("Wrong class for missingNode",
+                net.ggtools.grand.tasks.MissingNodeFilterType.class, filter.getClass());
+    }
+
     public final void testNotConfigurated() {
         try {
             GraphFilterType filter = factory.getFilterType(project, "notconfigured");

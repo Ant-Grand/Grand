@@ -70,6 +70,7 @@ import net.ggtools.grand.graph.Node;
  * bracket.
  * 
  * @TODO The current configuration scheme sucks create something more generic.
+ * @TODO Implement missing nodes.
  * 
  * @author Christophe Labouisse
  * @see <a href="http://www.research.att.com/sw/tools/graphviz/">Graphviz home page</a>
@@ -86,6 +87,8 @@ public class DotWriter implements GraphWriter {
     private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
 
     private static final String DOT_MAINNODE_ATTRIBUTES = "dot.mainnode.attributes";
+
+    private static final String DOT_MISSINGNODE_ATTRIBUTES = "dot.missingnode.attributes";
 
     private static final String DOT_NODE_ATTRIBUTES = "dot.node.attributes";
 
@@ -109,6 +112,8 @@ public class DotWriter implements GraphWriter {
     private String weakLinkAttributes;
 
     private String mainNodeAttributes;
+
+    private String missingNodeAttributes;
 
     private String nodeAttributes;
 
@@ -140,6 +145,7 @@ public class DotWriter implements GraphWriter {
         linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
         weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);
         mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);
+        missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);
         nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
         startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);
     }
@@ -157,15 +163,15 @@ public class DotWriter implements GraphWriter {
         String currentNodeAttributes = null;
 
         if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
-            final String mainNodeProps = mainNodeAttributes;
-
-            if (mainNodeProps != null) {
-                currentNodeAttributes = mainNodeProps;
+            if (mainNodeAttributes != null) {
+                currentNodeAttributes = mainNodeAttributes;
             } else {
                 currentNodeAttributes = "";
             }
 
             currentNodeAttributes += ",comment=\"" + escapeString(node.getDescription()) + "\"";
+        } else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {
+            currentNodeAttributes = missingNodeAttributes;
         }
 
         return getNodeAsDot(node, currentNodeAttributes);
@@ -212,7 +218,7 @@ public class DotWriter implements GraphWriter {
                     if (numDeps > 1) {
                         strBuf.append(", ");
                     }
-                    
+
                     strBuf.append(weakLinkAttributes);
                 }
                 strBuf.append("]");

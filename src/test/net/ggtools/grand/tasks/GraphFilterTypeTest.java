@@ -1,4 +1,4 @@
-// $Id: GrandTaskTest.java 210 2004-01-29 22:49:29Z moi $
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
@@ -54,7 +54,7 @@ public class GraphFilterTypeTest extends AbstractAntTester {
         assertLogContaining("Loaded 1 filter");
     }
 
-    public void testNamelessFIlter() {
+    public void testNamelessFilter() {
         expectBuildException("noname","required attribute missing");
     }
 

@@ -1,4 +1,4 @@
-// $Id$
+// $Id: IsolatedNodeFilterTest.java 252 2004-02-05 22:56:30Z moi $
 /* ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
@@ -31,15 +31,9 @@
 
 package net.ggtools.grand.filters;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import net.ggtools.grand.ant.AntProject;
-import net.ggtools.grand.exceptions.NonExistentNodeException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
-import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
@@ -47,24 +41,19 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * 
  * @author Christophe Labouisse
  */
-public class ConnectedToNodeFilterTest extends AbstractAntTester {
+public class MissingNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
-
-    private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
-            .asList(new String[]{"dist", "test", "jar", "compile", "compile.java",
-                    "compile.jni", "compile.cpp", "prepare", "init", "process-config-files",
-                    "process-one-config-file"}));
-
+    
     /**
-     * Constructor for ConnectedToNodeFilterTest.
+     * Constructor for IsolatedNodeFilterTest.
      * @param name
      */
-    public ConnectedToNodeFilterTest(String name) {
+    public MissingNodeFilterTest(String name) {
         super(name);
     }
 
-    /* (non-Javadoc)
-     * @see junit.framework.TestCase#setUp()
+    /*
+     * @see TestCase#setUp()
      */
     protected void setUp() throws Exception {
         super.setUp();
@@ -75,45 +64,36 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR + "build-complex.xml";
+        return TESTCASES_DIR+"missing-node-filter.xml";
     }
 
     /**
-     * Process build-complex.xml to find the nodes connected to jar. 
-     */
-    public void testConnectedStartNode() throws Exception {
-        GraphFilter filter = new ConnectedToNodeFilter("jar");
-        filter.setProducer(producer);
-        Graph graph = filter.getGraph();
-
-        int numNodes = 0;
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            numNodes++;
-            String nodeName = ((Node) iter.next()).getName();
-
-            assertTrue("Node " + nodeName + " should have been filtered out",
-                    NODES_AFTER_FILTERING.contains(nodeName));
-        }
-
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
-
-        assertNotNull("Start node 'compile' should not have been filtered out", graph
-                .getStartNode());
-    }
-
-    /**
-     * Process the build file, trying to filter from an non existent node.
+     * Check the full graph completness.
      *
      */
-    public void testNonExistentNode() throws Exception {
-        GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
-        filter.setProducer(producer);
-        try {
-            Graph graph = filter.getGraph();
-            fail("Should have raised a NonExistentNode exception");
-        } catch (NonExistentNodeException e) {
-        }
+    public void testFullGraph() throws Exception {
+        Graph graph = producer.getGraph();
+        
+        assertNotNull("Target not found",graph.getNode("init"));
+        assertNotNull("Target not found",graph.getNode("depend-1"));
+        assertNotNull("Target not found",graph.getNode("depend-2"));
+        assertNotNull("Target not found",graph.getNode("depend-3"));
     }
 
+    
+    /**
+     * Process the full graph through an MissingNodeFilter and check the
+     * remaining nodes. This test includes removing the project's start node.
+     *
+     */
+    public void testFilter() throws Exception {
+        GraphFilter filter = new MissingNodeFilter();
+        filter.setProducer(producer);
+        Graph graph = filter.getGraph();
+        
+        assertNotNull("Normal node should not have been removed",graph.getNode("init"));
+        assertNotNull("Normal node should not have been removed",graph.getNode("depend-1"));
+        assertNotNull("Normal node should not have been removed",graph.getNode("depend-2"));
+        assertNull("Missing node should have been found",graph.getNode("depend-3"));
+    }
 }

@@ -14,7 +14,8 @@ edge [fontsize="10"];
 "check-uptodate-dotfile" -> "prepare-depgraph";
 
 "jar" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Create jar files for the java classes"];
-"jar" -> "compile.java";
+"jar" -> "compile.java" [label="1"];
+"jar" -> "process-config-files" [label="2"];
 
 "prepare-depgraph"
 
@@ -22,12 +23,17 @@ edge [fontsize="10"];
 "compile.jni" -> "prepare" [label="1"];
 "compile.jni" -> "compile.cpp" [label="2", fontsize="10",style="dotted"];
 
-"compile.java"
-"compile.java" -> "prepare";
+"process-config-files"
+"process-config-files" -> "prepare" [label="1"];
+"process-config-files" -> "compile" [label="2"];
+"process-config-files" -> "process-one-config-file" [label="3", fontsize="10",style="dotted"];
 
 "grand"
 "grand" -> "prepare-depgraph" [label="1"];
 "grand" -> "check-uptodate-dotfile" [label="2"];
+
+"compile.java"
+"compile.java" -> "prepare";
 
 "clean.java"
 
@@ -53,6 +59,8 @@ edge [fontsize="10"];
 "test" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Run the unit tests"];
 "test" -> "jar" [label="1"];
 "test" -> "compile" [label="2"];
+
+"process-one-config-file"
 
 "clean.depgraph" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Remove dependency graph intermediate files."];
 "clean.depgraph" -> "prepare-depgraph";

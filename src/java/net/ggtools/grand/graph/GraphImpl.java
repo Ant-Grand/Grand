@@ -158,7 +158,6 @@ public class GraphImpl implements Graph {
      */
     public Link createLink(final String linkName, final Node startNode,
             final Node endNode) {
-        Log.log("Creating a link from "+startNode+" to "+endNode,Log.MSG_VERBOSE);
         Link link = new LinkImpl(linkName, this, startNode, endNode);
         startNode.addLink(link);
         endNode.addBackLink(link);

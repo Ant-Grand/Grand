@@ -46,6 +46,15 @@ public interface Node extends GraphObject {
     int ATTR_MAIN_NODE = 1 << 0;
     
     /**
+     * Attribute bit to be set on missing nodes, that is nodes created
+     * by the graph producer even if no such node exists in the original
+     * data source. The cause of such creations depends on the graph's
+     * source. For ant projects, <i>missing</i> nodes may be created when
+     * a target (or an antcall) refers a non existing node.
+     */
+    int ATTR_MISSING_NODE = 1 << 1;
+    
+    /**
      * Returns links originating from the node. The implementing class should
      * insure that the returned list only contains objects implementing the
      * Link interface.

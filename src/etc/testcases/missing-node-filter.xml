@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!-- $Id$ -->
-<project name="IsolatedNodeFilter" default="isolated">
+<!-- $Id: isolated-node-filter.xml 252 2004-02-05 22:56:30Z moi $ -->
+<project name="IsolatedNodeFilter" default="init">
 	<description>
-		Ant build file for running the IsolatedNodeFilterTest JUnit tests.
+		Ant build file for running the MissingNodeFilterTest JUnit tests.
 	</description>
 	<target name="init">
 		<typedef resource="net/ggtools/grand/antlib.xml"/>
@@ -11,7 +11,6 @@
 
 	<target name="depend-1" depends="init"/>
 	
-	<target name="depend-2" depends="depend-1,init"/>
+	<target name="depend-2" depends="depend-3,init"/>
 	
-	<target name="isolated"/>
 </project>

@@ -62,10 +62,10 @@ public class AntProjectTest extends AbstractAntTester {
      */
     public void testAntCallWithUndefinedProperty() {
         expectLogContaining("ant-call-with-property", "Outputing to ");
-        assertLogContaining("Creating dummy node for missing antcall target do-${antcall.target}");
-        assertLogContaining("Creating dummy node for missing antcall target ${antcall.target}");
+        assertLogContaining("Target antcall-props-1 has dependency to non existent target ${antcall.target}, creating a dummy node");
+        assertLogContaining("Target antcall-props-2 has dependency to non existent target do-${antcall.target}, creating a dummy node");
     }
-
+    
     /**
      * Run a graph on a file including an undefined task.
      * 

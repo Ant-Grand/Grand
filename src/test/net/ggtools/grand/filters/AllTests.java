@@ -46,10 +46,11 @@ public class AllTests
     {
         TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
         //$JUnit-BEGIN$
+        suite.addTestSuite(ConnectedToNodeFilterTest.class);
         suite.addTestSuite(FromNodeFilterTest.class);
         suite.addTestSuite(IsolatedNodeFilterTest.class);
         suite.addTestSuite(ToNodeFilterTest.class);
-        suite.addTestSuite(ConnectedToNodeFilterTest.class);
+        suite.addTestSuite(MissingNodeFilterTest.class);
         //$JUnit-END$
         return suite;
     }

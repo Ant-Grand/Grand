@@ -1,0 +1,10 @@
+B4 1.0:
+
+- test unitaires pour missing nodes dans les fichiers dot.
+
+After 1.0:
+
+- IHM/Plugin ;
+- Nouvelle configuration ;
+- subant/ant -> subgraph/clusters ;
+

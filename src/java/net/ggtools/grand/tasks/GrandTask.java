@@ -34,9 +34,14 @@ package net.ggtools.grand.tasks;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
+import java.util.Vector;
 
 import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.AntProject;
@@ -47,14 +52,17 @@ import net.ggtools.grand.graph.GraphWriter;
 import net.ggtools.grand.output.DotWriter;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.types.PropertySet;
 
 /**
  * A task to create graphs. 
  * 
  * @author Christophe Labouisse
- * @TODO Add properties subelements.
  */
 public class GrandTask extends Task {
 
@@ -64,9 +72,16 @@ public class GrandTask extends Task {
 
     private File propertyFile;
     
+    /** the sets of properties to pass to the graphed project */
+    private ArrayList propertySets = new ArrayList();
+    
     private LinkedList filters = new LinkedList();
 
     private boolean showGraphName = false;
+    
+    private boolean inheritAll = false;
+    
+    private List properties = new LinkedList();
 
     /**
      * Check the parameters validity before execution.
@@ -91,18 +106,8 @@ public class GrandTask extends Task {
     public void execute() throws BuildException {
         checkParams();
 
-        GraphProducer graphProject;
-
-        if (buildFile == null) {
-            // Working with current project
-            log("Using current project");
-            graphProject = new AntProject(getProject());
-        } else {
-            // Open a new project
-            log("Loading project " + buildFile);
-            graphProject = new AntProject(buildFile);
-        }
-
+        final GraphProducer graphProject = initAntProject();
+        
         log("Done loading project ",Project.MSG_VERBOSE);
         
         log("Setting up filter chain");
@@ -145,6 +150,83 @@ public class GrandTask extends Task {
         }
     }
 
+    /**
+     * Create and initialize a GraphProducer according to the
+     * task parameters.
+     * 
+     * @return an intialized GraphProducer.
+     */
+    private GraphProducer initAntProject() {
+        
+        Project antProject;
+        
+        if (buildFile == null) {
+            // Working with current project
+            log("Using current project");
+            antProject = getProject();
+        } else {
+            // Open a new project.
+            log("Loading project " + buildFile);
+            
+            antProject = loadNewProject();
+        }
+
+        for (Iterator iter = propertySets.iterator(); iter.hasNext(); ) {
+            PropertySet ps = (PropertySet) iter.next();
+            addAlmostAll(antProject,ps.getProperties());
+        }
+        
+        if (properties.size() > 0) {
+            for (Iterator iter = properties.iterator(); iter.hasNext(); ) {
+                Property prop = (Property) iter.next();
+                prop.setProject(antProject);
+                prop.setTaskName("property");
+                prop.execute();
+            }
+        }
+        
+        return new AntProject(antProject);
+    }
+
+    /**
+     * Load an initialize a new project from a ant build file.
+     * 
+     * @return a new initialized ant project.
+     */
+    private Project loadNewProject() {
+        Project antProject = new Project();
+        
+        // Set the current project listeners to the graphed project
+        // in order to get some trace if we need to execute some tasks
+        // in the graphed project.
+        final Vector listeners = getProject().getBuildListeners();
+        for (Iterator iter = listeners.iterator(); iter.hasNext(); ) {
+            antProject.addBuildListener((BuildListener) iter.next());
+            
+        }
+
+        antProject.init();
+        
+        if (!inheritAll) {
+            // set Java built-in properties separately,
+            // b/c we won't inherit them.
+            antProject.setSystemProperties();
+
+        } else {
+            // set all properties from calling project
+            addAlmostAll(antProject, getProject().getProperties());
+        }
+
+        antProject.setUserProperty("ant.file", buildFile.getAbsolutePath());
+        ProjectHelper loader = ProjectHelper.getProjectHelper();
+        antProject.addReference("ant.projectHelper", loader);
+        loader.parse(antProject, buildFile);
+
+        getProject().copyUserProperties(antProject);
+        
+        return antProject;
+    }
+
     /* (non-Javadoc)
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
@@ -185,11 +267,64 @@ public class GrandTask extends Task {
     }
     
     /**
+     * If true, pass all properties to the new Ant project.
+     * Defaults to true.
+     * @param value if true pass all properties to the new Ant project.
+     */
+    public void setInheritAll(boolean value) {
+        inheritAll = value;
+    }
+
+    /**
      * Add a filter to the task.
      * @param filter
      */
     public void addFilter(FilterType filter) {
         filters.add(filter);
     }
+    
+    /**
+     * Add a new property to be passed to the graphed project.
+     * 
+     * @param p the property to set.
+     */
+    public void addProperty(Property p) {
+        properties.add(p);
+    }
 
+    /**
+     * Set of properties to pass to the graphed project.
+     *
+     * @param ps property set to add
+     */
+    public void addPropertyset(PropertySet ps) {
+        propertySets.add(ps);
+    }
+
+    /**
+     * Copies all properties from the given table to the destination project -
+     * omitting those that have already been set in the destination project as
+     * well as properties named basedir or ant.file.
+     * @param props properties to copy to the new project
+     * @since Ant 1.6
+     */
+    private void addAlmostAll(Project destProject, Hashtable props) {
+        Enumeration e = props.keys();
+        while (e.hasMoreElements()) {
+            String key = e.nextElement().toString();
+            if ("basedir".equals(key) || "ant.file".equals(key)) {
+                // basedir and ant.file should not be altered.
+                continue;
+            }
+
+            String value = props.get(key).toString();
+            // don't re-set user properties, avoid the warning message
+            if (destProject.getProperty(key) == null) {
+                // no user property
+                destProject.setNewProperty(key, value);
+            }
+        }
+    }
+
+    
 }

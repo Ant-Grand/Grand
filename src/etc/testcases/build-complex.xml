@@ -17,13 +17,21 @@
 		<antcall target="compile.cpp"></antcall>
 	</target>
 	
+	<target name="process-config-files" depends="prepare,compile">
+		<foreach list="ga,bu,zo,meu"
+				 target="process-one-config-file"
+				 param="don-t-care"/>
+	</target>
+	
+	<target name="process-one-config-file"/>
+	
 	<target name="compile"
 			description="Compile the source files"
 			depends="prepare,compile.java,compile.jni"/>
 	
 	<target name="jar"
 			description="Create jar files for the java classes"
-			depends="compile.java"/>
+			depends="compile.java,process-config-files"/>
 			
 	<target name="test"
 			description="Run the unit tests"

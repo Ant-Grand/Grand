@@ -12,7 +12,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>0.3.1</currentVersion>
+  <currentVersion>0.4-pre</currentVersion>
   
   <!-- details about the organization that 'owns' the project -->
   <organization>

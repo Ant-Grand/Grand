@@ -39,12 +39,6 @@ import org.apache.tools.ant.BuildException;
  */
 public class GrandTaskTest extends AbstractAntTester {
 
-    private static final String BUILD_SIMPLE_SHA1 = "4fd05ee05abf302f597e925bcff29bc8f1da5031";
-
-    private static final String BUILD_OVERRIDE_SHA1 = "fbeac4ca0c4e9a7c01883d260f3b6731a12dc2e6";
-
-    private static final String BUILD_IMPORT_SHA1 = "413f951e5a6db291d751afb32841269ea06a6c07";
-
     public GrandTaskTest(String name) {
         super(name);
     }

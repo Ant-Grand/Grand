@@ -35,6 +35,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import net.ggtools.grand.Log;
+import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphImpl;
@@ -49,11 +50,20 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
+ * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
+ * objects. The nodes will be the project's target and the links will be the
+ * dependencies between targets. Beside <i>hard</i> dependencies, this producer
+ * is also able to create weaks links from dependencies introduced by the use
+ * of the <code>antcall</code> or <code>foreach</code> tasks.
+ * 
  * @author Christophe Labouisse
+ * @see <a href="http://ant-contrib.sourceforge.net/">Ant contrib tasks</a>
+ *  for the <code>foreach</code> task.
  */
 public class AntProject implements GraphProducer {
 
     private static final String ANTCALL_TASK_NAME = "antcall";
+    private static final String FOREACH_TASK_NAME = "foreach";
 
     private org.apache.tools.ant.Project antProject;
 
@@ -73,7 +83,7 @@ public class AntProject implements GraphProducer {
         antProject.setSystemProperties();
         antProject.init();
         antProject.setUserProperty("ant.file", source.getAbsolutePath());
-        
+
         ProjectHelper loader = ProjectHelper.getProjectHelper();
         antProject.addReference("ant.projectHelper", loader);
         loader.parse(antProject, source);
@@ -102,7 +112,8 @@ public class AntProject implements GraphProducer {
      * has a valid default target, the corresponding node will be the graph
      * start target.</li>
      * <li><code>depends</code> attributes on targets will be translated into
-     * links. <code>antcall</code>s will be translated in links with the
+     * links. <code>antcall</code>s or the contributed <code>foreach</code> task
+     * will be translated in links with the
      * {@link net.ggtools.grand.graph.Link#ATTR_WEAK_LINK} set.</li>
      * </ol> 
      * 
@@ -125,6 +136,7 @@ public class AntProject implements GraphProducer {
             final String targetName = target.getName();
             final Node node = graph.createNode(targetName);
 
+            // Mark nodes with a description as MAIN.
             final String targetDescription = target.getDescription();
             if ((targetDescription != null) && (!targetDescription.equals(""))) {
                 node.setAttributes(Node.ATTR_MAIN_NODE);
@@ -154,40 +166,58 @@ public class AntProject implements GraphProducer {
             final Node startNode = graph.getNode(startNodeName);
 
             while (deps.hasMoreElements()) {
-                final String depName = (String) deps.nextElement();
-                final Node endNode = graph.getNode(depName);
-
-                if (endNode == null) {
-                    Log.log("Node " + startNodeName + " has dependency to non existent node "
-                            + depName, Log.MSG_WARN);
-                } else {
-                    graph.createLink(null, startNode, endNode);
-                }
+                createLink(graph, null, startNode, (String) deps.nextElement());
             }
 
             final Task[] tasks = target.getTasks();
             for (int i = 0; i < tasks.length; i++) {
                 final Task task = tasks[i];
-                if (ANTCALL_TASK_NAME.equals(task.getTaskType())) {
-                    //if (task.getTaskType().equals(ANTCALL_TASK_NAME)) {
+                if (ANTCALL_TASK_NAME.equals(task.getTaskType()) || FOREACH_TASK_NAME.equals(task.getTaskType())) {
                     final RuntimeConfigurable wrapper = task.getRuntimeConfigurableWrapper();
                     final String called = antProject.replaceProperties((String) wrapper
                             .getAttributeMap().get("target"));
 
-                    // Ant call can call targets which won't exists at the moment
-                    // so we call a dummy target if none is available.
-                    Node calledNode = graph.getNode(called);
-                    if (calledNode == null) {
-                        Log.log("Creating dummy node for missing antcall target " + called);
-                        calledNode = graph.createNode(called);
-                    }
-                    final Link link = graph
-                            .createLink(ANTCALL_TASK_NAME, startNode, calledNode);
+                    final Link link = createLink(graph, task.getTaskType(), startNode, called);
                     link.setAttributes(Link.ATTR_WEAK_LINK);
                 }
             }
         }
 
         return graph;
+    }
+
+    /**
+     * Returns the underlying ant project.
+     * 
+     * @return underlying ant project.
+     */
+    public Project getAntProject() {
+        return antProject;
+    }
+    
+    /**
+     * Creates a new link. The end node will be created if needed with the
+     * MISSING_NODE attribute set.
+     * 
+     * @param graph owning graph
+     * @param linkName name of the created link, can be <code>null</code>.
+     * @param startNode start node of the link.
+     * @param endNodeName name of the end node.
+     * @throws DuplicateNodeException if there is already a node name <code>endNodeName</code>
+     * in the graph.
+     */
+    private Link createLink(final Graph graph, final String linkName, final Node startNode,
+            final String endNodeName) throws DuplicateNodeException {
+        Node endNode = graph.getNode(endNodeName);
+
+        if (endNode == null) {
+            Log.log("Target " + startNode + " has dependency to non existent target " + endNodeName
+                    + ", creating a dummy node", Log.MSG_WARN);
+            endNode = graph.createNode(endNodeName);
+            endNode.setAttributes(Node.ATTR_MISSING_NODE);
+        }
+
+        Log.log("Creating link from "+startNode+" to "+endNodeName,Log.MSG_VERBOSE);
+        return graph.createLink(linkName, startNode, endNode);
     }
 }

@@ -29,28 +29,40 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.tasks;
+package net.ggtools.grand.filters;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.Node;
 
 /**
- * 
+ * A filter removing the <i>missing</i> nodes, that is nodes with
+ * {@link net.ggtools.grand.graph.Node#ATTR_MISSING_NODE} set.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilter {
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphFilterTypeTest.class);
-        suite.addTestSuite(GrandTaskTest.class);
-        suite.addTestSuite(GraphFilterFactoryTest.class);
-        suite.addTestSuite(GrandTaskPropertyTest.class);
-        //$JUnit-END$
-        return suite;
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+     */
+    public Collection getFilteredNodes() throws GrandException {
+        Graph graph = getProducersGraph();
+        LinkedHashSet result = new LinkedHashSet();
+        
+        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+            Node node = (Node)iter.next();
+            
+            if (!node.hasAttributes(Node.ATTR_MISSING_NODE)) {
+                result.add(node);
+            }
+        }
+
+        return result;
     }
+
 }
