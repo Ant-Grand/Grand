@@ -29,6 +29,7 @@ package net.ggtools.grand.graph.visit;
 
 import net.ggtools.grand.ant.AntLink;
 import net.ggtools.grand.ant.AntTaskLink;
+import net.ggtools.grand.ant.SubantTaskLink;
 import net.ggtools.grand.graph.Link;
 
 /**
@@ -43,6 +44,7 @@ public interface LinkVisitor {
      */
     void visitLink(Link link);
 
+    
     /**
      * Visit an ant link.
      * 
@@ -57,4 +59,12 @@ public interface LinkVisitor {
      * @param link
      */
     void visitLink(AntTaskLink link);
+
+
+    /**
+     * Visit an ant link created by a task..
+     * 
+     * @param link
+     */
+    void visitLink(SubantTaskLink link);
 }
