@@ -145,7 +145,12 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             targetBuildFile = new File(antProject.getBaseDir(), antFile);
         }
         else {
-            targetBuildFile = new File(antProject.replaceProperties(targetBuildDirectoryName), antFile);
+            final String parentDirectoryName = antProject.replaceProperties(targetBuildDirectoryName);
+            File parentDirectory = new File(parentDirectoryName);
+            if (!parentDirectory.isAbsolute()) {
+                parentDirectory = new File(antProject.getBaseDir(),parentDirectoryName);
+            }
+            targetBuildFile = new File(parentDirectory, antFile);
         }
 
         final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
