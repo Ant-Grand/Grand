@@ -1,5 +1,14 @@
 $Id$
 
+Release 0.4:
+
+* Grand now creates the nodes missing to satisfy a dependency, use the
+  new missingnode filter to get back to the old behaviour.
+
+* Grand has a mechanism to set and use properties when processing a
+  projects.
+
+
 Release 0.3.1:
 
 * Bug: antcall crashed when the target do not exists (property defined for
