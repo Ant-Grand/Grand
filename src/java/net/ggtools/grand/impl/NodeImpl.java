@@ -36,6 +36,7 @@ import java.util.LinkedHashSet;
 
 import net.ggtools.grand.Graph;
 import net.ggtools.grand.Link;
+import net.ggtools.grand.Log;
 import net.ggtools.grand.Node;
 
 /**
@@ -56,6 +57,13 @@ public class NodeImpl extends AttributeManager implements Node {
         this.graph = graph;
         links = new LinkedHashSet();
         backLinks = new LinkedHashSet();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return name;
     }
 
     /* (non-Javadoc)
@@ -112,5 +120,21 @@ public class NodeImpl extends AttributeManager implements Node {
      */
     public void addBackLink(Link link) {
         backLinks.add(link);
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#removeLink(net.ggtools.grand.Link)
+     */
+    public void removeLink(Link link) {
+        Log.log(name+": removing link "+link,Log.MSG_DEBUG);
+        links.remove(link);
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#removeBackLink(net.ggtools.grand.Link)
+     */
+    public void removeBackLink(Link link) {
+        Log.log(name+": removing back link "+link,Log.MSG_DEBUG);
+        backLinks.remove(link);
     }
 }

@@ -86,6 +86,22 @@ public interface Node extends GraphObject {
     void addBackLink(Link link);
 
     /**
+     * Remove a link from the node. This method should be called when the link
+     * starts from the node.
+     * 
+     * @param link link to remove
+     */
+    void removeLink(Link link);
+
+    /**
+     * Remove a link from the node. This method should be called when the link
+     * ends at the node.
+     * 
+     * @param link link to remove
+     */
+    void removeBackLink(Link link);
+
+    /**
      * Returns a short description (one line of less) of the node.
      * 
      * @return description.

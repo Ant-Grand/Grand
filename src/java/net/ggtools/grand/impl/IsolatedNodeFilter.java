@@ -46,27 +46,26 @@ import net.ggtools.grand.exceptions.GrandException;
  * @author Christophe Labouisse
  */
 public class IsolatedNodeFilter implements GraphFilter {
-    
+
     GraphProducer graphProducer;
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
-        Log.log("Triggering IsolatedNodeFilter",Log.MSG_VERBOSE);
+        Log.log("Triggering IsolatedNodeFilter", Log.MSG_VERBOSE);
         Graph graph = graphProducer.getGraph();
-        
-        for (Iterator iter = graph.getNodes() ; iter.hasNext(); ) {
+
+        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
             Node node = (Node) iter.next();
 
-            // FIXME take in consideration back links for filtering.
-            if (node.getLinks().size() == 0) {
-                Log.log("Removing node "+node.getName(),Log.MSG_DEBUG);
+            if (node.getLinks().size() == 0 && node.getBackLinks().size() == 0) {
+                Log.log("IsolatedNodeFilter: Removing node " + node.getName(), Log.MSG_DEBUG);
                 // FIXME Remove the main node from the graph if necessary
                 iter.remove();
             }
         }
-        
+
         return graph;
     }
 

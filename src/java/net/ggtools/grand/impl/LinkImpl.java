@@ -61,6 +61,13 @@ public class LinkImpl extends AttributeManager implements Link {
     }
     
     /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return (name == null ? "" : name)+" ("+startNode+" -> "+endNode+")";
+    }
+    
+    /* (non-Javadoc)
      * @see net.ggtools.grand.Link#getStartNode()
      */
     public Node getStartNode() {

@@ -37,6 +37,7 @@ import java.util.Map;
 
 import net.ggtools.grand.Graph;
 import net.ggtools.grand.Link;
+import net.ggtools.grand.Log;
 import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 
@@ -46,11 +47,48 @@ import net.ggtools.grand.exceptions.DuplicateNodeException;
  * @author Christophe Labouisse
  */
 public class GraphImpl implements Graph {
+    /**
+     * An proxified iterator used for getNodes.
+     * 
+     * @author Christophe Labouisse
+     */
+    private class NodeIterator implements Iterator {
+        private Iterator underlying;
+        private Object lastNode;
+        
+        /**
+         * @param iterator
+         */
+        public NodeIterator(Iterator iterator) {
+            this.underlying = iterator;
+        }
+        /**
+         * @return
+         */
+        public boolean hasNext() {
+            return underlying.hasNext();
+        }
+        /**
+         * @return
+         */
+        public Object next() {
+            lastNode = underlying.next();
+            return lastNode;
+        }
+        /**
+         * 
+         */
+        public void remove() {
+            underlying.remove();
+            // lastNode should not be null here since remove succeed.
+            unlinkNode((Node)lastNode);
+        }
+    }
     private String name;
 
-    private Map nodeMap = new LinkedHashMap();
+    private Map nodeList = new LinkedHashMap();
 
-    private Node graphStartNode;
+    private Node startNode;
 
     /**
      * Creates a new named graph.
@@ -78,7 +116,7 @@ public class GraphImpl implements Graph {
      * @return start node
      */
     public Node getStartNode() {
-        return graphStartNode;
+        return startNode;
     }
 
     /**
@@ -87,7 +125,7 @@ public class GraphImpl implements Graph {
      * @param node
      */
     public void setStartNode(final Node node) {
-        graphStartNode = node;
+        startNode = node;
     }
 
     /**
@@ -101,10 +139,10 @@ public class GraphImpl implements Graph {
      *             if there is already a node with the same name.
      */
     public Node createNode(final String nodeName) throws DuplicateNodeException {
-        if (nodeMap.containsKey(nodeName)) { throw new DuplicateNodeException(
+        if (nodeList.containsKey(nodeName)) { throw new DuplicateNodeException(
                 "Creating two nodes named " + nodeName); }
         Node node = new NodeImpl(nodeName, this);
-        nodeMap.put(nodeName, node);
+        nodeList.put(nodeName, node);
         return node;
     }
 
@@ -136,7 +174,7 @@ public class GraphImpl implements Graph {
      * @return the node or null if not found.
      */
     public Node getNode(final String nodeName) {
-        return (Node) nodeMap.get(nodeName);
+        return (Node) nodeList.get(nodeName);
     }
 
     /**
@@ -149,7 +187,35 @@ public class GraphImpl implements Graph {
      * @return an iterator to the graph's nodes.
      */
     public Iterator getNodes() {
-        return nodeMap.values().iterator();
+        return new NodeIterator(nodeList.values().iterator());
+    }
+    
+    /**
+     * Remove all links starting from or ending to the node.
+     * This method do not remove the node from nodeList.
+     *  
+     * @param node node to remove from the links.
+     */
+    protected void unlinkNode(Node node) {
+        Log.log("Unlinking node "+node,Log.MSG_DEBUG);
+        
+        for (Iterator iter = node.getLinks().iterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            iter.remove();
+            Node endNode = link.getEndNode();
+            endNode.removeBackLink(link);
+        }
+        
+        for (Iterator iter = node.getBackLinks().iterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            iter.remove();
+            Node startNode = link.getStartNode();
+            startNode.removeLink(link);
+        }
+        
+        if (node == startNode) {
+            startNode = null;
+        }
     }
 
     /*

@@ -45,6 +45,7 @@ import net.ggtools.grand.Graph;
 import net.ggtools.grand.GraphProducer;
 import net.ggtools.grand.GraphWriter;
 import net.ggtools.grand.Link;
+import net.ggtools.grand.Log;
 import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.GrandException;
 
@@ -209,6 +210,7 @@ public class DotWriter implements GraphWriter {
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.File)
      */
     public void write(File output) throws IOException, GrandException {
+        Log.log("Outputing to "+output);
         FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();

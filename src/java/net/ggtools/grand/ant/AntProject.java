@@ -107,6 +107,9 @@ public class AntProject implements GraphProducer {
 
         for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
             final Target target = (Target) iter.next();
+            if (target.getName().equals("")) {
+                continue;
+            }
 
             final String targetName = target.getName();
             final Node node = graph.createNode(targetName);
@@ -124,6 +127,10 @@ public class AntProject implements GraphProducer {
 
         for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
             final Target target = (Target) iter.next();
+            if (target.getName().equals("")) {
+                continue;
+            }
+
             final Enumeration deps = target.getDependencies();
             final String startNodeName = target.getName();
             final Node startNode = graph.getNode(startNodeName);
