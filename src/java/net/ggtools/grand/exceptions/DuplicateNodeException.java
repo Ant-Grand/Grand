@@ -40,6 +40,11 @@ package net.ggtools.grand.exceptions;
 public class DuplicateNodeException extends GrandException {
     
     /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -6223346009226211820L;
+
+    /**
      * Creates a new exception.
      */
     public DuplicateNodeException() {
