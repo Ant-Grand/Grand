@@ -55,6 +55,7 @@ public class AllTests
         suite.addTestSuite(ToNodeFilterTest.class);
         suite.addTestSuite(MissingNodeFilterTest.class);
         suite.addTestSuite(AbstractGraphFilterTest.class);
+        suite.addTestSuite(FilterChainTest.class);
         //$JUnit-END$
         return suite;
     }
