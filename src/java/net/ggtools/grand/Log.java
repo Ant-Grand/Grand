@@ -31,8 +31,8 @@
 
 package net.ggtools.grand;
 
-import java.io.PrintStream;
-import java.lang.ref.WeakReference;
+import net.ggtools.grand.log.Logger;
+import net.ggtools.grand.log.SimpleLogger;
 
 import org.apache.tools.ant.Project;
 
@@ -58,12 +58,8 @@ public final class Log {
 
     /** Message priority of "debug". */
     public static final int MSG_DEBUG = Project.MSG_DEBUG;
-
-    private static PrintStream logStream = System.out;
-
-    private static WeakReference projectRef;
-
-    private static int logLevel = MSG_INFO;
+    
+    private static Logger logger = new SimpleLogger();
 
     /**
      * Private constructor since this class should not but
@@ -89,40 +85,17 @@ public final class Log {
      * @param msgLevel The priority level to log at.
      */
     public static void log(final String message, final int msgLevel) {
-        Project project = null;
-
-        if (projectRef != null) {
-            project = (Project) projectRef.get();
-        }
-
-        if (project == null) {
-            if (msgLevel <= logLevel) {
-                logStream.println(message);
-            }
-        } else {
-            project.log(message, msgLevel);
-        }
-    }
-
-    /**
-     * Sets the project to log to.
-     * @param project project to use for ant logging
-     */
-    public static void setProject(final Project project) {
-        projectRef = new WeakReference(project);
+        logger.log(message,msgLevel);
     }
 
     /**
      * @param level The logLevel to set.
      */
     public static void setLogLevel(final int level) {
-        Log.logLevel = level;
+        logger.setLogLevel(level);
     }
-
-    /**
-     * @param stream The logStream to set.
-     */
-    public static void setLogStream(final PrintStream stream) {
-        Log.logStream = stream;
+    
+    public static void setLogger(final Logger newLogger) {
+        logger = newLogger;
     }
 }
