@@ -1,5 +1,11 @@
 $Id$
 
+Release 1.2:
+
+* Internal changes allowing to gather more information on targets,
+* First release of a GUI based on Grand.
+
+
 Release 1.1:
 
 * Compile with Ant 1.6.1 rather than 1.6,
