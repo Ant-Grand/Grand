@@ -46,18 +46,16 @@ public class ConnectedNodesFinder implements LinkFinder {
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
     public Collection getLinks(Node node) {
-        Collection links = node.getBackLinks();
-        
         LinkedHashSet result = new LinkedHashSet();
         
-        for (Iterator iter = links.iterator(); iter.hasNext(); ) {
-            Link link = (Link) iter.next();
-            result.add(link.getEndNode());
-        }
-        
-        for (Iterator iter = links.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = node.getBackLinks().iterator(); iter.hasNext(); ) {
             Link link = (Link) iter.next();
             result.add(link.getStartNode());
+        }
+        
+        for (Iterator iter = node.getLinks().iterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            result.add(link.getEndNode());
         }
         
         return result;
