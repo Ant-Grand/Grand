@@ -1,6 +1,6 @@
 $Id$
 
-Release 1.7 (build number 90):
+Release 1.7 (build number 91):
 
 * Fixed an exception when parsing a file with a <taskdef> outside of a target,
 * Added a new filter type: removenode.
