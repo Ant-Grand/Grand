@@ -90,7 +90,7 @@ public class GraphImpl implements Graph {
 
     private Map nodeList = new LinkedHashMap();
 
-    private Node startNode;
+    private Node graphStartNode;
 
     /**
      * Creates a new named graph.
@@ -118,7 +118,7 @@ public class GraphImpl implements Graph {
      * @return start node
      */
     public Node getStartNode() {
-        return startNode;
+        return graphStartNode;
     }
 
     /**
@@ -127,7 +127,7 @@ public class GraphImpl implements Graph {
      * @param node to be marked as the starting node of the graph.
      */
     public void setStartNode(final Node node) {
-        startNode = node;
+        graphStartNode = node;
     }
 
     /**
@@ -155,7 +155,7 @@ public class GraphImpl implements Graph {
      * 
      * @param linkName
      *            the new link name, can be <code>null</code>
-     * @param startNode
+     * @param graphStartNode
      *            start node
      * @param endNode
      *            end node
@@ -221,8 +221,8 @@ public class GraphImpl implements Graph {
             startNode.removeLink(link);
         }
 
-        if (node == startNode) {
-            startNode = null;
+        if (node == graphStartNode) {
+            graphStartNode = null;
         }
     }
 
