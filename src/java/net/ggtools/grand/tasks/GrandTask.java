@@ -70,17 +70,17 @@ public class GrandTask extends Task {
 
     private File output;
 
-    private File propertyFile;
-    
+    private File outputConfigurationFile;
+
     /** the sets of properties to pass to the graphed project */
     private ArrayList propertySets = new ArrayList();
-    
+
     private LinkedList filters = new LinkedList();
 
     private boolean showGraphName = false;
-    
+
     private boolean inheritAll = false;
-    
+
     private List properties = new LinkedList();
 
     /**
@@ -93,7 +93,7 @@ public class GrandTask extends Task {
             log(message, Project.MSG_ERR);
             throw new BuildException(message);
         }
-        
+
         for (Iterator iter = filters.iterator(); iter.hasNext(); ) {
             FilterType filter = (FilterType) iter.next();
             filter.checkParameters();
@@ -107,34 +107,34 @@ public class GrandTask extends Task {
         checkParams();
 
         final GraphProducer graphProject = initAntProject();
-        
-        log("Done loading project ",Project.MSG_VERBOSE);
-        
+
+        log("Done loading project ", Project.MSG_VERBOSE);
+
         log("Setting up filter chain");
         GraphProducer producer = graphProject;
         int numFilters = 0;
-        
+
         for (Iterator iter = filters.iterator(); iter.hasNext(); ) {
             FilterType f = (FilterType) iter.next();
-            log("Adding filter "+f.getFilterName(),Project.MSG_VERBOSE);
+            log("Adding filter " + f.getFilterName(), Project.MSG_VERBOSE);
             GraphFilter filter = f.getFilter();
             filter.setProducer(producer);
             producer = filter;
             numFilters++;
         }
-        
+
         if (numFilters > 0) {
-            log("Loaded "+numFilters+(numFilters > 1 ? " filters":" filter"));
+            log("Loaded " + numFilters + (numFilters > 1 ? " filters" : " filter"));
         }
-        
+
         try {
             Properties override = null;
-            if (propertyFile != null) {
-                log("Overriding default properties from " + propertyFile);
+            if (outputConfigurationFile != null) {
+                log("Overriding default properties from " + outputConfigurationFile);
                 override = new Properties();
-                override.load(new FileInputStream(propertyFile));
+                override.load(new FileInputStream(outputConfigurationFile));
             }
-            
+
             GraphWriter writer = new DotWriter(override);
             writer.setProducer(producer);
             writer.setShowGraphName(showGraphName);
@@ -157,9 +157,9 @@ public class GrandTask extends Task {
      * @return an intialized GraphProducer.
      */
     private GraphProducer initAntProject() {
-        
+
         Project antProject;
-        
+
         if (buildFile == null) {
             // Working with current project
             log("Using current project");
@@ -167,15 +167,15 @@ public class GrandTask extends Task {
         } else {
             // Open a new project.
             log("Loading project " + buildFile);
-            
+
             antProject = loadNewProject();
         }
 
         for (Iterator iter = propertySets.iterator(); iter.hasNext(); ) {
             PropertySet ps = (PropertySet) iter.next();
-            addAlmostAll(antProject,ps.getProperties());
+            addAlmostAll(antProject, ps.getProperties());
         }
-        
+
         if (properties.size() > 0) {
             for (Iterator iter = properties.iterator(); iter.hasNext(); ) {
                 Property prop = (Property) iter.next();
@@ -184,7 +184,7 @@ public class GrandTask extends Task {
                 prop.execute();
             }
         }
-        
+
         return new AntProject(antProject);
     }
 
@@ -195,18 +195,18 @@ public class GrandTask extends Task {
      */
     private Project loadNewProject() {
         Project antProject = new Project();
-        
+
         // Set the current project listeners to the graphed project
         // in order to get some trace if we need to execute some tasks
         // in the graphed project.
         final Vector listeners = getProject().getBuildListeners();
         for (Iterator iter = listeners.iterator(); iter.hasNext(); ) {
             antProject.addBuildListener((BuildListener) iter.next());
-            
+
         }
 
         antProject.init();
-        
+
         if (!inheritAll) {
             // set Java built-in properties separately,
             // b/c we won't inherit them.
@@ -223,7 +223,7 @@ public class GrandTask extends Task {
         loader.parse(antProject, buildFile);
 
         getProject().copyUserProperties(antProject);
-        
+
         return antProject;
     }
 
@@ -235,7 +235,7 @@ public class GrandTask extends Task {
 
         Log.setProject(project);
     }
-    
+
     /**
      * Sets the buildFile.
      * 
@@ -255,17 +255,29 @@ public class GrandTask extends Task {
     }
 
     /**
-     * Set a property file to override the default configuration.
-     * @param propertyFile The propertyFile to set.
+     * Set a property file to override the output default configuration.
+     * @param outputConfigurationFile The outputConfigurationFile to set.
+     * @deprecated use {@link #setOutputConfigFile(File)}.
      */
     public void setPropertyFile(File propertyFile) {
-        this.propertyFile = propertyFile;
+        log(
+                "Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
+                Project.MSG_WARN);
+        this.outputConfigurationFile = propertyFile;
     }
-    
+
+    /**
+     * Set a property file to override the output default configuration.
+     * @param outputConfigurationFile The outputConfigurationFile to set.
+     */
+    public void setOutputConfigFile(File propertyFile) {
+        this.outputConfigurationFile = propertyFile;
+    }
+
     public void setShowGraphName(boolean show) {
         showGraphName = show;
     }
-    
+
     /**
      * If true, pass all properties to the new Ant project.
      * Defaults to true.
@@ -282,7 +294,7 @@ public class GrandTask extends Task {
     public void addFilter(FilterType filter) {
         filters.add(filter);
     }
-    
+
     /**
      * Add a new property to be passed to the graphed project.
      * 
@@ -326,5 +338,4 @@ public class GrandTask extends Task {
         }
     }
 
-    
 }

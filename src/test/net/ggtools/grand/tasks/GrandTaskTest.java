@@ -98,7 +98,7 @@ public class GrandTaskTest extends AbstractAntTester {
     }
 
     public void testOverride() throws IOException {
-        expectLogContaining("property-file", "Overriding default properties from ");
+        expectLogContaining("output-config-file", "Overriding default properties from ");
         assertLogContaining("build-simple.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/override.dot");
