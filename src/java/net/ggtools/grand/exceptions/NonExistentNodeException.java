@@ -29,28 +29,46 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.filters;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
+package net.ggtools.grand.exceptions;
 
 /**
- * 
+ * Exception raised when trying to process a non existent node.
  * 
  * @author Christophe Labouisse
  */
-public class AllTests
-{
+public class NonExistentNodeException extends GrandException {
 
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(FromNodeFilterTest.class);
-        suite.addTestSuite(IsolatedNodeFilterTest.class);
-        suite.addTestSuite(ToNodeFilterTest.class);
-        suite.addTestSuite(ConnectedToNodeFilterTest.class);
-        //$JUnit-END$
-        return suite;
+    /**
+     * 
+     */
+    public NonExistentNodeException() {
+        super();
+        // TODO Auto-generated constructor stub
     }
+
+    /**
+     * @param message
+     */
+    public NonExistentNodeException(String message) {
+        super(message);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @param cause
+     */
+    public NonExistentNodeException(Throwable cause) {
+        super(cause);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @param message
+     * @param cause
+     */
+    public NonExistentNodeException(String message, Throwable cause) {
+        super(message, cause);
+        // TODO Auto-generated constructor stub
+    }
+
 }

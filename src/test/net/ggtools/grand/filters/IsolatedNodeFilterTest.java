@@ -114,5 +114,4 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
         assertNotNull("Connected start node should not have been removed",graph.getStartNode());
     }
 
-    
 }

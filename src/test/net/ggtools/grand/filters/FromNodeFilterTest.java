@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.exceptions.NonExistentNodeException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
@@ -56,7 +57,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
                     "jmxCheck"}));
 
     /**
-     * Constructor for IsolatedNodeFilterTest.
+     * Constructor for FromNodeFilterTest.
      * @param name
      */
     public FromNodeFilterTest(String name) {
@@ -128,6 +129,20 @@ public class FromNodeFilterTest extends AbstractAntTester {
 
         assertNotNull("Start node 'build' should not have been filtered out", graph
                 .getStartNode());
+    }
+
+    /**
+     * Process the build file, trying to filter from an non existent node.
+     *
+     */
+    public void testNonExistentNode() throws Exception {
+        GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");
+        filter.setProducer(producer);
+        try {
+            Graph graph = filter.getGraph();
+            fail("Should have raised a NonExistentNode exception");
+        } catch (NonExistentNodeException e) {
+        }
     }
 
 }

@@ -34,6 +34,7 @@ package net.ggtools.grand.filters;
 import java.util.Collection;
 
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.exceptions.NonExistentNodeException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphCrawler;
 import net.ggtools.grand.graph.LinkFinder;
@@ -60,6 +61,11 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter implements Gra
     public Collection getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
         final Node fromNode = graph.getNode(startNodeName);
+        
+        if (fromNode == null) {
+            throw new NonExistentNodeException("Node "+startNodeName+" do not exist");
+        }
+        
         final GraphCrawler crawler = new GraphCrawler(graph,getLinkFinder());
         
         return crawler.crawl(fromNode);

@@ -47,18 +47,18 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * 
  * @author Christophe Labouisse
  */
-public class ToNodeFilterTest extends AbstractAntTester {
+public class ConnectedToNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
 
     private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
-            .asList(new String[]{"dist", "jar", "log4j.jar", "prejar", "chainsaw", "build",
-                    "build.jms", "jndi", "jndiCheck", "build.jmx"}));
+            .asList(new String[]{"dist", "test", "jar", "compile", "compile.java",
+                    "compile.jni", "prepare", "init"}));
 
     /**
-     * Constructor for IsolatedNodeFilterTest.
+     * Constructor for ConnectedToNodeFilterTest.
      * @param name
      */
-    public ToNodeFilterTest(String name) {
+    public ConnectedToNodeFilterTest(String name) {
         super(name);
     }
 
@@ -74,16 +74,14 @@ public class ToNodeFilterTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR + "log4j-build.xml";
+        return TESTCASES_DIR + "build-complex.xml";
     }
 
     /**
-     * Process log4j 1.2.8 build.xml and from the "build" node and check
-     * if we get what we want.
-     *
+     * Process build-complex.xml to find the nodes connected to jar. 
      */
     public void testConnectedStartNode() throws Exception {
-        GraphFilter filter = new ToNodeFilter("jndiCheck");
+        GraphFilter filter = new ConnectedToNodeFilter("jar");
         filter.setProducer(producer);
         Graph graph = filter.getGraph();
 
@@ -99,34 +97,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
         assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
                 .size(), numNodes);
 
-        assertNull("Start node 'usage' should have been filtered out", graph.getStartNode());
-    }
-
-    /**
-     * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
-     * target as default. Check if the project start node has not been filtered out.
-     *
-     */
-    public void testNotFilteredStartNode() throws Exception {
-        GraphFilter filter = new ToNodeFilter("jndiCheck");
-        filter.setProducer(producer);
-        project.setDefault("build");
-        Graph graph = filter.getGraph();
-
-        int numNodes = 0;
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            numNodes++;
-            String nodeName = ((Node) iter.next()).getName();
-
-            assertTrue("Node " + nodeName + " should have been filtered out",
-                    NODES_AFTER_FILTERING.contains(nodeName));
-        }
-
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
-
-        assertNotNull("Start node 'build' should not have been filtered out", graph
-                .getStartNode());
+        assertNotNull("Start node 'compile' should not have been filtered out", graph.getStartNode());
     }
 
     /**
@@ -134,7 +105,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testNonExistentNode() throws Exception {
-        GraphFilter filter = new ToNodeFilter("gruik-gruik-you-won't-find-me");
+        GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {
             Graph graph = filter.getGraph();
