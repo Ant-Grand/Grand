@@ -2,7 +2,7 @@ digraph "Grand complex build file" {
 graph [rankdir="LR"];
 node [fontsize="12"];
 edge [fontsize="10"];
-"compile" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold"];
+"compile" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold",comment="Compile the source files"];
 "compile" -> "prepare" [label="1"];
 "compile" -> "compile.java" [label="2"];
 "compile" -> "compile.jni" [label="3"];

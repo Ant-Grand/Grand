@@ -185,20 +185,30 @@ class DotWriterVisitor implements NodeVisitor {
 
         output.append("\"").appendEscaped(node.getName()).append("\"");
 
+        String attributes = null;
+
         if (node.hasAttributes(Node.ATTR_START_NODE)) {
-            output.append(" [").append(startNodeAttributes).append("];");
+            attributes = startNodeAttributes;
         }
         else if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
-            output.append(" [");
-            if (mainNodeAttributes != null) {
-                output.append(mainNodeAttributes).append(",");
-            }
-
-            output.append("comment=\"").appendEscaped(node.getDescription()).append("\"").append(
-                    "];");
+            attributes = mainNodeAttributes;
         }
         else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {
-            output.append(" [").append(missingNodeAttributes).append("];");
+            attributes = missingNodeAttributes;
+        }
+
+        final String description = node.getDescription();
+        if ((attributes != null) || (description != null)) {
+            output.append(" [");
+
+            if (attributes != null) output.append(attributes);
+
+            if (description != null) {
+                if (attributes != null) output.append(",");
+                output.append("comment=\"").appendEscaped(description).append("\"");
+            }
+
+            output.append("];");
         }
 
         output.newLine();

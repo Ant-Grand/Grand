@@ -2,7 +2,7 @@ digraph "grand" {
 graph [rankdir="LR",label="grand"];
 node [fontsize="12"];
 edge [fontsize="10"];
-"jar" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold"];
+"jar" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold",comment="o Create the jar"];
 "jar" -> "compile" [label="1"];
 "jar" -> "test" [label="2"];
 
