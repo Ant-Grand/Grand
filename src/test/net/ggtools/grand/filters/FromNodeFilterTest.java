@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.exceptions.NonExistentNodeException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
@@ -67,7 +68,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -84,7 +85,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * if we get what we want.
      *
      */
-    public void testConnectedStartNode() throws Exception {
+    public void testConnectedStartNode() throws GrandException {
         GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
         Graph graph = filter.getGraph();
@@ -109,7 +110,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * target as default. Check if the project start node has not been filtered out.
      *
      */
-    public void testNotFilteredStartNode() throws Exception {
+    public void testNotFilteredStartNode() throws GrandException {
         GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
         project.setDefault("build");
@@ -135,7 +136,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process the build file, trying to filter from an non existent node.
      *
      */
-    public void testNonExistentNode() throws Exception {
+    public void testNonExistentNode() throws GrandException {
         GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {

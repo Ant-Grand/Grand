@@ -54,7 +54,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    protected void setUp() {
         configureProject(getTestBuildFileName());
         project.setBasedir(TESTCASES_DIR);
     }
@@ -63,7 +63,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * (non-Javadoc)
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
         String tempFile = project.getProperty(TEMP_FILE_PROP);
 
         if (tempFile != null) {

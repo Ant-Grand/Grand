@@ -32,6 +32,7 @@
 package net.ggtools.grand.filters;
 
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.utils.AbstractAntTester;
@@ -55,7 +56,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -71,7 +72,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      * Check the full graph completness.
      *
      */
-    public void testFullGraph() throws Exception {
+    public void testFullGraph() throws GrandException {
         Graph graph = producer.getGraph();
         
         assertNotNull("Target not found",graph.getNode("init"));
@@ -86,7 +87,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      * remaining nodes. This test includes removing the project's start node.
      *
      */
-    public void testFilter() throws Exception {
+    public void testFilter() throws GrandException {
         GraphFilter filter = new MissingNodeFilter();
         filter.setProducer(producer);
         Graph graph = filter.getGraph();

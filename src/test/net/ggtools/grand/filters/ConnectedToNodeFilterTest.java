@@ -36,6 +36,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.exceptions.NonExistentNodeException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
@@ -66,7 +67,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -81,7 +82,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
     /**
      * Process build-complex.xml to find the nodes connected to jar. 
      */
-    public void testConnectedStartNode() throws Exception {
+    public void testConnectedStartNode() throws GrandException {
         GraphFilter filter = new ConnectedToNodeFilter("jar");
         filter.setProducer(producer);
         Graph graph = filter.getGraph();
@@ -106,7 +107,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * Process the build file, trying to filter from an non existent node.
      *
      */
-    public void testNonExistentNode() throws Exception {
+    public void testNonExistentNode() throws GrandException {
         GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {

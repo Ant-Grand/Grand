@@ -41,7 +41,8 @@ import junit.framework.TestSuite;
  */
 public class AllTests
 {
-
+    private AllTests() {}
+    
     public static Test suite()
     {
         TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");

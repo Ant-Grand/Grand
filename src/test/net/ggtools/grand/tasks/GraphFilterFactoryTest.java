@@ -55,7 +55,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    protected void setUp() {
         super.setUp();
         factory = new GraphFilterFactory();
     }
@@ -63,7 +63,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
     /*
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
         super.tearDown();
     }
 

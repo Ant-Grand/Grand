@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.ForwardLinkFinder;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphCrawler;
@@ -76,7 +77,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
     /*
      * @see AbstractTaskTester#setUp()
      */
-    protected void setUp() throws Exception {
+    protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -84,11 +85,11 @@ public class GraphCrawlerTest extends AbstractAntTester {
     /*
      * @see AbstractTaskTester#tearDown()
      */
-    protected void tearDown() throws Exception {
+    protected void tearDown() {
         super.tearDown();
     }
 
-    public final void testCrawl() throws Exception {
+    public final void testCrawl() throws GrandException {
         final Graph graph = producer.getGraph();
         final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());
         final Collection result = crawler.crawl(graph.getNode("build"));
