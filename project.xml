@@ -1,48 +1,31 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project>
-
-  <!-- the version of maven's project object model -->
   <pomVersion>3</pomVersion>
-  
-  <!-- a unique name for this project -->
   <id>grand</id>
-  
-  <!-- a short but descriptive name for the project -->
   <name>Grand: Graphical Representation of ANt Dependencies</name>
+  <groupId>org.ggtools.net</groupId>
   
-  <!-- The version of the project under development, e.g.
-       1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>0.4</currentVersion>
+  <currentVersion>0.9pre</currentVersion>
   
-  <!-- details about the organization that 'owns' the project -->
   <organization>
     <name>ggTools</name>
     <url>http://www.ggtools.net/</url>
   </organization>
   
-  <!-- the year the project started -->
   <inceptionYear>2004</inceptionYear>
   <package>net.ggtools.grand</package>
   <description>
-    Grand is a set of tools to create a visual representation of Ant target
+    Grand is a tool to create a visual representation of Ant target
     dependencies. It works by taking an Ant build file and creating a "dot" file.
     It differs from the existing tools by relying on the Ant API rather than XML
     parsing to get the dependencies.
   </description>
-  <!-- a short description of what the project does -->
   <shortDescription>
-  	Another ant dependencies grapher.
+    A tool to create a visual representation of Ant target dependencies. 
   </shortDescription>
 
-  <!-- the project home page -->
   <url>http://www.ggtools.net/grand/</url>
 
-  <repository/>
-
-  <!-- any mailing lists for the project -->
-  <mailingLists/>
-  
-  <!-- who the developers are for the project -->
   <developers>
   	<developer>
   		<name>Christophe Labouisse</name>
@@ -50,7 +33,6 @@
   	</developer>
   </developers>
 
-  <!-- jar files the project is dependent on -->
   <dependencies>
     <dependency>
       <groupId>ant</groupId>
@@ -64,7 +46,6 @@
     </dependency>
   </dependencies>
   
-  <!-- build information for the project -->
   <build>
     <sourceDirectory>src/java</sourceDirectory>
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>

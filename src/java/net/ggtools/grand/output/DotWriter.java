@@ -70,7 +70,6 @@ import net.ggtools.grand.graph.Node;
  * bracket.
  * 
  * @TODO The current configuration scheme sucks create something more generic.
- * @TODO Implement missing nodes.
  * 
  * @author Christophe Labouisse
  * @see <a href="http://www.research.att.com/sw/tools/graphviz/">Graphviz home page</a>
