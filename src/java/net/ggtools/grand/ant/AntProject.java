@@ -62,7 +62,8 @@ import org.apache.tools.ant.Task;
  */
 public class AntProject implements GraphProducer {
 
-    private static final String ANTCALL_TASK_NAME = "antcall";
+    private static final String ANT_TASK_NAME = "ant";
+	private static final String ANTCALL_TASK_NAME = "antcall";
 
     private static final String FOREACH_TASK_NAME = "foreach";
 
@@ -181,7 +182,37 @@ public class AntProject implements GraphProducer {
 
                     final Link link = createLink(graph, task.getTaskType(), startNode, called);
                     link.setAttributes(Link.ATTR_WEAK_LINK);
-                }
+                } else if (ANT_TASK_NAME.equals(task.getTaskName())) {
+                	final RuntimeConfigurable wrapper = task
+							.getRuntimeConfigurableWrapper();
+					final String called = "["
+							+ antProject.replaceProperties((String) wrapper
+									.getAttributeMap().get("target")) + "]";
+					if (graph.getNode(called) == null) {
+						final Node endNode = graph.createNode(called);
+						StringBuffer descBuffer = new StringBuffer();
+						if (wrapper.getAttributeMap().get("dir") != null) {
+							descBuffer.append(
+									antProject
+											.replaceProperties((String) wrapper
+													.getAttributeMap().get(
+															"dir")))
+									.append("/");
+						}
+						if (wrapper.getAttributeMap().get("antfile") != null) {
+							descBuffer.append(antProject
+									.replaceProperties((String) wrapper
+											.getAttributeMap().get("antfile")));
+						} else {
+							descBuffer.append("build.xml");
+						}
+						endNode.setDescription(descBuffer.toString());
+						endNode.setAttributes(Node.ATTR_MISSING_NODE);
+					}
+					final Link link = createLink(graph, task.getTaskType(),
+							startNode, called);
+					link.setAttributes(Link.ATTR_WEAK_LINK);
+				}
             }
         }
 
@@ -189,26 +220,31 @@ public class AntProject implements GraphProducer {
     }
 
     /**
-     * Returns the underlying ant project.
-     * 
-     * @return underlying ant project.
-     */
+	 * Returns the underlying ant project.
+	 * 
+	 * @return underlying ant project.
+	 */
     public Project getAntProject() {
         return antProject;
     }
 
     /**
-     * Creates a new link. The end node will be created if needed with the
-     * MISSING_NODE attribute set.
-     * 
-     * @param graph owning graph
-     * @param linkName name of the created link, can be <code>null</code>.
-     * @param startNode start node of the link.
-     * @param endNodeName name of the end node.
-     * @return a new link.
-     * @throws DuplicateNodeException if there is already a node name <code>endNodeName</code>
-     * in the graph.
-     */
+	 * Creates a new link. The end node will be created if needed with the
+	 * MISSING_NODE attribute set.
+	 * 
+	 * @param graph
+	 *            owning graph
+	 * @param linkName
+	 *            name of the created link, can be <code>null</code>.
+	 * @param startNode
+	 *            start node of the link.
+	 * @param endNodeName
+	 *            name of the end node.
+	 * @return a new link.
+	 * @throws DuplicateNodeException
+	 *             if there is already a node name <code>endNodeName</code> in
+	 *             the graph.
+	 */
     private Link createLink(final Graph graph, final String linkName, final Node startNode,
             final String endNodeName) throws DuplicateNodeException {
         Node endNode = graph.getNode(endNodeName);
