@@ -85,7 +85,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 Log.log("Caught Security exception looking for" + methodName + ": "
                         + e.getMessage(), Log.MSG_WARN);
             } catch (NoSuchMethodException e) {
-                Log.log("Cannot find method " + methodName);
+                Log.log("Cannot find method " + methodName, Log.MSG_VERBOSE);
             }
         }
 
