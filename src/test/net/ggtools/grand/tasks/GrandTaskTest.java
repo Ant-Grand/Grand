@@ -26,11 +26,9 @@
 
 package net.ggtools.grand.tasks;
 
-import java.io.File;
 import java.io.IOException;
 
-import net.ggtools.grand.utils.*;
-import net.ggtools.grand.utils.FileComparator;
+import net.ggtools.grand.utils.AbstractAntTester;
 
 import org.apache.tools.ant.BuildException;
 
@@ -51,24 +49,6 @@ public class GrandTaskTest extends AbstractAntTester {
         super(name);
     }
 
-    /**
-     * @param expectedDigest
-     * @throws NoSuchAlgorithmException
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    protected void assertTempFileMatchExpected(String reference) throws IOException {
-        final String tempFileProp = project.getProperty(TEMP_FILE_PROP);
-        assertNotNull("temp.file property", tempFileProp);
-        File tempFile = new File(tempFileProp);
-
-        File referenceFile = new File(reference);
-
-        FileComparator comparator = new FileComparator(referenceFile, tempFile);
-        comparator.assertLinesMatch();
-    }
-    
-    
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
@@ -125,35 +105,35 @@ public class GrandTaskTest extends AbstractAntTester {
 
     public void testOverride() throws IOException {
         expectLogContaining("property-file", "Overriding default properties from ");
-        assertLogContaining("src/etc/testcases/build-simple.xml");
+        assertLogContaining("build-simple.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/override.dot");
     }
 
     public void testSimpleBuild() throws IOException {
         expectLogContaining("simple-build", "Loading project ");
-        assertLogContaining("src/etc/testcases/build-simple.xml");
+        assertLogContaining("build-simple.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/build-simple.dot");
     }
 
     public void testImport() throws IOException {
         expectLogContaining("import", "Loading project ");
-        assertLogContaining("src/etc/testcases/build-import.xml");
+        assertLogContaining("build-import.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/build-import.dot");
     }
 
     public void testAntCall() throws IOException {
         expectLogContaining("antcall", "Loading project ");
-        assertLogContaining("src/etc/testcases/build-complex.xml");
+        assertLogContaining("build-complex.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/build-complex.dot");
     }
 
     public void testNonExistentDefaultTarget() {
         expectLogContaining("non-existent-default-target", "Loading project ");
-        assertLogContaining("src/etc/testcases/non-existent-default-target.xml");
+        assertLogContaining("non-existent-default-target.xml");
     }
 
 }

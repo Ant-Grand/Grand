@@ -32,6 +32,7 @@
 package net.ggtools.grand.utils;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.tools.ant.BuildFileTest;
 
@@ -77,4 +78,41 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * @return the full or relative path to the build file.
      */
     protected abstract String getTestBuildFileName();
+    
+    /**
+     * Compares the temporary file with a reference file.
+     * 
+     * @param reference
+     * @throws IOException
+     */
+    protected void assertTempFileMatchExpected(String reference) throws IOException {
+        final String tempFileProp = project.getProperty(TEMP_FILE_PROP);
+        assertNotNull("temp.file property", tempFileProp);
+        File tempFile = new File(tempFileProp);
+
+        File referenceFile = new File(reference);
+
+        FileComparator comparator = new FileComparator(referenceFile, tempFile);
+        comparator.assertLinesMatch();
+    }
+    
+    
+    protected void assertFullLogContaining(String substring) {
+        String realLog = getFullLog();
+        assertTrue("expecting full log to contain \"" + substring + "\" full log was \""
+                + realLog + "\"",
+                realLog.indexOf(substring) >= 0);
+    }
+    
+    /**
+     * Assert that the given message has been logged 
+     * when running the given target.
+     */
+    protected void expectFullLogContaining(String target, String log) {
+        executeTarget(target);
+        assertFullLogContaining(log);
+    }
+
+    
+    
 }

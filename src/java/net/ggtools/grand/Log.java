@@ -41,6 +41,7 @@ import org.apache.tools.ant.Project;
  * facility implementation working with or without an Ant project set up.
  * 
  * @author Christophe Labouisse
+ * @todo Add a task reference for cleaner logging.
  */
 public class Log {
     /** Message priority of "error". */

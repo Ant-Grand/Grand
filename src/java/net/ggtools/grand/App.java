@@ -36,6 +36,10 @@ import java.io.IOException;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.filters.FromNodeFilter;
+import net.ggtools.grand.filters.GraphFilter;
+import net.ggtools.grand.filters.IsolatedNodeFilter;
+import net.ggtools.grand.filters.ToNodeFilter;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.GraphWriter;
 import net.ggtools.grand.output.DotWriter;
@@ -97,11 +101,12 @@ public final class App {
     private void run(final String output) throws IOException, GrandException {
         GraphProducer producer = new AntProject(buildFile);
         GraphWriter writer = new DotWriter();
-        //GraphFilter filter = new IsolatedNodeFilter();
-        //GraphFilter filter1 = new FromNodeFilter("build");
-        //GraphFilter filter2 = new ToNodeFilter("jndi");
-        //filter1.setProducer(producer);
-        //filter2.setProducer(filter1);
+        GraphFilter filter = new IsolatedNodeFilter();
+        //filter.setProducer(producer);
+        GraphFilter filter1 = new FromNodeFilter("dist");
+        GraphFilter filter2 = new ToNodeFilter("prepare");
+        filter1.setProducer(producer);
+        filter2.setProducer(filter1);
         writer.setProducer(producer);
         writer.write(new File(output));
     }
