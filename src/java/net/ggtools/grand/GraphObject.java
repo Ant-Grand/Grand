@@ -31,36 +31,23 @@
 
 package net.ggtools.grand;
 
-import java.util.Iterator;
-
 /**
- * Interface for projects.
+ * Base for objects populating graphs.
  * 
  * @author Christophe Labouisse
  */
-public interface Project {
+public interface GraphObject {
     
     /**
-     * Returns the project's name.
-     * @return name
+     * Gets the owner graph of the object.
+     * @return
+     */
+    Graph getGraph();
+    
+    /**
+     * Gets the object's name.
+     * @return
      */
     String getName();
-    
-    /**
-     * Returns the nodes contained in the project. The nodes can be accessed
-     * throught an Iterator. This Iterator won't have to implement the
-     * <code>remove</code> method.
-     * 
-     * @return iterator to the nodes.
-     */
-    Iterator getNodes();
-    
-    /**
-     * Returns the project's first node. The definition of the <i>first node</i> depends
-     * on the system. In Ant it'll be the default target.
-     * 
-     * @return the first/default node or null if no such node exists.
-     */
-    Node getStartNode();
 
 }

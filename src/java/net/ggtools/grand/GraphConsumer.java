@@ -31,33 +31,16 @@
 
 package net.ggtools.grand;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import net.ggtools.grand.exceptions.GrandException;
-
 /**
- * Interface for graph writers.
+ * Interface for classes using graphs.
  * 
  * @author Christophe Labouisse
  */
-public interface GraphWriter extends GraphConsumer {
+public interface GraphConsumer {
+
     /**
-     * Write a project's graph to a file.
-     * 
-     * @param output file to write the graph to.
-     * @throws IOException if the file cannot be written.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * Set the graph producer. Such a producer will be called whenever the
+     * consumer needs a graph.
      */
-    void write(File output) throws GrandException, IOException;
-    
-    /**
-     * Write a project's graph to a stream.
-     * @param stream The stream to write to.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
-     */
-    void write(OutputStream stream) throws GrandException;
+    void setProducer(GraphProducer producer);
 }

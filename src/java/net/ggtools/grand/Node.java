@@ -28,42 +28,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package net.ggtools.grand;
 
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * Interface implementated by nodes populating the graph.
  * 
  * @author Christophe Labouisse
  */
-public interface Node {
+public interface Node extends GraphObject {
+    //TODO should I use a class for this ?
     
     /**
-     * Return the nodes upon which the current node depends.
-     * 
-     * The returned iterator won't have to support the <code>remove</code>
-     * method.
-     * 
-     * @return iterator to the nodes.
+     * Attribute bit to be set on <i>main</i> nodes. The definition
+     * of a main node depends on the graph's source. For Ant a main
+     * node will be a target with a description attribute.
      */
-    Iterator getDependencies();
+    int ATTR_MAIN_NODE = 1 << 0;
     
     /**
-     * Returns node dependencies as an array.
+     * Returns the node's links. The implementing class should insure that the
+     * returned list only contains objects implementing the Link interface.
      * 
-     * @return dependencies
+     * The returned list may throw an {@link UnsupportedOperationException}on
+     * modification operations.
+     * 
+     * @return list of links.
      */
-    Node [] getDependenciesArray();
+    List getLinks();
 
     /**
-     * Returns the node name.
+     * Add a link to the node. This method should be called when the link
+     * starts from the node. The implementations should preserve the order in
+     * which the nodes were added.
      * 
-     * @return name 
+     * @param link
      */
-    String getName();
-    
+    void addLink(Link link);
+
     /**
      * Returns a short description (one line of less) of the node.
      * 
@@ -72,16 +75,47 @@ public interface Node {
     String getDescription();
     
     /**
-     * Tells wether or not the node is a main node. The definition of a main
-     * node depends on the underlying system but it is generaly a node of special
-     * importance (not necessary the start node). In Ant, for example, special
-     * nodes will be main targets (targets with a description attribute, meaned to 
-     * be user visible).
+     * Sets the node description.
      * 
-     * When a system has no target of special importance, this method should always
-     * return <code>true</code>. 
-     * 
-     * @return true if the node is a main node.
+     * @param description
      */
-    boolean isMainNode();
+    void setDescription(String description);
+
+    /**
+     * Sets one attribute for the node. The attribute parameter
+     * should be one of the ATTR_* constants.
+     * 
+     * @param attribute
+     */
+    void setAttribute(int attribute);
+    
+    /**
+     * Unsets one attribute for the node. The attribute parameter
+     * should be one of the ATTR_* constants.
+     * 
+     * @param attribute
+     */
+    void unsetAttribute(int attribute);
+    
+    /**
+     * Sets all the attributes of the node.
+     * 
+     * @param attributes
+     */
+    void setAttributes(int attributes);
+    
+    /**
+     * Returns true if the specified attribute is set.
+     * 
+     * @param attribute attribute from the ATTR_* constants
+     * @return true is the attribute is set
+     */
+    boolean hasAttribute(int attribute);
+    
+    /**
+     * Returns all the attributes of the node.
+     * @return
+     */
+    int getAttributes();
+
 }

@@ -31,71 +31,66 @@
 
 package net.ggtools.grand;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.ref.WeakReference;
 
-import junit.framework.Assert;
+import org.apache.tools.ant.Project;
 
 /**
- * Utility class to compare two files.
+ * Poor man's Apache commons logging. This class provides a generic logging
+ * facility implementation working with or without an Ant project set up.
  * 
  * @author Christophe Labouisse
  */
-public class FileComparator extends Assert {
-
-    private File source;
-    private File dest;
-
-    /**
-     * Creates a new file comparator.
-     * 
-     * @param source
-     * @param dest
-     */
-    public FileComparator(File source, File dest) {
-        this.source = source;
-        this.dest = dest;
-    }
+public class Log {
+    
+    private static PrintStream logStream = System.out;
+    private static WeakReference projectRef;
+    private static int logLevel = Project.MSG_INFO;
     
     /**
-     * Asserts that both files have the same length.
+     * Private constructor since this class should not but
+     * instanciated.
+     *
      */
-    public void assertSizesMatch() {
-        assertEquals("Sizes do not match",source.length(),dest.length());
-    }
-    
+    private Log() {}
+
     /**
-     * Asserts that both files match line for line. This method also assert
-     * the both files have the same length.
-     * 
-     * @throws IOException
+     * Writes a message to the log with the default log level
+     * of MSG_INFO
+     * @param message The text to log. Should not be <code>null</code>.
      */
-    public void assertLinesMatch() throws IOException {
-        assertSizesMatch();
+
+    public static void log(String message) {
+        log(message, Project.MSG_INFO);
+    }
+
+    /**
+     * Writes a project level message to the log with the given log level.
+     * @param message The text to log. Should not be <code>null</code>.
+     * @param msgLevel The priority level to log at.
+     */
+    public static void log(String message, int msgLevel) {
+        Project project = null;
         
-        BufferedReader sourceReader = new BufferedReader(new FileReader(source));
-        BufferedReader destReader = new BufferedReader(new FileReader(dest));
+        if (projectRef != null) {
+            project = (Project)projectRef.get();
+        }
         
-        int line = 0;
-        
-        while (true) {
-            String srcLine = sourceReader.readLine();
-            String dstLine = destReader.readLine();
-            line++;
-            
-            // End reached, files match.
-            if ((srcLine == null) && (dstLine == null)) {
-                break;
+        if (project == null) {
+            if (msgLevel <= logLevel) {
+                logStream.println(message);
             }
-            
-            // Since both files have the same length and are identical
-            // so far, it should not happend.
-            assert ((srcLine != null) && (dstLine != null));
-            
-            assertEquals("Files differ on line "+line,srcLine,dstLine);
+        } else {
+            project.log(message,msgLevel);
         }
     }
     
+    /**
+     * Sets the project to log to.
+     * @param project
+     */
+    public static void setProject(Project project) {
+        projectRef = new WeakReference(project);
+    }
 }

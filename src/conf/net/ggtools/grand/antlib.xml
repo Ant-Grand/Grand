@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!-- Ant lib for Grand -->
+<!-- $Id$ -->
+<antlib>
+	<taskdef name="grand" classname="net.ggtools.grand.tasks.GrandTask"/>
+</antlib>

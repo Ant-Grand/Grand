@@ -12,7 +12,7 @@
   
   <!-- The version of the project under development, e.g.
        1.1, 1.2, 2.0-SNAPSHOT -->
-  <currentVersion>0.1</currentVersion>
+  <currentVersion>0.2</currentVersion>
   
   <!-- details about the organization that 'owns' the project -->
   <organization>
@@ -79,6 +79,7 @@
         <directory>src/conf</directory>
         <includes>
           <include>**/*.properties</include>
+          <include>**/*.xml</include>
         </includes>
       </resource>
     </resources>

@@ -31,33 +31,25 @@
 
 package net.ggtools.grand;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import net.ggtools.grand.exceptions.GrandException;
-
 /**
- * Interface for graph writers.
+ * Interface for class representing links. A link is an object connecting
+ * exactly two Nodes: the start node and the end node.
  * 
  * @author Christophe Labouisse
  */
-public interface GraphWriter extends GraphConsumer {
+public interface Link extends GraphObject {
+
     /**
-     * Write a project's graph to a file.
+     * Return the node located at the start of the link.
      * 
-     * @param output file to write the graph to.
-     * @throws IOException if the file cannot be written.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * @return
      */
-    void write(File output) throws GrandException, IOException;
+    Node getStartNode();
     
     /**
-     * Write a project's graph to a stream.
-     * @param stream The stream to write to.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * Return the node located at the end of the link.
+     * 
+     * @return
      */
-    void write(OutputStream stream) throws GrandException;
+    Node getEndNode();
 }

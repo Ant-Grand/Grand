@@ -42,26 +42,28 @@ import java.util.Properties;
  * @author Christophe Labouisse
  */
 public class Configuration {
-    
+
     private static Object defaultPropertiesMonitor = new Object();
+
     private static Properties defaultProperties;
-    
+
+    private static Configuration defaultConfiguration;
+
     private final Properties properties;
 
     /**
-     * Creates a new configuration.
-     * The new object's get methods will return values from the supplied
-     * properties if the demanded key exists or from the default properties
-     * in other case. 
+     * Creates a new configuration. The new object's get methods will return
+     * values from the supplied properties if the demanded key exists or from
+     * the default properties in other case.
      * 
-     * @param override properties to override in the default configuration. 
+     * @param override
+     *            properties to override in the default configuration.
      */
-    protected Configuration(Properties override) {
+    protected Configuration(final Properties override) {
         if (override != null) {
             properties = new Properties(defaultProperties);
             properties.putAll(override);
-        }
-        else {
+        } else {
             properties = defaultProperties;
         }
     }
@@ -70,52 +72,60 @@ public class Configuration {
      * Get a configuration with the default values.
      * 
      * @return new configuration
-     * @throws IOException
+     * @throws IOException if the default properties were not loadable.
      */
     public static Configuration getConfiguration() throws IOException {
-        // TODO: always return the same object ?
-        return getConfiguration((Properties)null);
+        if (defaultConfiguration == null) {
+            defaultConfiguration = getConfiguration((Properties) null);
+        }
+
+        return defaultConfiguration;
     }
-    
+
     /**
      * Returns an new configuration overriding some parameters from a file.
      * 
-     * @param propFile override file
+     * @param propFile
+     *            override file
      * @return new configuration
-     * @throws IOException
+     * @throws IOException if the default properties were not loadable.
      */
-    public static Configuration getConfiguration(File propFile) throws IOException {
+    public static Configuration getConfiguration(final File propFile)
+            throws IOException {
         Properties override = new Properties();
         override.load(new FileInputStream(propFile));
         return getConfiguration(override);
     }
-    
+
     /**
      * Returns a new configuration overriding some parameters.
      * 
-     * @param override the properties to override.
+     * @param override
+     *            the properties to override.
      * @return new configuration
-     * @throws IOException
+     * @throws IOException if the default properties were not loadable.
      */
-    public static Configuration getConfiguration(Properties override) throws IOException {
-        synchronized(defaultPropertiesMonitor) {
+    public static Configuration getConfiguration(final Properties override)
+            throws IOException {
+        synchronized (defaultPropertiesMonitor) {
             if (defaultProperties == null) {
                 defaultProperties = new Properties();
-                    defaultProperties.load(DotWriter.class
-                            .getResourceAsStream("Default.properties"));
+                defaultProperties.load(Configuration.class
+                        .getResourceAsStream("Default.properties"));
             }
         }
-        
+
         return new Configuration(override);
     }
-    
+
     /**
      * Get a parameter as a String.
      * 
-     * @param key parameter to look for.
+     * @param key
+     *            parameter to look for.
      * @return parameter value.
      */
-    public String get(String key) {
+    public final String get(final String key) {
         return properties.getProperty(key);
     }
 }

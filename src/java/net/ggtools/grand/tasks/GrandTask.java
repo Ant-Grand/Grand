@@ -29,14 +29,19 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.tasks;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import net.ggtools.grand.GraphProducer;
+import net.ggtools.grand.GraphWriter;
+import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.AntProject;
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.output.DotWriter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -51,10 +56,12 @@ import org.apache.tools.ant.Task;
  */
 public class GrandTask extends Task {
 
-    File buildFile;
-    File output;
-    File propertyFile;
-    
+    private File buildFile;
+
+    private File output;
+
+    private File propertyFile;
+
     /**
      * Check the parameters validity before execution.
      * 
@@ -62,43 +69,47 @@ public class GrandTask extends Task {
     private void checkParams() {
         if (output == null) {
             final String message = "Required attribute missing";
-            log(message,Project.MSG_ERR);
+            log(message, Project.MSG_ERR);
             throw new BuildException(message);
         }
     }
-    
+
     /* (non-Javadoc)
      * @see org.apache.tools.ant.Task#execute()
      */
     public void execute() throws BuildException {
         checkParams();
-        
-        net.ggtools.grand.Project graphProject;
-        
+
+        GraphProducer graphProject;
+
         if (buildFile == null) {
             // Working with current project
             log("Using current project");
             graphProject = new AntProject(getProject());
         } else {
             // Open a new project
-            log("Loading project "+buildFile);
+            log("Loading project " + buildFile);
             graphProject = new AntProject(buildFile);
         }
 
         try {
             Properties override = null;
             if (propertyFile != null) {
-                log("Overriding default properties from "+propertyFile);
+                log("Overriding default properties from " + propertyFile);
                 override = new Properties();
                 override.load(new FileInputStream(propertyFile));
             }
-            GraphWriter writer = new DotWriter(graphProject,override);
+            GraphWriter writer = new DotWriter(override);
+            writer.setProducer(graphProject);
 
-            log("Writing output to "+output);
+            log("Writing output to " + output);
             writer.write(output);
         } catch (IOException e) {
-            log("Cannot write graph",Project.MSG_ERR);
-            throw new BuildException("Cannot write graph",e);
+            log("Cannot write graph", Project.MSG_ERR);
+            throw new BuildException("Cannot write graph", e);
+        } catch (GrandException e) {
+            log("Cannot process graph", Project.MSG_ERR);
+            throw new BuildException("Cannot write graph", e);
         }
     }
 
@@ -110,8 +121,7 @@ public class GrandTask extends Task {
     public void setBuildFile(File file) {
         buildFile = file;
     }
-    
-    
+
     /**
      * Sets the output file.
      * 
@@ -120,12 +130,21 @@ public class GrandTask extends Task {
     public void setOutput(File file) {
         output = file;
     }
-    
+
     /**
      * Set a property file to override the default configuration.
      * @param propertyFile The propertyFile to set.
      */
     public void setPropertyFile(File propertyFile) {
         this.propertyFile = propertyFile;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
+     */
+    public void setProject(Project project) {
+        super.setProject(project);
+
+        Log.setProject(project);
     }
 }

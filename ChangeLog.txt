@@ -1,0 +1,18 @@
+$Id$
+
+Release 0.2:
+
+* Prefered method to load classes is now Ant lib since it
+  allow to define both task and type in the same file.
+
+* Internal refactoring to prepare for filtering.
+
+
+Release 0.1.1:
+
+* Fix a mave compilation problem..
+
+
+Release 0.1:
+
+* First release.

@@ -29,35 +29,63 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.Graph;
+import net.ggtools.grand.Link;
+import net.ggtools.grand.Node;
 
 /**
- * Interface for graph writers.
+ * 
  * 
  * @author Christophe Labouisse
  */
-public interface GraphWriter extends GraphConsumer {
-    /**
-     * Write a project's graph to a file.
-     * 
-     * @param output file to write the graph to.
-     * @throws IOException if the file cannot be written.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
-     */
-    void write(File output) throws GrandException, IOException;
+public class LinkImpl implements Link {
+
+    private Node startNode;
+    private Node endNode;
+    private Graph graph;
+    private String name;
     
     /**
-     * Write a project's graph to a stream.
-     * @param stream The stream to write to.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * Creates a new Link.
+     * 
+     * @param name
+     * @param graph
      */
-    void write(OutputStream stream) throws GrandException;
+    public LinkImpl(String name, Graph graph, Node startNode, Node endNode) {
+        this.name = name;
+        this.graph = graph;
+        this.startNode = startNode;
+        this.endNode = endNode;
+    }
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Link#getStartNode()
+     */
+    public Node getStartNode() {
+        return startNode;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Link#getEndNode()
+     */
+    public Node getEndNode() {
+        return endNode;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphObject#getGraph()
+     */
+    public Graph getGraph() {
+        return graph;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphObject#getName()
+     */
+    public String getName() {
+        return name;
+    }
+
 }

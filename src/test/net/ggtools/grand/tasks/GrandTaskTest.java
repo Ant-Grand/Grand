@@ -24,10 +24,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.tasks;
 
 import java.io.File;
 import java.io.IOException;
+
+import net.ggtools.grand.utils.FileComparator;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.BuildFileTest;
@@ -61,8 +63,7 @@ public class GrandTaskTest extends BuildFileTest {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    protected void assertTempFileMatchExpected(String reference)
-            throws IOException {
+    protected void assertTempFileMatchExpected(String reference) throws IOException {
         final String tempFileProp = project.getProperty(TEMP_FILE_PROP);
         assertNotNull("temp.file property", tempFileProp);
         File tempFile = new File(tempFileProp);
@@ -103,13 +104,28 @@ public class GrandTaskTest extends BuildFileTest {
         assertTrue("DependGraphTask suitability", suitable);
     }
 
+    /**
+     * Tests if the task.properties ressource file creates the
+     * grand test.
+     *
+     */
     public void testTaskDefinitionFile() {
-        executeTarget("init");
-        Class graphTaskClass = (Class) project.getTaskDefinitions()
-                .get("grand");
+        executeTarget("init-old");
+        Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
         assertNotNull("grand task class not found", graphTaskClass);
-        assertEquals("Wrong class found for task", GrandTask.class,
-                graphTaskClass);
+        assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
+    }
+
+    /**
+     * Test if the antlib.xml resource correctly initialize custom
+     * tasks and types.
+     *
+     */
+    public void testAntLib() {
+        executeTarget("init");
+        Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
+        assertNotNull("grand task class not found", graphTaskClass);
+        assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
     }
 
     public void testNoParam() {
@@ -123,8 +139,7 @@ public class GrandTaskTest extends BuildFileTest {
     }
 
     public void testOverride() throws Exception {
-        expectLogContaining("property-file",
-                "Overriding default properties from ");
+        expectLogContaining("property-file", "Overriding default properties from ");
         assertLogContaining("src/etc/testcases/build-simple.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/override.dot");

@@ -29,26 +29,48 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.ant;
-
-import net.ggtools.grand.Node;
-
-import org.apache.tools.ant.Target;
+package net.ggtools.grand.exceptions;
 
 /**
- * Interface implemented by classes providing a wrapping from ant target objects
- * to node objects.
+ * Exception raised when trying to create two nodes with the same name in one
+ * graph.
  * 
  * @author Christophe Labouisse
  */
-public interface AntTargetProxifier {
+public class DuplicateNodeException extends GrandException {
+    
     /**
-     * Return a wrapper to a target implementing the Node interface.
-     * 
-     * @param target
-     * @return a wrapping node.
-     * @see Target
-     * @see Node
+     * Creates a new exception.
      */
-    Node proxifyTarget(Target target);
+    public DuplicateNodeException() {
+        super();
+    }
+    
+    /**
+     * Creates a new exception.
+     * 
+     * @param message
+     */
+    public DuplicateNodeException(final String message) {
+        super(message);
+    }
+
+    /**
+     * Creates a new exception.
+     * 
+     * @param message
+     * @param cause
+     */
+    public DuplicateNodeException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Creates a new exception.
+     * 
+     * @param cause
+     */
+    public DuplicateNodeException(final Throwable cause) {
+        super(cause);
+    }
 }

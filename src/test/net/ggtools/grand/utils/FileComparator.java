@@ -29,72 +29,73 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
-import net.ggtools.grand.ant.AntProject;
-import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.output.DotWriter;
+import junit.framework.Assert;
 
 /**
- * A simple application to convert an ant build file to a dot graph. This is
- * more a test application than anything else, so use with care.
+ * Utility class to compare two files.
  * 
  * @author Christophe Labouisse
  */
-public final class App {
+public class FileComparator extends Assert {
+
+    private File source;
+    private File dest;
 
     /**
-     * Starts the application
-     * @param args command line arguments.
-     */
-    public static void main(final String[] args) {
-        if (args.length < 2) {
-            printUsage();
-            return;
-        }
-
-        System.err.println("Start conversion of " + args[0]);
-        App appli = new App(args[0]);
-
-        try {
-            appli.run(args[1]);
-            System.err.println("Conversion done");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     *  
-     */
-    private static void printUsage() {
-        System.err.println("Usage: dependgraph input.xml output.dot");
-    }
-
-    private File buildFile;
-
-    /**
-     * Creates a new App
+     * Creates a new file comparator.
      * 
-     * @param file to graph
+     * @param source
+     * @param dest
      */
-    private App(final String file) {
-        buildFile = new File(file);
+    public FileComparator(File source, File dest) {
+        this.source = source;
+        this.dest = dest;
     }
-
+    
     /**
-     * @param output filename to output.
-     * 
-     * @throws IOException if a problem happened on file IO.
-     * @throws GrandException if Grand cannot process the file.
+     * Asserts that both files have the same length.
      */
-    private void run(final String output) throws IOException, GrandException {
-        GraphProducer producer = new AntProject(buildFile);
-        GraphWriter writer = new DotWriter();
-        writer.setProducer(producer);
-        writer.write(new File(output));
+    public void assertSizesMatch() {
+        assertEquals("Sizes do not match",source.length(),dest.length());
     }
+    
+    /**
+     * Asserts that both files match line for line. This method also assert
+     * the both files have the same length.
+     * 
+     * @throws IOException
+     */
+    public void assertLinesMatch() throws IOException {
+        assertSizesMatch();
+        
+        BufferedReader sourceReader = new BufferedReader(new FileReader(source));
+        BufferedReader destReader = new BufferedReader(new FileReader(dest));
+        
+        int line = 0;
+        
+        while (true) {
+            String srcLine = sourceReader.readLine();
+            String dstLine = destReader.readLine();
+            line++;
+            
+            // End reached, files match.
+            if ((srcLine == null) && (dstLine == null)) {
+                break;
+            }
+            
+            // Since both files have the same length and are identical
+            // so far, it should not happend.
+            assert ((srcLine != null) && (dstLine != null));
+            
+            assertEquals("Files differ on line "+line,srcLine,dstLine);
+        }
+    }
+    
 }

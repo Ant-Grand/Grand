@@ -29,62 +29,23 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.ant;
+package net.ggtools.grand;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-
-import org.apache.tools.ant.Target;
+import net.ggtools.grand.exceptions.GrandException;
 
 /**
- * An iterator on a list of ant target objects converting them
- * to {@link org.ggtools.grand.Node}.
+ * Interface for class creating graphs. 
  * 
  * @author Christophe Labouisse
  */
-class TargetIteratorProxifier implements Iterator {
-    
-    private final Enumeration targets;
-    private final AntTargetProxifier targetProxifier;
-    
+public interface GraphProducer {
+
     /**
-     * Creates a new TargetIteratorProxifier.
+     * Ask the producer to create a graph.
+     * The created graph can be modified by the caller object.
      * 
-     * @param project the owner project.
-     * @param enumeration enumeration to targets.
+     * @return new graph.
+     * @throws GrandException is an error occurs contructing the graph.
      */
-    TargetIteratorProxifier(AntTargetProxifier project, Enumeration enumeration) {
-        this.targets = enumeration;
-        this.targetProxifier = project;
-    }
-
-    /**
-     * Unsupported operation.
-     * @see java.util.Iterator#remove()
-     * @throws UnsupportedOperationException
-     */
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
-
-    /* (non-Javadoc)
-     * @see java.util.Iterator#hasNext()
-     */
-    public boolean hasNext() {
-        return targets.hasMoreElements();
-    }
-
-    /* (non-Javadoc)
-     * @see java.util.Iterator#next()
-     */
-    public Object next() {
-        Target target = (Target) targets.nextElement();
-        
-        if (target == null) {
-            return null;
-        }
-        
-        return targetProxifier.proxifyTarget(target);
-    }
-
+    Graph getGraph() throws GrandException;
 }

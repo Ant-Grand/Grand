@@ -1,30 +1,35 @@
 // $Id$
-/*
- * ====================================================================
- * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
- * 
+/* ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse
+ * All rights reserved.
+ *
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met: 1.
- * Redistributions of source code must retain the above copyright notice, this
- * list of conditions and the following disclaimer. 2. Redistributions in
- * binary form must reproduce the above copyright notice, this list of
- * conditions and the following disclaimer in the documentation and/or other
- * materials provided with the distribution.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the following
+ *    disclaimer in the documentation and/or other materials provided
+ *    with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.output;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,7 +37,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Properties;
+
+import net.ggtools.grand.Configuration;
+import net.ggtools.grand.Graph;
+import net.ggtools.grand.GraphProducer;
+import net.ggtools.grand.GraphWriter;
+import net.ggtools.grand.Link;
+import net.ggtools.grand.Node;
+import net.ggtools.grand.exceptions.GrandException;
 
 /**
  * A class to write dependency graph in dot format.
@@ -84,8 +99,6 @@ public class DotWriter implements GraphWriter {
         return str.replaceAll("(\\\"\\s)", "\\\\\\1");
     }
 
-    private Project project;
-
     private String graphAttributes;
 
     private String linkAttributes;
@@ -98,28 +111,23 @@ public class DotWriter implements GraphWriter {
 
     private final Configuration config;
 
+    private GraphProducer graphProducer;
+
     /**
      * Creates a new DotWriter using default configuration.
-     * 
-     * @param project
-     *            project to convert write in dot format.
      */
-    public DotWriter(Project project) throws IOException {
-        this(project, null);
+    public DotWriter() throws IOException {
+        this(null);
     }
 
     /**
      * Creates a new DotWriter with custom properties. No
      * overriding will take place if override is null.
      * 
-     * @param project
-     *            to convert
      * @param override
      *            custom configuration.
      */
-    public DotWriter(Project project, Properties override) throws IOException {
-        this.project = project;
-
+    public DotWriter(Properties override) throws IOException {
         config = Configuration.getConfiguration(override);
         graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);
         linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
@@ -138,22 +146,22 @@ public class DotWriter implements GraphWriter {
      * @return a string buffer holding the node information in dot language.
      */
     private StringBuffer getNodeAsDot(Node node) {
-        String nodeAttributes = null;
+        String currentNodeAttributes = null;
 
-        if (node.isMainNode()) {
+        if (node.hasAttribute(Node.ATTR_MAIN_NODE)) {
             final String mainNodeProps = mainNodeAttributes;
 
             if (mainNodeProps != null) {
-                nodeAttributes = mainNodeProps;
+                currentNodeAttributes = mainNodeProps;
             } else {
-                nodeAttributes = "";
+                currentNodeAttributes = "";
             }
 
-            nodeAttributes += ",comment=\""
+            currentNodeAttributes += ",comment=\""
                     + escapeString(node.getDescription()) + "\"";
         }
 
-        return getNodeAsDot(node, nodeAttributes);
+        return getNodeAsDot(node, currentNodeAttributes);
     }
 
     /**
@@ -176,15 +184,17 @@ public class DotWriter implements GraphWriter {
 
         strBuf.append(LINE_SEPARATOR);
 
-        Node[] depArray = node.getDependenciesArray();
-        for (int i = 0; i < depArray.length; i++) {
-            Node depNode = depArray[i];
-
+        List deps = node.getLinks();
+        
+        for (ListIterator iter = deps.listIterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            Node depNode = link.getEndNode();
+            
             strBuf.append(nodeInfo).append(" -> \"").append(
                     escapeString(depNode.getName())).append("\"");
 
-            if (depArray.length > 1) {
-                strBuf.append(" [label=\"").append(i + 1).append("\"]");
+            if (deps.size() > 1) {
+                strBuf.append(" [label=\"").append(iter.nextIndex()).append("\"]");
             }
             strBuf.append(";").append(LINE_SEPARATOR);
         }
@@ -197,7 +207,7 @@ public class DotWriter implements GraphWriter {
      * 
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.File)
      */
-    public void write(File output) throws IOException {
+    public void write(File output) throws IOException, GrandException {
         FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();
@@ -209,11 +219,13 @@ public class DotWriter implements GraphWriter {
      * 
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.OutputStream)
      */
-    public void write(OutputStream stream) {
+    public void write(OutputStream stream) throws GrandException {
         PrintStream output = new PrintStream(stream);
 
+        Graph graph = graphProducer.getGraph();
+        
         StringBuffer header = new StringBuffer();
-        header.append("digraph \"").append(escapeString(project.getName()))
+        header.append("digraph \"").append(escapeString(graph.getName()))
                 .append("\" {").append(LINE_SEPARATOR);
         header.append("graph [").append(graphAttributes).append("];").append(
                 LINE_SEPARATOR);
@@ -222,14 +234,13 @@ public class DotWriter implements GraphWriter {
         header.append("edge [").append(linkAttributes).append("];");
         output.println(header);
 
-        final Node startNode = project.getStartNode();
+        final Node startNode = graph.getStartNode();
 
         if (startNode != null) {
-            // TODO: Check if the default target actually exists.
             output.println(getNodeAsDot(startNode, startNodeAttributes));
         }
 
-        for (Iterator iter = project.getNodes(); iter.hasNext(); ) {
+        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
             Node node = (Node) iter.next();
 
             if (node.equals(startNode) || node.getName().equals("")) {
@@ -299,4 +310,12 @@ public class DotWriter implements GraphWriter {
     public void setNodeAttributes(String nodeAttributes) {
         this.nodeAttributes = nodeAttributes;
     }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
+     */
+    public void setProducer(GraphProducer producer) {
+        graphProducer = producer;
+    }
+
 }

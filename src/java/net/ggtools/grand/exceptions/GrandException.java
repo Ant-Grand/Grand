@@ -29,35 +29,48 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import net.ggtools.grand.exceptions.GrandException;
+package net.ggtools.grand.exceptions;
 
 /**
- * Interface for graph writers.
+ * Base class for all grand exceptions.
  * 
  * @author Christophe Labouisse
  */
-public interface GraphWriter extends GraphConsumer {
+public class GrandException extends Exception {
+
     /**
-     * Write a project's graph to a file.
+     * Creates an new "empty" exception.
+     */
+    public GrandException() {
+        super();
+    }
+
+    /**
+     * Creates an new exception.
      * 
-     * @param output file to write the graph to.
-     * @throws IOException if the file cannot be written.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * @param message
      */
-    void write(File output) throws GrandException, IOException;
-    
+    public GrandException(final String message) {
+        super(message);
+    }
+
     /**
-     * Write a project's graph to a stream.
-     * @param stream The stream to write to.
-     * @throws GrandException if the graph cannot be written for a problem
-     *  within Grand.
+     * Creates an new exception.
+     * 
+     * @param cause
      */
-    void write(OutputStream stream) throws GrandException;
+    public GrandException(final Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Creates an new exception.
+     * 
+     * @param message
+     * @param cause
+     */
+    public GrandException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
 }
