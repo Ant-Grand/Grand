@@ -50,7 +50,7 @@ public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilte
     /* (non-Javadoc)
      * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
      */
-    public Collection getFilteredNodes() throws GrandException {
+    protected Collection getFilteredNodes() throws GrandException {
         Graph graph = getProducersGraph();
         LinkedHashSet result = new LinkedHashSet();
 

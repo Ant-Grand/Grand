@@ -61,7 +61,7 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter implements Gra
     /* (non-Javadoc)
      * @see net.ggtools.grand.filters.GraphFilter#getFilteredNode()
      */
-    public Collection getFilteredNodes() throws GrandException {
+    protected Collection getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
         final Node fromNode = graph.getNode(startNodeName);
 

@@ -31,9 +31,6 @@
 
 package net.ggtools.grand.filters;
 
-import java.util.Collection;
-
-import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.GraphConsumer;
 import net.ggtools.grand.graph.GraphProducer;
 
@@ -44,13 +41,4 @@ import net.ggtools.grand.graph.GraphProducer;
  * @author Christophe Labouisse
  */
 public interface GraphFilter extends GraphProducer, GraphConsumer {
-    /**
-     * Get the node from the graph that pass the filter. This method should
-     * not alter the input graph. The returned collection may be read only
-     * and return {@link UnsupportedOperationException} on modification methods.
-     * 
-     * @return a collection of nodes.
-     * @throws GrandException if the filtering cannot be done
-     */
-    Collection getFilteredNodes() throws GrandException;
 }

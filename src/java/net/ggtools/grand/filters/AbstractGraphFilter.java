@@ -84,6 +84,16 @@ public abstract class AbstractGraphFilter implements GraphFilter {
         graphProducer = producer;
         producersGraph = null;
     }
+    
+    /**
+     * Get the nodes from the graph that pass the filter. This method should
+     * not alter the input graph. The returned collection may be read only
+     * and return {@link UnsupportedOperationException} on modification methods.
+     * 
+     * @return a collection of nodes.
+     * @throws GrandException if the filtering cannot be done
+     */
+    abstract protected Collection getFilteredNodes() throws GrandException;
 
     /**
      * Returns the current graph producer.
