@@ -47,29 +47,39 @@ import org.apache.tools.ant.Project;
  */
 public class FilterType {
     private static GraphFilterFactory filterFactory = new GraphFilterFactory();
+
     private GraphFilterType filter;
 
     private String filterName;
+
     private String nodeName;
+
     private Project project;
-    
+
     public FilterType(Project project) {
         this.project = project;
     }
-    
+
     /**
      * 
      */
     private void checkFilter() {
         if (filter == null) {
-            filter = filterFactory.getFilterType(project,filterName);
-            filter.setNodeName(nodeName);
+            filter = filterFactory.getFilterType(project, filterName);
+            if (nodeName != null) {
+                filter.setNodeName(nodeName);
+            }
             // Use an HashMap for parameters?
             // Pb: type conversion check ant's utility classes
         }
     }
-    
+
     void checkParameters() throws BuildException {
+        if (filterName == null) {
+            final String message = "required attribute missing";
+            project.log(message, Project.MSG_ERR);
+            throw new BuildException(message);
+        }
         checkFilter();
         filter.checkParameters();
     }
@@ -78,15 +88,15 @@ public class FilterType {
         checkFilter();
         return filter.getFilter();
     }
-    
+
     public void setName(String name) {
         filterName = name;
     }
-    
+
     public void setNode(String node) {
         nodeName = node;
     }
-    
+
     /**
      * @return Returns the filterName.
      */

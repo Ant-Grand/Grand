@@ -50,8 +50,12 @@ public class GraphFilterTypeTest extends AbstractAntTester {
     }
 
     public void testIsolatedNode() {
-        expectLogContaining("test","Name parameter useless for isolatednode");
+        expectLogContaining("test","Node parameter useless for isolatednode");
         assertLogContaining("Loaded 1 filter");
+    }
+
+    public void testNamelessFIlter() {
+        expectBuildException("noname","required attribute missing");
     }
 
 }

@@ -73,7 +73,7 @@ class IsolatedNodeFilterType implements GraphFilterType {
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
     public void setNodeName(String name) {
-        project.log("Name parameter useless for isolatednode",Project.MSG_WARN);
+        project.log("Node parameter useless for isolatednode",Project.MSG_WARN);
     }
 
 }

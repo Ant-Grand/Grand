@@ -123,28 +123,28 @@ public class GrandTaskTest extends AbstractAntTester {
         assertNotNull("temp.file property", project.getProperty(TEMP_FILE_PROP));
     }
 
-    public void testOverride() throws Exception {
+    public void testOverride() throws IOException {
         expectLogContaining("property-file", "Overriding default properties from ");
         assertLogContaining("src/etc/testcases/build-simple.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/override.dot");
     }
 
-    public void testSimpleBuild() throws Exception {
+    public void testSimpleBuild() throws IOException {
         expectLogContaining("simple-build", "Loading project ");
         assertLogContaining("src/etc/testcases/build-simple.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/build-simple.dot");
     }
 
-    public void testImport() throws Exception {
+    public void testImport() throws IOException {
         expectLogContaining("import", "Loading project ");
         assertLogContaining("src/etc/testcases/build-import.xml");
 
         assertTempFileMatchExpected("src/etc/testcases/build-import.dot");
     }
 
-    public void testAntCall() throws Exception {
+    public void testAntCall() throws IOException {
         expectLogContaining("antcall", "Loading project ");
         assertLogContaining("src/etc/testcases/build-complex.xml");
 

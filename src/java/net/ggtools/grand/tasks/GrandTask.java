@@ -73,7 +73,7 @@ public class GrandTask extends Task {
      */
     private void checkParams() {
         if (output == null) {
-            final String message = "Required attribute missing";
+            final String message = "required attribute missing";
             log(message, Project.MSG_ERR);
             throw new BuildException(message);
         }

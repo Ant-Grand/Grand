@@ -59,7 +59,7 @@ public class ToNodeFilterType implements GraphFilterType {
      */
     public void checkParameters() throws BuildException {
         if (nodeName == null) {
-            final String message = "Required attribute missing";
+            final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);
             throw new BuildException(message);
         }
