@@ -30,7 +30,7 @@
  */
 package net.ggtools.grand;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Interface implementated by nodes populating the graph.
@@ -38,8 +38,6 @@ import java.util.List;
  * @author Christophe Labouisse
  */
 public interface Node extends GraphObject {
-    //TODO should I use a class for this ?
-    
     /**
      * Attribute bit to be set on <i>main</i> nodes. The definition
      * of a main node depends on the graph's source. For Ant a main
@@ -48,24 +46,44 @@ public interface Node extends GraphObject {
     int ATTR_MAIN_NODE = 1 << 0;
     
     /**
-     * Returns the node's links. The implementing class should insure that the
-     * returned list only contains objects implementing the Link interface.
+     * Returns links originating from the node. The implementing class should
+     * insure that the returned list only contains objects implementing the
+     * Link interface.
      * 
-     * The returned list may throw an {@link UnsupportedOperationException}on
-     * modification operations.
+     * The returned collection should allow modification operations.
      * 
      * @return list of links.
      */
-    List getLinks();
+    Collection getLinks();
+
+    /**
+     * Returns links coming to the node. The implementing class should
+     * insure that the returned list only contains objects implementing the
+     * Link interface.
+     * 
+     * The returned collection should allow modification operations.
+     * 
+     * @return list of links.
+     */
+    Collection getBackLinks();
 
     /**
      * Add a link to the node. This method should be called when the link
-     * starts from the node. The implementations should preserve the order in
-     * which the nodes were added.
+     * starts from the node. The implementations should try to preserve
+     * the order in which the nodes were added.
      * 
      * @param link
      */
     void addLink(Link link);
+
+    /**
+     * Add a link to the node. This method should be called when the link
+     * ends at the node. The implementations should try to preserve
+     * the order in which the nodes were added.
+     * 
+     * @param link
+     */
+    void addBackLink(Link link);
 
     /**
      * Returns a short description (one line of less) of the node.

@@ -36,9 +36,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Properties;
 
 import net.ggtools.grand.Configuration;
@@ -184,17 +183,19 @@ public class DotWriter implements GraphWriter {
 
         strBuf.append(LINE_SEPARATOR);
 
-        List deps = node.getLinks();
+        Collection deps = node.getLinks();
+        int index = 1;
+        final int numDeps = deps.size();
         
-        for (ListIterator iter = deps.listIterator(); iter.hasNext(); ) {
+        for (Iterator iter = deps.iterator(); iter.hasNext(); ) {
             Link link = (Link) iter.next();
             Node depNode = link.getEndNode();
             
             strBuf.append(nodeInfo).append(" -> \"").append(
                     escapeString(depNode.getName())).append("\"");
 
-            if (deps.size() > 1) {
-                strBuf.append(" [label=\"").append(iter.nextIndex()).append("\"]");
+            if (numDeps > 1) {
+                strBuf.append(" [label=\"").append(index++).append("\"]");
             }
             strBuf.append(";").append(LINE_SEPARATOR);
         }

@@ -31,6 +31,7 @@
 
 package net.ggtools.grand;
 
+
 /**
  * Base for objects populating graphs. GraphObjects have three
  * main traits: a name, a owner graph and attributes. Attributes

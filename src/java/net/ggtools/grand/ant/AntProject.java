@@ -40,6 +40,7 @@ import net.ggtools.grand.GraphProducer;
 import net.ggtools.grand.Log;
 import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.impl.GraphImpl;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
@@ -102,7 +103,7 @@ public class AntProject implements GraphProducer {
         Log.log("Triggering AntProject",Log.MSG_VERBOSE);
         
         final String defaultTarget = antProject.getDefaultTarget();
-        final Graph graph = new Graph(antProject.getName());
+        final Graph graph = new GraphImpl(antProject.getName());
 
         for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
             final Target target = (Target) iter.next();

@@ -31,10 +31,10 @@
 
 package net.ggtools.grand;
 
-import net.ggtools.grand.tasks.*;
-import net.ggtools.grand.utils.*;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.ggtools.grand.tasks.GrandTaskTest;
+import net.ggtools.grand.utils.FileComparatorTest;
 
 /**
  * 

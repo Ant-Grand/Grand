@@ -31,9 +31,8 @@
 
 package net.ggtools.grand.impl;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import net.ggtools.grand.Graph;
 import net.ggtools.grand.Link;
@@ -49,18 +48,28 @@ public class NodeImpl extends AttributeManager implements Node {
     private String name;
     private Graph graph;
     private String description;
-    private List links;
+    private LinkedHashSet links;
+    private LinkedHashSet backLinks;
+    
     public NodeImpl(String name, Graph graph) {
         this.name = name;
         this.graph = graph;
-        links = new LinkedList();
+        links = new LinkedHashSet();
+        backLinks = new LinkedHashSet();
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.Node#getLinks()
      */
-    public List getLinks() {
-        return Collections.unmodifiableList(links);
+    public Collection getLinks() {
+        return links;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#getBackLinks()
+     */
+    public Collection getBackLinks() {
+        return backLinks;
     }
 
     /* (non-Javadoc)
@@ -98,4 +107,10 @@ public class NodeImpl extends AttributeManager implements Node {
         links.add(link);
     }
 
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#addLink(net.ggtools.grand.Link)
+     */
+    public void addBackLink(Link link) {
+        backLinks.add(link);
+    }
 }

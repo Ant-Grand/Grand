@@ -29,22 +29,23 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand;
+package net.ggtools.grand.impl;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.ggtools.grand.Graph;
+import net.ggtools.grand.Link;
+import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
-import net.ggtools.grand.impl.LinkImpl;
-import net.ggtools.grand.impl.NodeImpl;
 
 /**
- * Simple Graph implementation.
+ * Simple GraphImpl implementation.
  * 
  * @author Christophe Labouisse
  */
-public class Graph {
+public class GraphImpl implements Graph {
     private String name;
 
     private Map nodeMap = new LinkedHashMap();
@@ -57,7 +58,7 @@ public class Graph {
      * @param graphName
      *            name for the new graph.
      */
-    public Graph(final String graphName) {
+    public GraphImpl(final String graphName) {
         name = graphName;
     }
 
@@ -124,6 +125,7 @@ public class Graph {
             final Node endNode) {
         Link link = new LinkImpl(linkName, this, startNode, endNode);
         startNode.addLink(link);
+        endNode.addBackLink(link);
         return link;
     }
 
