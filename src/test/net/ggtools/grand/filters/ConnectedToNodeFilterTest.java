@@ -52,7 +52,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
 
     private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
             .asList(new String[]{"dist", "test", "jar", "compile", "compile.java",
-                    "compile.jni", "prepare", "init"}));
+                    "compile.jni", "compile.cpp", "prepare", "init"}));
 
     /**
      * Constructor for ConnectedToNodeFilterTest.
@@ -97,7 +97,8 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
         assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
                 .size(), numNodes);
 
-        assertNotNull("Start node 'compile' should not have been filtered out", graph.getStartNode());
+        assertNotNull("Start node 'compile' should not have been filtered out", graph
+                .getStartNode());
     }
 
     /**

@@ -11,7 +11,11 @@
 	
 	<target name="compile.java" depends="prepare"/>
 	
-	<target name="compile.jni" depends="prepare"/>
+	<target name="compile.cpp" depends="prepare"/>
+	
+	<target name="compile.jni" depends="prepare">
+		<antcall target="compile.cpp"></antcall>
+	</target>
 	
 	<target name="compile"
 			description="Compile the source files"
