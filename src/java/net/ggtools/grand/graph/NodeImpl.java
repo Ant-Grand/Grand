@@ -41,9 +41,6 @@ import net.ggtools.grand.log.LoggerManager;
  * 
  * @author Christophe Labouisse
  */
-/**
- * @author Christophe Labouisse
- */
 public class NodeImpl extends AttributeManager implements Node {
     private static final Log log = LoggerManager.getLog(NodeImpl.class);
 
@@ -58,8 +55,6 @@ public class NodeImpl extends AttributeManager implements Node {
     private LinkedHashSet backLinks;
 
     private String source;
-
-    private String buildFile;
 
     /**
      * Creates an new NodeImpl.
@@ -220,21 +215,5 @@ public class NodeImpl extends AttributeManager implements Node {
      */
     public void setSource(final String newSource) {
         source = newSource;
-    }
-
-    
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.graph.Node#getBuildFile()
-     */
-    public final String getBuildFile() {
-        return buildFile;
-    }
-    
-    /**
-     * @param buildFile
-     *            The buildFile to set.
-     */
-    public final void setBuildFile(String buildFile) {
-        this.buildFile = buildFile;
     }
 }

@@ -158,13 +158,4 @@ public interface Node extends GraphObject {
      * @return The source snippet for the node or <code>null</code>;
      */
     String getSource();
-    
-    /**
-     * Returns this node build file or <code>null</code> if the build file is
-     * the <em>current</em> project.
-     * 
-     * @return Returns the buildFile.
-     */
-    String getBuildFile();
-    
 }
