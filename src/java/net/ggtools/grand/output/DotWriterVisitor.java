@@ -60,9 +60,9 @@ class DotWriterVisitor implements NodeVisitor {
 
         private final String nodeInfo;
 
-        private int visitedLinks;
-
         private final int numDeps;
+
+        private int visitedLinks;
 
         private NodeLinksVisitor(final Node node) {
             this.node = node;
@@ -70,36 +70,6 @@ class DotWriterVisitor implements NodeVisitor {
             nodeInfo = node.getName();
             numDeps = node.getLinks().size();
             visitedLinks = 0;
-        }
-
-        /*
-         * (non-Javadoc)
-         * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.graph.Link)
-         */
-        public void visitLink(Link link) {
-            visitedLinks++;
-            final Node depNode = link.getEndNode();
-
-            final StringBuffer strBuf = new StringBuffer();
-            output.append("\"").appendEscaped(nodeInfo).append("\"").append(" -> \"")
-                    .appendEscaped(depNode.getName()).append("\"");
-
-            // TODO create a proper attribute manager.
-            if (numDeps > 1 || link.hasAttributes(Link.ATTR_WEAK_LINK)) {
-                output.append(" [");
-                if (numDeps > 1) {
-                    output.append("label=\"").append(visitedLinks).append("\"");
-                }
-                if (link.hasAttributes(Link.ATTR_WEAK_LINK)) {
-                    if (numDeps > 1) {
-                        output.append(", ");
-                    }
-
-                    output.append(weakLinkAttributes);
-                }
-                output.append("]");
-            }
-            output.append(";").newLine();
         }
 
         /*
@@ -120,21 +90,62 @@ class DotWriterVisitor implements NodeVisitor {
 
         /*
          * (non-Javadoc)
+         * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.graph.Link)
+         */
+        public void visitLink(Link link) {
+            String attributes = null;
+            if (link.hasAttributes(Link.ATTR_WEAK_LINK)) attributes = weakLinkAttributes;
+            outputOneLink(link, attributes);
+        }
+
+        /*
+         * (non-Javadoc)
          * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.SubantTaskLink)
          */
         public void visitLink(SubantTaskLink link) {
-            visitLink((Link) link);
+            outputOneLink(link, subantLinkAttributes, link.getDirectories().size());
+        }
+
+        private void outputOneLink(Link link, String attributes) {
+            outputOneLink(link, attributes, 1);
+        }
+
+        private void outputOneLink(Link link, String attributes, int visits) {
+            visitedLinks++;
+            final Node depNode = link.getEndNode();
+
+            final StringBuffer strBuf = new StringBuffer();
+            output.append("\"").appendEscaped(nodeInfo).append("\"").append(" -> \"")
+                    .appendEscaped(depNode.getName()).append("\"");
+
+            // TODO create a proper attribute manager.
+            if (numDeps > 1 || visits > 1 || attributes != null) {
+                output.append(" [");
+                if (numDeps > 1 || visits > 1) {
+                    output.append("label=\"").append(visitedLinks);
+                    if (visits > 1) {
+                        visitedLinks += visits - 1;
+                        output.append("-").append(visitedLinks);
+                    }
+                    output.append("\"");
+                }
+                if (attributes != null) {
+                    if (numDeps > 1 || visits > 1) {
+                        output.append(", ");
+                    }
+
+                    output.append(attributes);
+                }
+                output.append("]");
+            }
+            output.append(";").newLine();
         }
 
     }
 
-    private static final Log log = LoggerManager.getLog(DotWriterVisitor.class);
-
     private static final String DOT_GRAPH_ATTRIBUTES = "dot.graph.attributes";
 
     private static final String DOT_LINK_ATTRIBUTES = "dot.link.attributes";
-
-    private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
 
     private static final String DOT_MAINNODE_ATTRIBUTES = "dot.mainnode.attributes";
 
@@ -144,23 +155,31 @@ class DotWriterVisitor implements NodeVisitor {
 
     private static final String DOT_STARTNODE_ATTRIBUTES = "dot.startnode.attributes";
 
-    private String graphAttributes;
+    private static final String DOT_SUBANTLINK_ATTRIBUTES = "dot.subantlink.attributes";
 
-    private String linkAttributes;
+    private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
 
-    private String weakLinkAttributes;
-
-    private String mainNodeAttributes;
-
-    private String missingNodeAttributes;
-
-    private String nodeAttributes;
-
-    private String startNodeAttributes;
+    private static final Log log = LoggerManager.getLog(DotWriterVisitor.class);
 
     private final Configuration config;
 
+    private final String graphAttributes;
+
+    private final String linkAttributes;
+
+    private final String mainNodeAttributes;
+
+    private final String missingNodeAttributes;
+
+    private final String nodeAttributes;
+
     private final DotWriterOutput output;
+
+    private final String startNodeAttributes;
+
+    private final String subantLinkAttributes;
+
+    private final String weakLinkAttributes;
 
     /**
      * Creates a new instance outputing to the supplied PrintWriter.
@@ -171,10 +190,19 @@ class DotWriterVisitor implements NodeVisitor {
         graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);
         linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
         weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);
+        subantLinkAttributes = config.get(DOT_SUBANTLINK_ATTRIBUTES);
         mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);
         missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);
         nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
         startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.visit.NodeVisitor#visitNode(net.ggtools.grand.ant.AntTargetNode)
+     */
+    public void visitNode(final AntTargetNode node) {
+        visitNode((Node) node);
     }
 
     /*
@@ -222,14 +250,6 @@ class DotWriterVisitor implements NodeVisitor {
         }
 
         output.newLine();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.ggtools.grand.graph.visit.NodeVisitor#visitNode(net.ggtools.grand.ant.AntTargetNode)
-     */
-    public void visitNode(final AntTargetNode node) {
-        visitNode((Node) node);
     }
 
 }

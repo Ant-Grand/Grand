@@ -43,11 +43,16 @@
 	</target>
 	
 
+	<target name="subant" depends="init">
+		<mkgraph name="subant"/>
+	</target>
+	
+
 	<target name="test-build" depends="init">
 		<mkgraph name="test-build"/>
 	</target>
 	
-	<target name="graph" depends="current-project, ant-build, test-build"/>
+	<target name="graph" depends="current-project, ant-build, test-build, subant"/>
 
 </project>
 

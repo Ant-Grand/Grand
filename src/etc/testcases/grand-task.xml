@@ -53,6 +53,8 @@
     </target>
 
     <target name="subant" depends="init">
-        <grand buildfile="subant.xml" output="${temp.file}" />
+        <grand buildfile="subant.xml" output="${temp.file}">
+            <property name="basedir" value="${basedir}" />
+        </grand>
     </target>
 </project>

@@ -4,9 +4,9 @@
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met: 1.
- * Redistributions of source code must retain the above copyright notice, this
- * list of conditions and the following disclaimer. 2. Redistributions in
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer. 2. Redistributions in
  * binary form must reproduce the above copyright notice, this list of
  * conditions and the following disclaimer in the documentation and/or other
  * materials provided with the distribution.
@@ -43,13 +43,14 @@ public class GrandTaskTest extends AbstractAntTester {
         super(name);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"grand-task.xml";
+        return TESTCASES_DIR + "grand-task.xml";
     }
-    
+
     public void testSuitability() {
         boolean suitable;
 
@@ -64,9 +65,8 @@ public class GrandTaskTest extends AbstractAntTester {
     }
 
     /**
-     * Tests if the task.properties ressource file creates the
-     * grand test.
-     *
+     * Tests if the task.properties ressource file creates the grand test.
+     * 
      */
     public void testTaskDefinitionFile() {
         executeTarget("init-old");
@@ -76,9 +76,9 @@ public class GrandTaskTest extends AbstractAntTester {
     }
 
     /**
-     * Test if the antlib.xml resource correctly initialize custom
-     * tasks and types.
-     *
+     * Test if the antlib.xml resource correctly initialize custom tasks and
+     * types.
+     * 
      */
     public void testAntLib() {
         executeTarget("init");
@@ -136,8 +136,12 @@ public class GrandTaskTest extends AbstractAntTester {
         expectLogContaining("subant", "Loading project ");
         assertLogContaining("subant.xml");
 
-        // TODO fix this test under maven.
-        //assertTempFileMatchExpected("src/etc/testcases/subant.dot");
+        // This part of the test does not work from Maven so I disable it by default.
+        if (Boolean.parseBoolean(System.getProperty("PerformSubantTest", "false")))
+            assertTempFileMatchExpected("src/etc/testcases/subant.dot");
+        else
+            System.err
+                    .println("Subant test disabled by default, run with -DPerformSubantTest=true to enable it");
     }
 
     public void testNonExistentDefaultTarget() {
