@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
-<project name="AntProjectTest" default="test-no-param">
+<project name="AntProjectTest" default="init">
 	<description>
 		Ant build file for running the AntProjectTest JUnit tests.
 	</description>
