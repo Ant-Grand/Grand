@@ -40,6 +40,7 @@ import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Target;
@@ -224,18 +225,25 @@ public class AntProject implements GraphProducer {
      * @param source
      *            The source for XML configuration.
      * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
+     * @throws GrandException if the project cannot be loaded.
      */
-    public AntProject(final File source) {
+    public AntProject(final File source) throws GrandException {
         Log.log("Parsing from " + source);
         antProject = new Project();
         antProject.setSystemProperties();
         antProject.init();
         antProject.setUserProperty("ant.file", source.getAbsolutePath());
 
-        ProjectHelper loader = ProjectHelper.getProjectHelper();
-        antProject.addReference("ant.projectHelper", loader);
-        loader.parse(antProject, source);
-        Log.log("Done parsing", Log.MSG_VERBOSE);
+        try {
+            final ProjectHelper loader = ProjectHelper.getProjectHelper();
+            antProject.addReference("ant.projectHelper", loader);
+            loader.parse(antProject, source);
+            Log.log("Done parsing", Log.MSG_VERBOSE);
+        } catch (BuildException e) {
+            // TODO Better rethrowing?
+            throw new GrandException("Cannot open project file "+source,e);
+        }
+        
         taskLinkFinder = new LinkFinderVisitor(this);
     }
 
