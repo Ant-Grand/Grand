@@ -1,5 +1,11 @@
 $Id$
 
+Release 1.6 (build number 80):
+
+* Rewrite of the dot generator,
+* Subant generic links now have a specific display style.
+
+
 Release 1.5:
 
 * Support for the subant task,
