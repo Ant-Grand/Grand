@@ -32,7 +32,6 @@ package net.ggtools.grand.ant;
 
 import java.io.File;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import net.ggtools.grand.Log;
@@ -53,8 +52,6 @@ public class AntProject implements GraphProducer {
 
     private org.apache.tools.ant.Project antProject;
 
-    private final HashMap proxifiedTargetCache = new HashMap();
-
     /**
      * Creates a new project from an ant build file.
      * 
@@ -66,7 +63,7 @@ public class AntProject implements GraphProducer {
      * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
      */
     public AntProject(final File source) {
-        Log.log("Parsing from "+source);
+        Log.log("Parsing from " + source);
         antProject = new Project();
         antProject.setSystemProperties();
         antProject.init();
@@ -75,7 +72,7 @@ public class AntProject implements GraphProducer {
         ProjectHelper loader = ProjectHelper.getProjectHelper();
         antProject.addReference("ant.projectHelper", loader);
         loader.parse(antProject, source);
-        Log.log("Done parsing",Log.MSG_VERBOSE);
+        Log.log("Done parsing", Log.MSG_VERBOSE);
     }
 
     /**
@@ -96,17 +93,33 @@ public class AntProject implements GraphProducer {
         return antProject.getName();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Convert an Ant project to a Grand Graph.
      * 
+     * The conversion is done in several steps:
+     * 
+     * <ol>
+     * <li>Each ant target will be converted to a Grand Node using both the
+     * target's name and description the the node's ones. Targets with a
+     * non empty description will be converted to Nodes with the
+     * {@link Node#ATTR_MAIN_NODE} attribute set. If the project element
+     * has a valid default target, the corresponding node will be the graph
+     * start target.</li>
+     * <li><code>depends</code> attributes on targets will be translated into
+     * links. <code>antcall</code>s will be translated in links with the
+     * {@link net.ggtools.grand.graph.Link#ATTR_WEAK_LINK} set.</li>
+     * </ol> 
+     * 
+     * @return a graph representing the dependency of the ant project.
+     * @throws GrandException if the project cannot be converted to a graph.
      * @see net.ggtools.grand.GraphProducer#getGraph(net.ggtools.grand.GraphFactory)
      */
     public Graph getGraph() throws GrandException {
-        Log.log("Triggering AntProject",Log.MSG_VERBOSE);
-        
-        final String defaultTarget = antProject.getDefaultTarget();
+        Log.log("Triggering AntProject", Log.MSG_VERBOSE);
+
         final Graph graph = new GraphImpl(antProject.getName());
 
+        // First pass, create the nodes.
         for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext(); ) {
             final Target target = (Target) iter.next();
             if (target.getName().equals("")) {
@@ -116,14 +129,20 @@ public class AntProject implements GraphProducer {
             final String targetName = target.getName();
             final Node node = graph.createNode(targetName);
 
-            if ((defaultTarget != null) && (defaultTarget.equals(targetName))) {
-                graph.setStartNode(node);
-            }
-
             final String targetDescription = target.getDescription();
             if ((targetDescription != null) && (!targetDescription.equals(""))) {
                 node.setAttributes(Node.ATTR_MAIN_NODE);
                 node.setDescription(targetDescription);
+            }
+        }
+
+        
+        final String defaultTarget = antProject.getDefaultTarget();
+        if (defaultTarget != null) {
+            final Node startNode = graph.getNode(defaultTarget);
+
+            if (startNode != null) {
+                graph.setStartNode(startNode);
             }
         }
 
