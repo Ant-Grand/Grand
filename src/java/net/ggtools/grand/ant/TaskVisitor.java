@@ -1,4 +1,4 @@
-// $Id$
+//$Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
@@ -25,59 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package net.ggtools.grand.ant;
 
-import net.ggtools.grand.graph.GraphElementFactory;
-import net.ggtools.grand.graph.Link;
-import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.exceptions.GrandException;
+
+import org.apache.tools.ant.RuntimeConfigurable;
 
 /**
- * An element factory specialized in ant graph.
+ * Interface to be implemented by classes exploring task wrappers.
  * 
  * @author Christophe Labouisse
  */
-class AntGraphElementFactory implements GraphElementFactory {
-    private final AntGraph graph;
+interface TaskVisitor {
 
     /**
-     * Creates a new factory linked to a specific graph.
+     * Visits a wrapper doing what ever is necessary. This will include recursively explore
+     * the children.
      * 
-     * @param graph
+     * @param wrapper
+     * @throws GrandException
      */
-    public AntGraphElementFactory(AntGraph graph) {
-        this.graph = graph;
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.ggtools.grand.graph.GraphElementFactory#createNode(java.lang.String)
-     */
-    public Node createNode(String nodeName) {
-        return new AntTargetNode(nodeName, graph);
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.ggtools.grand.graph.GraphElementFactory#createLink(java.lang.String,
-     *      net.ggtools.grand.graph.Node, net.ggtools.grand.graph.Node)
-     */
-    public Link createLink(final String linkName, final Node startNode, final Node endNode) {
-        return new AntLink(linkName, graph, startNode, endNode);
-    }
-
-    /**
-     * Creates a link for a task call.
-     * 
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
-     * @return
-     */
-    public AntTaskLink createTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
-        return new AntTaskLink(linkName, graph, startNode, endNode, taskName);
-    }
-
+    void visit(RuntimeConfigurable wrapper) throws GrandException;
 }

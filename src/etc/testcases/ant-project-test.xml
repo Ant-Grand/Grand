@@ -33,4 +33,16 @@
 	<target name="antcall-test">
 		<antcall target="gruik"/>
 	</target>
+		
+	<target name="runtarget-test">
+		<runtarget target="gruik"/>
+	</target>
+	
+	<target name="nested-ant">
+	    <if>
+	        <!-- Not a really working if -->
+	        <ant target="nested-missing-node"/>
+	    </if>
+	</target>
+
 </project>

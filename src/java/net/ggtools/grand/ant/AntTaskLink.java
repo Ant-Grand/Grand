@@ -25,79 +25,80 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package net.ggtools.grand.ant;
 
-import net.ggtools.grand.graph.GraphElementFactory;
-import net.ggtools.grand.graph.GraphImpl;
-import net.ggtools.grand.graph.Node;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.tools.ant.Project;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.graph.visit.LinkVisitor;
 
 /**
- * A Graph implementation specialized in Ant build files.
+ * A link representing a call by a task such like <code>ant</code>,
+ * <code>runtarget</code>, etc. Instances of the class will have a mandatory
+ * task name and may have some definited parameters.
  * 
  * @author Christophe Labouisse
  */
-public class AntGraph extends GraphImpl {
-    private AntGraphElementFactory elementFactory;
+public class AntTaskLink extends AntLink {
 
-    private final Project project;
+    private final String taskName;
 
-    /**
-     * Creates a new graph.
-     * 
-     * @param project
-     *            the graph's project.
-     */
-    public AntGraph(Project project) {
-        super(project.getName());
-        this.project = project;
-    }
+    private final Map parameterMap = new HashMap();
 
     /**
-     * Creates a link representing a call by a task like <code>ant</code>.
-     * @param linkName
+     * @param name
+     * @param graph
      * @param startNode
      * @param endNode
-     * @param taskName
-     * @return
      */
-    public AntTaskLink createTaskLink(final String linkName, final Node startNode,
+    public AntTaskLink(final String name, final Graph graph, final Node startNode,
             final Node endNode, final String taskName) {
-        final AntTaskLink link = getFactoryInternal().createTaskLink(linkName, startNode, endNode,
-                taskName);
-        startNode.addLink(link);
-        endNode.addBackLink(link);
-        return link;
-    }
-
-    /**
-     * Returns the project.
-     * @return
-     */
-    public Project getProject() {
-        return project;
-    }
-
-    /**
-     * Getter/Instanciator to {@link #elementFactory}. Used internally to keep
-     * the {@link AntGraphElementFactory}type.
-     * @return
-     */
-    private final AntGraphElementFactory getFactoryInternal() {
-        if (elementFactory == null) {
-            elementFactory = new AntGraphElementFactory(this);
-        }
-        return elementFactory;
+        super(name, graph, startNode, endNode);
+        this.taskName = taskName;
+        setAttributes(ATTR_WEAK_LINK);
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see net.ggtools.grand.graph.GraphImpl#getFactory()
+     * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
-    protected GraphElementFactory getFactory() {
-        return getFactoryInternal();
+    public void accept(LinkVisitor visitor) {
+        visitor.visitLink(this);
+    }
+
+    /**
+     * @return Returns the taskName.
+     */
+    public String getTaskName() {
+        return taskName;
+    }
+
+    /**
+     * Sets an attribute for the link.
+     * @param key
+     * @param value
+     */
+    public void setParameter(final String key, final String value) {
+        parameterMap.put(key, value);
+    }
+
+    /**
+     * Return the value of a parameter or <code>null</code> if not defined.
+     * @param key
+     * @return
+     */
+    public String getParameter(final String key) {
+        return (String) parameterMap.get(key);
+    }
+
+    /**
+     * Returns a readonly version of the parameter map.
+     * 
+     * @return a read only map of the parameters.
+     */
+    public Map getParameterMap() {
+        return parameterMap;
     }
 }

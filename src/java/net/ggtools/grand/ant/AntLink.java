@@ -37,38 +37,12 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.graph.visit.LinkVisitor;
 
 /**
- * A class specialized in link within ant build files.
+ * A basic (<em>i.e.</em> dependency) link in ant build file.
  * 
  * @author Christophe Labouisse
  */
 public class AntLink extends LinkImpl {
-    /**
-     * Type for <em>standard</em> ant dependency.
-     */
-    public final static int LINK_DEPEND = 0;
-    
-    /**
-     * Type for links resulting of a <code>ant</code> task.
-     */
-    public final static int LINK_ANT = 1;
 
-    /**
-     * Type for links resulting of a <code>antcall</code> task.
-     */
-    public final static int LINK_ANTCALL = 2;
-
-    /**
-     * Type for links resulting of a <code>foreach</code> task.
-     */
-    public final static int LINK_FOREACH = 3;
-
-    /**
-     * Type of links resulting of a any other task.
-     */
-    public final static int LINK_UNKNOWN_TASK = -1;
-     
-    private int type;
-    
     /**
      * Creates a new link.
      * 
@@ -79,22 +53,6 @@ public class AntLink extends LinkImpl {
      */
     public AntLink(String name, Graph graph, Node startNode, Node endNode) {
         super(name, graph, startNode, endNode);
-        type = LINK_DEPEND;
-    }
-    
-    /**
-     * Gets the link's type.
-     * @return Returns the type.
-     */
-    public final int getType() {
-        return type;
-    }
-    
-    /**
-     * @param type The type to set.
-     */
-    final void setType(int type) {
-        this.type = type;
     }
     
     /* (non-Javadoc)

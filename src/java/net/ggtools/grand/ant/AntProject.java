@@ -38,12 +38,10 @@ import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
-import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
@@ -210,8 +208,12 @@ public class AntProject implements GraphProducer {
 
     private org.apache.tools.ant.Project antProject;
 
-    private TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
+    private final TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
             .getTargetConditionHelper();
+    
+    private final TargetTasksExplorer targetExplorer = new TargetTasksExplorer(this);
+
+    private final LinkFinderVisitor taskLinkFinder; 
 
     /**
      * Creates a new project from an ant build file.
@@ -234,6 +236,7 @@ public class AntProject implements GraphProducer {
         antProject.addReference("ant.projectHelper", loader);
         loader.parse(antProject, source);
         Log.log("Done parsing", Log.MSG_VERBOSE);
+        taskLinkFinder = new LinkFinderVisitor(this);
     }
 
     /**
@@ -244,6 +247,7 @@ public class AntProject implements GraphProducer {
      */
     public AntProject(final Project project) {
         antProject = project;
+        taskLinkFinder = new LinkFinderVisitor(this);
     }
 
     /**
@@ -329,59 +333,11 @@ public class AntProject implements GraphProducer {
                 createLink(graph, null, startNode, (String) deps.nextElement());
             }
 
+            taskLinkFinder.setGraph(graph);
+            taskLinkFinder.setStartNode(startNode);
             final Task[] tasks = target.getTasks();
             for (int i = 0; i < tasks.length; i++) {
-                final Task task = tasks[i];
-                if (ANTCALL_TASK_NAME.equals(task.getTaskType())
-                        || FOREACH_TASK_NAME.equals(task.getTaskType())) {
-                    final RuntimeConfigurable wrapper = task.getRuntimeConfigurableWrapper();
-                    final String called = antProject.replaceProperties((String) wrapper
-                            .getAttributeMap().get("target"));
-
-                    final AntLink link = createLink(graph, task.getTaskType(), startNode, called);
-                    link.setAttributes(Link.ATTR_WEAK_LINK);
-                    if (ANTCALL_TASK_NAME.equals(task.getTaskType())) {
-                        link.setType(AntLink.LINK_ANTCALL);
-
-                    } else {
-                        link.setType(AntLink.LINK_FOREACH);
-                    }
-                } else if (ANT_TASK_NAME.equals(task.getTaskName())) {
-                    final RuntimeConfigurable wrapper = task.getRuntimeConfigurableWrapper();
-                    final String called = "["
-                            + antProject.replaceProperties((String) wrapper.getAttributeMap().get(
-                                    "target")) + "]";
-
-                    if (graph.getNode(called) == null) {
-                        final AntTargetNode endNode = (AntTargetNode) graph.createNode(called);
-                        StringBuffer filenameBuffer = new StringBuffer();
-
-                        final String buildDir = (String) wrapper.getAttributeMap().get("dir");
-                        if (buildDir != null) {
-                            filenameBuffer.append(antProject.replaceProperties(buildDir)).append(
-                                    "/");
-                        }
-
-                        final String antFile = (String) wrapper.getAttributeMap().get("antfile");
-                        if (antFile != null) {
-                            filenameBuffer.append(antProject.replaceProperties(antFile));
-                        } else {
-                            filenameBuffer.append(BUILD_XML);
-                        }
-
-                        final String buildFilename = filenameBuffer.toString();
-                        final File buildFile = new File(buildFilename);
-                        if (!buildFile.getAbsolutePath().equals(buildFilename)) {
-                            endNode.setDescription(buildFilename);
-                            endNode.setBuildFile(buildFilename);
-                        }
-
-                        endNode.setAttributes(Node.ATTR_MISSING_NODE);
-                    }
-                    final AntLink link = createLink(graph, task.getTaskType(), startNode, called);
-                    link.setAttributes(Link.ATTR_WEAK_LINK);
-                    link.setType(AntLink.LINK_ANT);
-                }
+                taskLinkFinder.visit(tasks[i].getRuntimeConfigurableWrapper());
             }
         }
 
