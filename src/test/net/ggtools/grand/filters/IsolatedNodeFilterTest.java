@@ -33,7 +33,6 @@ package net.ggtools.grand.filters;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.GraphFilter;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.utils.AbstractAntTester;
 

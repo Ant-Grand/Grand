@@ -31,8 +31,8 @@
 
 package net.ggtools.grand.tasks;
 
+import net.ggtools.grand.filters.GraphFilter;
 import net.ggtools.grand.filters.IsolatedNodeFilter;
-import net.ggtools.grand.graph.GraphFilter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;

@@ -35,7 +35,9 @@ import net.ggtools.grand.graph.BackwardLinkFinder;
 import net.ggtools.grand.graph.LinkFinder;
 
 /**
- * A filter retaining only the nodes leading to a specific node.
+ * A graph filter returning all the nodes accessible from a specific node
+ * using only backward links. In ant this will extract the sub graph of all
+ * target depending on a specific target.
  * 
  * @author Christophe Labouisse
  */

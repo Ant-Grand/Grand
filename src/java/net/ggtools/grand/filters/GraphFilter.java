@@ -32,36 +32,25 @@
 package net.ggtools.grand.filters;
 
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 
 import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.graph.GraphConsumer;
+import net.ggtools.grand.graph.GraphProducer;
 
 /**
- * A filter to remove isolated nodes in a graph.
+ * Interface for class implementing filters. A filter is basically
+ * the combination of a consumer and a producer.
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+public interface GraphFilter extends GraphProducer, GraphConsumer {
+    /**
+     * Get the node from the graph that pass the filter. This method should
+     * not alter the input graph. The returned collection may be read only
+     * and return {@link UnsupportedOperationException} on modification methods.
+     * 
+     * @return a collection of nodes.
+     * @throws GrandException if the filtering cannot be done
      */
-    public Collection getFilteredNodes() throws GrandException {
-        Graph graph = getProducersGraph();
-        LinkedHashSet result = new LinkedHashSet();
-        
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
-            
-            if (node.getLinks().size() > 0 || node.getBackLinks().size() > 0) {
-                result.add(node);
-            }
-        }
-
-        return result;
-    }
-
+    Collection getFilteredNodes() throws GrandException;
 }

@@ -31,37 +31,28 @@
 
 package net.ggtools.grand.filters;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import net.ggtools.grand.graph.ConnectedNodesFinder;
+import net.ggtools.grand.graph.LinkFinder;
 
-import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.Node;
 
 /**
- * A filter to remove isolated nodes in a graph.
+ * A graph filter returning all nodes connected to a specific node
+ * be it through forward or backward links (or both).
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
+public class ConnectedToNodeFilter extends GraphWalkFilter implements GraphFilter {
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
-     */
-    public Collection getFilteredNodes() throws GrandException {
-        Graph graph = getProducersGraph();
-        LinkedHashSet result = new LinkedHashSet();
-        
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
-            
-            if (node.getLinks().size() > 0 || node.getBackLinks().size() > 0) {
-                result.add(node);
-            }
-        }
-
-        return result;
+    private final LinkFinder linkFinder = new ConnectedNodesFinder();
+    
+    public ConnectedToNodeFilter(String nodeName) {
+        super(nodeName);
     }
 
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.filters.GraphWalkFilter#getLinkFinder()
+     */
+    public LinkFinder getLinkFinder() {
+        return linkFinder;
+    }
 }

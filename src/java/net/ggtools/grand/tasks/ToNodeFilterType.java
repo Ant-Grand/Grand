@@ -29,14 +29,54 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.graph;
+package net.ggtools.grand.tasks;
+
+import net.ggtools.grand.filters.GraphFilter;
+import net.ggtools.grand.filters.ToNodeFilter;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
- * Interface for class implementing filters. A filter is basically
- * the combination of a consumer and a producer.
+ * 
  * 
  * @author Christophe Labouisse
  */
-public interface GraphFilter extends GraphProducer, GraphConsumer {
+public class ToNodeFilterType implements GraphFilterType {
+
+    private String nodeName;
+    private Project project;
+
+    /**
+     * 
+     */
+    public ToNodeFilterType(Project antProject) {
+        project = antProject;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
+     */
+    public void checkParameters() throws BuildException {
+        if (nodeName == null) {
+            final String message = "Required attribute missing";
+            project.log(message, Project.MSG_ERR);
+            throw new BuildException(message);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
+     */
+    public GraphFilter getFilter() {
+        return new ToNodeFilter(nodeName);
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
+     */
+    public void setNodeName(String name) {
+        nodeName = name;
+    }
 
 }

@@ -29,38 +29,37 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.filters;
+package net.ggtools.grand.graph;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.Node;
-
 /**
- * A filter to remove isolated nodes in a graph.
+ * A finder returning both backward and forward node.
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
+public class ConnectedNodesFinder implements LinkFinder {
 
     /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+     * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
-    public Collection getFilteredNodes() throws GrandException {
-        Graph graph = getProducersGraph();
+    public Collection getLinks(Node node) {
+        Collection links = node.getBackLinks();
+        
         LinkedHashSet result = new LinkedHashSet();
         
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
-            
-            if (node.getLinks().size() > 0 || node.getBackLinks().size() > 0) {
-                result.add(node);
-            }
+        for (Iterator iter = links.iterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            result.add(link.getEndNode());
         }
-
+        
+        for (Iterator iter = links.iterator(); iter.hasNext(); ) {
+            Link link = (Link) iter.next();
+            result.add(link.getStartNode());
+        }
+        
         return result;
     }
 

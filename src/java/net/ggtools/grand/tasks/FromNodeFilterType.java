@@ -29,39 +29,54 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.filters;
+package net.ggtools.grand.tasks;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import net.ggtools.grand.filters.FromNodeFilter;
+import net.ggtools.grand.filters.GraphFilter;
 
-import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.Node;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
- * A filter to remove isolated nodes in a graph.
+ * 
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
+public class FromNodeFilterType implements GraphFilterType {
+
+    private String nodeName;
+    private Project project;
+
+    /**
+     * 
+     */
+    public FromNodeFilterType(Project antProject) {
+        project = antProject;
+    }
 
     /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+     * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
-    public Collection getFilteredNodes() throws GrandException {
-        Graph graph = getProducersGraph();
-        LinkedHashSet result = new LinkedHashSet();
-        
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
-            
-            if (node.getLinks().size() > 0 || node.getBackLinks().size() > 0) {
-                result.add(node);
-            }
+    public void checkParameters() throws BuildException {
+        if (nodeName == null) {
+            final String message = "Required attribute missing";
+            project.log(message, Project.MSG_ERR);
+            throw new BuildException(message);
         }
+    }
 
-        return result;
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
+     */
+    public GraphFilter getFilter() {
+        return new FromNodeFilter(nodeName);
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
+     */
+    public void setNodeName(String name) {
+        nodeName = name;
     }
 
 }

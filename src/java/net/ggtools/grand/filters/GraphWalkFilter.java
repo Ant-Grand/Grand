@@ -32,14 +32,10 @@
 package net.ggtools.grand.filters;
 
 import java.util.Collection;
-import java.util.Iterator;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphCrawler;
-import net.ggtools.grand.graph.GraphFilter;
-import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.LinkFinder;
 import net.ggtools.grand.graph.Node;
 
@@ -50,41 +46,23 @@ import net.ggtools.grand.graph.Node;
  * 
  * @author Christophe Labouisse
  */
-public abstract class GraphWalkFilter implements GraphFilter {
+public abstract class GraphWalkFilter extends AbstractGraphFilter implements GraphFilter {
 
     private final String startNodeName;
-    private GraphProducer graphProducer;
 
     public GraphWalkFilter(String nodeName) {
         startNodeName = nodeName;
     }
 
     /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphProducer#getGraph()
+     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNode()
      */
-    public Graph getGraph() throws GrandException {
-        Log.log("Triggering GraphWalkfilter", Log.MSG_VERBOSE);
-        final Graph graph = graphProducer.getGraph();
+    public Collection getFilteredNodes() throws GrandException {
+        final Graph graph = getProducersGraph();
         final Node fromNode = graph.getNode(startNodeName);
         final GraphCrawler crawler = new GraphCrawler(graph,getLinkFinder());
-        final Collection nodeList = crawler.crawl(fromNode);
         
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node) iter.next();
-            
-            if (!nodeList.contains(node)) {
-                iter.remove();
-            }
-        }
-        
-        return graph;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
-     */
-    public void setProducer(GraphProducer producer) {
-        graphProducer = producer;
+        return crawler.crawl(fromNode);
     }
     
     public abstract LinkFinder getLinkFinder();

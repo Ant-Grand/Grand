@@ -31,7 +31,7 @@
 
 package net.ggtools.grand.tasks;
 
-import net.ggtools.grand.graph.GraphFilter;
+import net.ggtools.grand.filters.GraphFilter;
 
 import org.apache.tools.ant.BuildException;
 

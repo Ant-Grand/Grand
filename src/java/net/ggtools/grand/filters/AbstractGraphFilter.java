@@ -33,35 +33,77 @@ package net.ggtools.grand.filters;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 
+import net.ggtools.grand.Log;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
 
 /**
- * A filter to remove isolated nodes in a graph.
+ * 
  * 
  * @author Christophe Labouisse
  */
-public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
+public abstract class AbstractGraphFilter implements GraphFilter {
+
+    private GraphProducer graphProducer;
+    private Graph producersGraph;
 
     /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+     * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
-    public Collection getFilteredNodes() throws GrandException {
-        Graph graph = getProducersGraph();
-        LinkedHashSet result = new LinkedHashSet();
+    public Graph getGraph() throws GrandException {
+        Log.log("Triggering GraphWalkfilter", Log.MSG_VERBOSE);
+        final Graph graph = getProducersGraph();
+        final Collection nodeList = getFilteredNodes();
+        
+        for (Iterator iter = nodeList.iterator(); iter.hasNext(); ) {
+            Node node = (Node) iter.next();
+        }
         
         for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
-            Node node = (Node)iter.next();
+            Node node = (Node) iter.next();
             
-            if (node.getLinks().size() > 0 || node.getBackLinks().size() > 0) {
-                result.add(node);
+            if (!nodeList.contains(node)) {
+                iter.remove();
             }
         }
-
-        return result;
+        
+        // The graph had been filtered so it must not be used if the filter is called
+        // again.
+        producersGraph = null;
+        
+        return graph;
     }
-
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
+     */
+    public void setProducer(GraphProducer producer) {
+        graphProducer = producer;
+        producersGraph = null;
+    }
+    
+    /**
+     * Returns the current graph producer.
+     * 
+     * @return graph producer.
+     */
+    final protected GraphProducer getGraphProducer() {
+        return graphProducer;
+    }
+    
+    /**
+     * Returns the graph from the current producer. This method is intended
+     * to prevent calling several time the producer to get a graph.
+     * 
+     * @return current graph.
+     */
+    final protected Graph getProducersGraph() throws GrandException {
+       if (producersGraph == null) {
+           producersGraph = graphProducer.getGraph();
+       }
+       return producersGraph;
+    }
 }

@@ -32,12 +32,13 @@
 package net.ggtools.grand.filters;
 
 import net.ggtools.grand.graph.ForwardLinkFinder;
-import net.ggtools.grand.graph.GraphFilter;
 import net.ggtools.grand.graph.LinkFinder;
 
 
 /**
- * 
+ * A graph filter returning all the nodes accessible from a specific node
+ * using only forward links. In ant this will extract the sub graph of all
+ * target on which a specific node depend.
  * 
  * @author Christophe Labouisse
  */

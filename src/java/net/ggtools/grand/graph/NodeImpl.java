@@ -55,7 +55,38 @@ public class NodeImpl extends AttributeManager implements Node {
         links = new LinkedHashSet();
         backLinks = new LinkedHashSet();
     }
-
+    
+    /**
+     * Returns true of the current object and <code>obj</code> are
+     * equals. Two Nodes are equals when they belong to the same graph
+     * and they have the same name.
+     * 
+     * @return true if this is equal to obj.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Node) {
+            Node otherNode = (Node)obj;
+            return (graph == otherNode.getGraph()) && (name.equals(otherNode.getName()));
+        }
+        return false;
+    }
+    
+    /**
+     * Compute a hash code for the current node.
+     * A Node's hash will be his name's hashcode.
+     * 
+     * @return hash code for the current node.
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return name.hashCode();
+    }
+    
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
