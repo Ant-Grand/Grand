@@ -3,9 +3,10 @@
   <pomVersion>3</pomVersion>
   <id>grand</id>
   <name>Grand: Graphical Representation of ANt Dependencies</name>
-  <groupId>org.ggtools.net</groupId>
+  <groupId>net.ggtools</groupId>
+  <artifactId>grand</artifactId>
   
-  <currentVersion>0.9pre</currentVersion>
+  <currentVersion>0.9</currentVersion>
   
   <organization>
     <name>ggTools</name>

@@ -1,5 +1,10 @@
 $Id$
 
+Release 0.9:
+
+* Code cleanup to be more checkstyle compliant, the net.ggtools.grand.App
+  class have been removed.
+
 Release 0.4:
 
 * Grand now creates the nodes missing to satisfy a dependency, use the
