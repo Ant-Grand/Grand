@@ -50,7 +50,6 @@ public class ToNodeFilter extends GraphWalkFilter {
      */
     public ToNodeFilter(String nodeName) {
         super(nodeName);
-        // TODO Auto-generated constructor stub
     }
 
     /* (non-Javadoc)

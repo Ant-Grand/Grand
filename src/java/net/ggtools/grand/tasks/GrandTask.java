@@ -54,8 +54,7 @@ import org.apache.tools.ant.Task;
  * A task to create graphs. 
  * 
  * @author Christophe Labouisse
- * @todo add attributes elements
- * @todo add property file override
+ * @TODO Add properties subelements.
  */
 public class GrandTask extends Task {
 

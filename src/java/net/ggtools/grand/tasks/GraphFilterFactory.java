@@ -45,8 +45,6 @@ import org.apache.tools.ant.Project;
  * A class to instanciante the right filter type classes based
  * on the name parameter.
  * 
- * TODO implement unittest for this class
- * 
  * @author Christophe Labouisse
  */
 final class GraphFilterFactory {

@@ -69,6 +69,8 @@ import net.ggtools.grand.graph.Node;
  * The property values are sets of valid dot attributes without the surrounding
  * bracket.
  * 
+ * @TODO The current configuration scheme sucks create something more generic.
+ * 
  * @author Christophe Labouisse
  * @see <a href="http://www.research.att.com/sw/tools/graphviz/">Graphviz home page</a>
  * @see <a href="http://www.research.att.com/~erg/graphviz/info/attrs.html">Dot attributes</a>
