@@ -180,7 +180,7 @@ public class AntProject implements GraphProducer {
                     final String called = (String) wrapper.getAttributeMap().get("target");
                     
                     final Node calledNode = graph.getNode(called);
-                    final Link link = graph.createLink(null,startNode,calledNode);
+                    final Link link = graph.createLink("antcall",startNode,calledNode);
                     link.setAttributes(Link.ATTR_WEAK_LINK);
                 }
             }
