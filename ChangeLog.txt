@@ -1,5 +1,15 @@
 $Id$
 
+Release 1.5:
+
+* AntProject(File) now throws a Grand Exception when the build file
+  cannot be opened,
+* Relative paths in the dir attribute of the ant task are now handled
+  correctly,
+* The Ant task no longer crashes when no target is supplied,
+* Use new ant 1.6.2 API to get target execution conditions,
+
+
 Release 1.4:
 
 * Small fixes needed by release 0.2 of the GUI.
