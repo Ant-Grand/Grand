@@ -46,6 +46,25 @@ public abstract class AbstractGraphFilter implements GraphFilter {
 
     private Graph producersGraph;
 
+    protected String name;
+
+    /**
+     * Creates an anonymous filter.
+     *  
+     */
+    public AbstractGraphFilter() {
+        this("Anonymous");
+    }
+
+    /**
+     * Creates a named filter.
+     * 
+     * @param name
+     */
+    public AbstractGraphFilter(String name) {
+        this.name = name;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -84,14 +103,24 @@ public abstract class AbstractGraphFilter implements GraphFilter {
         graphProducer = producer;
         producersGraph = null;
     }
-    
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see net.ggtools.grand.filters.GraphFilter#getName()
+     */
+    public String getName() {
+        return name;
+    }
+
     /**
-     * Get the nodes from the graph that pass the filter. This method should
-     * not alter the input graph. The returned collection may be read only
-     * and return {@link UnsupportedOperationException} on modification methods.
+     * Get the nodes from the graph that pass the filter. This method should not
+     * alter the input graph. The returned collection may be read only and
+     * return {@link UnsupportedOperationException}on modification methods.
      * 
      * @return a collection of nodes.
-     * @throws GrandException if the filtering cannot be done
+     * @throws GrandException
+     *             if the filtering cannot be done
      */
     abstract protected Collection getFilteredNodes() throws GrandException;
 

@@ -81,6 +81,10 @@ public class FilterChainTest extends TestCase {
         public void setProducer(GraphProducer producer) {
             this.producer = producer;
         }
+
+        public String getName() {
+            return name;
+        }
     }
 
     private GraphFilter filter1;

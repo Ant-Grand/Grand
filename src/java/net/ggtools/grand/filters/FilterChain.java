@@ -28,7 +28,9 @@
 
 package net.ggtools.grand.filters;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -46,17 +48,25 @@ public class FilterChain implements GraphFilter {
 
     private GraphProducer lastFilter = null;
 
-    private GraphProducer producer = null;
+    private String name;
 
+    private GraphProducer producer = null;
+    
     /**
-     * Adds a new filter at the end of the chain.
-     * 
-     * @param newFilter
+     * Creates an <i>anonymous</i> filter chain.
+     *
      */
-    public void addFilterLast(GraphFilter newFilter) {
-        filterList.addLast(newFilter);
-        newFilter.setProducer(lastFilter);
-        lastFilter = newFilter;
+    public FilterChain() {
+        this("Anonymous");
+    }
+    
+    /**
+     * Creates a named filter chain.
+     * 
+     * @param name
+     */
+    public FilterChain(final String name) {
+        this.name = name;
     }
 
     /**
@@ -81,12 +91,31 @@ public class FilterChain implements GraphFilter {
     }
 
     /**
+     * Adds a new filter at the end of the chain.
+     * 
+     * @param newFilter
+     */
+    public void addFilterLast(GraphFilter newFilter) {
+        filterList.addLast(newFilter);
+        newFilter.setProducer(lastFilter);
+        lastFilter = newFilter;
+    }
+
+    /**
      * Removes all the filters in the chain.
      *  
      */
     public void clearFilters() {
         filterList.clear();
         lastFilter = producer;
+    }
+    
+    /**
+     * Returns a list of the filter in the chain.
+     * @return a readonly list of the filters.
+     */
+    public List getFilterList() {
+        return Collections.unmodifiableList(filterList);
     }
 
     /*
@@ -104,6 +133,13 @@ public class FilterChain implements GraphFilter {
         }
 
         return filteredGraph;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.filters.GraphFilter#getName()
+     */
+    public String getName() {
+        return name;
     }
 
     /*
