@@ -67,6 +67,8 @@ public class GrandTask extends Task {
     
     private LinkedList filters = new LinkedList();
 
+    private boolean showGraphName = false;
+
     /**
      * Check the parameters validity before execution.
      * 
@@ -131,6 +133,7 @@ public class GrandTask extends Task {
             
             GraphWriter writer = new DotWriter(override);
             writer.setProducer(producer);
+            writer.setShowGraphName(showGraphName);
 
             log("Writing output to " + output);
             writer.write(output);
@@ -178,6 +181,14 @@ public class GrandTask extends Task {
         this.propertyFile = propertyFile;
     }
     
+    public void setShowGraphName(boolean show) {
+        showGraphName = show;
+    }
+    
+    /**
+     * Add a filter to the task.
+     * @param filter
+     */
     public void addFilter(FilterType filter) {
         filters.add(filter);
     }

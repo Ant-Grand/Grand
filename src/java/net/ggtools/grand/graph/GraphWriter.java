@@ -55,9 +55,18 @@ public interface GraphWriter extends GraphConsumer {
     
     /**
      * Write a project's graph to a stream.
+     * 
      * @param stream The stream to write to.
      * @throws GrandException if the graph cannot be written for a problem
      *  within Grand.
      */
     void write(OutputStream stream) throws GrandException;
+
+    /**
+     * Set wether or not the graph name should be display on the written
+     * graph. The default value depends on the implementations.
+     * 
+     * @param showGraphName true to display the graph name.
+     */
+    void setShowGraphName(boolean showGraphName);
 }

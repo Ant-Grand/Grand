@@ -34,6 +34,10 @@
 		<grand buildfile="build-simple.xml" output="${temp.file}"/>
 	</target>
 
+	<target name="simple-build-with-graph-name" depends="init">
+		<grand showgraphname="yes" buildfile="build-simple.xml" output="${temp.file}"/>
+	</target>
+
 	<target name="import" depends="init">
 		<grand buildfile="build-import.xml" output="${temp.file}"/>
 	</target>

@@ -116,6 +116,8 @@ public class DotWriter implements GraphWriter {
 
     private GraphProducer graphProducer;
 
+    private boolean showGraphName;
+
     /**
      * Creates a new DotWriter using default configuration.
      */
@@ -245,7 +247,11 @@ public class DotWriter implements GraphWriter {
         StringBuffer header = new StringBuffer();
         header.append("digraph \"").append(escapeString(graph.getName())).append("\" {")
                 .append(LINE_SEPARATOR);
-        header.append("graph [").append(graphAttributes).append("];").append(LINE_SEPARATOR);
+        header.append("graph [").append(graphAttributes);
+        if (showGraphName) {
+            header.append(",label=\"").append(graph.getName()).append("\"");
+        }
+        header.append("];").append(LINE_SEPARATOR);
         header.append("node [").append(nodeAttributes).append("];").append(LINE_SEPARATOR);
         header.append("edge [").append(linkAttributes).append("];");
         output.println(header);
@@ -332,6 +338,13 @@ public class DotWriter implements GraphWriter {
      */
     public void setProducer(GraphProducer producer) {
         graphProducer = producer;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.GraphWriter#setShowGraphName(boolean)
+     */
+    public void setShowGraphName(boolean show) {
+        showGraphName = show;
     }
 
 }

@@ -89,15 +89,6 @@ public class AntProject implements GraphProducer {
         antProject = project;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ggtools.dependgraph.Project#getName()
-     */
-    public String getName() {
-        return antProject.getName();
-    }
-
     /**
      * Convert an Ant project to a Grand Graph.
      * 

@@ -117,6 +117,13 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-simple.dot");
     }
 
+    public void testSimpleBuildWithGraphName() throws IOException {
+        expectLogContaining("simple-build-with-graph-name", "Loading project ");
+        assertLogContaining("build-simple.xml");
+
+        assertTempFileMatchExpected("src/etc/testcases/build-simple-with-graph-name.dot");
+    }
+
     public void testImport() throws IOException {
         expectLogContaining("import", "Loading project ");
         assertLogContaining("build-import.xml");

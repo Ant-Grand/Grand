@@ -11,6 +11,8 @@ instance).
 
 * Bug: build.xml was completly outdated.
 
+* The graph's name can now be displayed.
+
 
 Release 0.3:
 
