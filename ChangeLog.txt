@@ -1,5 +1,12 @@
 $Id$
 
+Release 1.3:
+
+* Major rework in the way the ant file tasks are processed,
+* The nested ant, antcall & similar tasks are now correctly displayed,
+* Support for the runtarget task.
+
+
 Release 1.2:
 
 * Internal changes allowing to gather more information on targets,
