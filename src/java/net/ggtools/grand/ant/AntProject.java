@@ -59,6 +59,44 @@ import org.apache.tools.ant.Task;
  */
 public class AntProject implements GraphProducer {
     /**
+     * A condition helper using the {@link Target#getIf()}&
+     * {@link Target#getUnless()}methods introduced in Ant 1.6.2.
+     * @author Christophe Labouisse
+     */
+    private static class GetterConditionHelper implements TargetConditionHelper {
+
+        /**
+         * Build a new GetterConditionHelper. Since the need methods are only
+         * available in the last versions of Ant, we check if those method can
+         * be loaded.
+         * @throws NoSuchMethodException
+         * @throws SecurityException
+         */
+        public GetterConditionHelper() throws SecurityException, NoSuchMethodException {
+            final Class[] parameters = new Class[]{};
+            Target.class.getMethod("getIf", parameters);
+            Target.class.getMethod("getUnless", parameters);
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         */
+        public String getIfCondition(Target target) {
+            return target.getIf();
+        }
+
+        /*
+         * (non-Javadoc)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         */
+        public String getUnlessCondition(Target target) {
+            return target.getUnless();
+        }
+
+    }
+
+    /**
      * A condition helper always returning <code>null</code>. This class will
      * be used as a fallback helper
      * 
@@ -184,10 +222,21 @@ public class AntProject implements GraphProducer {
             TargetConditionHelper result;
 
             try {
-                result = new ReflectHelper();
+                result = new GetterConditionHelper();
+                Log.log("Using ant 1.6.2 getter",Log.MSG_VERBOSE);
             } catch (Exception e) {
-                Log.log("Cannot create ReflectHelper, trying next");
+                Log.log("Cannot create GetterConditionHelper, trying next one");
                 result = null;
+            }
+
+            if (result == null) {
+                try {
+                    result = new ReflectHelper();
+                    Log.log("Using ReflectHelper",Log.MSG_VERBOSE);
+                } catch (Exception e) {
+                    Log.log("Cannot create ReflectHelper, trying next one");
+                    result = null;
+                }
             }
 
             if (result == null) result = new NullConditionHelper();
@@ -211,10 +260,10 @@ public class AntProject implements GraphProducer {
 
     private final TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
             .getTargetConditionHelper();
-    
+
     private final TargetTasksExplorer targetExplorer = new TargetTasksExplorer(this);
 
-    private final LinkFinderVisitor taskLinkFinder; 
+    private final LinkFinderVisitor taskLinkFinder;
 
     /**
      * Creates a new project from an ant build file.
@@ -225,7 +274,8 @@ public class AntProject implements GraphProducer {
      * @param source
      *            The source for XML configuration.
      * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
-     * @throws GrandException if the project cannot be loaded.
+     * @throws GrandException
+     *             if the project cannot be loaded.
      */
     public AntProject(final File source) throws GrandException {
         Log.log("Parsing from " + source);
@@ -241,9 +291,9 @@ public class AntProject implements GraphProducer {
             Log.log("Done parsing", Log.MSG_VERBOSE);
         } catch (BuildException e) {
             // TODO Better rethrowing?
-            throw new GrandException("Cannot open project file "+source,e);
+            throw new GrandException("Cannot open project file " + source, e);
         }
-        
+
         taskLinkFinder = new LinkFinderVisitor(this);
     }
 
@@ -314,7 +364,7 @@ public class AntProject implements GraphProducer {
 
             node.setIfCondition(targetConditionHelper.getIfCondition(target));
             node.setUnlessCondition(targetConditionHelper.getUnlessCondition(target));
-            targetExplorer.exploreTarget(node,target);
+            targetExplorer.exploreTarget(node, target);
         }
 
         // Sets the start node if needed.
