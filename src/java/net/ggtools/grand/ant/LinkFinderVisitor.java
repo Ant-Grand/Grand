@@ -140,17 +140,20 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             antFile = antProject.replaceProperties(antFile);
         }
 
-        final File targetBuildFile;
-        if (targetBuildDirectoryName == null) {
-            targetBuildFile = new File(antProject.getBaseDir(), antFile);
-        }
-        else {
-            final String parentDirectoryName = antProject.replaceProperties(targetBuildDirectoryName);
-            File parentDirectory = new File(parentDirectoryName);
-            if (!parentDirectory.isAbsolute()) {
-                parentDirectory = new File(antProject.getBaseDir(),parentDirectoryName);
+        File targetBuildFile = new File(antFile);
+        if (!targetBuildFile.isAbsolute()) {
+            if (targetBuildDirectoryName == null) {
+                targetBuildFile = new File(antProject.getBaseDir(), antFile);
             }
-            targetBuildFile = new File(parentDirectory, antFile);
+            else {
+                final String parentDirectoryName = antProject
+                        .replaceProperties(targetBuildDirectoryName);
+                File parentDirectory = new File(parentDirectoryName);
+                if (!parentDirectory.isAbsolute()) {
+                    parentDirectory = new File(antProject.getBaseDir(), parentDirectoryName);
+                }
+                targetBuildFile = new File(parentDirectory, antFile);
+            }
         }
 
         final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
@@ -159,14 +162,14 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
         final String endNodeName;
 
+        String targetName = antProject.replaceProperties((String) wrapper.getAttributeMap().get(
+                ATTR_TARGET));
+
         if (isSameBuildFile) {
-            endNodeName = antProject.replaceProperties((String) wrapper.getAttributeMap().get(
-                    ATTR_TARGET));
+            endNodeName = targetName == null ? antProject.getDefaultTarget() : targetName;
         }
         else {
-            endNodeName = "["
-                    + antProject.replaceProperties((String) wrapper.getAttributeMap().get(
-                            ATTR_TARGET)) + "]";
+            endNodeName = "[" + (targetName == null ? "'default'" : targetName) + "]";
         }
 
         final AntTargetNode endNode = findOrCreateNode(endNodeName);
@@ -243,7 +246,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 final Hashtable childAttributeMap = child.getAttributeMap();
                 final String name = (String) childAttributeMap.get(ATTR_NAME);
                 if (name != null) {
-                    link.setParameter(name, antProject.replaceProperties((String) childAttributeMap.get(ATTR_VALUE)));
+                    link.setParameter(name, antProject.replaceProperties((String) childAttributeMap
+                            .get(ATTR_VALUE)));
                 }
             }
         }

@@ -30,6 +30,14 @@
 		<ant target="gabuzo" dir="/gruik" antfile="gruik.xml"/>
 	</target>
 	
+	<target name="ant-without-target-test">
+		<ant antfile="${ant.file}"/>
+	</target>
+	
+	<target name="ant-without-target-with-file-test">
+		<ant dir="/gruik" antfile="gruik.xml"/>
+	</target>
+	
 	<target name="antcall-test">
 		<antcall target="gruik"/>
 	</target>

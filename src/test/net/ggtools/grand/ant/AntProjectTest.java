@@ -116,6 +116,33 @@ public class AntProjectTest extends AbstractAntTester {
         assertEquals("Build file", "/gruik/gruik.xml", endNode.getBuildFile());
     }
 
+    public void testAntNoTargetSameFile() throws GrandException {
+        AntProject antProject = new AntProject(project);
+        Graph graph = antProject.getGraph();
+
+        // Test without target same file
+        AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
+        AntLink link = (AntLink) node.getLinks().iterator().next();
+        assertNotNull("shoud have found a link", link);
+        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        assertEquals("Should be the default target", "init", endNode.getName());
+        assertNull("Build file should be the currentFile", endNode.getBuildFile());
+    }
+
+
+    public void testAntNoTargetDifferentFile() throws GrandException {
+        AntProject antProject = new AntProject(project);
+        Graph graph = antProject.getGraph();
+        
+        // Test without target different file
+        AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
+        AntLink link = (AntLink) node.getLinks().iterator().next();
+        assertNotNull("shoud have found a link", link);
+        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        assertEquals("Target", "['default']", endNode.getName());
+        assertEquals("Build file", "/gruik/gruik.xml", endNode.getBuildFile());
+    }
+    
     /**
      * Run a graph on a file including an antcall whose target is based on a
      * property.
