@@ -46,20 +46,18 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * 
  * @author Christophe Labouisse
  */
-public class FromNodeFilterTest extends AbstractAntTester {
+public class ToNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
 
     private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
-            .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
-                    "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
-                    "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
-                    "jmxCheck"}));
+            .asList(new String[]{"dist", "jar", "log4j.jar", "prejar", "chainsaw", "build",
+                    "build.jms", "jndi", "jndiCheck", "build.jmx"}));
 
     /**
      * Constructor for IsolatedNodeFilterTest.
      * @param name
      */
-    public FromNodeFilterTest(String name) {
+    public ToNodeFilterTest(String name) {
         super(name);
     }
 
@@ -84,7 +82,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testConnectedStartNode() throws Exception {
-        GraphFilter filter = new FromNodeFilter("build");
+        GraphFilter filter = new ToNodeFilter("jndiCheck");
         filter.setProducer(producer);
         Graph graph = filter.getGraph();
 
@@ -109,7 +107,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testNotFilteredStartNode() throws Exception {
-        GraphFilter filter = new FromNodeFilter("build");
+        GraphFilter filter = new ToNodeFilter("jndiCheck");
         filter.setProducer(producer);
         project.setDefault("build");
         Graph graph = filter.getGraph();
