@@ -86,6 +86,31 @@ A two filters example:
 	</grand>
 
 
+
+Known issues
+------------
+
+Subant dependencies on tasks not yet processed before invoking the grand task.
+For instance in the following pseudo-build.xml:
+
+    <target name="subant-task-1">
+        <subant .../>
+    </target>
+
+    <target name="subant-task-2">
+        <subant .../>
+    </target>
+
+	<target name="dograph">
+		<grand .../>
+	</target>
+
+Running "ant dograph" will get all the subant dependencies, while running
+"ant subant-task-1 dograph" will only get dependencies from "subant-task-2"
+and running "ant subant-task-1 subant-task-2 dograph" won't get any subant
+dependencies at all.
+
+
 More information
 ----------------
 
