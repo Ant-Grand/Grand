@@ -223,7 +223,7 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = new GetterConditionHelper();
-                Log.log("Using ant 1.6.2 getter",Log.MSG_VERBOSE);
+                Log.log("Using ant 1.6.2 getter", Log.MSG_VERBOSE);
             } catch (Exception e) {
                 Log.log("Cannot create GetterConditionHelper, trying next one");
                 result = null;
@@ -232,7 +232,7 @@ public class AntProject implements GraphProducer {
             if (result == null) {
                 try {
                     result = new ReflectHelper();
-                    Log.log("Using ReflectHelper",Log.MSG_VERBOSE);
+                    Log.log("Using ReflectHelper", Log.MSG_VERBOSE);
                 } catch (Exception e) {
                     Log.log("Cannot create ReflectHelper, trying next one");
                     result = null;
@@ -252,9 +252,9 @@ public class AntProject implements GraphProducer {
 
     private static final String ANTCALL_TASK_NAME = "antcall";
 
-    static final String BUILD_XML = "build.xml";
-
     private static final String FOREACH_TASK_NAME = "foreach";
+
+    static final String BUILD_XML = "build.xml";
 
     private org.apache.tools.ant.Project antProject;
 
