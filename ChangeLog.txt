@@ -1,9 +1,27 @@
 $Id$
 
+Release 0.3.1:
+
+* Bug: antcall crashed when the target do not exists (property defined for
+instance).
+
+* Bug: antcall search crashes if getTaskType returned null.
+
+* Bug: some unit tests do not pass on Windows.
+
+* Bug: build.xml was completly outdated.
+
+
+Release 0.3:
+
+* Add filters in grand task.
+
+* antcall now generate weak link
+
 Release 0.2:
 
-* Prefered method to load classes is now Ant lib since it
-  allow to define both task and type in the same file.
+* Prefered method to load classes is now Ant lib since it allow to define both
+the task and type in the same file.
 
 * Internal refactoring to prepare for filtering.
 
