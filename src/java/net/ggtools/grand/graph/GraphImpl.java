@@ -1,32 +1,29 @@
 // $Id$
-/* ====================================================================
- * Copyright (c) 2002-2003, Christophe Labouisse
- * All rights reserved.
- *
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
+ * 
  * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above
- *    copyright notice, this list of conditions and the following
- *    disclaimer in the documentation and/or other materials provided
- *    with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
 package net.ggtools.grand.graph;
@@ -35,8 +32,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
 
 /**
  * Simple GraphImpl implementation.
@@ -44,6 +43,8 @@ import net.ggtools.grand.exceptions.DuplicateNodeException;
  * @author Christophe Labouisse
  */
 public class GraphImpl implements Graph {
+    private static final Log log = LoggerManager.getLog(GraphImpl.class);
+
     /**
      * An proxified iterator used for getNodes.
      * 
@@ -55,7 +56,8 @@ public class GraphImpl implements Graph {
         private Object lastNode;
 
         /**
-         * @param iterator underlying iterator.
+         * @param iterator
+         *            underlying iterator.
          */
         public NodeIterator(final Iterator iterator) {
             this.underlying = iterator;
@@ -77,7 +79,7 @@ public class GraphImpl implements Graph {
         }
 
         /**
-         * 
+         *  
          */
         public void remove() {
             underlying.remove();
@@ -91,7 +93,7 @@ public class GraphImpl implements Graph {
     private final Map nodeList = new LinkedHashMap();
 
     private Node graphStartNode;
-    
+
     private GraphElementFactory elementFactory;
 
     /**
@@ -126,15 +128,16 @@ public class GraphImpl implements Graph {
     /**
      * Sets the graph starting node.
      * 
-     * @param node to be marked as the starting node of the graph.
+     * @param node
+     *            to be marked as the starting node of the graph.
      */
     public void setStartNode(final Node node) {
         graphStartNode = node;
     }
 
     /**
-     * Creates a new Node. The object's name must not be <code>null</code>
-     * and must be unique within the graph.
+     * Creates a new Node. The object's name must not be <code>null</code> and
+     * must be unique within the graph.
      * 
      * @param nodeName
      *            new node's name
@@ -152,8 +155,8 @@ public class GraphImpl implements Graph {
 
     /**
      * Creates a new link between two nodes. Unlike {@link #createNode(String)},
-     * this method do not require the link's name to be unique or not null.
-     * Both nodes should be not null.
+     * this method do not require the link's name to be unique or not null. Both
+     * nodes should be not null.
      * 
      * @param linkName
      *            the new link name, can be <code>null</code>
@@ -173,14 +176,16 @@ public class GraphImpl implements Graph {
     /**
      * Find a node from its name.
      * 
-     * @param nodeName name of the node to find.
+     * @param nodeName
+     *            name of the node to find.
      * @return the node or null if not found.
      */
     public Node getNode(final String nodeName) {
         return (Node) nodeList.get(nodeName);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see net.ggtools.grand.Graph#hasNode(java.lang.String)
      */
     public boolean hasNode(final String nodeName) {
@@ -189,10 +194,10 @@ public class GraphImpl implements Graph {
 
     /**
      * Get the nodes contained in the graph. The implementing class should
-     * garantee that the Iterator will only returns object implementing the
-     * Node interface. The returned iterator should implement the
-     * optional {@link Iterator#remove()}method in order to allow
-     * the filters to remove nodes.
+     * garantee that the Iterator will only returns object implementing the Node
+     * interface. The returned iterator should implement the optional
+     * {@link Iterator#remove()}method in order to allow the filters to remove
+     * nodes.
      * 
      * @return an iterator to the graph's nodes.
      */
@@ -201,13 +206,14 @@ public class GraphImpl implements Graph {
     }
 
     /**
-     * Remove all links starting from or ending to the node.
-     * This method do not remove the node from nodeList.
-     *  
-     * @param node node to remove from the links.
+     * Remove all links starting from or ending to the node. This method do not
+     * remove the node from nodeList.
+     * 
+     * @param node
+     *            node to remove from the links.
      */
     protected void unlinkNode(final Node node) {
-        Log.log("Unlinking node " + node, Log.MSG_DEBUG);
+        if (log.isTraceEnabled()) log.trace("Unlinking node " + node);
 
         for (Iterator iter = node.getLinks().iterator(); iter.hasNext();) {
             Link link = (Link) iter.next();
@@ -229,8 +235,8 @@ public class GraphImpl implements Graph {
     }
 
     /**
-     * Returns the current element factory creating one if none exists yet. This method
-     * can be overriden to use a custom factory.
+     * Returns the current element factory creating one if none exists yet. This
+     * method can be overriden to use a custom factory.
      * 
      * @return the element factory.
      */

@@ -33,19 +33,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.AntTargetNode.SourceElement;
+import net.ggtools.grand.log.LoggerManager;
 
+import org.apache.commons.logging.Log;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
- * A class to recursively explore the tasks of a target.
+ * A class to recursively explore the tasks of a target to rebuild the source
+ * code.
  * 
  * @author Christophe Labouisse
  */
 class TargetTasksExplorer {
+    private static final Log log = LoggerManager.getLog(TargetTasksExplorer.class);
+
     private final AntProject antProject;
 
     private List textElements;
@@ -61,12 +65,12 @@ class TargetTasksExplorer {
     }
 
     /**
-     * Start exploring an ant target.
+     * Rebuild a node source by exploring
      * 
      * @param target
      */
     public void exploreTarget(final AntTargetNode node, final Target target) {
-        Log.log("Exploring target " + target.getName(), Log.MSG_DEBUG);
+        log.trace("Exploring target " + target.getName());
         textElements = new LinkedList();
         addText("<target name=\"", AntTargetNode.SOURCE_MARKUP);
         addText(target.getName(), AntTargetNode.SOURCE_ATTRIBUTE);
@@ -118,7 +122,7 @@ class TargetTasksExplorer {
 
         if (hasChildren) addText("</target>", AntTargetNode.SOURCE_MARKUP);
 
-        // Purge extraneous elements
+        // Merge contiguous source elements of the same style.
         AntTargetNode.SourceElement previous = null;
         for (Iterator iter = textElements.iterator(); iter.hasNext();) {
             AntTargetNode.SourceElement element = (AntTargetNode.SourceElement) iter.next();
@@ -145,7 +149,7 @@ class TargetTasksExplorer {
         node.setSource(buffer.toString());
     }
 
-    public void exploreTask(final RuntimeConfigurable wrapper, final int level) {
+    private void exploreTask(final RuntimeConfigurable wrapper, final int level) {
         indent(level);
         addText("<", AntTargetNode.SOURCE_MARKUP);
         addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);

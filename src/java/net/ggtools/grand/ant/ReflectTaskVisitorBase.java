@@ -32,9 +32,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.log.LoggerManager;
 
+import org.apache.commons.logging.Log;
 import org.apache.tools.ant.RuntimeConfigurable;
 
 /**
@@ -44,6 +45,8 @@ import org.apache.tools.ant.RuntimeConfigurable;
  * @author Christophe Labouisse
  */
 abstract class ReflectTaskVisitorBase implements TaskVisitor {
+    private static final Log log = LoggerManager
+            .getLog(ReflectTaskVisitorBase.class);
 
     private static final Class[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
 
@@ -81,11 +84,9 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod = getClass().getDeclaredMethod(methodName, METHOD_PARAMETER_TYPES);
                 methodCache.put(taskName, visitMethod);
             } catch (SecurityException e) {
-                // TODO find a way to dump the stack trace.
-                Log.log("Caught Security exception looking for" + methodName + ": "
-                        + e.getMessage(), Log.MSG_WARN);
+                log.warn("Caught Security exception looking for" + methodName, e);
             } catch (NoSuchMethodException e) {
-                Log.log("Cannot find method " + methodName, Log.MSG_VERBOSE);
+                log.debug("Cannot find method " + methodName);
             }
         }
 
@@ -96,22 +97,20 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod.invoke(this, new Object[]{wrapper});
                 invokationOk = true;
             } catch (IllegalAccessException e) {
-                // TODO find a way to dump the stack trace.
-                Log.log("Caught IllegalAccessException invoking " + visitMethod + ": "
-                        + e.getMessage(), Log.MSG_WARN);
+                log.warn("Caught IllegalAccessException invoking " + visitMethod, e);
             } catch (InvocationTargetException e) {
                 // Process the exception raised by the method invokation.
                 // GrandException & RuntimeException are propagated.
                 final Throwable cause = e.getCause();
                 if (cause instanceof GrandException) {
                     throw (GrandException) cause;
-                } else if (cause instanceof RuntimeException) {
-                    throw (RuntimeException)cause;
-                } else {
-                    // TODO find a way to dump the stack trace.
-                    // TODO That's a real exception what to do with it?
-                    Log.log("Caught unexepected exception " + cause + " on " + visitMethod,
-                            Log.MSG_ERR);
+                }
+                else if (cause instanceof RuntimeException) {
+                    throw (RuntimeException) cause;
+                }
+                else {
+                    // FIXME That's a real exception what to do with it?
+                    log.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
                 }
             }
         }

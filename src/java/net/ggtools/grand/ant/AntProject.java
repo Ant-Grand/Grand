@@ -33,14 +33,15 @@ import java.lang.reflect.Field;
 import java.util.Enumeration;
 import java.util.Iterator;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
 
+import org.apache.commons.logging.Log;
 import org.apache.tools.ant.AntTypeDefinition;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.ComponentHelper;
@@ -61,6 +62,8 @@ import org.apache.tools.ant.Task;
  *      the <code>foreach</code> task.
  */
 public class AntProject implements GraphProducer {
+    private static final Log log = LoggerManager.getLog(AntProject.class);
+
     /**
      * A condition helper using the {@link Target#getIf()}&
      * {@link Target#getUnless()}methods introduced in Ant 1.6.2.
@@ -157,7 +160,7 @@ public class AntProject implements GraphProducer {
                 result = (String) ifCondition.get(target);
                 if ("".equals(result)) result = null;
             } catch (Exception e) {
-                Log.log("Caugh exception, returning null " + e, Log.MSG_ERR);
+                log.error("Caugh exception, ignoring if condition", e);
             }
 
             return result;
@@ -175,7 +178,7 @@ public class AntProject implements GraphProducer {
                 result = (String) unlessCondition.get(target);
                 if ("".equals(result)) result = null;
             } catch (Exception e) {
-                Log.log("Caugh exception, returning null " + e, Log.MSG_ERR);
+                log.error("Caugh exception, ignoring unless condition", e);
             }
 
             return result;
@@ -226,18 +229,18 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = new GetterConditionHelper();
-                Log.log("Using ant 1.6.2 getter", Log.MSG_VERBOSE);
+                log.debug("Using ant 1.6.2 getter");
             } catch (Exception e) {
-                Log.log("Cannot create GetterConditionHelper, trying next one");
+                log.debug("Cannot create GetterConditionHelper, trying next one");
                 result = null;
             }
 
             if (result == null) {
                 try {
                     result = new ReflectHelper();
-                    Log.log("Using ReflectHelper", Log.MSG_VERBOSE);
+                    log.debug("Using ReflectHelper");
                 } catch (Exception e) {
-                    Log.log("Cannot create ReflectHelper, trying next one");
+                    log.debug("Cannot create ReflectHelper, trying next one");
                     result = null;
                 }
             }
@@ -273,7 +276,7 @@ public class AntProject implements GraphProducer {
      *             if the project cannot be loaded.
      */
     public AntProject(final File source) throws GrandException {
-        Log.log("Parsing from " + source);
+        log.info("Parsing from " + source);
         antProject = new Project();
         antProject.setSystemProperties();
         antProject.init();
@@ -283,10 +286,12 @@ public class AntProject implements GraphProducer {
             final ProjectHelper loader = ProjectHelper.getProjectHelper();
             antProject.addReference("ant.projectHelper", loader);
             loader.parse(antProject, source);
-            Log.log("Done parsing", Log.MSG_VERBOSE);
+            log.debug("Done parsing");
         } catch (BuildException e) {
+            final String message = "Cannot open project file " + source;
+            log.error(message, e);
             // TODO Better rethrowing?
-            throw new GrandException("Cannot open project file " + source, e);
+            throw new GrandException(message, e);
         }
 
         postInit();
@@ -298,20 +303,22 @@ public class AntProject implements GraphProducer {
     private void postInit() {
         taskLinkFinder = new LinkFinderVisitor(this);
 
-        // Change the component helper to instanciate SubAntHelper for subant task. 
+        // Change the component helper to instanciate SubAntHelper for subant
+        // task.
         final ComponentHelper helper = (ComponentHelper) antProject
                 .getReference("ant.ComponentHelper");
         if (helper != null) {
             final AntTypeDefinition subAntDef = helper.getDefinition("subant");
             if (subAntDef == null) {
-                Log.log("No definition found for the subant task in ComponentHelper, disabling");
+                log
+                        .info("No definition found for the subant task in ComponentHelper, disabling subant");
             }
             else {
                 subAntDef.setClass(SubAntHelper.class);
             }
         }
         else {
-            Log.log("No component helper in current project",Log.MSG_WARN);
+            log.warn("No component helper in current project");
         }
     }
 
@@ -359,7 +366,7 @@ public class AntProject implements GraphProducer {
      * @see GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
-        Log.log("Triggering AntProject", Log.MSG_VERBOSE);
+        log.debug("Triggering AntProject");
 
         final AntGraph graph = new AntGraph(antProject);
 
@@ -443,13 +450,13 @@ public class AntProject implements GraphProducer {
         Node endNode = graph.getNode(endNodeName);
 
         if (endNode == null) {
-            Log.log("Target " + startNode + " has dependency to non existent target " + endNodeName
-                    + ", creating a dummy node", Log.MSG_WARN);
+            log.warn("Target " + startNode + " has dependency to non existent target "
+                    + endNodeName + ", creating a dummy node");
             endNode = graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
 
-        Log.log("Creating link from " + startNode + " to " + endNodeName, Log.MSG_VERBOSE);
+        log.debug("Creating link from " + startNode + " to " + endNodeName);
         return (AntLink) graph.createLink(linkName, startNode, endNode);
     }
 }

@@ -39,12 +39,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import net.ggtools.grand.Log;
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
 import net.ggtools.grand.exceptions.DuplicateNodeException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
 
+import org.apache.commons.logging.Log;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
@@ -57,6 +58,8 @@ import org.apache.tools.ant.types.Path;
  * @author Christophe Labouisse
  */
 public class LinkFinderVisitor extends ReflectTaskVisitorBase {
+    private static final Log log = LoggerManager
+    .getLog(LinkFinderVisitor.class);
 
     private final static Map aliases = new HashMap();
 
@@ -142,7 +145,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     public void reflectVisit_ant(final RuntimeConfigurable wrapper) throws DuplicateNodeException {
         final Project antProject = project.getAntProject();
-        Log.log("Processing ant target in " + startNode.getName(), Log.MSG_INFO);
+        log.info("Processing ant target in " + startNode.getName());
         // Find the build file.
         final String targetBuildDirectoryName = (String) wrapper.getAttributeMap().get(ATTR_DIR);
         String antFile = (String) wrapper.getAttributeMap().get(ATTR_ANTFILE);
@@ -191,14 +194,14 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     public void reflectVisit_antcall(final RuntimeConfigurable wrapper)
             throws DuplicateNodeException {
-        Log.log("Processing antcall target in " + startNode.getName(), Log.MSG_INFO);
+        log.info("Processing antcall target in " + startNode.getName());
         final Project antProject = project.getAntProject();
         final String endNodeName = antProject.replaceProperties((String) wrapper.getAttributeMap()
                 .get(ATTR_TARGET));
 
         final AntTargetNode endNode = findOrCreateNode(endNodeName);
 
-        Log.log("Creating link from " + startNode + " to " + endNodeName, Log.MSG_VERBOSE);
+        log.debug("Creating link from " + startNode + " to " + endNodeName);
         final AntTaskLink link = graph.createTaskLink(null, startNode, endNode, wrapper
                 .getElementTag());
 
@@ -220,8 +223,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     public void reflectVisit_subant(final RuntimeConfigurable wrapper)
             throws DuplicateNodeException {
-        Log.log("Processing subant target in " + startNode.getName(), Log.MSG_INFO);
-        // TODO implement it
+       log.info("Processing subant target in " + startNode.getName());
         final Project antProject = project.getAntProject();
 
         // Configure the wrapper's proxy and get the configured task.
@@ -239,7 +241,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             final List genericantfileDirs = new LinkedList();
 
             if ((buildPath == null) || (buildPath.size() == 0)) {
-                Log.log("buildPath is null or empty, subant task probably won't work",Log.MSG_WARN);
+                log.warn("buildPath is null or empty, subant task probably won't work");
                 return;
             }
 
@@ -283,8 +285,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
             if (genericantfileDirs.size() > 0) {
                 final AntTargetNode endNode = findOrCreateNodeInFile(genericantfile, target);
-                Log.log("Creating link from " + startNode + " to " + endNode.getName(),
-                        Log.MSG_VERBOSE);
+                log.debug("Creating link from " + startNode + " to " + endNode.getName());
                 final SubantTaskLink link = graph.createSubantTaskLink(null, startNode, endNode,
                         wrapper.getElementTag());
 
@@ -295,8 +296,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
         }
         else {
-            Log.log("Cannot get information for subant task");
-            Log.log("Task should be instance of SubAntHelper but is " + proxy, Log.MSG_VERBOSE);
+            log.warn("Cannot get information for subant task");
+            log.debug("Task should be instance of SubAntHelper but is " + proxy);
         }
     }
 
@@ -355,7 +356,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             final String target) throws DuplicateNodeException {
         final AntTargetNode endNode = findOrCreateNodeInFile(targetBuildFile, target);
 
-        Log.log("Creating link from " + startNode + " to " + endNode.getName(), Log.MSG_VERBOSE);
+        log.debug("Creating link from " + startNode + " to " + endNode.getName());
         return graph.createTaskLink(null, startNode, endNode, taskName);
     }
 
@@ -368,8 +369,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         AntTargetNode endNode = (AntTargetNode) graph.getNode(endNodeName);
 
         if (endNode == null) {
-            Log.log("Target " + startNode + " has dependency to non existent target " + endNodeName
-                    + ", creating a dummy node", Log.MSG_INFO);
+            log.info("Target " + startNode + " has dependency to non existent target " + endNodeName
+                    + ", creating a dummy node");
             endNode = (AntTargetNode) graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
@@ -401,12 +402,12 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             if (targetName == null) {
                 try {
                     // TODO Caching.
-                    Log.log("Reading project file " + targetBuildFile, Log.MSG_VERBOSE);
+                    log.debug("Reading project file " + targetBuildFile);
                     final AntProject tmpProj = new AntProject(targetBuildFile);
                     targetName = tmpProj.getAntProject().getDefaultTarget();
                 } catch (GrandException e) {
-                    Log.log("Caught exception trying to read " + targetBuildFile
-                            + " using default target name", Log.MSG_ERR);
+                    log.error("Caught exception trying to read " + targetBuildFile
+                            + " using default target name", e);
                     targetName = "'default'";
                 }
 

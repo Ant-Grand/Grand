@@ -66,7 +66,6 @@ public class AntLog extends SimpleLog implements Log {
             if (antMsgLevel < Project.MSG_ERR) antMsgLevel = Project.MSG_ERR;
             else if (antMsgLevel > Project.MSG_DEBUG) antMsgLevel = Project.MSG_DEBUG;
 
-            // TODO add a target.
             if (currentTask == null) currentProject.log(message.toString(), antMsgLevel);
             else
                 currentProject.log(currentTask, message.toString(), antMsgLevel);

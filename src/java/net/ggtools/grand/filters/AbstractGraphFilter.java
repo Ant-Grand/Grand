@@ -31,16 +31,19 @@ package net.ggtools.grand.filters;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.ggtools.grand.Log;
+import org.apache.commons.logging.Log;
+
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
 
 /**
  * @author Christophe Labouisse
  */
 public abstract class AbstractGraphFilter implements GraphFilter {
+    private static final Log log = LoggerManager.getLog(AbstractGraphFilter.class);
 
     private GraphProducer graphProducer;
 
@@ -71,7 +74,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
-        Log.log("Triggering AbstractGraphFilter", Log.MSG_VERBOSE);
+        log.debug("Triggering AbstractGraphFilter");
         final Graph graph = getProducersGraph();
 
         if (graph != null) {

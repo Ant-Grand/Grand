@@ -36,8 +36,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
-import net.ggtools.grand.Log;
+import net.ggtools.grand.log.LoggerManager;
 
+import org.apache.commons.logging.Log;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
@@ -48,6 +49,7 @@ import org.apache.tools.ant.Project;
  * @author Christophe Labouisse
  */
 final class GraphFilterFactory {
+    private static final Log log = LoggerManager.getLog(GraphFilterFactory.class);
     /**
      * Properties giving the java class to use for a filter name.
      */
@@ -58,7 +60,7 @@ final class GraphFilterFactory {
             CONFIGURATION.load(GraphFilterFactory.class
                     .getResourceAsStream("GraphFilterFactory.properties"));
         } catch (IOException e) {
-            Log.log("Cannot read properties: " + e.getMessage(), Log.MSG_ERR);
+            log.error("Cannot read properties",e);
             throw new RuntimeException(e);
         }
     }

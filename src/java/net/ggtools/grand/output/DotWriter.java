@@ -41,13 +41,15 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import net.ggtools.grand.Configuration;
-import net.ggtools.grand.Log;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.graph.GraphWriter;
 import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
 
 /**
  * A class to write dependency graph in dot format.
@@ -76,6 +78,7 @@ import net.ggtools.grand.graph.Node;
  * @see <a href="http://www.research.att.com/~erg/graphviz/info/attrs.html">Dot attributes</a>
  */
 public class DotWriter implements GraphWriter {
+    private static final Log log = LoggerManager.getLog(DotWriter.class);
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
@@ -236,7 +239,7 @@ public class DotWriter implements GraphWriter {
      * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.File)
      */
     public void write(final File output) throws IOException, GrandException {
-        Log.log("Outputing to " + output);
+        log.info("Outputing to " + output);
         FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();
