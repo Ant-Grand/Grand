@@ -39,9 +39,61 @@ import net.ggtools.grand.graph.visit.NodeVisitor;
  */
 public class AntTargetNode extends NodeImpl {
 
+    public static class SourceElement {
+
+        private int style;
+
+        private String text;
+
+        public SourceElement(final String text, final int style) {
+            this.text = text;
+            this.style = style;
+        }
+
+        /**
+         * @return Returns the style.
+         */
+        public final int getStyle() {
+            return style;
+        }
+
+        /**
+         * @return Returns the text.
+         */
+        public final String getText() {
+            return text;
+        }
+
+        /**
+         * @param style
+         *            The style to set.
+         */
+        final void setStyle(int style) {
+            this.style = style;
+        }
+
+        /**
+         * @param text
+         *            The text to set.
+         */
+        final void setText(String text) {
+            this.text = text;
+        }
+    }
+
+    public final static int SOURCE_ATTRIBUTE = 2;
+
+    public final static int SOURCE_INKNOWN = 0;
+
+    public final static int SOURCE_MARKUP = 1;
+
+    public final static int SOURCE_TEXT = 3;
+
     private String buildFile;
 
     private String ifCondition;
+
+    private SourceElement[] richSource;
 
     private String unlessCondition;
 
@@ -51,6 +103,14 @@ public class AntTargetNode extends NodeImpl {
      */
     public AntTargetNode(String name, Graph graph) {
         super(name, graph);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
+     */
+    public void accept(NodeVisitor visitor) {
+        visitor.visitNode(this);
     }
 
     /**
@@ -74,6 +134,13 @@ public class AntTargetNode extends NodeImpl {
     }
 
     /**
+     * @return Returns the richSource.
+     */
+    public final SourceElement[] getRichSource() {
+        return richSource;
+    }
+
+    /**
      * Returns the <em>unless condition</em> for the target or
      * <code>null</code> if none defined.
      * 
@@ -81,6 +148,14 @@ public class AntTargetNode extends NodeImpl {
      */
     public final String getUnlessCondition() {
         return unlessCondition;
+    }
+
+    /**
+     * @param richSource
+     *            The richSource to set.
+     */
+    public final void setRichSource(SourceElement[] richSource) {
+        this.richSource = richSource;
     }
 
     /**
@@ -105,13 +180,6 @@ public class AntTargetNode extends NodeImpl {
      */
     final void setUnlessCondition(String unlessCondition) {
         this.unlessCondition = unlessCondition;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
-     */
-    public void accept(NodeVisitor visitor) {
-        visitor.visitNode(this);
     }
 
 }

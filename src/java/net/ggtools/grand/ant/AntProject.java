@@ -314,6 +314,7 @@ public class AntProject implements GraphProducer {
 
             node.setIfCondition(targetConditionHelper.getIfCondition(target));
             node.setUnlessCondition(targetConditionHelper.getUnlessCondition(target));
+            targetExplorer.exploreTarget(node,target);
         }
 
         // Sets the start node if needed.

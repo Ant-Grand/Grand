@@ -142,4 +142,13 @@ public interface Node extends GraphObject {
      * @param visitor
      */
     void accept(NodeVisitor visitor);
+
+    /**
+     * Returns the source snippet for the node. Implementations may return
+     * <code>null</code> if no source is available or if the source concept is
+     * not relevant.
+     * 
+     * @return The source snippet for the node or <code>null</code>;
+     */
+    String getSource();
 }

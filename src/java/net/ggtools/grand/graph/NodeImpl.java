@@ -53,6 +53,8 @@ public class NodeImpl extends AttributeManager implements Node {
     private LinkedHashSet links;
 
     private LinkedHashSet backLinks;
+    
+    private String source;
 
     /**
      * Creates an new NodeImpl.
@@ -181,5 +183,21 @@ public class NodeImpl extends AttributeManager implements Node {
      */
     public void accept(NodeVisitor visitor) {
         visitor.visitNode(this);
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.graph.Node#getSource()
+     */
+    public String getSource() {
+        return source;
+    }
+    
+    /**
+     * Sets the source snippet for the node.
+     * 
+     * @param newSource
+     */
+    public void setSource(final String newSource) {
+        source = newSource;
     }
 }
