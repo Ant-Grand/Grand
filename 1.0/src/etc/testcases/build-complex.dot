@@ -1,0 +1,73 @@
+digraph "Grand complex build file" {
+graph [rankdir="LR"];
+node [fontsize="12"];
+edge [fontsize="10"];
+"compile" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold"];
+"compile" -> "prepare" [label="1"];
+"compile" -> "compile.java" [label="2"];
+"compile" -> "compile.jni" [label="3"];
+
+"prepare"
+"prepare" -> "init";
+
+"check-uptodate-dotfile"
+"check-uptodate-dotfile" -> "prepare-depgraph";
+
+"jar" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Create jar files for the java classes"];
+"jar" -> "compile.java" [label="1"];
+"jar" -> "process-config-files" [label="2"];
+
+"prepare-depgraph"
+
+"compile.jni"
+"compile.jni" -> "prepare" [label="1"];
+"compile.jni" -> "compile.cpp" [label="2", fontsize="10",style="dotted"];
+
+"process-config-files"
+"process-config-files" -> "prepare" [label="1"];
+"process-config-files" -> "compile" [label="2"];
+"process-config-files" -> "process-one-config-file" [label="3", fontsize="10",style="dotted"];
+
+"grand"
+"grand" -> "prepare-depgraph" [label="1"];
+"grand" -> "check-uptodate-dotfile" [label="2"];
+
+"compile.java"
+"compile.java" -> "prepare";
+
+"clean.java"
+
+"dist" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Prepare the distribution"];
+"dist" -> "jar" [label="1"];
+"dist" -> "test" [label="2"];
+
+"check-uptodate-target"
+"check-uptodate-target" -> "prepare-depgraph";
+
+"clean" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Remove intermediate files"];
+"clean" -> "clean.java" [label="1"];
+"clean" -> "clean.jni" [label="2"];
+"clean" -> "clean.depgraph" [label="3"];
+
+"depgraph" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Creates a PostScript dependency graph"];
+"depgraph" -> "check-uptodate-target" [label="1"];
+"depgraph" -> "prepare-depgraph" [label="2"];
+"depgraph" -> "grand" [label="3"];
+
+"init"
+
+"test" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Run the unit tests"];
+"test" -> "jar" [label="1"];
+"test" -> "compile" [label="2"];
+
+"process-one-config-file"
+
+"clean.depgraph" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="Remove dependency graph intermediate files."];
+"clean.depgraph" -> "prepare-depgraph";
+
+"clean.jni"
+
+"compile.cpp"
+"compile.cpp" -> "prepare";
+
+}

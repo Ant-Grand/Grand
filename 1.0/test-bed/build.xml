@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!-- $Id$ -->
+<project name="GrandTask" default="graph">
+	<description>
+		My little test bed for distribs.
+	</description>
+	<property name="antcall.target" value="init"/>
+	<target name="init">
+		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/grand-0.3.1-pre.jar"/>
+	</target>
+
+	<target name="antcalltarget">
+		<antcall target="${antcall.target}"/>
+	</target>
+
+	<target name="current-project" depends="init">
+		<grand output="current.dot"/>
+		<exec executable="dot" >
+		    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o current.ps current.dot"/>
+		</exec>
+	</target>	
+
+	<target name="ant-build" depends="init">
+		<grand buildfile="ant-build.xml" output="ant.dot"/>
+		<exec executable="dot" >
+		    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o ant.ps ant.dot"/>
+		</exec>
+	</target>
+	
+	<target name="graph" depends="current-project, ant-build"/>
+</project>
+

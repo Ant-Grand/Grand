@@ -1,0 +1,10 @@
+Before 1.0:
+
+- Tester avec ant 1.6.1 et Java 1.5.0 beta
+
+After 1.0:
+
+- IHM/Plugin ;
+- Nouvelle configuration ;
+- subant/ant -> subgraph/clusters ;
+

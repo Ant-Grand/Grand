@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- $Id$ -->
+<project name="AntCallWithProperties" default="isolated">
+	<target name="init"/>
+	
+	<target name="do-init" depends="init"/>
+	
+	<target name="antcall-props-1">
+		<antcall target="${antcall.target}"/>
+	</target>
+
+	<target name="antcall-props-2">
+		<antcall target="do-${antcall.target}"/>
+	</target>
+</project>

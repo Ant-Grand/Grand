@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- $Id$ -->
+<project name="IsolatedNodeFilter" default="init">
+	<description>
+		Ant build file for running the MissingNodeFilterTest JUnit tests.
+	</description>
+	<target name="init">
+		<typedef resource="net/ggtools/grand/antlib.xml"/>
+		<tempfile property="temp.file" suffix=".dot"/>
+	</target>
+
+	<target name="depend-1" depends="init"/>
+	
+	<target name="depend-2" depends="depend-3,init"/>
+	
+</project>
