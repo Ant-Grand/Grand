@@ -50,11 +50,11 @@ import org.apache.tools.ant.Project;
  * @author Christophe Labouisse
  */
 final class GraphFilterFactory {
-    static final Properties configuration = new Properties();
+    static final Properties CONFIGURATION = new Properties();
 
     static {
         try {
-            configuration.load(GraphFilterFactory.class
+            CONFIGURATION.load(GraphFilterFactory.class
                     .getResourceAsStream("GraphFilterFactory.properties"));
         } catch (IOException e) {
             Log.log("Cannot read properties: " + e.getMessage(), Log.MSG_ERR);
@@ -73,7 +73,7 @@ final class GraphFilterFactory {
     GraphFilterType getFilterType(Project project, String name) throws BuildException {
         project.log("Creating filter for name " + name, Project.MSG_DEBUG);
 
-        String filterClassName = configuration.getProperty(name);
+        String filterClassName = CONFIGURATION.getProperty(name);
 
         if (filterClassName == null) { throw new BuildException("Filter " + name
                 + " not configured"); }
