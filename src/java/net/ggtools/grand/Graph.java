@@ -97,6 +97,14 @@ public interface Graph {
      * @return the node or null if not found.
      */
     Node getNode(final String nodeName);
+    
+    /**
+     * Checks if the graph has a node with a specific name.
+     * 
+     * @param nodeName node to search.
+     * @return true if the graph contains a node called <code>nodeName</code>.
+     */
+    boolean hasNode(final String nodeName);
 
     /**
      * Get the nodes contained in the graph. The implementing class should

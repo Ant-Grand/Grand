@@ -177,6 +177,13 @@ public class GraphImpl implements Graph {
         return (Node) nodeList.get(nodeName);
     }
 
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Graph#hasNode(java.lang.String)
+     */
+    public boolean hasNode(String nodeName) {
+        return nodeList.containsKey(nodeName);
+    }
+
     /**
      * Get the nodes contained in the graph. The implementing class should
      * garantee that the Iterator will only returns object implementing the

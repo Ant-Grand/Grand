@@ -38,7 +38,7 @@ import net.ggtools.grand.GraphObject;
  * 
  * @author Christophe Labouisse
  */
-public abstract class AttributeManager implements GraphObject {
+abstract class AttributeManager implements GraphObject {
     private int attributes = 0;
     
     /* (non-Javadoc)
@@ -46,6 +46,13 @@ public abstract class AttributeManager implements GraphObject {
      */
     public void setAttributes(int attributeMask) {
         attributes |= attributeMask;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.GraphObject#getAttributes()
+     */
+    public int getAttributes() {
+        return attributes;
     }
 
     /* (non-Javadoc)

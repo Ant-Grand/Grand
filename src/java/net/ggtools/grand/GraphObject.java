@@ -74,6 +74,12 @@ public interface GraphObject {
      * @param attributeMask a bit mask of attributes to set.
      */
     void setAttributes(int attributeMask);
+
+    /**
+     * Returns a bitmask of all set attributes.
+     * @return
+     */
+    int getAttributes();
     
     /**
      * Sets one or more attributes of the object. Multiple attributes

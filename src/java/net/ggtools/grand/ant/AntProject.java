@@ -66,6 +66,7 @@ public class AntProject implements GraphProducer {
      * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
      */
     public AntProject(final File source) {
+        Log.log("Parsing from "+source);
         antProject = new Project();
         antProject.setSystemProperties();
         antProject.init();
@@ -74,6 +75,7 @@ public class AntProject implements GraphProducer {
         ProjectHelper loader = ProjectHelper.getProjectHelper();
         antProject.addReference("ant.projectHelper", loader);
         loader.parse(antProject, source);
+        Log.log("Done parsing",Log.MSG_VERBOSE);
     }
 
     /**
