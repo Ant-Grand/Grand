@@ -111,12 +111,16 @@ public class AntProject implements GraphProducer {
          * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Task)
          */
         public String getIfCondition(final Target target) {
+           String result = null;
+           
             try {
-                return (String) ifCondition.get(target);
+                result = (String) ifCondition.get(target);
+                if ("".equals(result)) result = null;
             } catch (Exception e) {
                 Log.log("Caugh exception, returning null " + e, Log.MSG_ERR);
-                return null;
             }
+            
+            return result;
         }
 
         /*
@@ -125,12 +129,16 @@ public class AntProject implements GraphProducer {
          * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Task)
          */
         public String getUnlessCondition(final Target target) {
+           String result = null;
+           
             try {
-                return (String) unlessCondition.get(target);
+                result = (String) unlessCondition.get(target);
+                if ("".equals(result)) result = null;
             } catch (Exception e) {
                 Log.log("Caugh exception, returning null " + e, Log.MSG_ERR);
-                return null;
             }
+            
+            return result;
         }
 
     }
