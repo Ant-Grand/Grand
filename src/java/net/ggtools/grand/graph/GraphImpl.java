@@ -86,11 +86,13 @@ public class GraphImpl implements Graph {
         }
     }
 
-    private String name;
+    private final String name;
 
-    private Map nodeList = new LinkedHashMap();
+    private final Map nodeList = new LinkedHashMap();
 
     private Node graphStartNode;
+    
+    private GraphElementFactory elementFactory;
 
     /**
      * Creates a new named graph.
@@ -143,7 +145,7 @@ public class GraphImpl implements Graph {
     public Node createNode(final String nodeName) throws DuplicateNodeException {
         if (nodeList.containsKey(nodeName)) { throw new DuplicateNodeException(
                 "Creating two nodes named " + nodeName); }
-        Node node = new NodeImpl(nodeName, this);
+        Node node = getFactory().createNode(nodeName);
         nodeList.put(nodeName, node);
         return node;
     }
@@ -162,7 +164,7 @@ public class GraphImpl implements Graph {
      * @return new link
      */
     public Link createLink(final String linkName, final Node startNode, final Node endNode) {
-        Link link = new LinkImpl(linkName, this, startNode, endNode);
+        Link link = getFactory().createLink(linkName, startNode, endNode);
         startNode.addLink(link);
         endNode.addBackLink(link);
         return link;
@@ -226,17 +228,16 @@ public class GraphImpl implements Graph {
         }
     }
 
-    /*
-     * here lies the getLinks method but I like my comment so I'm saving it for
-     * now on.
+    /**
+     * Returns the current element factory creating one if none exists yet. This method
+     * can be overriden to use a custom factory.
      * 
-     * Returns the links contained in the graph. The implementing class should
-     * garantee that the Iterator will only returns object implementing the
-     * Link interface.
-     * 
-     * The returned iterator does not have to implement the optional
-     * {@link Iterator#remove()}method.
-     * 
-     * @return an iterator to the graph's links.
+     * @return the element factory.
      */
+    protected GraphElementFactory getFactory() {
+        if (elementFactory == null) {
+            elementFactory = new SimpleGraphElementFactory(this);
+        }
+        return elementFactory;
+    }
 }
