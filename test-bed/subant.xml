@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
 <project name="Subant" default="init">
-    <target name="init">
+    <target name="init" description="Perform some initialization tasks" unless="skip-init">
         <echo>Init from dir ${basedir}</echo>
     </target>
 
-    <target name="generic">
+    <target name="generic" description="Do the same operation in several directories." depends="prepare">
         <subant genericantfile="${ant.file}">
             <dirset dir="." includes="subant-*" />
             <fileset dir="." includes="subant-1/build.xml" />
         </subant>
     </target>
 
-    <target name="antfile">
+    <target name="antfile" description="Call all the ant files in subant-*" depends="prepare">
         <subant>
             <dirset dir="." includes="subant-*" />
         </subant>
     </target>
 
-    <target name="grand" depends="init">
+    <target name="grand" depends="init" description="Builds a graph for the current build file.">
         <typedef resource="net/ggtools/grand/antlib.xml"
                  classpath="../target/classes" />
         <grand output="/tmp/current.dot" />
@@ -26,4 +26,10 @@
             <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o /tmp/current.ps /tmp/current.dot" />
         </exec>
     </target>
+    
+    <target name="prepare">
+        <echo>I'm ready</echo>
+    </target>
+
+
 </project>
