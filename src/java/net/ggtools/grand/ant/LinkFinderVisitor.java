@@ -40,7 +40,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
-import net.ggtools.grand.exceptions.DuplicateNodeException;
+import net.ggtools.grand.exceptions.DuplicateElementException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.log.LoggerManager;
@@ -140,10 +140,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * 
      * @param wrapper
      *            the wrapper to process.
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      *             if a duplicate node is created, should not happen.
      */
-    public void reflectVisit_ant(final RuntimeConfigurable wrapper) throws DuplicateNodeException {
+    public void reflectVisit_ant(final RuntimeConfigurable wrapper) throws DuplicateElementException {
         final Project antProject = project.getAntProject();
         log.info("Processing ant target in " + startNode.getName());
         // Find the build file.
@@ -189,11 +189,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * 
      * @param wrapper
      *            wrapper to process.
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      *             if a duplicate node is created (should not happen).
      */
     public void reflectVisit_antcall(final RuntimeConfigurable wrapper)
-            throws DuplicateNodeException {
+            throws DuplicateElementException {
         log.info("Processing antcall target in " + startNode.getName());
         final Project antProject = project.getAntProject();
         final String endNodeName = antProject.replaceProperties((String) wrapper.getAttributeMap()
@@ -218,11 +218,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * 
      * @param wrapper
      *            wrapper to process.
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      *             if a duplicate node is created (should not happen).
      */
     public void reflectVisit_subant(final RuntimeConfigurable wrapper)
-            throws DuplicateNodeException {
+            throws DuplicateElementException {
        log.info("Processing subant target in " + startNode.getName());
         final Project antProject = project.getAntProject();
 
@@ -284,7 +284,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
 
             if (genericantfileDirs.size() > 0) {
-                final AntTargetNode endNode = findOrCreateNodeInFile(genericantfile, target);
+                final AntTargetNode endNode = findOrCreateNode(target, genericantfile);
                 log.debug("Creating link from " + startNode + " to " + endNode.getName());
                 final SubantTaskLink link = graph.createSubantTaskLink(null, startNode, endNode,
                         wrapper.getElementTag());
@@ -350,11 +350,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * @param taskName
      * @param target
      * @return
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      */
     private AntTaskLink createAntTaskLink(final File targetBuildFile, final String taskName,
-            final String target) throws DuplicateNodeException {
-        final AntTargetNode endNode = findOrCreateNodeInFile(targetBuildFile, target);
+            final String target) throws DuplicateElementException {
+        final AntTargetNode endNode = findOrCreateNode(target, targetBuildFile);
 
         log.debug("Creating link from " + startNode + " to " + endNode.getName());
         return graph.createTaskLink(null, startNode, endNode, taskName);
@@ -363,31 +363,26 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     /**
      * @param endNodeName
      * @return
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      */
-    private AntTargetNode findOrCreateNode(final String endNodeName) throws DuplicateNodeException {
-        AntTargetNode endNode = (AntTargetNode) graph.getNode(endNodeName);
-
-        if (endNode == null) {
-            log.info("Target " + startNode + " has dependency to non existent target " + endNodeName
-                    + ", creating a dummy node");
-            endNode = (AntTargetNode) graph.createNode(endNodeName);
-            endNode.setAttributes(Node.ATTR_MISSING_NODE);
-        }
-        return endNode;
+    private AntTargetNode findOrCreateNode(final String endNodeName) throws DuplicateElementException {
+        return findOrCreateNode(endNodeName,null);
     }
 
     /**
-     * @param targetBuildFile
      * @param target
+     * @param targetBuildFile
      * @param antProject
      * @return
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      */
-    private AntTargetNode findOrCreateNodeInFile(final File targetBuildFile, final String target)
-            throws DuplicateNodeException {
+    private AntTargetNode findOrCreateNode(final String target, File targetBuildFile)
+            throws DuplicateElementException {
         final Project antProject = project.getAntProject();
         final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
+        
+        if (targetBuildFile == null)
+            targetBuildFile = projectFile;
 
         final boolean isSameBuildFile = projectFile.equals(targetBuildFile);
 
@@ -415,7 +410,16 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             endNodeName = "[" + targetName + "]";
         }
 
-        final AntTargetNode endNode = findOrCreateNode(endNodeName);
+        //final AntTargetNode endNode = findOrCreateNode(endNodeName);
+        AntTargetNode endNode = (AntTargetNode) graph.getNode(endNodeName);
+
+        // Creates an new node if none found.
+        if (endNode == null) {
+            log.info("Target " + startNode + " has dependency to non existent target " + endNodeName
+                    + ", creating a dummy node");
+            endNode = (AntTargetNode) graph.createNode(endNodeName);
+            endNode.setAttributes(Node.ATTR_MISSING_NODE);
+        }
 
         // TODO check that I'm not overriding a previously set file.
         if (!isSameBuildFile) endNode.setBuildFile(targetBuildFile.getAbsolutePath());

@@ -39,14 +39,19 @@ import junit.framework.TestSuite;
  * 
  * @author Christophe Labouisse
  */
-public class AllTests {
+public class AllTests
+{
 
-    private AllTests() {}
-    
-    public static Test suite() {
+    private AllTests()
+    {
+    }
+
+    public static Test suite()
+    {
         TestSuite suite = new TestSuite("Test for net.ggtools.grand.graph");
         //$JUnit-BEGIN$
         suite.addTestSuite(GraphCrawlerTest.class);
+        suite.addTestSuite(SubGraphImplTest.class);
         //$JUnit-END$
         return suite;
     }

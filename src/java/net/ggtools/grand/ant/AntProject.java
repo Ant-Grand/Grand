@@ -34,7 +34,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
-import net.ggtools.grand.exceptions.DuplicateNodeException;
+import net.ggtools.grand.exceptions.DuplicateElementException;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
@@ -441,12 +441,12 @@ public class AntProject implements GraphProducer {
      * @param endNodeName
      *            name of the end node.
      * @return a new link.
-     * @throws DuplicateNodeException
+     * @throws DuplicateElementException
      *             if there is already a node name <code>endNodeName</code> in
      *             the graph.
      */
     private AntLink createLink(final Graph graph, final String linkName, final Node startNode,
-            final String endNodeName) throws DuplicateNodeException {
+            final String endNodeName) throws DuplicateElementException {
         Node endNode = graph.getNode(endNodeName);
 
         if (endNode == null) {

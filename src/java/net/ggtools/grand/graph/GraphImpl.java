@@ -29,10 +29,8 @@
 package net.ggtools.grand.graph;
 
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-import net.ggtools.grand.exceptions.DuplicateNodeException;
+import net.ggtools.grand.exceptions.DuplicateElementException;
 import net.ggtools.grand.log.LoggerManager;
 
 import org.apache.commons.logging.Log;
@@ -43,17 +41,17 @@ import org.apache.commons.logging.Log;
  * @author Christophe Labouisse
  */
 public class GraphImpl implements Graph {
-    private static final Log log = LoggerManager.getLog(GraphImpl.class);
 
     /**
-     * An proxified iterator used for getNodes.
+     * An proxified iterator used for getNodes. This class ensure that on
+     * deletion the node's links are also removed.
      * 
      * @author Christophe Labouisse
      */
     private class NodeIterator implements Iterator {
-        private Iterator underlying;
 
         private Object lastNode;
+        private Iterator underlying;
 
         /**
          * @param iterator
@@ -79,7 +77,7 @@ public class GraphImpl implements Graph {
         }
 
         /**
-         *  
+         * 
          */
         public void remove() {
             underlying.remove();
@@ -87,14 +85,18 @@ public class GraphImpl implements Graph {
             unlinkNode((Node) lastNode);
         }
     }
+    private static final Log log = LoggerManager.getLog(GraphImpl.class);
 
-    private final String name;
-
-    private final Map nodeList = new LinkedHashMap();
+    private GraphElementFactory elementFactory;
 
     private Node graphStartNode;
 
-    private GraphElementFactory elementFactory;
+    /**
+     * The node storage for the main (sub)graph.
+     */
+    private final SubGraph mainSubGraph;
+
+    private final String name;
 
     /**
      * Creates a new named graph.
@@ -104,59 +106,12 @@ public class GraphImpl implements Graph {
      */
     public GraphImpl(final String graphName) {
         name = graphName;
-    }
+        mainSubGraph = new SubGraphImpl(graphName, new SubGraphImpl.NodeIteratorFactory() {
 
-    /**
-     * Returns the graph's name.
-     * 
-     * @return graph's name.
-     */
-    public final String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the start node of the graph. If no such node is defined,
-     * <code>null</code> will be returned.
-     * 
-     * @return start node
-     */
-    public Node getStartNode() {
-        return graphStartNode;
-    }
-
-    /**
-     * Sets the graph starting node.
-     * 
-     * @param node
-     *            to be marked as the starting node of the graph.
-     */
-    public void setStartNode(final Node node) {
-        if (graphStartNode != null) {
-            graphStartNode.clearAttributes(Node.ATTR_START_NODE);
-        }
-        graphStartNode = node;
-        if (graphStartNode != null) {
-            graphStartNode.setAttributes(Node.ATTR_START_NODE);
-        }
-    }
-
-    /**
-     * Creates a new Node. The object's name must not be <code>null</code> and
-     * must be unique within the graph.
-     * 
-     * @param nodeName
-     *            new node's name
-     * @return a new Node.
-     * @throws DuplicateNodeException
-     *             if there is already a node with the same name.
-     */
-    public Node createNode(final String nodeName) throws DuplicateNodeException {
-        if (nodeList.containsKey(nodeName)) { throw new DuplicateNodeException(
-                "Creating two nodes named " + nodeName); }
-        Node node = getFactory().createNode(nodeName);
-        nodeList.put(nodeName, node);
-        return node;
+            final public Iterator createNodeIterator(final Iterator iterator) {
+                return new NodeIterator(iterator);
+            }
+        });
     }
 
     /**
@@ -180,35 +135,139 @@ public class GraphImpl implements Graph {
     }
 
     /**
-     * Find a node from its name.
+     * Creates a new Node. The object's name must not be <code>null</code> and
+     * must be unique within the graph.
      * 
      * @param nodeName
-     *            name of the node to find.
-     * @return the node or null if not found.
+     *            new node's name
+     * @return a new Node.
+     * @throws DuplicateElementException
+     *             if there is already a node with the same name.
      */
-    public Node getNode(final String nodeName) {
-        return (Node) nodeList.get(nodeName);
+    public Node createNode(final String nodeName) throws DuplicateElementException {
+        return createNode(mainSubGraph,nodeName);
     }
 
     /*
      * (non-Javadoc)
-     * @see net.ggtools.grand.Graph#hasNode(java.lang.String)
+     * @see net.ggtools.grand.graph.Graph#createNode(net.ggtools.grand.graph.SubGraph,
+     *      java.lang.String)
      */
-    public boolean hasNode(final String nodeName) {
-        return nodeList.containsKey(nodeName);
+    public Node createNode(final SubGraph subGraph, final String nodeName) throws DuplicateElementException {
+        // We don't want to create a node if it's not gonna be inserted.
+        if (subGraph.hasNode(nodeName)) { throw new DuplicateElementException(
+                "Creating two nodes named " + nodeName); }
+        final Node node = getFactory().createNode(nodeName);
+        subGraph.addNode(node);
+        return node;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.Graph#createSubGraph(java.lang.String)
+     */
+    public SubGraph createSubGraph(String subGraphName) throws DuplicateElementException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     /**
-     * Get the nodes contained in the graph. The implementing class should
-     * garantee that the Iterator will only returns object implementing the Node
-     * interface. The returned iterator should implement the optional
-     * {@link Iterator#remove()}method in order to allow the filters to remove
-     * nodes.
+     * Returns the graph's name.
      * 
-     * @return an iterator to the graph's nodes.
+     * @return graph's name.
+     */
+    public final String getName() {
+        return name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.NodeContainer#getNode(java.lang.String)
+     */
+    public Node getNode(final String nodeName) {
+        return mainSubGraph.getNode(nodeName);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
     public Iterator getNodes() {
-        return new NodeIterator(nodeList.values().iterator());
+        return mainSubGraph.getNodes();
+    }
+
+    /**
+     * Returns the start node of the graph. If no such node is defined,
+     * <code>null</code> will be returned.
+     * 
+     * @return start node
+     */
+    public Node getStartNode() {
+        return graphStartNode;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.Graph#getSubGraph(java.lang.String)
+     */
+    public SubGraph getSubGraph(String subGraphName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.Graph#getSubgraphs()
+     */
+    public Iterator getSubgraphs() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.NodeContainer#hasNode(java.lang.String)
+     */
+    public boolean hasNode(String nodeName) {
+        return mainSubGraph.hasNode(nodeName);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see net.ggtools.grand.graph.Graph#hasSubGraph(java.lang.String)
+     */
+    public boolean hasSubGraph(String subGraphName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * Sets the graph starting node.
+     * 
+     * @param node
+     *            to be marked as the starting node of the graph.
+     */
+    public void setStartNode(final Node node) {
+        if (graphStartNode != null) {
+            graphStartNode.clearAttributes(Node.ATTR_START_NODE);
+        }
+        graphStartNode = node;
+        if (graphStartNode != null) {
+            graphStartNode.setAttributes(Node.ATTR_START_NODE);
+        }
+    }
+
+    /**
+     * Returns the current element factory creating one if none exists yet. This
+     * method can be overriden to use a custom factory.
+     * 
+     * @return the element factory.
+     */
+    protected GraphElementFactory getFactory() {
+        if (elementFactory == null) {
+            elementFactory = new SimpleGraphElementFactory(this);
+        }
+        return elementFactory;
     }
 
     /**
@@ -238,18 +297,5 @@ public class GraphImpl implements Graph {
         if (node == graphStartNode) {
             graphStartNode = null;
         }
-    }
-
-    /**
-     * Returns the current element factory creating one if none exists yet. This
-     * method can be overriden to use a custom factory.
-     * 
-     * @return the element factory.
-     */
-    protected GraphElementFactory getFactory() {
-        if (elementFactory == null) {
-            elementFactory = new SimpleGraphElementFactory(this);
-        }
-        return elementFactory;
     }
 }

@@ -89,8 +89,6 @@ public class AntTargetNode extends NodeImpl {
 
     public final static int SOURCE_TEXT = 3;
 
-    private String buildFile;
-
     private String ifCondition;
 
     private SourceElement[] richSource;
@@ -111,16 +109,6 @@ public class AntTargetNode extends NodeImpl {
      */
     public void accept(NodeVisitor visitor) {
         visitor.visitNode(this);
-    }
-
-    /**
-     * Returns this node build file or <code>null</code> if the build file is
-     * the <em>current</em> project.
-     * 
-     * @return Returns the buildFile.
-     */
-    public final String getBuildFile() {
-        return buildFile;
     }
 
     /**
@@ -156,14 +144,6 @@ public class AntTargetNode extends NodeImpl {
      */
     public final void setRichSource(SourceElement[] richSource) {
         this.richSource = richSource;
-    }
-
-    /**
-     * @param buildFile
-     *            The buildFile to set.
-     */
-    final void setBuildFile(String buildFile) {
-        this.buildFile = buildFile;
     }
 
     /**
