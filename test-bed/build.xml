@@ -48,6 +48,11 @@
 	</target>
 	
 
+    <target name="import" depends="init">
+        <mkgraph name="import"/>
+    </target>
+    
+
 	<target name="test-build" depends="init">
 		<mkgraph name="test-build"/>
 	</target>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="Importer" default="jar">
+	<import file="build-simple.xml"/>
+	
+	<target name="jar" depends="grand.jar"/>
+</project>
