@@ -113,7 +113,7 @@ public class AntProjectTest extends AbstractAntTester {
         assertNotNull("shoud have found a link", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gabuzo]", endNode.getName());
-        assertEquals("Build file", "/gruik/gruik.xml", endNode.getBuildFile());
+        assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode.getBuildFile());
     }
 
     public void testAntNoTargetSameFile() throws GrandException {
@@ -140,7 +140,7 @@ public class AntProjectTest extends AbstractAntTester {
         assertNotNull("shoud have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "['default']", endNode.getName());
-        assertEquals("Build file", "/gruik/gruik.xml", endNode.getBuildFile());
+        assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode.getBuildFile());
     }
     
     /**
@@ -196,4 +196,14 @@ public class AntProjectTest extends AbstractAntTester {
                 .hasAttributes(Node.ATTR_MISSING_NODE));
     }
 
+
+    /**
+     * Test the subant task.
+     * @throws GrandException
+     */
+    public void testSubant() throws GrandException {
+        AntProject antProject = new AntProject(project);
+        Graph graph = antProject.getGraph();
+    }
+    
 }
