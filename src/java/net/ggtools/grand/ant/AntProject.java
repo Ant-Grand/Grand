@@ -32,6 +32,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
 import net.ggtools.grand.ant.taskhelpers.TaskDefHelper;
@@ -277,8 +279,33 @@ public class AntProject implements GraphProducer {
      *             if the project cannot be loaded.
      */
     public AntProject(final File source) throws GrandException {
+        this(source, null);
+    }
+
+    /**
+     * Creates a new project from an ant build file.
+     * 
+     * The source object can be anything supported by {@link ProjectHelper}
+     * which is at least a File.
+     * 
+     * @param source
+     *            The source for XML configuration.
+     * @param properties
+     *            a set of properties to be preset when opening the graph or
+     *            <code>null</code> if no properties should be preset.
+     * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
+     * @throws GrandException
+     *             if the project cannot be loaded.
+     */
+    public AntProject(final File source, Properties properties) throws GrandException {
         log.info("Parsing from " + source);
         antProject = new Project();
+        if (properties != null) {
+            for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                antProject.setProperty((String) entry.getKey(), (String) entry.getValue());
+            }
+        }
         antProject.setSystemProperties();
         antProject.init();
         antProject.setUserProperty("ant.file", source.getAbsolutePath());
