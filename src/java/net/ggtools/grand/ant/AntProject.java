@@ -40,7 +40,7 @@ import net.ggtools.grand.GraphProducer;
 import net.ggtools.grand.Log;
 import net.ggtools.grand.Node;
 import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.impl.GraphImpl;
+import net.ggtools.grand.graph.GraphImpl;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;

@@ -29,14 +29,10 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.impl;
-
-import java.util.Collection;
-import java.util.LinkedHashSet;
+package net.ggtools.grand.graph;
 
 import net.ggtools.grand.Graph;
 import net.ggtools.grand.Link;
-import net.ggtools.grand.Log;
 import net.ggtools.grand.Node;
 
 /**
@@ -44,54 +40,45 @@ import net.ggtools.grand.Node;
  * 
  * @author Christophe Labouisse
  */
-public class NodeImpl extends AttributeManager implements Node {
-    
-    private String name;
+public class LinkImpl extends AttributeManager implements Link {
+
+    private Node startNode;
+    private Node endNode;
     private Graph graph;
-    private String description;
-    private LinkedHashSet links;
-    private LinkedHashSet backLinks;
+    private String name;
     
-    public NodeImpl(String name, Graph graph) {
+    /**
+     * Creates a new Link.
+     * 
+     * @param name link's name, may be <code>null</code>.
+     * @param graph owning graph.
+     */
+    public LinkImpl(String name, Graph graph, Node startNode, Node endNode) {
         this.name = name;
         this.graph = graph;
-        links = new LinkedHashSet();
-        backLinks = new LinkedHashSet();
+        this.startNode = startNode;
+        this.endNode = endNode;
     }
-
+    
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
     public String toString() {
-        return name;
+        return (name == null ? "" : name)+" ("+startNode+" -> "+endNode+")";
+    }
+    
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Link#getStartNode()
+     */
+    public Node getStartNode() {
+        return startNode;
     }
 
     /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#getLinks()
+     * @see net.ggtools.grand.Link#getEndNode()
      */
-    public Collection getLinks() {
-        return links;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#getBackLinks()
-     */
-    public Collection getBackLinks() {
-        return backLinks;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#getDescription()
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#setDescription(java.lang.String)
-     */
-    public void setDescription(String desc) {
-        description = desc;
+    public Node getEndNode() {
+        return endNode;
     }
 
     /* (non-Javadoc)
@@ -108,33 +95,4 @@ public class NodeImpl extends AttributeManager implements Node {
         return name;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#addLink(net.ggtools.grand.Link)
-     */
-    public void addLink(Link link) {
-        links.add(link);
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#addLink(net.ggtools.grand.Link)
-     */
-    public void addBackLink(Link link) {
-        backLinks.add(link);
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#removeLink(net.ggtools.grand.Link)
-     */
-    public void removeLink(Link link) {
-        Log.log(name+": removing link "+link,Log.MSG_DEBUG);
-        links.remove(link);
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#removeBackLink(net.ggtools.grand.Link)
-     */
-    public void removeBackLink(Link link) {
-        Log.log(name+": removing back link "+link,Log.MSG_DEBUG);
-        backLinks.remove(link);
-    }
 }

@@ -29,70 +29,37 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.impl;
+package net.ggtools.grand.graph;
 
-import net.ggtools.grand.Graph;
-import net.ggtools.grand.Link;
-import net.ggtools.grand.Node;
+import net.ggtools.grand.GraphObject;
 
 /**
- * 
+ * Abstract class to manage GraphObjet's attributes.
  * 
  * @author Christophe Labouisse
  */
-public class LinkImpl extends AttributeManager implements Link {
-
-    private Node startNode;
-    private Node endNode;
-    private Graph graph;
-    private String name;
-    
-    /**
-     * Creates a new Link.
-     * 
-     * @param name link's name, may be <code>null</code>.
-     * @param graph owning graph.
-     */
-    public LinkImpl(String name, Graph graph, Node startNode, Node endNode) {
-        this.name = name;
-        this.graph = graph;
-        this.startNode = startNode;
-        this.endNode = endNode;
-    }
+public abstract class AttributeManager implements GraphObject {
+    private int attributes = 0;
     
     /* (non-Javadoc)
-     * @see java.lang.Object#toString()
+     * @see net.ggtools.grand.Node#setAttribute(int)
      */
-    public String toString() {
-        return (name == null ? "" : name)+" ("+startNode+" -> "+endNode+")";
+    public void setAttributes(int attributeMask) {
+        attributes |= attributeMask;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#setAttribute(int)
+     */
+    public void clearAttributes(int attributeMask) {
+        attributes &= -1 ^ attributeMask;
+    }
+
+    /* (non-Javadoc)
+     * @see net.ggtools.grand.Node#hasAttribute(int)
+     */
+    public boolean hasAttributes(int attributeMask) {
+        return (attributes & attributeMask) == attributeMask;
     }
     
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Link#getStartNode()
-     */
-    public Node getStartNode() {
-        return startNode;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Link#getEndNode()
-     */
-    public Node getEndNode() {
-        return endNode;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphObject#getGraph()
-     */
-    public Graph getGraph() {
-        return graph;
-    }
-
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphObject#getName()
-     */
-    public String getName() {
-        return name;
-    }
-
 }

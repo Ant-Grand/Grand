@@ -29,7 +29,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.impl;
+package net.ggtools.grand.graph;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
