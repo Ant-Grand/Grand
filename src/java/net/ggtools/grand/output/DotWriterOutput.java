@@ -1,4 +1,4 @@
-//$Id$
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
@@ -28,18 +28,18 @@
 package net.ggtools.grand.output;
 
 /**
- * Interface for classes actually writing the dot files. This interface is approximatly a
- * combination of a StringBuffer and a PrintStream.
+ * Interface for classes actually writing the dot files. This interface is
+ * approximatly a combination of a StringBuffer and a PrintStream.
  * 
  * @author Christophe Labouisse
  */
 interface DotWriterOutput {
 
-    DotWriterOutput append(String strValue);
-    
-    DotWriterOutput appendEscaped(String strValue);
-    
     DotWriterOutput append(int intValue);
+
+    DotWriterOutput append(String strValue);
+
+    DotWriterOutput appendEscaped(String strValue);
 
     DotWriterOutput newLine();
 }
