@@ -1,9 +1,17 @@
 $Id$
 
+Release 1.0:
+
+* Code cleanup: removed Jikes warning on tests.
+
+* Run unit test with Ant 1.6.1 and Java 1.5.0 beta.
+
+
 Release 0.9:
 
 * Code cleanup to be more checkstyle compliant, the net.ggtools.grand.App
   class have been removed.
+
 
 Release 0.4:
 
