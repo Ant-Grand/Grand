@@ -39,15 +39,19 @@ import junit.framework.TestSuite;
  * 
  * @author Christophe Labouisse
  */
-public class AllTests {
+public class AllTests
+{
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         junit.swingui.TestRunner.run(AllTests.class);
     }
 
-    public static Test suite() {
+    public static Test suite()
+    {
         TestSuite suite = new TestSuite("Test for org.ggtools.grand");
         //$JUnit-BEGIN$
+        suite.addTestSuite(FileComparatorTest.class);
         suite.addTestSuite(GrandTaskTest.class);
         //$JUnit-END$
         return suite;

@@ -32,22 +32,28 @@
 package net.ggtools.grand;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
+
+import net.ggtools.grand.ant.AntProject;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-import net.ggtools.grand.ant.AntProject;
 
 /**
  * A task to create graphs. 
  * 
  * @author Christophe Labouisse
+ * @todo add attributes elements
+ * @todo add property file override
  */
 public class GrandTask extends Task {
 
     File buildFile;
     File output;
+    File propertyFile;
     
     /**
      * Check the parameters validity before execution.
@@ -55,7 +61,7 @@ public class GrandTask extends Task {
      */
     private void checkParams() {
         if (output == null) {
-            final String message = "Mandatory attribute 'output' missing";
+            final String message = "Required attribute missing";
             log(message,Project.MSG_ERR);
             throw new BuildException(message);
         }
@@ -71,15 +77,24 @@ public class GrandTask extends Task {
         
         if (buildFile == null) {
             // Working with current project
+            log("Using current project");
             graphProject = new AntProject(getProject());
         } else {
             // Open a new project
+            log("Loading project "+buildFile);
             graphProject = new AntProject(buildFile);
         }
 
-        GraphWriter writer = new DotWriter(graphProject);
-        
         try {
+            Properties override = null;
+            if (propertyFile != null) {
+                log("Overriding default properties from "+propertyFile);
+                override = new Properties();
+                override.load(new FileInputStream(propertyFile));
+            }
+            GraphWriter writer = new DotWriter(graphProject,override);
+
+            log("Writing output to "+output);
             writer.write(output);
         } catch (IOException e) {
             log("Cannot write graph",Project.MSG_ERR);
@@ -104,5 +119,13 @@ public class GrandTask extends Task {
      */
     public void setOutput(File file) {
         output = file;
+    }
+    
+    /**
+     * Set a property file to override the default configuration.
+     * @param propertyFile The propertyFile to set.
+     */
+    public void setPropertyFile(File propertyFile) {
+        this.propertyFile = propertyFile;
     }
 }

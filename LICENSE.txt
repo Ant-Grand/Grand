@@ -1,4 +1,4 @@
-// $Id$
+// $Id: LICENSE.txt 160 2004-01-11 21:35:44Z moi $
 /* ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
@@ -28,27 +28,4 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package net.ggtools.grand.ant;
-
-import net.ggtools.grand.Node;
-
-import org.apache.tools.ant.Target;
-
-/**
- * Interface implemented by classes providing a wrapping from ant target objects
- * to node objects.
- * 
- * @author Christophe Labouisse
- */
-public interface AntTargetProxifier {
-    /**
-     * Return a wrapper to a target implementing the Node interface.
-     * 
-     * @param target
-     * @return a wrapping node.
-     * @see Target
-     * @see Node
-     */
-    Node proxifyTarget(Target target);
-}
+ 

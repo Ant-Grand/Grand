@@ -53,7 +53,7 @@ public interface Node {
     /**
      * Returns node dependencies as an array.
      * 
-     * @return
+     * @return dependencies
      */
     Node [] getDependenciesArray();
 

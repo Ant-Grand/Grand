@@ -24,34 +24,28 @@
   <inceptionYear>2004</inceptionYear>
   <package>net.ggtools.grand</package>
   <description>
-    A collection of example projects showing how to use maven in different
-    situations   
+    An collection of class to represent ant build dependencies in a graphical form.
   </description>
   <!-- a short description of what the project does -->
   <shortDescription>
-    How to use maven in different situations
+  	Another ant dependencies grapher.
   </shortDescription>
 
   <!-- the project home page -->
-  <url>http://maven.apache.org/reference/plugins/examples/</url>
-  <issueTrackingUrl>http://nagoya.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
-  <siteAddress>jakarta.apache.org</siteAddress>
-  <siteDirectory>/www/maven.apache.org/reference/plugins/examples/</siteDirectory>
-  <distributionDirectory>/www/maven.apache.org/builds/</distributionDirectory>
+  <url>http://www.ggtools.net/grand/</url>
 
-  <!-- the version control repository and http url for online access
-       the connection element has the form:
-       scm:<system>:<system specific connection string> -->
-  <repository>
-    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven/src/plugins-build/examples</connection>
-    <url>http://cvs.apache.org/viewcvs/maven/src/plugins-build/examples/</url>
-  </repository>
+  <repository/>
 
   <!-- any mailing lists for the project -->
   <mailingLists/>
   
   <!-- who the developers are for the project -->
-  <developers/>
+  <developers>
+  	<developer>
+  		<name>Christophe Labouisse</name>
+  		<email>grand@ggtools.net</email>
+  	</developer>
+  </developers>
 
   <!-- jar files the project is dependent on -->
   <dependencies>
@@ -65,45 +59,29 @@
       <artifactId>ant-launcher</artifactId>
       <version>1.6</version>
     </dependency>
-    <!--dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.0</version>
-    </dependency-->
-    <!--dependency>
-      <groupId>mockcreator</groupId>
-      <artifactId>mockcreator</artifactId>
-      <version>2003-11-28</version>
-      <jar>MockCreator.jar</jar>
-      <url>http://mockcreator.sourceforge.net/get/2003-11-28/MockCreator.jar</url>
-    </dependency-->
   </dependencies>
   
   <!-- build information for the project -->
   <build>
-    <nagEmailAddress>turbine-maven-dev@jakarta.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
     <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
 
     <unitTest>
       <includes>
-        <include>**/*Test.java</include>
+        <include>**/AllTests.java</include>
       </includes>
       <excludes>
-        <exclude>**/NaughtyTest.java</exclude>
+        <exclude>org/apache/**</exclude>
       </excludes>
     </unitTest>
-
     <resources>
       <resource>
         <directory>src/conf</directory>
         <includes>
-          <include>*.properties</include>
+          <include>**/*.properties</include>
         </includes>
       </resource>
     </resources>
   </build>
-
-
 </project>
 

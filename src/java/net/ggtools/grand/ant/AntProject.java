@@ -35,10 +35,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.tools.ant.ProjectHelper;
-import org.apache.tools.ant.Target;
 import net.ggtools.grand.Node;
 import net.ggtools.grand.Project;
+
+import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.Target;
 
 /**
  * 
@@ -63,9 +64,9 @@ public class AntProject implements Project, AntTargetProxifier {
         antProject = new org.apache.tools.ant.Project();
         antProject.setSystemProperties();
         antProject.init();
+        antProject.setUserProperty( "ant.file" , source.getAbsolutePath() );
         
         ProjectHelper loader = ProjectHelper.getProjectHelper();
-        // TODO figure out how to make this properly.
         antProject.addReference("ant.projectHelper",loader);
         loader.parse(antProject,source);
     }
@@ -129,6 +130,10 @@ public class AntProject implements Project, AntTargetProxifier {
      * @see Node
      */
     public Node proxifyTarget(Target target) {
+        if (target == null) {
+            return null;
+        }
+        
         if (proxifiedTargetCache.containsKey(target)) {
             return (Node) proxifiedTargetCache.get(target);
         }
@@ -138,5 +143,4 @@ public class AntProject implements Project, AntTargetProxifier {
             return result;
         }
     }
-
 }

@@ -55,23 +55,10 @@ import java.util.Properties;
  * bracket.
  * 
  * @author Christophe Labouisse
- * @see http://www.research.att.com/sw/tools/graphviz/
- * @see http://www.research.att.com/~erg/graphviz/info/attrs.html
+ * @see <a href="http://www.research.att.com/sw/tools/graphviz/">Graphviz home page</a>
+ * @see <a href="http://www.research.att.com/~erg/graphviz/info/attrs.html">Dot attributes</a>
  */
 public class DotWriter implements GraphWriter {
-
-    private static Properties defaultProperties;
-
-    static {
-        defaultProperties = new Properties();
-        try {
-            defaultProperties.load(DotWriter.class
-                    .getResourceAsStream("/DotWriter.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(100);
-        }
-    }
 
     private static final String LINE_SEPARATOR = System
             .getProperty("line.separator");
@@ -109,38 +96,36 @@ public class DotWriter implements GraphWriter {
 
     private String startNodeAttributes;
 
+    private final Configuration config;
+
     /**
      * Creates a new DotWriter using default configuration.
      * 
      * @param project
      *            project to convert write in dot format.
      */
-    public DotWriter(Project project) {
+    public DotWriter(Project project) throws IOException {
         this(project, null);
     }
 
     /**
-     * Creates a new DotWriter with custom properties.
+     * Creates a new DotWriter with custom properties. No
+     * overriding will take place if override is null.
      * 
      * @param project
      *            to convert
-     * @param config
+     * @param override
      *            custom configuration.
      */
-    public DotWriter(Project project, Properties config) {
+    public DotWriter(Project project, Properties override) throws IOException {
         this.project = project;
 
-        Properties properties = new Properties(defaultProperties);
-
-        if (config != null) {
-            properties.putAll(config);
-        }
-
-        graphAttributes = properties.getProperty(DOT_GRAPH_ATTRIBUTES);
-        linkAttributes = properties.getProperty(DOT_LINK_ATTRIBUTES);
-        mainNodeAttributes = properties.getProperty(DOT_MAINNODE_ATTRIBUTES);
-        nodeAttributes = properties.getProperty(DOT_NODE_ATTRIBUTES);
-        startNodeAttributes = properties.getProperty(DOT_STARTNODE_ATTRIBUTES);
+        config = Configuration.getConfiguration(override);
+        graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);
+        linkAttributes = config.get(DOT_LINK_ATTRIBUTES);
+        mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);
+        nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
+        startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);
     }
 
     /**
@@ -199,7 +184,7 @@ public class DotWriter implements GraphWriter {
                     escapeString(depNode.getName())).append("\"");
 
             if (depArray.length > 1) {
-                strBuf.append(" [label=\"").append(i+1).append("\"]");
+                strBuf.append(" [label=\"").append(i + 1).append("\"]");
             }
             strBuf.append(";").append(LINE_SEPARATOR);
         }
@@ -240,6 +225,7 @@ public class DotWriter implements GraphWriter {
         final Node startNode = project.getStartNode();
 
         if (startNode != null) {
+            // TODO: Check if the default target actually exists.
             output.println(getNodeAsDot(startNode, startNodeAttributes));
         }
 
@@ -252,5 +238,65 @@ public class DotWriter implements GraphWriter {
             output.println(getNodeAsDot(node));
         }
         output.println("}");
+    }
+
+    /**
+     * @return Returns the graphAttributes.
+     */
+    public String getGraphAttributes() {
+        return graphAttributes;
+    }
+
+    /**
+     * @param graphAttributes
+     *            The graphAttributes to set.
+     */
+    public void setGraphAttributes(String graphAttributes) {
+        this.graphAttributes = graphAttributes;
+    }
+
+    /**
+     * @return Returns the linkAttributes.
+     */
+    public String getLinkAttributes() {
+        return linkAttributes;
+    }
+
+    /**
+     * @param linkAttributes
+     *            The linkAttributes to set.
+     */
+    public void setLinkAttributes(String linkAttributes) {
+        this.linkAttributes = linkAttributes;
+    }
+
+    /**
+     * @return Returns the mainNodeAttributes.
+     */
+    public String getMainNodeAttributes() {
+        return mainNodeAttributes;
+    }
+
+    /**
+     * @param mainNodeAttributes
+     *            The mainNodeAttributes to set.
+     */
+    public void setMainNodeAttributes(String mainNodeAttributes) {
+        this.mainNodeAttributes = mainNodeAttributes;
+    }
+
+    /**
+     * @return Returns the nodeAttributes.
+     */
+    public String getNodeAttributes() {
+        return nodeAttributes;
+    }
+
+    /**
+     * @param nodeAttributes
+     *            The nodeAttributes to set.
+     */
+    public void setNodeAttributes(String nodeAttributes) {
+        this.nodeAttributes = nodeAttributes;
     }
 }

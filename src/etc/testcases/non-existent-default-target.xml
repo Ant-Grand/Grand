@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="Non existent default target" default="non-existent">
+	<target name="test" depends="init">
+		<echo>Test target</echo>
+	</target>
+</project>
