@@ -29,6 +29,8 @@
 package net.ggtools.grand.graph;
 
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import net.ggtools.grand.exceptions.DuplicateElementException;
 import net.ggtools.grand.log.LoggerManager;
@@ -41,7 +43,6 @@ import org.apache.commons.logging.Log;
  * @author Christophe Labouisse
  */
 public class GraphImpl implements Graph {
-
     /**
      * An proxified iterator used for getNodes. This class ensure that on
      * deletion the node's links are also removed.
@@ -51,6 +52,12 @@ public class GraphImpl implements Graph {
     private class NodeIterator implements Iterator {
 
         private Object lastNode;
+
+        /**
+         * Logger for this class
+         */
+        private final Log log = LoggerManager.getLog(NodeIterator.class);
+
         private Iterator underlying;
 
         /**
@@ -85,6 +92,7 @@ public class GraphImpl implements Graph {
             unlinkNode((Node) lastNode);
         }
     }
+
     private static final Log log = LoggerManager.getLog(GraphImpl.class);
 
     private GraphElementFactory elementFactory;
@@ -97,6 +105,8 @@ public class GraphImpl implements Graph {
     private final SubGraph mainSubGraph;
 
     private final String name;
+
+    private final Map subGraphList = new LinkedHashMap();
 
     /**
      * Creates a new named graph.
@@ -145,7 +155,7 @@ public class GraphImpl implements Graph {
      *             if there is already a node with the same name.
      */
     public Node createNode(final String nodeName) throws DuplicateElementException {
-        return createNode(mainSubGraph,nodeName);
+        return createNode(mainSubGraph, nodeName);
     }
 
     /*
@@ -153,7 +163,8 @@ public class GraphImpl implements Graph {
      * @see net.ggtools.grand.graph.Graph#createNode(net.ggtools.grand.graph.SubGraph,
      *      java.lang.String)
      */
-    public Node createNode(final SubGraph subGraph, final String nodeName) throws DuplicateElementException {
+    public Node createNode(final SubGraph subGraph, final String nodeName)
+            throws DuplicateElementException {
         // We don't want to create a node if it's not gonna be inserted.
         if (subGraph.hasNode(nodeName)) { throw new DuplicateElementException(
                 "Creating two nodes named " + nodeName); }
@@ -167,8 +178,15 @@ public class GraphImpl implements Graph {
      * @see net.ggtools.grand.graph.Graph#createSubGraph(java.lang.String)
      */
     public SubGraph createSubGraph(String subGraphName) throws DuplicateElementException {
-        // TODO Auto-generated method stub
-        return null;
+        if (subGraphList.containsKey(subGraphName)) {
+            log.error("createSubGraph(subGraphName = " + subGraphName
+                    + ") - Cannot create two subgraphs with the same name", null);
+            throw new DuplicateElementException("A subgraph called " + subGraphName
+                    + " already exists");
+        }
+        final SubGraph newSubGraph = new SubGraphImpl(subGraphName);
+        subGraphList.put(subGraphName, newSubGraph);
+        return newSubGraph;
     }
 
     /**
@@ -211,8 +229,7 @@ public class GraphImpl implements Graph {
      * @see net.ggtools.grand.graph.Graph#getSubGraph(java.lang.String)
      */
     public SubGraph getSubGraph(String subGraphName) {
-        // TODO Auto-generated method stub
-        return null;
+        return (SubGraph) subGraphList.get(subGraphName);
     }
 
     /*
@@ -220,8 +237,7 @@ public class GraphImpl implements Graph {
      * @see net.ggtools.grand.graph.Graph#getSubgraphs()
      */
     public Iterator getSubgraphs() {
-        // TODO Auto-generated method stub
-        return null;
+        return subGraphList.values().iterator();
     }
 
     /*
@@ -237,8 +253,7 @@ public class GraphImpl implements Graph {
      * @see net.ggtools.grand.graph.Graph#hasSubGraph(java.lang.String)
      */
     public boolean hasSubGraph(String subGraphName) {
-        // TODO Auto-generated method stub
-        return false;
+        return subGraphList.containsKey(subGraphName);
     }
 
     /**

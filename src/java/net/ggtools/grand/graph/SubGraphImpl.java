@@ -32,6 +32,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.ggtools.grand.exceptions.DuplicateElementException;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
 
 /**
  * @author Christophe Labouisse
@@ -50,6 +53,8 @@ class SubGraphImpl implements SubGraph {
          */
         Iterator createNodeIterator(final Iterator iterator);
     }
+
+    private static final Log log = LoggerManager.getLog(SubGraphImpl.class);
 
     private final String name;
 
@@ -85,6 +90,16 @@ class SubGraphImpl implements SubGraph {
         this.nodeIteratorFactory = nodeIteratorFactory;
     }
 
+    public void addNode(final Node node) throws DuplicateElementException {
+        final String nodeName = node.getName();
+        if (nodeList.containsKey(nodeName)) {
+            log.error("addNode() - Cannot add two nodes with the same name : nodeName = "
+                    + nodeName, null);
+            throw new DuplicateElementException("Creating two nodes named " + nodeName);
+        }
+        nodeList.put(nodeName, node);
+    }
+
     /*
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.SubGraph#getName()
@@ -115,12 +130,5 @@ class SubGraphImpl implements SubGraph {
      */
     public boolean hasNode(final String nodeName) {
         return nodeList.containsKey(nodeName);
-    }
-
-    public void addNode(final Node node) throws DuplicateElementException {
-        final String nodeName = node.getName();
-        if (nodeList.containsKey(nodeName)) { throw new DuplicateElementException(
-                "Creating two nodes named " + nodeName); }
-        nodeList.put(nodeName, node);
     }
 }
