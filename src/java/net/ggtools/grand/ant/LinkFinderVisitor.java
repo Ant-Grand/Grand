@@ -58,8 +58,7 @@ import org.apache.tools.ant.types.Path;
  * @author Christophe Labouisse
  */
 public class LinkFinderVisitor extends ReflectTaskVisitorBase {
-    private static final Log log = LoggerManager
-    .getLog(LinkFinderVisitor.class);
+    private static final Log log = LoggerManager.getLog(LinkFinderVisitor.class);
 
     private final static Map aliases = new HashMap();
 
@@ -104,6 +103,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     /**
      * Default action for unknown task. The default behavior is to recurse in
      * the children to find a possible task.
+     * 
      * @param wrapper
      *            wrapper to check.
      * @see net.ggtools.grand.ant.ReflectTaskVisitorBase#defaultVisit(org.apache.tools.ant.RuntimeConfigurable)
@@ -117,6 +117,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /*
      * (non-Javadoc)
+     * 
      * @see net.ggtools.grand.ant.ReflectTaskVisitorBase#getAliasForTask(java.lang.String)
      */
     public String getAliasForTask(final String taskName) {
@@ -143,7 +144,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * @throws DuplicateElementException
      *             if a duplicate node is created, should not happen.
      */
-    public void reflectVisit_ant(final RuntimeConfigurable wrapper) throws DuplicateElementException {
+    public void reflectVisit_ant(final RuntimeConfigurable wrapper)
+            throws DuplicateElementException {
         final Project antProject = project.getAntProject();
         log.info("Processing ant target in " + startNode.getName());
         // Find the build file.
@@ -172,11 +174,18 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
         }
 
-        final AntTaskLink link = createAntTaskLink(targetBuildFile, wrapper.getElementTag(),
-                (String) wrapper.getAttributeMap().get(ATTR_TARGET));
+        final AntTaskLink links[];
+
+        if (false) {
+            links = null;
+        }
+        else {
+            links = new AntTaskLink[]{createAntTaskLink(targetBuildFile, wrapper.getElementTag(),
+                    (String) wrapper.getAttributeMap().get(ATTR_TARGET))};
+        }
 
         // Look to params children.
-        addNestPropertiesParameters(wrapper, link, PROPERTY_ELEMENT);
+        addNestPropertiesParameters(wrapper, links, PROPERTY_ELEMENT);
     }
 
     /**
@@ -196,17 +205,25 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             throws DuplicateElementException {
         log.info("Processing antcall target in " + startNode.getName());
         final Project antProject = project.getAntProject();
-        final String endNodeName = antProject.replaceProperties((String) wrapper.getAttributeMap()
-                .get(ATTR_TARGET));
+        final AntTaskLink links[];
 
-        final AntTargetNode endNode = findOrCreateNode(endNodeName);
+        if (false) {
+            links = null;
+        }
+        else {
+            final String endNodeName = antProject.replaceProperties((String) wrapper
+                    .getAttributeMap().get(ATTR_TARGET));
 
-        log.debug("Creating link from " + startNode + " to " + endNodeName);
-        final AntTaskLink link = graph.createTaskLink(null, startNode, endNode, wrapper
-                .getElementTag());
+            final AntTargetNode endNode = findOrCreateNode(endNodeName);
+
+            log.debug("Creating link from " + startNode + " to " + endNodeName);
+
+            links = new AntTaskLink[]{graph.createTaskLink(null, startNode, endNode, wrapper
+                    .getElementTag())};
+        }
 
         // Look to params children.
-        addNestPropertiesParameters(wrapper, link, PARAM_ELEMENT);
+        addNestPropertiesParameters(wrapper, links, PARAM_ELEMENT);
     }
 
     /**
@@ -223,7 +240,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     public void reflectVisit_subant(final RuntimeConfigurable wrapper)
             throws DuplicateElementException {
-       log.info("Processing subant target in " + startNode.getName());
+        log.info("Processing subant target in " + startNode.getName());
         final Project antProject = project.getAntProject();
 
         // Configure the wrapper's proxy and get the configured task.
@@ -328,7 +345,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      *            name of the elements holding the properties.
      */
     private void addNestPropertiesParameters(final RuntimeConfigurable wrapper,
-            final AntTaskLink link, final String elementName) {
+            final AntTaskLink links[], final String elementName) {
         final Project antProject = project.getAntProject();
         final Enumeration children = wrapper.getChildren();
         while (children.hasMoreElements()) {
@@ -337,8 +354,12 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 final Hashtable childAttributeMap = child.getAttributeMap();
                 final String name = (String) childAttributeMap.get(ATTR_NAME);
                 if (name != null) {
-                    link.setParameter(name, antProject.replaceProperties((String) childAttributeMap
-                            .get(ATTR_VALUE)));
+                    for (int i = 0; i < links.length; i++) {
+                        final AntTaskLink link = links[i];
+                        link.setParameter(name, antProject
+                                .replaceProperties((String) childAttributeMap.get(ATTR_VALUE)));
+
+                    }
                 }
             }
         }
@@ -365,8 +386,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * @return
      * @throws DuplicateElementException
      */
-    private AntTargetNode findOrCreateNode(final String endNodeName) throws DuplicateElementException {
-        return findOrCreateNode(endNodeName,null);
+    private AntTargetNode findOrCreateNode(final String endNodeName)
+            throws DuplicateElementException {
+        return findOrCreateNode(endNodeName, null);
     }
 
     /**
@@ -380,9 +402,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             throws DuplicateElementException {
         final Project antProject = project.getAntProject();
         final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
-        
-        if (targetBuildFile == null)
-            targetBuildFile = projectFile;
+
+        if (targetBuildFile == null) targetBuildFile = projectFile;
 
         final boolean isSameBuildFile = projectFile.equals(targetBuildFile);
 
@@ -410,13 +431,13 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             endNodeName = "[" + targetName + "]";
         }
 
-        //final AntTargetNode endNode = findOrCreateNode(endNodeName);
+        // final AntTargetNode endNode = findOrCreateNode(endNodeName);
         AntTargetNode endNode = (AntTargetNode) graph.getNode(endNodeName);
 
         // Creates an new node if none found.
         if (endNode == null) {
-            log.info("Target " + startNode + " has dependency to non existent target " + endNodeName
-                    + ", creating a dummy node");
+            log.info("Target " + startNode + " has dependency to non existent target "
+                    + endNodeName + ", creating a dummy node");
             endNode = (AntTargetNode) graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
