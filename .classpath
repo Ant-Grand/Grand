@@ -5,7 +5,7 @@
 	<classpathentry excluding=".svn" output="target/test-classes" kind="src" path="src/test"/>
 	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.0.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="MAVEN_REPO/junit/jars/junit-3.8.1.jar"/>
 	<classpathentry sourcepath="JRE_SRC" kind="var" path="JRE_LIB"/>
-	<classpathentry exported="true" kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.3.jar"/>
+	<classpathentry exported="true" sourcepath="/ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.3.jar"/>
 	<classpathentry exported="true" kind="var" path="MAVEN_REPO/ant/jars/ant-launcher-1.6.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
