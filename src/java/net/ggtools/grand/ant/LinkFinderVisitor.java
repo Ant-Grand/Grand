@@ -451,12 +451,14 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
         final boolean isSameBuildFile = projectFile.equals(targetBuildFile);
 
-        final String endNodeName;
+        String endNodeName;
 
         String targetName = antProject.replaceProperties(target);
 
+        AntTargetNode endNode;
         if (isSameBuildFile) {
             endNodeName = targetName == null ? antProject.getDefaultTarget() : targetName;
+            endNode = (AntTargetNode) graph.getNode(endNodeName);
         }
         else {
             if (targetName == null) {
@@ -472,11 +474,25 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 }
 
             }
-            endNodeName = "[" + targetName + "]";
-        }
 
-        // final AntTargetNode endNode = findOrCreateNode(endNodeName);
-        AntTargetNode endNode = (AntTargetNode) graph.getNode(endNodeName);
+            // Find out the "right" node avoiding conflicts.
+            // FIXME: the current algorithm seems really bad check is a cache is
+            // worth implementing.
+            int index = 1;
+            boolean conflict = false;
+            do {
+                conflict = false;
+                endNodeName = "[" + targetName + " (" + index + ")]";
+                endNode = (AntTargetNode) graph.getNode(endNodeName);
+                if (endNode != null
+                        && !targetBuildFile.getAbsolutePath().equals(endNode.getBuildFile())) {
+                    log.error("Conflict on build file " + targetBuildFile + " vs "
+                            + endNode.getBuildFile());
+                    conflict = true;
+                    index++;
+                }
+            } while (conflict);
+        }
 
         // Creates an new node if none found.
         if (endNode == null) {
@@ -486,7 +502,6 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
 
-        // TODO check that I'm not overriding a previously set file.
         if (!isSameBuildFile) endNode.setBuildFile(targetBuildFile.getAbsolutePath());
         return endNode;
     }
