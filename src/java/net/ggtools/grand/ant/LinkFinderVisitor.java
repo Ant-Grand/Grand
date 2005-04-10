@@ -28,6 +28,7 @@
 package net.ggtools.grand.ant;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -174,10 +175,17 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
         }
 
+        final List targetElements = getTargetElementNames(wrapper);
+
         final AntTaskLink links[];
 
-        if (false) {
-            links = null;
+        if (targetElements.size() > 0) {
+            links = new AntTaskLink[targetElements.size()];
+            int i = 0;
+            for (final Iterator iter = targetElements.iterator(); iter.hasNext();) {
+                links[i++] = createAntTaskLink(targetBuildFile, wrapper.getElementTag(),
+                        (String) iter.next());
+            }
         }
         else {
             links = new AntTaskLink[]{createAntTaskLink(targetBuildFile, wrapper.getElementTag(),
@@ -186,6 +194,29 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
         // Look to params children.
         addNestPropertiesParameters(wrapper, links, PROPERTY_ELEMENT);
+    }
+
+    /**
+     * @param wrapper
+     * @return
+     */
+    private List getTargetElementNames(final RuntimeConfigurable wrapper) {
+        final List targetElements = new ArrayList();
+        final Enumeration children = wrapper.getChildren();
+        while (children.hasMoreElements()) {
+            final RuntimeConfigurable child = (RuntimeConfigurable) children.nextElement();
+            if ("target".equals(child.getElementTag())) {
+                final Hashtable childAttributeMap = child.getAttributeMap();
+                // name is supposed to be a string however since we are putting
+                // it in an object collection, there is no need to cast it as a
+                // String right now.
+                final Object name = childAttributeMap.get(ATTR_NAME);
+                if (name != null) {
+                    targetElements.add(name);
+                }
+            }
+        }
+        return targetElements;
     }
 
     /**
@@ -205,10 +236,24 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             throws DuplicateElementException {
         log.info("Processing antcall target in " + startNode.getName());
         final Project antProject = project.getAntProject();
+
+        final List targetElements = getTargetElementNames(wrapper);
+
         final AntTaskLink links[];
 
-        if (false) {
-            links = null;
+        final String elementTag = wrapper.getElementTag();
+        if (targetElements.size() > 0) {
+            links = new AntTaskLink[targetElements.size()];
+            int i = 0;
+            for (final Iterator iter = targetElements.iterator(); iter.hasNext();) {
+                final String endNodeName = antProject.replaceProperties((String) iter.next());
+
+                final AntTargetNode endNode = findOrCreateNode(endNodeName);
+
+                log.debug("Creating link from " + startNode + " to " + endNodeName);
+
+                links[i++] = graph.createTaskLink(null, startNode, endNode, elementTag);
+            }
         }
         else {
             final String endNodeName = antProject.replaceProperties((String) wrapper
@@ -218,8 +263,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
             log.debug("Creating link from " + startNode + " to " + endNodeName);
 
-            links = new AntTaskLink[]{graph.createTaskLink(null, startNode, endNode, wrapper
-                    .getElementTag())};
+            links = new AntTaskLink[]{graph.createTaskLink(null, startNode, endNode, elementTag)};
         }
 
         // Look to params children.
@@ -422,7 +466,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                     final AntProject tmpProj = new AntProject(targetBuildFile);
                     targetName = tmpProj.getAntProject().getDefaultTarget();
                 } catch (GrandException e) {
-                    log.error("Caught exception trying to read " + targetBuildFile
+                    log.info("Caught exception trying to read " + targetBuildFile
                             + " using default target name", e);
                     targetName = "'default'";
                 }

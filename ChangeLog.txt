@@ -1,5 +1,11 @@
 $Id$
 
+Release 1.8 (build number xx):
+
+* Compiled againt ant 1.6.3 beta 1 but should still work with old ant version,
+* Added support for the new <target> element in <ant> and <antcall>.
+
+
 Release 1.7 (build number 91):
 
 * Fixed an exception when parsing a file with a <taskdef> outside of a target,

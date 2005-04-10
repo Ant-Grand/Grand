@@ -26,6 +26,20 @@
 		<ant target="gruik"/>
 	</target>
 	
+    <target name="ant-with-target-elements-test">
+        <ant>
+            <target name="gruik-element"/>
+            <target name="gabuzo-element"/>
+        </ant>
+    </target>
+    
+    <target name="antcall-with-target-elements-test">
+        <antcall>
+            <target name="gruik-element"/>
+            <target name="gabuzo-element"/>
+        </antcall>
+    </target>
+    
 	<target name="ant-with-file-test">
 		<ant target="gabuzo" dir="/gruik" antfile="gruik.xml"/>
 	</target>
