@@ -480,9 +480,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             // worth implementing.
             int index = 1;
             boolean conflict = false;
+            endNodeName = "[" + targetName + "]";
             do {
                 conflict = false;
-                endNodeName = "[" + targetName + " (" + index + ")]";
                 endNode = (AntTargetNode) graph.getNode(endNodeName);
                 if (endNode != null
                         && !targetBuildFile.getAbsolutePath().equals(endNode.getBuildFile())) {
@@ -490,6 +490,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                             + endNode.getBuildFile());
                     conflict = true;
                     index++;
+                    endNodeName = "[" + targetName + " (" + index + ")]";
                 }
             } while (conflict);
         }

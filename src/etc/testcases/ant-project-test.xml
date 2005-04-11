@@ -28,15 +28,15 @@
 	
     <target name="ant-with-target-elements-test">
         <ant>
-            <target name="gruik-element"/>
-            <target name="gabuzo-element"/>
+            <target name="gruik"/>
+            <target name="gabuzo"/>
         </ant>
     </target>
     
     <target name="antcall-with-target-elements-test">
         <antcall>
-            <target name="gruik-element"/>
-            <target name="gabuzo-element"/>
+            <target name="gruik"/>
+            <target name="gabuzo"/>
         </antcall>
     </target>
     

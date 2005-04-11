@@ -107,13 +107,13 @@ public class AntProjectTest extends AbstractAntTester {
         AntLink link = (AntLink) iterator.next();
         assertNotNull("shoud have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
-        assertEquals("Target", "gruik-element", endNode.getName());
+        assertEquals("Target", "gruik", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
 
         link = (AntLink) iterator.next();
         assertNotNull("shoud have found twos links", link);
         endNode = (AntTargetNode) link.getEndNode();
-        assertEquals("Target", "gabuzo-element", endNode.getName());
+        assertEquals("Target", "gabuzo", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
 
         assertFalse("There should be target after the second one", iterator.hasNext());
@@ -181,15 +181,15 @@ public class AntProjectTest extends AbstractAntTester {
         AntLink link = (AntLink) iterator.next();
         assertNotNull("shoud have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
-        assertEquals("Target", "[gruik-element]", endNode.getName());
+        assertEquals("Target", "[gruik]", endNode.getName());
         String buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
         assertEquals("Build file should be build.xml in the current dir", buildFile, endNode
                 .getBuildFile());
 
         link = (AntLink) iterator.next();
-        assertNotNull("shoud have found twos links", link);
+        assertNotNull("shoud have found two links", link);
         endNode = (AntTargetNode) link.getEndNode();
-        assertEquals("Target", "[gabuzo-element]", endNode.getName());
+        assertEquals("Target", "[gabuzo (2)]", endNode.getName());
         buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
         assertEquals("Build file should be build.xml in the current dir", buildFile, endNode
                 .getBuildFile());
