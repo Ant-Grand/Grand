@@ -48,7 +48,7 @@ public class AntProjectFromFileTest extends AntProjectTest {
 
     protected void createGraph() {
         try {
-            AntProject antProject = new AntProject(new File(getTestBuildFileName()));
+            antProject = new AntProject(new File(getTestBuildFileName()));
             antProject.getAntProject().setBasedir(TESTCASES_DIR);
             graph = antProject.getGraph();
         } catch (GrandException e) {
