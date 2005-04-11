@@ -1,6 +1,6 @@
 $Id$
 
-Release 1.8 (build number xx):
+Release 1.8 (build number 110):
 
 * Compiled againt ant 1.6.3 beta 1 but should still work with old ant version,
 * Added support for the new <target> element in <ant> and <antcall>
