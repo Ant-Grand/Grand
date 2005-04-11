@@ -31,7 +31,6 @@ package net.ggtools.grand.ant;
 import java.io.File;
 
 import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.Graph;
 
 /**
  * @author Christophe Labouisse
@@ -47,9 +46,13 @@ public class AntProjectFromFileTest extends AntProjectTest {
         super(arg0);
     }
 
-    protected Graph getProjectGraph() throws GrandException {
-        AntProject antProject = new AntProject(new File(getTestBuildFileName()));
-        Graph graph = antProject.getGraph();
-        return graph;
+    protected void createGraph() {
+        try {
+            AntProject antProject = new AntProject(new File(getTestBuildFileName()));
+            antProject.getAntProject().setBasedir(TESTCASES_DIR);
+            graph = antProject.getGraph();
+        } catch (GrandException e) {
+            fail("Got exception while creating graph: " + e.getMessage());
+        }
     }
 }
