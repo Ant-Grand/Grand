@@ -407,9 +407,9 @@
   </target>
   
   <target name="site2" depends="checkSite2" if="AnakiaTask.present">
-    <taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
+    <!--taskdef name="anakia" classname="org.apache.velocity.anakia.AnakiaTask">
       <classpath refid="site2.classpath"/>
-    </taskdef>
+    </taskdef-->
 
     <anakia basedir="${xdocs.src}" destdir="${docs.dest}/"
       extension=".html" 
