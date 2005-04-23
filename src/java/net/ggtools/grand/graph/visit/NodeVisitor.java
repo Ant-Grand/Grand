@@ -29,7 +29,6 @@ package net.ggtools.grand.graph.visit;
 
 import net.ggtools.grand.ant.AntTargetNode;
 import net.ggtools.grand.graph.Node;
-import net.ggtools.grand.graph.NodeImpl;
 
 /**
  * An interface to be implemented by classes visiting Nodes.
@@ -39,8 +38,7 @@ import net.ggtools.grand.graph.NodeImpl;
 public interface NodeVisitor {
 
     /**
-     * Visits a basic node. Can also be used to visit {@link NodeImpl} which is
-     * a simple implementation of the interface.
+     * Visits a basic node.
      *
      * @param node to to visit.
      */

@@ -29,7 +29,6 @@
 package net.ggtools.grand.ant;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -118,8 +117,6 @@ public class AntProjectTest extends AbstractAntTester {
     /**
      * Run a graph on a file including an antcall whose target is based on a
      * property.
-     * 
-     * @throws IOException
      */
     public void testAntCallWithUndefinedProperty() {
         expectLogContaining("ant-call-with-property", "Outputing to ");
@@ -129,8 +126,6 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Run a graph on a file including an undefined task.
-     * 
-     * @throws IOException
      */
     public void testAntCallWithUndefinedTask() {
         // TODO Check if this test is useful.
