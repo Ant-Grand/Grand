@@ -1,4 +1,5 @@
-// $Id$
+// $Id: /grand/local/Grand/src/java/net/ggtools/grand/Configuration.java 146
+// 2004-07-20T23:05:53.903912Z moi $
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
@@ -31,6 +32,7 @@ package net.ggtools.grand;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -39,6 +41,8 @@ import java.util.Properties;
  * @author Christophe Labouisse
  */
 public class Configuration {
+
+    private static final String ANT_VERSION_TXT = "/org/apache/tools/ant/version.txt";
 
     private static Configuration defaultConfiguration;
 
@@ -97,11 +101,13 @@ public class Configuration {
         return new Configuration(override);
     }
 
-    final private Properties buildProperties;
+    private final String antVersionString;
+
+    private final Properties buildProperties;
 
     private final Properties properties;
 
-    final private String versionString;
+    private final String versionString;
 
     /**
      * Creates a new configuration. The new object's get methods will return
@@ -125,6 +131,17 @@ public class Configuration {
         versionString = "v" + buildProperties.getProperty("build.version.string") + " (build "
                 + buildProperties.getProperty("build.number") + " "
                 + buildProperties.getProperty("build.date") + ")";
+
+        final Properties antProperties = new Properties();
+        final InputStream antVersionStream = getClass().getResourceAsStream(ANT_VERSION_TXT);
+
+        if (antVersionStream != null) {
+            antProperties.load(antVersionStream);
+            antVersionString = antProperties.getProperty("VERSION")+" ("+antProperties.getProperty("DATE","Unknown")+")";
+        }
+        else {
+            antVersionString = null;
+        }
     }
 
     /**
@@ -136,6 +153,10 @@ public class Configuration {
      */
     public final String get(final String key) {
         return properties.getProperty(key);
+    }
+
+    public String getAntVersionString() {
+        return antVersionString;
     }
 
     /**
