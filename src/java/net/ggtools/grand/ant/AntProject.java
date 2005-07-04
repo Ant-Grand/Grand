@@ -345,7 +345,7 @@ public class AntProject implements GraphProducer {
                 subAntDef.setClass(SubAntHelper.class);
             }
             final AntTypeDefinition taskDefDef = helper.getDefinition("taskdef");
-            if (subAntDef == null) {
+            if (taskDefDef == null) {
                 log
                         .warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
             }
