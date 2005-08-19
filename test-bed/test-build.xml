@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
-<project name="GrandTask" default="graph">
+<project name="GrandTask" default="installImage">
 	<description>
 		A test project
 	</description>
 
-  <target name="installImage" depends="getInstallType, buildsegments">
+  <target name="installImage" depends="targetAntSegment">
 
    <if>
      <or>
