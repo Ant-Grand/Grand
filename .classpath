@@ -9,7 +9,7 @@
 			<attribute value="http://java.sun.com/j2se/1.5.0/docs/api/" name="javadoc_location"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.5.jar"/>
-	<classpathentry exported="true" kind="var" path="MAVEN_REPO/ant/jars/ant-launcher-1.6.5.jar"/>
+	<classpathentry exported="true" sourcepath="/ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.5.jar"/>
+	<classpathentry exported="true" sourcepath="/ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-launcher-1.6.5.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
