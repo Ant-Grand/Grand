@@ -67,6 +67,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     static {
         aliases.put("runtarget", "antcall");
         aliases.put("foreach", "antcall");
+        // TODO: check those tasks.
+        aliases.put("antcallback","antcall");
+        aliases.put("antfetch","ant");
+        aliases.put("switch","if");
+        aliases.put("trycatch","if");
     }
 
     private static final String ANT_FILE_PROPERTY = "ant.file";
@@ -312,7 +317,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 final String currentFileName = filenames[i];
                 File file = null;
                 File directory = null;
-                file = new File(filenames[i]);
+                file = new File(currentFileName);
                 if (file.isDirectory()) {
                     if (genericantfile != null) {
                         directory = file;
