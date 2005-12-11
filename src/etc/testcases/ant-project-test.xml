@@ -80,6 +80,14 @@
         </subant>
     </target>
 
+    <target name="subant-withproperties">
+        <subant>
+            <fileset dir="." includes="subant-1/build.xml"/>
+            <dirset dir="." includes="subant-2" />
+	    <property name="ga" value="bu"/>
+        </subant>
+    </target>
+
     <!-- Target to be call through genericantfile -->
     <target name="subant-generic-target">
         <echo>Init from dir ${basedir}</echo>

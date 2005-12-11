@@ -250,6 +250,14 @@ public class AntProjectTest extends AbstractAntTester {
         assertEquals("Build file should be build.xml in the subant-2 dir", buildFile, endNode
                 .getBuildFile());
 
+        // Test with property nested elements.
+        node = (AntTargetNode) graph.getNode("subant-withproperties");
+        links = node.getLinks();
+        assertEquals("Should have found 2 links", 2, links.size());
+        for (Iterator iter = links.iterator(); iter.hasNext();) {
+            AntTaskLink subLink = (AntTaskLink) iter.next();
+            assertEquals("A parameter call ga=meu should be defined","bu",subLink.getParameter("ga"));
+        }
     }
 
     public void testUnlessCondition() throws GrandException {

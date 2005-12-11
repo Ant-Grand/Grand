@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project name="Both" default="init">
+    <target name="target1" depends="target2">
+        <echo>Target 1</echo>
+    </target>
+
+    <target name="target2" depends="target1">
+        <echo>Target 2</echo>
+    </target>
+</project>

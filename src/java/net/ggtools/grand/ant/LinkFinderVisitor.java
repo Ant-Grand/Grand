@@ -1,4 +1,5 @@
-// $Id$
+// $Id: /grand/local/Grand/src/java/net/ggtools/grand/ant/LinkFinderVisitor.java
+// 1056 2005-08-26T13:02:43.897872Z clabouisse $
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
@@ -37,8 +38,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
 import net.ggtools.grand.exceptions.DuplicateElementException;
@@ -50,6 +49,7 @@ import org.apache.commons.logging.Log;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.Path;
 
 /**
@@ -68,10 +68,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         aliases.put("runtarget", "antcall");
         aliases.put("foreach", "antcall");
         // TODO: check those tasks.
-        aliases.put("antcallback","antcall");
-        aliases.put("antfetch","ant");
-        aliases.put("switch","if");
-        aliases.put("trycatch","if");
+        aliases.put("antcallback", "antcall");
+        aliases.put("antfetch", "ant");
+        aliases.put("switch", "if");
+        aliases.put("trycatch", "if");
     }
 
     private static final String ANT_FILE_PROPERTY = "ant.file";
@@ -334,11 +334,25 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                             target);
 
                     for (Iterator iter = properties.iterator(); iter.hasNext();) {
-                        final Set entries = ((Properties) iter.next()).entrySet();
-                        for (Iterator iterator = entries.iterator(); iterator.hasNext();) {
-                            final Map.Entry current = (Map.Entry) iterator.next();
-                            link.setParameter((String) current.getKey(), antProject
-                                    .replaceProperties((String) current.getValue()));
+                        final Object next = iter.next();
+                        if (next instanceof Property) {
+                            final Property p = (Property) next;
+                            // Simple property
+                            if (p.getName() != null) {
+                                link.setParameter(p.getName(), antProject.replaceProperties(p
+                                        .getValue()));
+                            }
+                            // Property file.
+                            else if (p.getFile() != null) {
+                                final File propFile = p.getFile();
+                                if (log.isDebugEnabled())
+                                    log.debug("Loading " + propFile.getAbsolutePath());
+                                // TODO add a special link type for properties.
+                            }
+                        }
+                        else {
+                            log.error("Got element in subant properties of unknown class: "
+                                    + next.getClass());
                         }
                     }
                 }
