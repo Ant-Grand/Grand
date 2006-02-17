@@ -347,7 +347,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                                 final File propFile = p.getFile();
                                 if (log.isDebugEnabled())
                                     log.debug("Loading " + propFile.getAbsolutePath());
-                                // TODO add a special link type for properties.
+                                link.addPropertyFile(propFile.getAbsolutePath());
                             }
                         }
                         else {
@@ -417,11 +417,20 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 final Hashtable childAttributeMap = child.getAttributeMap();
                 final String name = (String) childAttributeMap.get(ATTR_NAME);
                 if (name != null) {
+                    final String propertyValue = antProject
+                            .replaceProperties((String) childAttributeMap.get(ATTR_VALUE));
                     for (int i = 0; i < links.length; i++) {
                         final AntTaskLink link = links[i];
-                        link.setParameter(name, antProject
-                                .replaceProperties((String) childAttributeMap.get(ATTR_VALUE)));
-
+                        link.setParameter(name, propertyValue);
+                    }
+                }
+                else {
+                    final String fileName = (String) childAttributeMap.get("file");
+                    if (fileName != null) {
+                        for (int i = 0; i < links.length; i++) {
+                            final AntTaskLink link = links[i];
+                            link.addPropertyFile(antProject.replaceProperties(fileName));
+                        }
                     }
                 }
             }

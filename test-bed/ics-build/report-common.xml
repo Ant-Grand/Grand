@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<project name="report-common" default="disabled" basedir=".">
+
+    <!-- Set up tool-specific properties -->
+    <property name="tool.name"          value="yourTool"/>
+    <property name="tool.home"          value="${basedir}"/>
+    <property name="tool.stylesheet"    value="${tool.home}/yourTool.xsl"/>
+    
+    <property name="results.root"       value="${build_analysis.dir}/${tool.name}"/>
+
+    <target name="disabled" description="An empty task to allow the report to be disabled">
+    </target>
+    
+    <target name="init" description="Set up the structure of the results directory">
+        <mkdir dir="${results.root}"/>
+        <copy file="description.txt" todir="${results.root}"/>
+        <!-- There is a generic index.jsp that any report can use. A report might also
+             define their own, but they are not required to. -->
+        <copy file="${build_home.dir}/webapp/report-index.jsp" tofile="${results.root}/index.jsp"/>
+        <copy file="${basedir}/index.jsp" tofile="${results.root}/index.jsp" overwrite="true" failonerror="false"/>
+
+        <tstamp>
+            <format property="datetime" pattern="MMMM dd, yyyy hh:mm aa" />
+        </tstamp>
+        <tstamp>
+            <format property="today" pattern="yyyy-MM-dd"/> 
+        </tstamp>
+
+        <property environment="env"/>
+
+        <if>
+            <or>
+                <not><isset property="cvs_stream"/></not>
+                <equals arg1="${cvs_stream}" arg2="" trim="true"/>
+            </or>
+            <then>
+                <property name="stream.name" value="HEAD"/>
+            </then>
+            <else>
+                <property name="stream.name" value="${cvs_stream}"/>
+            </else>
+        </if>
+    </target>
+
+    <target name="report-all" depends="init" description="Runs a report task for each WSAD project">
+        <!-- Create a report of each project -->
+        <for list="${projects}" param="projectName">
+            <sequential>
+            <!-- Figure out where the source root for the project is, since different teams
+                 could have used different conventions -->
+            <if>
+                <available file="${cvs_source.dir}/@{projectName}/source" type="dir"/>
+            <then>
+                <antcall target="report">
+                    <param name="projectName" value="@{projectName}" />
+                    <param name="report.name" value="${results.root}/@{projectName}-${tool.name}-report"/>
+                    <param name="src.dir" value="${cvs_source.dir}/@{projectName}/source"/>
+                </antcall>
+            </then>
+            <elseif>
+                    <available file="${cvs_source.dir}/@{projectName}/com" type="dir"/>
+                <then>
+                    <antcall target="report">
+                        <param name="projectName" value="@{projectName}"/>
+                        <param name="report.name" value="${results.root}/@{projectName}-${tool.name}-report"/>
+                        <param name="src.dir" value="${cvs_source.dir}/@{projectName}"/>
+                    </antcall>
+                </then>
+            </elseif>
+            <else>
+                <echo message="Skipping @{projectName}, no source code found in ${cvs_source.dir}/@{projectName}"/>
+            </else>
+            </if>
+            </sequential>
+        </for>
+        
+    </target>
+    
+    <target name="checkStylesheetPresent">
+        <available file="${tool.stylesheet}" property="stylesheet.present"/>
+    </target>
+    
+    <target name="report" depends="init, checkStylesheetPresent">
+        <antcall target="runtool">
+            <param name="project" value="${projectName}"/>
+            <param name="report.name" value="${report.name}"/>
+            <param name="source.include" value="**/*.java"/>
+            <param name="source.exclude" value=""/>
+        </antcall>
+        <antcall target="style">
+            <param name="project" value="${projectName}"/>
+            <param name="report.name" value="${report.name}"/>
+        </antcall>
+    </target>
+    
+    <!-- This task should be overridden for the tool -->    
+    <target name="runtool" description="Runs the reporting tool">
+        <echo message="** NO TASK DEFINED FOR ${tool.name} **" level="info"/>
+    </target>
+    
+    <!-- To use additional parameters for a stylesheet, override this target and call
+         the 'report-style' macro, adding the <param> elements that are needed -->
+    <target name="style" if="stylesheet.present">
+        <report-style/>
+    </target>
+    
+    <macrodef name="report-style">
+        <attribute name="input.file" default="${report.name}.xml"/>
+        <attribute name="output.file" default="${report.name}.html"/>
+        <element name="extra.params" optional="true" implicit="true"/>
+        <sequential>
+            <style basedir="." destdir="."
+                in="@{input.file}" 
+                out="@{output.file}"
+                style="${tool.stylesheet}">
+              <param name="project" expression="${project}" />
+              <param name="today" expression="${datetime}" />
+              <extra.params/>
+            </style>
+        </sequential>
+    </macrodef>
+
+    <!-- EXPERIMENTAL -->
+    <macrodef name="tool-report-per-project">
+        <attribute name="tool.name"/>
+        <attribute name="tool.stylesheet" default="MUST-BE-SPECIFIED.xsl"/>
+        <element name="report-task"/>
+        <sequential>
+            <!-- what would go here?? -->
+        </sequential>
+    </macrodef>
+</project>

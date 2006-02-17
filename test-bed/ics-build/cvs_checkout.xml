@@ -1,0 +1,73 @@
+<project name="CVS Checkout" default="CVSCheckout" basedir=".">
+    <target name="CVSCheckout">
+        <!-- If we didn't get rid of our previous build directory, then we will do an incremental checkout -->
+        <available file="${cvs_source.dir}/CVS" property="incremental.build"/>
+        <echo message="DEBUG: incremental.build = ${incremental.build}" level="info"/>
+        
+        <mkdir dir="${cvs_build.dir}" />
+        <antcall target="CVSprepareSrc" />
+        <antcall target="CVSprepareBin" />
+
+        <antcall target="CVSCheckoutStream" />
+        <antcall target="CVSCheckoutVersions" />
+    </target>
+
+    <!-- Deletes then creates the source directory.  This is the location that the source will be checked out to
+        If we're doing an incremental build, skip this step -->
+    <target name="CVSprepareSrc" unless="incremental.build">
+        <delete dir="${cvs_source.dir}" />
+        <mkdir dir="${cvs_source.dir}" />
+    </target>
+    <!-- Deletes then creates the binary directory.  This is the location that the source will be compiled to. -->
+    <target name="CVSprepareBin" unless="noCompile">
+        <delete dir="${cvs_compile.dir}" />
+        <for list="${projects}" param="projectName">
+            <sequential>
+                <mkdir dir="${cvs_compile.dir}/@{projectName}" />
+            </sequential>
+        </for>
+        <delete dir="${cvs_build.dir}/jars" />
+        <mkdir dir="${cvs_build.dir}/jars" />
+    </target>
+
+    <target name="CVSCheckoutStream" unless="cvs_build_from_versions">
+        <antcall target="checkoutStreamFull"/>
+        <antcall target="checkoutStreamIncremental"/>
+    </target>
+    
+    <target name="checkoutStreamFull" unless="incremental.build">
+        <echo message="Performing CVS checkout of full source" level="info"/>
+        <antcall target="checkoutStream">
+            <param name="checkoutType" value="checkout"/>
+        </antcall>
+    </target>
+    
+    <target name="checkoutStreamIncremental" if="incremental.build">
+        <echo message="Performing CVS update of changed source" level="info"/>
+        <antcall target="checkoutStream">
+            <param name="checkoutType" value="update"/>
+        </antcall>
+    </target>
+    
+    <target name="checkoutStream">
+        <echo message="Build from CVS stream [${cvs_stream}] ${TSTAMP_FORMATED}"  level="info"/>
+        
+        <echo level="info">Checking out projects ${projects}</echo>
+        <for list="${projects}" param="projectName">
+            <sequential>
+                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" tag="${cvs_stream}" dest="${cvs_checkout.dir}/" command="${checkoutType}" quiet="${cvs_checkout_quiet_output}" date="${TSTAMP_FORMATED}" />
+            </sequential>
+        </for>
+    </target>
+    <target name="CVSCheckoutVersions" if="cvs_build_from_versions">
+        <property file="${cvs_label_properties}"/>
+        
+        <echo message="Build from CVS tag ${cvs_label}"  level="info"/>
+        <echo level="info">Checking out projects ${projects}</echo>
+        <for list="${projects}" param="projectName">
+            <sequential>
+                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" tag="${cvs_label}" dest="${cvs_checkout.dir}/" command="checkout" quiet="${cvs_checkout_quiet_output}" />
+            </sequential>
+        </for>
+    </target>
+</project>

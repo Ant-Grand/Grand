@@ -27,7 +27,9 @@
  */
 package net.ggtools.grand.ant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.ggtools.grand.graph.Graph;
@@ -46,6 +48,8 @@ public class AntTaskLink extends AntLink {
     private final String taskName;
 
     private final Map parameterMap = new HashMap();
+    
+    private final List propertyFileList = new ArrayList();
 
     /**
      * @param name
@@ -91,6 +95,22 @@ public class AntTaskLink extends AntLink {
      */
     public String getParameter(final String key) {
         return (String) parameterMap.get(key);
+    }
+    
+    /**
+     * Returns an array of property files set for this link.
+     * @return
+     */
+    public String[] getPropertyFiles() {
+        return (String[]) propertyFileList.toArray(new String[propertyFileList.size()]);
+    }
+    
+    /**
+     * Add a new property file to the current list.
+     * @param fileName
+     */
+    public void addPropertyFile(final String fileName) {
+        propertyFileList.add(fileName);
     }
 
     /**

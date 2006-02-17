@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project name="ics-grand" default="report" basedir=".">
+
+    <!-- Set up tool-specific properties -->
+    <property name="tool.name"          value="grand"/>
+    <property name="build.file"         value="build.xml"/>
+    
+    <import file="../report-common.xml"/>
+
+    <!-- Grand-specific elements -->
+    <typedef resource="net/ggtools/grand/antlib.xml" classpath="grand-1.8.jar"/>
+    
+    <property name="graphviz.home"      value="c:/tools/att/GraphViz"/>
+    <property name="graph.format"       value="jpg"/>
+    <property name="graph.file"         value="${results.root}/${build.file}.${graph.format}"/>
+    <property name="dot.file"           value="${results.root}/${build.file}.dot"/>
+    
+    <!-- Override this target to do tool-specific processing -->    
+    <target name="report" description="Runs the ${tool.name} reporting tool">
+        <echo message="Running ${tool.name}"/>
+        <!-- Put the Ant task for the particular tool here -->
+        <grand output="${dot.file}" 
+                outputconfigfile="dot-config.properties"
+                buildfile="../${build.file}">
+            <filter name="fromnode" node="icsBuild"/>
+            <filter name="removenode" node="init"/>
+        </grand>
+        
+        <exec executable="${graphviz.home}/bin/dot">
+            <arg line="-T${graph.format} -o ${graph.file} ${dot.file}"/>
+        </exec>
+    </target>
+    
+</project>
