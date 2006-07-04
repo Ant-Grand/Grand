@@ -32,7 +32,6 @@
 package net.ggtools.grand.graph;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
@@ -45,13 +44,12 @@ public class ForwardLinkFinder implements LinkFinder {
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
-    public Collection getLinks(final Node node) {
-        Collection links = node.getLinks();
+    public Collection<Node> getLinks(final Node node) {
+        final Collection<Link> links = node.getLinks();
 
-        LinkedHashSet result = new LinkedHashSet();
+        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
 
-        for (Iterator iter = links.iterator(); iter.hasNext();) {
-            Link link = (Link) iter.next();
+        for (Link link : links) {
             result.add(link.getEndNode());
         }
 

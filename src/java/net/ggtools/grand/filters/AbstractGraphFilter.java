@@ -64,7 +64,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * 
      * @param name
      */
-    public AbstractGraphFilter(String name) {
+    public AbstractGraphFilter(final String name) {
         this.name = name;
     }
 
@@ -78,10 +78,10 @@ public abstract class AbstractGraphFilter implements GraphFilter {
         final Graph graph = getProducersGraph();
 
         if (graph != null) {
-            final Collection nodeList = getFilteredNodes();
+            final Collection<Node> nodeList = getFilteredNodes();
 
-            for (Iterator iter = graph.getNodes(); iter.hasNext();) {
-                Node node = (Node) iter.next();
+            for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+                final Node node = iter.next();
 
                 if (!nodeList.contains(node)) {
                     iter.remove();
@@ -125,7 +125,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @throws GrandException
      *             if the filtering cannot be done
      */
-    abstract protected Collection getFilteredNodes() throws GrandException;
+    abstract protected Collection<Node> getFilteredNodes() throws GrandException;
 
     /**
      * Returns the current graph producer.
@@ -145,7 +145,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      *             if something goes wrong.
      */
     protected final Graph getProducersGraph() throws GrandException {
-        if (producersGraph == null && graphProducer != null) {
+        if ((producersGraph == null) && (graphProducer != null)) {
             producersGraph = graphProducer.getGraph();
         }
         return producersGraph;

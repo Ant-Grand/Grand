@@ -59,18 +59,18 @@ public class SubAntHelper extends Task {
 
     private File genericantfile = null;
 
-    private Vector properties = new Vector();
+    private final Vector<Property> properties = new Vector<Property>();
 
-    private Vector propertySets = new Vector();
+    private final Vector<PropertySet> propertySets = new Vector<PropertySet>();
 
-    private Vector references = new Vector();
+    private final Vector<Reference> references = new Vector<Reference>();
 
     private String subAntTarget = null;
 
     final SubAnt underlying;
 
     public SubAntHelper() {
-        this.underlying = new SubAnt();
+        underlying = new SubAnt();
     }
 
     public SubAntHelper(final SubAnt underlying) {
@@ -80,28 +80,28 @@ public class SubAntHelper extends Task {
     /**
      * @param set
      */
-    public void addDirset(DirSet set) {
+    public void addDirset(final DirSet set) {
         getBuildpath().addDirset(set);
     }
 
     /**
      * @param list
      */
-    public void addFilelist(FileList list) {
+    public void addFilelist(final FileList list) {
         getBuildpath().addFilelist(list);
     }
 
     /**
      * @param set
      */
-    public void addFileset(FileSet set) {
+    public void addFileset(final FileSet set) {
         getBuildpath().addFileset(set);
     }
 
     /**
      * @param p
      */
-    public void addProperty(Property p) {
+    public void addProperty(final Property p) {
         properties.addElement(p);
         underlying.addProperty(p);
     }
@@ -109,7 +109,7 @@ public class SubAntHelper extends Task {
     /**
      * @param ps
      */
-    public void addPropertyset(PropertySet ps) {
+    public void addPropertyset(final PropertySet ps) {
         propertySets.addElement(ps);
         underlying.addPropertyset(ps);
     }
@@ -117,7 +117,7 @@ public class SubAntHelper extends Task {
     /**
      * @param r
      */
-    public void addReference(Reference r) {
+    public void addReference(final Reference r) {
         references.addElement(r);
         underlying.addReference(r);
     }
@@ -140,7 +140,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals(Object obj) {
+    @Override
+    public boolean equals(final Object obj) {
         return underlying.equals(obj);
     }
 
@@ -148,6 +149,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#execute()
      */
+    @Override
     public void execute() throws BuildException {
         underlying.setBuildpath(buildpath);
         underlying.execute();
@@ -176,6 +178,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#getDescription()
      */
+    @Override
     public String getDescription() {
         return underlying.getDescription();
     }
@@ -191,6 +194,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#getLocation()
      */
+    @Override
     public Location getLocation() {
         return underlying.getLocation();
     }
@@ -199,6 +203,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#getOwningTarget()
      */
+    @Override
     public Target getOwningTarget() {
         return underlying.getOwningTarget();
     }
@@ -207,6 +212,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.ProjectComponent#getProject()
      */
+    @Override
     public Project getProject() {
         return underlying.getProject();
     }
@@ -214,21 +220,21 @@ public class SubAntHelper extends Task {
     /**
      * @return Returns the properties.
      */
-    public final Vector getProperties() {
+    public final Vector<Property> getProperties() {
         return properties;
     }
 
     /**
      * @return Returns the propertySets.
      */
-    public final Vector getPropertySets() {
+    public final Vector<PropertySet> getPropertySets() {
         return propertySets;
     }
 
     /**
      * @return Returns the references.
      */
-    public final Vector getReferences() {
+    public final Vector<Reference> getReferences() {
         return references;
     }
 
@@ -236,6 +242,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#getRuntimeConfigurableWrapper()
      */
+    @Override
     public RuntimeConfigurable getRuntimeConfigurableWrapper() {
         return underlying.getRuntimeConfigurableWrapper();
     }
@@ -244,6 +251,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#getTaskName()
      */
+    @Override
     public String getTaskName() {
         return underlying.getTaskName();
     }
@@ -252,6 +260,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#getTaskType()
      */
+    @Override
     public String getTaskType() {
         return underlying.getTaskType();
     }
@@ -260,6 +269,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return underlying.hashCode();
     }
@@ -268,6 +278,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#init()
      */
+    @Override
     public void init() throws BuildException {
         underlying.init();
     }
@@ -276,7 +287,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#log(java.lang.String)
      */
-    public void log(String msg) {
+    @Override
+    public void log(final String msg) {
         underlying.log(msg);
     }
 
@@ -284,7 +296,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#log(java.lang.String, int)
      */
-    public void log(String msg, int msgLevel) {
+    @Override
+    public void log(final String msg, final int msgLevel) {
         underlying.log(msg, msgLevel);
     }
 
@@ -292,6 +305,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#maybeConfigure()
      */
+    @Override
     public void maybeConfigure() throws BuildException {
         underlying.maybeConfigure();
     }
@@ -300,6 +314,7 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#reconfigure()
      */
+    @Override
     public void reconfigure() {
         underlying.reconfigure();
     }
@@ -307,7 +322,7 @@ public class SubAntHelper extends Task {
     /**
      * @param antfile
      */
-    public void setAntfile(String antfile) {
+    public void setAntfile(final String antfile) {
         this.antfile = antfile;
         underlying.setAntfile(antfile);
     }
@@ -315,14 +330,14 @@ public class SubAntHelper extends Task {
     /**
      * @param s
      */
-    public void setBuildpath(Path s) {
+    public void setBuildpath(final Path s) {
         getBuildpath().append(s);
     }
 
     /**
      * @param r
      */
-    public void setBuildpathRef(org.apache.tools.ant.types.Reference r) {
+    public void setBuildpathRef(final org.apache.tools.ant.types.Reference r) {
         createBuildpath().setRefid(r);
     }
 
@@ -330,36 +345,37 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#setDescription(java.lang.String)
      */
-    public void setDescription(String desc) {
+    @Override
+    public void setDescription(final String desc) {
         underlying.setDescription(desc);
     }
 
     /**
      * @param failOnError
      */
-    public void setFailonerror(boolean failOnError) {
+    public void setFailonerror(final boolean failOnError) {
         underlying.setFailonerror(failOnError);
     }
 
     /**
      * @param afile
      */
-    public void setGenericAntfile(File afile) {
-        this.genericantfile = afile;
+    public void setGenericAntfile(final File afile) {
+        genericantfile = afile;
         underlying.setGenericAntfile(afile);
     }
 
     /**
      * @param b
      */
-    public void setInheritall(boolean b) {
+    public void setInheritall(final boolean b) {
         underlying.setInheritall(b);
     }
 
     /**
      * @param b
      */
-    public void setInheritrefs(boolean b) {
+    public void setInheritrefs(final boolean b) {
         underlying.setInheritrefs(b);
     }
 
@@ -367,7 +383,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#setLocation(org.apache.tools.ant.Location)
      */
-    public void setLocation(Location location) {
+    @Override
+    public void setLocation(final Location location) {
         underlying.setLocation(location);
     }
 
@@ -380,7 +397,7 @@ public class SubAntHelper extends Task {
     /**
      * @param s
      */
-    public void setOutput(String s) {
+    public void setOutput(final String s) {
         underlying.setOutput(s);
     }
 
@@ -388,7 +405,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#setOwningTarget(org.apache.tools.ant.Target)
      */
-    public void setOwningTarget(Target target) {
+    @Override
+    public void setOwningTarget(final Target target) {
         underlying.setOwningTarget(target);
     }
 
@@ -396,7 +414,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
-    public void setProject(Project project) {
+    @Override
+    public void setProject(final Project project) {
         underlying.setProject(project);
     }
 
@@ -404,15 +423,16 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#setRuntimeConfigurableWrapper(org.apache.tools.ant.RuntimeConfigurable)
      */
-    public void setRuntimeConfigurableWrapper(RuntimeConfigurable wrapper) {
+    @Override
+    public void setRuntimeConfigurableWrapper(final RuntimeConfigurable wrapper) {
         underlying.setRuntimeConfigurableWrapper(wrapper);
     }
 
     /**
      * @param target
      */
-    public void setTarget(String target) {
-        this.subAntTarget = target;
+    public void setTarget(final String target) {
+        subAntTarget = target;
         underlying.setTarget(target);
     }
 
@@ -420,7 +440,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#setTaskName(java.lang.String)
      */
-    public void setTaskName(String name) {
+    @Override
+    public void setTaskName(final String name) {
         underlying.setTaskName(name);
     }
 
@@ -428,7 +449,8 @@ public class SubAntHelper extends Task {
      * (non-Javadoc)
      * @see org.apache.tools.ant.Task#setTaskType(java.lang.String)
      */
-    public void setTaskType(String type) {
+    @Override
+    public void setTaskType(final String type) {
         underlying.setTaskType(type);
     }
 }

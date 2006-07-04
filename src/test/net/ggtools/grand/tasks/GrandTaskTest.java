@@ -39,7 +39,7 @@ import org.apache.tools.ant.BuildException;
  */
 public class GrandTaskTest extends AbstractAntTester {
 
-    public GrandTaskTest(String name) {
+    public GrandTaskTest(final String name) {
         super(name);
     }
 
@@ -47,6 +47,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * (non-Javadoc)
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR + "grand-task.xml";
     }
@@ -57,7 +58,7 @@ public class GrandTaskTest extends AbstractAntTester {
         try {
             project.checkTaskClass(GrandTask.class);
             suitable = true;
-        } catch (BuildException e) {
+        } catch (final BuildException e) {
             suitable = false;
         }
 
@@ -70,7 +71,7 @@ public class GrandTaskTest extends AbstractAntTester {
      */
     public void testTaskDefinitionFile() {
         executeTarget("init-old");
-        Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
+        final Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
         assertNotNull("grand task class not found", graphTaskClass);
         assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
     }
@@ -82,7 +83,7 @@ public class GrandTaskTest extends AbstractAntTester {
      */
     public void testAntLib() {
         executeTarget("init");
-        Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
+        final Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
         assertNotNull("grand task class not found", graphTaskClass);
         assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
     }
@@ -137,11 +138,13 @@ public class GrandTaskTest extends AbstractAntTester {
         assertLogContaining("subant.xml");
 
         // This part of the test does not work from Maven so I disable it by default.
-        if (Boolean.parseBoolean(System.getProperty("PerformSubantTest", "false")))
+        if (Boolean.parseBoolean(System.getProperty("PerformSubantTest", "false"))) {
             assertTempFileMatchExpected("src/etc/testcases/subant.dot");
-        else
+        }
+        else {
             System.err
                     .println("Subant test disabled by default, run with -DPerformSubantTest=true to enable it");
+        }
     }
 
     public void testNonExistentDefaultTarget() {

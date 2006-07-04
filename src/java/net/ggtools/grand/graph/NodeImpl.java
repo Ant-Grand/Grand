@@ -50,9 +50,9 @@ public class NodeImpl extends AttributeManager implements Node {
 
     private String description;
 
-    private LinkedHashSet links;
+    private LinkedHashSet<Link> links;
 
-    private LinkedHashSet backLinks;
+    private LinkedHashSet<Link> backLinks;
 
     private String source;
 
@@ -67,8 +67,8 @@ public class NodeImpl extends AttributeManager implements Node {
     public NodeImpl(final String name, final Graph graph) {
         this.name = name;
         this.graph = graph;
-        links = new LinkedHashSet();
-        backLinks = new LinkedHashSet();
+        links = new LinkedHashSet<Link>();
+        backLinks = new LinkedHashSet<Link>();
     }
 
     /**
@@ -81,10 +81,11 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return true if this is equal to obj.
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(final Object obj) {
         if (this == obj) { return true; }
         if (obj instanceof Node) {
-            Node otherNode = (Node) obj;
+            final Node otherNode = (Node) obj;
             return (graph == otherNode.getGraph()) && (name.equals(otherNode.getName()));
         }
         return false;
@@ -98,6 +99,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * 
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return name.hashCode();
     }
@@ -106,6 +108,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * (non-Javadoc)
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         return name;
     }
@@ -114,7 +117,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * (non-Javadoc)
      * @see net.ggtools.grand.Node#getLinks()
      */
-    public Collection getLinks() {
+    public Collection<Link> getLinks() {
         return links;
     }
 
@@ -122,7 +125,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * (non-Javadoc)
      * @see net.ggtools.grand.Node#getBackLinks()
      */
-    public Collection getBackLinks() {
+    public Collection<Link> getBackLinks() {
         return backLinks;
     }
 
@@ -179,7 +182,9 @@ public class NodeImpl extends AttributeManager implements Node {
      * @see net.ggtools.grand.Node#removeLink(net.ggtools.grand.Link)
      */
     public void removeLink(final Link link) {
-        if (log.isTraceEnabled()) log.trace(name + ": removing link " + link);
+        if (log.isTraceEnabled()) {
+            log.trace(name + ": removing link " + link);
+        }
         links.remove(link);
     }
 
@@ -188,7 +193,9 @@ public class NodeImpl extends AttributeManager implements Node {
      * @see net.ggtools.grand.Node#removeBackLink(net.ggtools.grand.Link)
      */
     public void removeBackLink(final Link link) {
-        if (log.isTraceEnabled()) log.trace(name + ": removing back link " + link);
+        if (log.isTraceEnabled()) {
+            log.trace(name + ": removing back link " + link);
+        }
         backLinks.remove(link);
     }
 
@@ -196,7 +203,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
      */
-    public void accept(NodeVisitor visitor) {
+    public void accept(final NodeVisitor visitor) {
         visitor.visitNode(this);
     }
 

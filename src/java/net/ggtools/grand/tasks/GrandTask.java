@@ -73,15 +73,15 @@ public class GrandTask extends Task {
     private File outputConfigurationFile;
 
     /** the sets of properties to pass to the graphed project */
-    private ArrayList propertySets = new ArrayList();
+    private final ArrayList<PropertySet> propertySets = new ArrayList<PropertySet>();
 
-    private LinkedList filters = new LinkedList();
+    private final LinkedList<FilterType> filters = new LinkedList<FilterType>();
 
     private boolean showGraphName = false;
 
     private boolean inheritAll = false;
 
-    private List properties = new LinkedList();
+    private final List<Property> properties = new LinkedList<Property>();
 
     /**
      * Check the parameters validity before execution.
@@ -94,8 +94,7 @@ public class GrandTask extends Task {
             throw new BuildException(message);
         }
 
-        for (Iterator iter = filters.iterator(); iter.hasNext();) {
-            FilterType filter = (FilterType) iter.next();
+        for (FilterType filter : filters) {
             filter.checkParameters();
         }
     }
@@ -103,6 +102,7 @@ public class GrandTask extends Task {
     /* (non-Javadoc)
      * @see org.apache.tools.ant.Task#execute()
      */
+    @Override
     public void execute() throws BuildException {
         checkParams();
 
@@ -114,10 +114,9 @@ public class GrandTask extends Task {
         GraphProducer producer = graphProject;
         int numFilters = 0;
 
-        for (Iterator iter = filters.iterator(); iter.hasNext();) {
-            FilterType f = (FilterType) iter.next();
+        for (FilterType f : filters) {
             log("Adding filter " + f.getFilterName(), Project.MSG_VERBOSE);
-            GraphFilter filter = f.getFilter();
+            final GraphFilter filter = f.getFilter();
             filter.setProducer(producer);
             producer = filter;
             numFilters++;
@@ -135,16 +134,16 @@ public class GrandTask extends Task {
                 override.load(new FileInputStream(outputConfigurationFile));
             }
 
-            GraphWriter writer = new DotWriter(override);
+            final GraphWriter writer = new DotWriter(override);
             writer.setProducer(producer);
             writer.setShowGraphName(showGraphName);
 
             log("Writing output to " + output);
             writer.write(output);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log("Cannot write graph", Project.MSG_ERR);
             throw new BuildException("Cannot write graph", e);
-        } catch (GrandException e) {
+        } catch (final GrandException e) {
             log("Cannot process graph", Project.MSG_ERR);
             throw new BuildException("Cannot write graph", e);
         }
@@ -171,14 +170,12 @@ public class GrandTask extends Task {
             antProject = loadNewProject();
         }
 
-        for (Iterator iter = propertySets.iterator(); iter.hasNext();) {
-            PropertySet ps = (PropertySet) iter.next();
+        for (PropertySet ps : propertySets) {
             addAlmostAll(antProject, ps.getProperties());
         }
 
         if (properties.size() > 0) {
-            for (Iterator iter = properties.iterator(); iter.hasNext();) {
-                Property prop = (Property) iter.next();
+            for (Property prop : properties) {
                 prop.setProject(antProject);
                 prop.setTaskName("property");
                 prop.execute();
@@ -194,13 +191,13 @@ public class GrandTask extends Task {
      * @return a new initialized ant project.
      */
     private Project loadNewProject() {
-        Project antProject = new Project();
+        final Project antProject = new Project();
 
         // Set the current project listeners to the graphed project
         // in order to get some trace if we need to execute some tasks
         // in the graphed project.
         final Vector listeners = getProject().getBuildListeners();
-        for (Iterator iter = listeners.iterator(); iter.hasNext();) {
+        for (final Iterator iter = listeners.iterator(); iter.hasNext();) {
             antProject.addBuildListener((BuildListener) iter.next());
 
         }
@@ -218,7 +215,7 @@ public class GrandTask extends Task {
         }
 
         antProject.setUserProperty("ant.file", buildFile.getAbsolutePath());
-        ProjectHelper loader = ProjectHelper.getProjectHelper();
+        final ProjectHelper loader = ProjectHelper.getProjectHelper();
         antProject.addReference("ant.projectHelper", loader);
         loader.parse(antProject, buildFile);
 
@@ -230,6 +227,7 @@ public class GrandTask extends Task {
     /* (non-Javadoc)
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
+    @Override
     public void setProject(final Project project) {
         super.setProject(project);
         AntLog.setCurrentProject(project);
@@ -259,11 +257,12 @@ public class GrandTask extends Task {
      * @param outputConfigurationFile The outputConfigurationFile to set.
      * @deprecated use {@link #setOutputConfigFile(File)}.
      */
+    @Deprecated
     public void setPropertyFile(final File propertyFile) {
         log(
 "Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
                 Project.MSG_WARN);
-        this.outputConfigurationFile = propertyFile;
+        outputConfigurationFile = propertyFile;
     }
 
     /**
@@ -271,7 +270,7 @@ public class GrandTask extends Task {
      * @param outputConfigurationFile The outputConfigurationFile to set.
      */
     public void setOutputConfigFile(final File propertyFile) {
-        this.outputConfigurationFile = propertyFile;
+        outputConfigurationFile = propertyFile;
     }
 
     public void setShowGraphName(final boolean show) {
@@ -321,15 +320,15 @@ public class GrandTask extends Task {
      * @since Ant 1.6
      */
     private void addAlmostAll(final Project destProject, final Hashtable props) {
-        Enumeration e = props.keys();
+        final Enumeration e = props.keys();
         while (e.hasMoreElements()) {
-            String key = e.nextElement().toString();
+            final String key = e.nextElement().toString();
             if ("basedir".equals(key) || "ant.file".equals(key)) {
                 // basedir and ant.file should not be altered.
                 continue;
             }
 
-            String value = props.get(key).toString();
+            final String value = props.get(key).toString();
             // don't re-set user properties, avoid the warning message
             if (destProject.getProperty(key) == null) {
                 // no user property

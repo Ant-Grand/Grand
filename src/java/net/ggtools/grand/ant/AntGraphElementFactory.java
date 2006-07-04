@@ -45,7 +45,7 @@ class AntGraphElementFactory implements GraphElementFactory {
      * 
      * @param graph
      */
-    public AntGraphElementFactory(AntGraph graph) {
+    public AntGraphElementFactory(final AntGraph graph) {
         this.graph = graph;
     }
 
@@ -53,7 +53,7 @@ class AntGraphElementFactory implements GraphElementFactory {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.GraphElementFactory#createNode(java.lang.String)
      */
-    public Node createNode(String nodeName) {
+    public Node createNode(final String nodeName) {
         return new AntTargetNode(nodeName, graph);
     }
 

@@ -28,7 +28,6 @@
 package net.ggtools.grand.output;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import net.ggtools.grand.Configuration;
 import net.ggtools.grand.ant.AntLink;
@@ -56,6 +55,7 @@ class DotWriterVisitor implements NodeVisitor {
      */
     private class NodeLinksVisitor implements LinkVisitor {
 
+        @SuppressWarnings("unused")
         private final Node node;
 
         private final String nodeInfo;
@@ -76,7 +76,7 @@ class DotWriterVisitor implements NodeVisitor {
          * (non-Javadoc)
          * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.AntLink)
          */
-        public void visitLink(AntLink link) {
+        public void visitLink(final AntLink link) {
             visitLink((Link) link);
         }
 
@@ -84,7 +84,7 @@ class DotWriterVisitor implements NodeVisitor {
          * (non-Javadoc)
          * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.AntTaskLink)
          */
-        public void visitLink(AntTaskLink link) {
+        public void visitLink(final AntTaskLink link) {
             visitLink((Link) link);
         }
 
@@ -92,9 +92,11 @@ class DotWriterVisitor implements NodeVisitor {
          * (non-Javadoc)
          * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.graph.Link)
          */
-        public void visitLink(Link link) {
+        public void visitLink(final Link link) {
             String attributes = null;
-            if (link.hasAttributes(Link.ATTR_WEAK_LINK)) attributes = weakLinkAttributes;
+            if (link.hasAttributes(Link.ATTR_WEAK_LINK)) {
+                attributes = weakLinkAttributes;
+            }
             outputOneLink(link, attributes);
         }
 
@@ -102,15 +104,15 @@ class DotWriterVisitor implements NodeVisitor {
          * (non-Javadoc)
          * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.SubantTaskLink)
          */
-        public void visitLink(SubantTaskLink link) {
+        public void visitLink(final SubantTaskLink link) {
             outputOneLink(link, subantLinkAttributes, link.getDirectories().size());
         }
 
-        private void outputOneLink(Link link, String attributes) {
+        private void outputOneLink(final Link link, final String attributes) {
             outputOneLink(link, attributes, 1);
         }
 
-        private void outputOneLink(Link link, String attributes, int visits) {
+        private void outputOneLink(final Link link, final String attributes, final int visits) {
             visitedLinks++;
             final Node depNode = link.getEndNode();
 
@@ -119,9 +121,9 @@ class DotWriterVisitor implements NodeVisitor {
                     .appendEscaped(depNode.getName()).append("\"");
 
             // TODO create a proper attribute manager.
-            if (numDeps > 1 || visits > 1 || attributes != null) {
+            if ((numDeps > 1) || (visits > 1) || (attributes != null)) {
                 output.append(" [");
-                if (numDeps > 1 || visits > 1) {
+                if ((numDeps > 1) || (visits > 1)) {
                     output.append("label=\"").append(visitedLinks);
                     if (visits > 1) {
                         visitedLinks += visits - 1;
@@ -130,7 +132,7 @@ class DotWriterVisitor implements NodeVisitor {
                     output.append("\"");
                 }
                 if (attributes != null) {
-                    if (numDeps > 1 || visits > 1) {
+                    if ((numDeps > 1) || (visits > 1)) {
                         output.append(", ");
                     }
 
@@ -159,18 +161,23 @@ class DotWriterVisitor implements NodeVisitor {
 
     private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
 
+    @SuppressWarnings("unused")
     private static final Log log = LoggerManager.getLog(DotWriterVisitor.class);
 
+    @SuppressWarnings("unused")
     private final Configuration config;
 
+    @SuppressWarnings("unused")
     private final String graphAttributes;
 
+    @SuppressWarnings("unused")
     private final String linkAttributes;
 
     private final String mainNodeAttributes;
 
     private final String missingNodeAttributes;
 
+    @SuppressWarnings("unused")
     private final String nodeAttributes;
 
     private final DotWriterOutput output;
@@ -229,10 +236,14 @@ class DotWriterVisitor implements NodeVisitor {
         if ((attributes != null) || (description != null)) {
             output.append(" [");
 
-            if (attributes != null) output.append(attributes);
+            if (attributes != null) {
+                output.append(attributes);
+            }
 
             if (description != null) {
-                if (attributes != null) output.append(",");
+                if (attributes != null) {
+                    output.append(",");
+                }
                 output.append("comment=\"").appendEscaped(description).append("\"");
             }
 
@@ -241,11 +252,10 @@ class DotWriterVisitor implements NodeVisitor {
 
         output.newLine();
 
-        final Collection deps = node.getLinks();
+        final Collection<Link> deps = node.getLinks();
         final NodeLinksVisitor linkVisitor = new NodeLinksVisitor(node);
 
-        for (Iterator iter = deps.iterator(); iter.hasNext();) {
-            final Link link = (Link) iter.next();
+        for (Link link : deps) {
             link.accept(linkVisitor);
         }
 

@@ -49,13 +49,14 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      * Constructor for IsolatedNodeFilterTest.
      * @param name
      */
-    public MissingNodeFilterTest(String name) {
+    public MissingNodeFilterTest(final String name) {
         super(name);
     }
 
     /*
      * @see TestCase#setUp()
      */
+    @Override
     protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
@@ -64,6 +65,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
     /* (non-Javadoc)
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR+"missing-node-filter.xml";
     }
@@ -73,7 +75,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testFullGraph() throws GrandException {
-        Graph graph = producer.getGraph();
+        final Graph graph = producer.getGraph();
         
         assertNotNull("Target not found",graph.getNode("init"));
         assertNotNull("Target not found",graph.getNode("depend-1"));
@@ -89,9 +91,9 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testFilter() throws GrandException {
-        GraphFilter filter = new MissingNodeFilter();
+        final GraphFilter filter = new MissingNodeFilter();
         filter.setProducer(producer);
-        Graph graph = filter.getGraph();
+        final Graph graph = filter.getGraph();
         
         assertNotNull("Normal node should not have been removed",graph.getNode("init"));
         assertNotNull("Normal node should not have been removed",graph.getNode("depend-1"));

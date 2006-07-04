@@ -49,7 +49,7 @@ public class SubantTaskLink extends AntTaskLink {
     /**
      * List of the directories to apply the generic ant file to.
      */
-    private final List directories = new LinkedList();
+    private final List<String> directories = new LinkedList<String>();
 
     /**
      * @param name
@@ -58,7 +58,7 @@ public class SubantTaskLink extends AntTaskLink {
      * @param endNode
      * @param taskName
      */
-    public SubantTaskLink(String name, Graph graph, Node startNode, Node endNode, String taskName) {
+    public SubantTaskLink(final String name, final Graph graph, final Node startNode, final Node endNode, final String taskName) {
         super(name, graph, startNode, endNode, taskName);
     }
 
@@ -66,7 +66,8 @@ public class SubantTaskLink extends AntTaskLink {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
-    public void accept(LinkVisitor visitor) {
+    @Override
+    public void accept(final LinkVisitor visitor) {
         visitor.visitLink(this);
     }
 
@@ -84,7 +85,7 @@ public class SubantTaskLink extends AntTaskLink {
      * 
      * @return a read-only list of directories.
      */
-    public Collection getDirectories() {
+    public Collection<String> getDirectories() {
         return Collections.unmodifiableList(directories);
     }
 

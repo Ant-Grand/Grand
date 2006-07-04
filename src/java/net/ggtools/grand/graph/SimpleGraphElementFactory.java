@@ -53,14 +53,14 @@ class SimpleGraphElementFactory implements GraphElementFactory {
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.GraphElementFactory#createNode(java.lang.String)
      */
-    public Node createNode(String nodeName) {
+    public Node createNode(final String nodeName) {
         return new NodeImpl(nodeName, graph);
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.GraphElementFactory#createLink(java.lang.String, net.ggtools.grand.graph.Node, net.ggtools.grand.graph.Node)
      */
-    public Link createLink(String linkName, Node startNode, Node endNode) {
+    public Link createLink(final String linkName, final Node startNode, final Node endNode) {
         return new LinkImpl(linkName, graph, startNode, endNode);
     }
 

@@ -76,7 +76,7 @@ public interface Node extends GraphObject {
      * 
      * @return list of links.
      */
-    Collection getLinks();
+    Collection<Link> getLinks();
 
     /**
      * Returns links coming to the node. The implementing class should insure
@@ -87,7 +87,7 @@ public interface Node extends GraphObject {
      * 
      * @return list of links.
      */
-    Collection getBackLinks();
+    Collection<Link> getBackLinks();
 
     /**
      * Add a link to the node. This method should be called when the link starts

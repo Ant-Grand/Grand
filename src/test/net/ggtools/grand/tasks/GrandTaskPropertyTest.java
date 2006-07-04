@@ -35,13 +35,14 @@ import net.ggtools.grand.utils.AbstractAntTester;
  */
 public class GrandTaskPropertyTest extends AbstractAntTester {
 
-    public GrandTaskPropertyTest(String name) {
+    public GrandTaskPropertyTest(final String name) {
         super(name);
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR+"grand-task-property.xml";
     }

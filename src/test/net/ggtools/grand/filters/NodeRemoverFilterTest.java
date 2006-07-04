@@ -51,7 +51,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * Constructor for NodeRemoverFilterTest.
      * @param name
      */
-    public NodeRemoverFilterTest(String name) {
+    public NodeRemoverFilterTest(final String name) {
         super(name);
     }
 
@@ -60,14 +60,14 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * 
      */
     public void testNonExistentNode() throws GrandException {
-        final Set toRemove = new HashSet();
+        final Set<String> toRemove = new HashSet<String>();
         toRemove.add("gruik-gruik-you-won't-find-me");
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
         filter.setProducer(producer);
         Graph graph = producer.getGraph();
-        int numNode = countNodes(graph);
+        final int numNode = countNodes(graph);
         graph = filter.getGraph();
-        int numNodeAfterFiltering = countNodes(graph);
+        final int numNodeAfterFiltering = countNodes(graph);
         assertEquals("Graph should have the same node count before and after filtering", numNode,
                 numNodeAfterFiltering);
     }
@@ -77,13 +77,13 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * 
      */
     public void testNonNode() throws GrandException {
-        final Set toRemove = new HashSet();
+        final Set<String> toRemove = new HashSet<String>();
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
         filter.setProducer(producer);
         Graph graph = producer.getGraph();
-        int numNode = countNodes(graph);
+        final int numNode = countNodes(graph);
         graph = filter.getGraph();
-        int numNodeAfterFiltering = countNodes(graph);
+        final int numNodeAfterFiltering = countNodes(graph);
         assertEquals("Graph should have the same node count before and after filtering", numNode,
                 numNodeAfterFiltering);
     }
@@ -94,14 +94,14 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * 
      */
     public void testOneNode() throws GrandException {
-        final Set toRemove = new HashSet();
+        final Set<String> toRemove = new HashSet<String>();
         toRemove.add("init");
-        GraphFilter filter = new NodeRemoverFilter(toRemove);
+        final GraphFilter filter = new NodeRemoverFilter(toRemove);
         filter.setProducer(producer);
-        Graph graph = filter.getGraph();
+        final Graph graph = filter.getGraph();
 
-        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
-            final String nodeName = ((Node) iter.next()).getName();
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            final String nodeName = iter.next().getName();
 
             assertFalse("Node " + nodeName + " should have been filtered out", toRemove
                     .contains(nodeName));
@@ -114,7 +114,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * 
      */
     public void testSeveralNodes() throws GrandException {
-        final Set toRemove = new HashSet();
+        final Set<String> toRemove = new HashSet<String>();
         toRemove.add("init");
         toRemove.add("build");
         toRemove.add("jar");
@@ -122,8 +122,8 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         filter.setProducer(producer);
         final Graph graph = filter.getGraph();
 
-        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
-            final String nodeName = ((Node) iter.next()).getName();
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            final String nodeName = iter.next().getName();
 
             assertFalse("Node " + nodeName + " should have been filtered out", toRemove
                     .contains(nodeName));
@@ -132,7 +132,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     private int countNodes(final Graph graph) {
         int numNode = 0;
-        for (final Iterator iter = graph.getNodes(); iter.hasNext();) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             iter.next();
             numNode++;
         }
@@ -143,6 +143,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * (non-Javadoc)
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
@@ -151,6 +152,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() {
         super.setUp();
         producer = new AntProject(project);

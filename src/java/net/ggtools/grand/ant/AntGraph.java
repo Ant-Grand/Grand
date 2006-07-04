@@ -50,7 +50,7 @@ public class AntGraph extends GraphImpl {
      * @param project
      *            the graph's project.
      */
-    public AntGraph(Project project) {
+    public AntGraph(final Project project) {
         super(project.getName());
         this.project = project;
     }
@@ -116,6 +116,7 @@ public class AntGraph extends GraphImpl {
      * 
      * @see net.ggtools.grand.graph.GraphImpl#getFactory()
      */
+    @Override
     protected GraphElementFactory getFactory() {
         return getFactoryInternal();
     }

@@ -43,6 +43,7 @@ import java.util.LinkedList;
  */
 public class GraphCrawler {
     
+    @SuppressWarnings("unused")
     private Graph graph;
     private LinkFinder finder;
 
@@ -73,13 +74,13 @@ public class GraphCrawler {
      * @param startNode node to start the crawl from.
      * @return a collection containing the traversed nodes.
      */
-    public Collection crawl(final Node startNode) {
-        LinkedHashSet result = new LinkedHashSet();
-        LinkedList nodesToVisit = new LinkedList();
+    public Collection<Node> crawl(final Node startNode) {
+        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+        final LinkedList<Node> nodesToVisit = new LinkedList<Node>();
         nodesToVisit.add(startNode);
         
         while (!nodesToVisit.isEmpty()) {
-            Node current = (Node) nodesToVisit.removeFirst();
+            final Node current = nodesToVisit.removeFirst();
             
             if (!result.contains(current)) {
                 result.add(current);

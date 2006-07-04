@@ -42,16 +42,17 @@ public class AntProjectFromFileTest extends AntProjectTest {
      * 
      * @param arg0
      */
-    public AntProjectFromFileTest(String arg0) {
+    public AntProjectFromFileTest(final String arg0) {
         super(arg0);
     }
 
+    @Override
     protected void createGraph() {
         try {
             antProject = new AntProject(new File(getTestBuildFileName()));
             antProject.getAntProject().setBasedir(TESTCASES_DIR);
             graph = antProject.getGraph();
-        } catch (GrandException e) {
+        } catch (final GrandException e) {
             fail("Got exception while creating graph: " + e.getMessage());
         }
     }

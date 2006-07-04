@@ -53,7 +53,8 @@ public class TaskDefHelper extends Taskdef {
      * (non-Javadoc)
      * @see org.apache.tools.ant.taskdefs.Definer#setOnError(org.apache.tools.ant.taskdefs.Definer.OnError)
      */
-    public void setOnError(OnError onError) {
+    @Override
+    public void setOnError(final OnError onError) {
         // Do nothing.
     }
 }

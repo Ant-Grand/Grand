@@ -49,13 +49,14 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * Constructor for IsolatedNodeFilterTest.
      * @param name
      */
-    public IsolatedNodeFilterTest(String name) {
+    public IsolatedNodeFilterTest(final String name) {
         super(name);
     }
 
     /*
      * @see TestCase#setUp()
      */
+    @Override
     protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
@@ -64,6 +65,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
     /* (non-Javadoc)
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR+"isolated-node-filter.xml";
     }
@@ -73,7 +75,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testFullGraph() throws GrandException {
-        Graph graph = producer.getGraph();
+        final Graph graph = producer.getGraph();
         
         assertNotNull("Target not found",graph.getNode("init"));
         assertNotNull("Target not found",graph.getNode("depend-1"));
@@ -89,9 +91,9 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testFilter() throws GrandException {
-        GraphFilter filter = new IsolatedNodeFilter();
+        final GraphFilter filter = new IsolatedNodeFilter();
         filter.setProducer(producer);
-        Graph graph = filter.getGraph();
+        final Graph graph = filter.getGraph();
         
         assertNotNull("Connected node should not have been removed",graph.getNode("init"));
         assertNotNull("Connected node should not have been removed",graph.getNode("depend-1"));
@@ -107,10 +109,10 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testConnectedStartNode() throws GrandException {
-        GraphFilter filter = new IsolatedNodeFilter();
+        final GraphFilter filter = new IsolatedNodeFilter();
         filter.setProducer(producer);
         project.setDefault("depend-1");
-        Graph graph = filter.getGraph();
+        final Graph graph = filter.getGraph();
         
         assertNotNull("Connected start node should not have been removed",graph.getStartNode());
     }

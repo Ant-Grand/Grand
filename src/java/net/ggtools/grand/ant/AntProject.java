@@ -91,7 +91,7 @@ public class AntProject implements GraphProducer {
          * (non-Javadoc)
          * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
-        public String getIfCondition(Target target) {
+        public String getIfCondition(final Target target) {
             return target.getIf();
         }
 
@@ -99,7 +99,7 @@ public class AntProject implements GraphProducer {
          * (non-Javadoc)
          * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
-        public String getUnlessCondition(Target target) {
+        public String getUnlessCondition(final Target target) {
             return target.getUnless();
         }
 
@@ -148,7 +148,7 @@ public class AntProject implements GraphProducer {
         public ReflectHelper() throws SecurityException, NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
             unlessCondition = Target.class.getDeclaredField("unlessCondition");
-            Field.setAccessible(new AccessibleObject[]{ifCondition, unlessCondition}, true);
+            AccessibleObject.setAccessible(new AccessibleObject[]{ifCondition, unlessCondition}, true);
         }
 
         /*
@@ -161,8 +161,10 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = (String) ifCondition.get(target);
-                if ("".equals(result)) result = null;
-            } catch (Exception e) {
+                if ("".equals(result)) {
+                    result = null;
+                }
+            } catch (final Exception e) {
                 log.error("Caugh exception, ignoring if condition", e);
             }
 
@@ -179,8 +181,10 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = (String) unlessCondition.get(target);
-                if ("".equals(result)) result = null;
-            } catch (Exception e) {
+                if ("".equals(result)) {
+                    result = null;
+                }
+            } catch (final Exception e) {
                 log.error("Caugh exception, ignoring unless condition", e);
             }
 
@@ -233,7 +237,7 @@ public class AntProject implements GraphProducer {
             try {
                 result = new GetterConditionHelper();
                 log.debug("Using ant 1.6.2 getter");
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 log.debug("Cannot create GetterConditionHelper, trying next one");
                 result = null;
             }
@@ -242,13 +246,15 @@ public class AntProject implements GraphProducer {
                 try {
                     result = new ReflectHelper();
                     log.debug("Using ReflectHelper");
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     log.debug("Cannot create ReflectHelper, trying next one");
                     result = null;
                 }
             }
 
-            if (result == null) result = new NullConditionHelper();
+            if (result == null) {
+                result = new NullConditionHelper();
+            }
 
             return result;
         }
@@ -297,12 +303,12 @@ public class AntProject implements GraphProducer {
      * @throws GrandException
      *             if the project cannot be loaded.
      */
-    public AntProject(final File source, Properties properties) throws GrandException {
+    public AntProject(final File source, final Properties properties) throws GrandException {
         log.info("Parsing from " + source);
         antProject = new Project();
         if (properties != null) {
-            for (Iterator iter = properties.entrySet().iterator(); iter.hasNext();) {
-                Map.Entry entry = (Map.Entry) iter.next();
+            for (final Object element : properties.entrySet()) {
+                final Map.Entry entry = (Map.Entry) element;
                 antProject.setProperty((String) entry.getKey(), (String) entry.getValue());
             }
         }
@@ -317,7 +323,7 @@ public class AntProject implements GraphProducer {
             antProject.addReference("ant.projectHelper", loader);
             loader.parse(antProject, source);
             log.debug("Done parsing");
-        } catch (BuildException e) {
+        } catch (final BuildException e) {
             final String message = "Cannot open project file " + source;
             log.error(message, e);
             // TODO Better rethrowing?
@@ -407,7 +413,7 @@ public class AntProject implements GraphProducer {
         final AntGraph graph = new AntGraph(antProject);
 
         // First pass, create the nodes.
-        for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
+        for (final Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
             final Target target = (Target) iter.next();
             if (target.getName().equals("")) {
                 continue;
@@ -439,7 +445,7 @@ public class AntProject implements GraphProducer {
         }
 
         // Second pass, create the links
-        for (Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
+        for (final Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
             final Target target = (Target) iter.next();
             if (target.getName().equals("")) {
                 continue;
@@ -456,8 +462,8 @@ public class AntProject implements GraphProducer {
             taskLinkFinder.setGraph(graph);
             taskLinkFinder.setStartNode(startNode);
             final Task[] tasks = target.getTasks();
-            for (int i = 0; i < tasks.length; i++) {
-                taskLinkFinder.visit(tasks[i].getRuntimeConfigurableWrapper());
+            for (final Task element : tasks) {
+                taskLinkFinder.visit(element.getRuntimeConfigurableWrapper());
             }
         }
 

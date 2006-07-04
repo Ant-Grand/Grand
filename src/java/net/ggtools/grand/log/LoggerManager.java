@@ -46,7 +46,7 @@ public class LoggerManager {
         }
     };
 
-    public static Log getLog(Class clazz) {
+    public static Log getLog(final Class clazz) {
         if (currentFactory != null) {
             return currentFactory.getLog(clazz);
         }
@@ -55,7 +55,7 @@ public class LoggerManager {
         }
     }
 
-    public static Log getLog(String name) {
+    public static Log getLog(final String name) {
         if (currentFactory != null) {
             return currentFactory.getLog(name);
         }
@@ -64,7 +64,7 @@ public class LoggerManager {
         }
     }
 
-    public static void setFactory(LoggerFactory factory) {
+    public static void setFactory(final LoggerFactory factory) {
         currentFactory = factory;
     }
 

@@ -50,7 +50,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
 
     private static final Class[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
 
-    private Map methodCache = new HashMap();
+    private final Map<String, Method> methodCache = new HashMap<String, Method>();
 
     /**
      * Invoke the <em>right</em> method depending on the wrapper's element
@@ -74,18 +74,18 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
      *             if something goes wrong.
      * @see net.ggtools.grand.ant.TaskVisitor#visit(org.apache.tools.ant.RuntimeConfigurable)
      */
-    public void visit(RuntimeConfigurable wrapper) throws GrandException {
+    public void visit(final RuntimeConfigurable wrapper) throws GrandException {
         final String taskName = wrapper.getElementTag();
-        Method visitMethod = (Method) methodCache.get(taskName);
+        Method visitMethod = methodCache.get(taskName);
 
         if (visitMethod == null) {
             final String methodName = "reflectVisit_" + getAliasForTask(taskName);
             try {
                 visitMethod = getClass().getDeclaredMethod(methodName, METHOD_PARAMETER_TYPES);
                 methodCache.put(taskName, visitMethod);
-            } catch (SecurityException e) {
+            } catch (final SecurityException e) {
                 log.warn("Caught Security exception looking for" + methodName, e);
-            } catch (NoSuchMethodException e) {
+            } catch (final NoSuchMethodException e) {
                 log.debug("Cannot find method " + methodName);
             }
         }
@@ -96,9 +96,9 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
             try {
                 visitMethod.invoke(this, new Object[]{wrapper});
                 invokationOk = true;
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 log.warn("Caught IllegalAccessException invoking " + visitMethod, e);
-            } catch (InvocationTargetException e) {
+            } catch (final InvocationTargetException e) {
                 // Process the exception raised by the method invokation.
                 // GrandException & RuntimeException are propagated.
                 final Throwable cause = e.getCause();
@@ -131,7 +131,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
      * @return the name to use when look for the method to invoke. Should not be
      *         <code>null</code>.
      */
-    public String getAliasForTask(String taskName) {
+    public String getAliasForTask(final String taskName) {
         return taskName;
     }
 }

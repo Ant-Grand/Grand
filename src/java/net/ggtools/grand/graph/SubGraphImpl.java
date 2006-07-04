@@ -51,7 +51,7 @@ class SubGraphImpl implements SubGraph {
          * @param iterator
          * @return
          */
-        Iterator createNodeIterator(final Iterator iterator);
+        Iterator<Node> createNodeIterator(final Iterator<Node> iterator);
     }
 
     private static final Log log = LoggerManager.getLog(SubGraphImpl.class);
@@ -60,7 +60,7 @@ class SubGraphImpl implements SubGraph {
 
     private final NodeIteratorFactory nodeIteratorFactory;
 
-    private final Map nodeList = new LinkedHashMap();
+    private final Map<String, Node> nodeList = new LinkedHashMap<String, Node>();
 
     /**
      * Creates a new instance using a trival
@@ -71,7 +71,7 @@ class SubGraphImpl implements SubGraph {
     SubGraphImpl(final String name) {
         this(name, new NodeIteratorFactory() {
 
-            final public Iterator createNodeIterator(final Iterator iterator) {
+            final public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return iterator;
             }
         });
@@ -113,14 +113,14 @@ class SubGraphImpl implements SubGraph {
      * @see net.ggtools.grand.graph.NodeContainer#getNode(java.lang.String)
      */
     public Node getNode(final String nodeName) {
-        return (Node) nodeList.get(nodeName);
+        return nodeList.get(nodeName);
     }
 
     /*
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
-    public Iterator getNodes() {
+    public Iterator<Node> getNodes() {
         return nodeIteratorFactory.createNodeIterator(nodeList.values().iterator());
     }
 

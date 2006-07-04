@@ -35,7 +35,7 @@ import net.ggtools.grand.utils.*;
  */
 public class GraphFilterTypeTest extends AbstractAntTester {
 
-    public GraphFilterTypeTest(String name) {
+    public GraphFilterTypeTest(final String name) {
         super(name);
     }
 
@@ -43,6 +43,7 @@ public class GraphFilterTypeTest extends AbstractAntTester {
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR+"graph-filter.xml";
     }

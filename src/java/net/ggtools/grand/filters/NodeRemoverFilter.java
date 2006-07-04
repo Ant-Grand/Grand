@@ -47,27 +47,28 @@ import org.apache.commons.logging.Log;
 public class NodeRemoverFilter extends AbstractGraphFilter {
     private static final Log log = LoggerManager.getLog(NodeRemoverFilter.class);
 
-    private final HashSet nodesToRemove;
+    private final HashSet<String> nodesToRemove;
 
     /**
      * Creates a new node remover filter.
      * @param nodesToRemove a collection of node names to remove.
      */
-    public NodeRemoverFilter(final Collection nodesToRemove) {
+    public NodeRemoverFilter(final Collection<String> nodesToRemove) {
         super("Node remover");
-        this.nodesToRemove = new HashSet(nodesToRemove);
+        this.nodesToRemove = new HashSet<String>(nodesToRemove);
     }
 
     /*
      * (non-Javadoc)
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
-    protected Collection getFilteredNodes() throws GrandException {
+    @Override
+    protected Collection<Node> getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
-        final LinkedHashSet result = new LinkedHashSet();
+        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
 
-        for (final Iterator iter = graph.getNodes(); iter.hasNext();) {
-            final Node node = (Node) iter.next();
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            final Node node = iter.next();
             
             if (!nodesToRemove.contains(node.getName())) {
                 result.add(node);

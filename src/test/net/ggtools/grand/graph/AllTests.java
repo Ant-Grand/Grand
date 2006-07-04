@@ -48,7 +48,7 @@ public class AllTests
 
     public static Test suite()
     {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.graph");
+        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.graph");
         //$JUnit-BEGIN$
         suite.addTestSuite(GraphCrawlerTest.class);
         suite.addTestSuite(SubGraphImplTest.class);

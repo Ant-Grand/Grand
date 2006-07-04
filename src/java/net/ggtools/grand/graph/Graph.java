@@ -131,7 +131,7 @@ public interface Graph extends NodeContainer {
      * 
      * @return an iterator to the graph's nodes.
      */
-    Iterator getSubgraphs();
+    Iterator<SubGraph> getSubgraphs();
 
     /**
      * Checks if the graph has a subgraph with a specific name.

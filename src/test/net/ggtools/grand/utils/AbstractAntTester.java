@@ -52,7 +52,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
 
     private boolean testOk = true;
 
-    public AbstractAntTester(String name) {
+    public AbstractAntTester(final String name) {
         super(name);
     }
 
@@ -60,6 +60,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() {
         configureProject(getTestBuildFileName());
         project.setBasedir(TESTCASES_DIR);
@@ -70,6 +71,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * (non-Javadoc)
      * @see junit.framework.TestCase#tearDown()
      */
+    @Override
     protected void tearDown() {
         final String tempFile = project.getProperty(TEMP_FILE_PROP);
 
@@ -94,19 +96,19 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * @param reference
      * @throws IOException
      */
-    protected void assertTempFileMatchExpected(String reference) throws IOException {
+    protected void assertTempFileMatchExpected(final String reference) throws IOException {
         final String tempFileProp = project.getProperty(TEMP_FILE_PROP);
         assertNotNull("temp.file property", tempFileProp);
-        File tempFile = new File(tempFileProp);
+        final File tempFile = new File(tempFileProp);
 
-        File referenceFile = new File(reference);
+        final File referenceFile = new File(reference);
 
-        FileComparator comparator = new FileComparator(referenceFile, tempFile);
+        final FileComparator comparator = new FileComparator(referenceFile, tempFile);
         comparator.assertLinesMatch();
     }
 
-    protected void assertFullLogContaining(String substring) {
-        String realLog = getFullLog();
+    protected void assertFullLogContaining(final String substring) {
+        final String realLog = getFullLog();
         assertTrue("expecting full log to contain \"" + substring + "\" full log was \"" + realLog
                 + "\"", realLog.indexOf(substring) >= 0);
     }
@@ -115,7 +117,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * Assert that the given message has been logged when running the given
      * target.
      */
-    protected void expectFullLogContaining(String target, String log) {
+    protected void expectFullLogContaining(final String target, final String log) {
         executeTarget(target);
         assertFullLogContaining(log);
     }
@@ -124,10 +126,11 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * (non-Javadoc)
      * @see junit.framework.TestCase#runTest()
      */
+    @Override
     protected void runTest() throws Throwable {
         try {
             super.runTest();
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             System.err.println("Ooops test failed: " + getName() + " "
                     + project.getProperty(TEMP_FILE_PROP));
             System.err.println("Log was: "+getLog());

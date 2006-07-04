@@ -45,7 +45,7 @@ public class AllTests {
     }
 
     public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.ant");
+        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.ant");
         //$JUnit-BEGIN$
         suite.addTestSuite(AntProjectTest.class);
         suite.addTestSuite(AntProjectFromFileTest.class);

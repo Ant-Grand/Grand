@@ -49,23 +49,24 @@ public class GraphImpl implements Graph {
      * 
      * @author Christophe Labouisse
      */
-    private class NodeIterator implements Iterator {
+    private class NodeIterator implements Iterator<Node> {
 
-        private Object lastNode;
+        private Node lastNode;
 
         /**
          * Logger for this class
          */
+        @SuppressWarnings("unused")
         private final Log log = LoggerManager.getLog(NodeIterator.class);
 
-        private Iterator underlying;
+        private Iterator<Node> underlying;
 
         /**
          * @param iterator
          *            underlying iterator.
          */
-        public NodeIterator(final Iterator iterator) {
-            this.underlying = iterator;
+        public NodeIterator(final Iterator<Node> iterator) {
+            underlying = iterator;
         }
 
         /**
@@ -78,7 +79,7 @@ public class GraphImpl implements Graph {
         /**
          * @return the next element.
          */
-        public Object next() {
+        public Node next() {
             lastNode = underlying.next();
             return lastNode;
         }
@@ -89,7 +90,7 @@ public class GraphImpl implements Graph {
         public void remove() {
             underlying.remove();
             // lastNode should not be null here since remove succeed.
-            unlinkNode((Node) lastNode);
+            unlinkNode(lastNode);
         }
     }
 
@@ -106,7 +107,7 @@ public class GraphImpl implements Graph {
 
     private final String name;
 
-    private final Map subGraphList = new LinkedHashMap();
+    private final Map<String, SubGraph> subGraphList = new LinkedHashMap<String, SubGraph>();
 
     /**
      * Creates a new named graph.
@@ -118,7 +119,7 @@ public class GraphImpl implements Graph {
         name = graphName;
         mainSubGraph = new SubGraphImpl(graphName, new SubGraphImpl.NodeIteratorFactory() {
 
-            final public Iterator createNodeIterator(final Iterator iterator) {
+            final public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return new NodeIterator(iterator);
             }
         });
@@ -138,7 +139,7 @@ public class GraphImpl implements Graph {
      * @return new link
      */
     public Link createLink(final String linkName, final Node startNode, final Node endNode) {
-        Link link = getFactory().createLink(linkName, startNode, endNode);
+        final Link link = getFactory().createLink(linkName, startNode, endNode);
         startNode.addLink(link);
         endNode.addBackLink(link);
         return link;
@@ -177,7 +178,7 @@ public class GraphImpl implements Graph {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Graph#createSubGraph(java.lang.String)
      */
-    public SubGraph createSubGraph(String subGraphName) throws DuplicateElementException {
+    public SubGraph createSubGraph(final String subGraphName) throws DuplicateElementException {
         if (subGraphList.containsKey(subGraphName)) {
             log.error("createSubGraph(subGraphName = " + subGraphName
                     + ") - Cannot create two subgraphs with the same name", null);
@@ -210,7 +211,7 @@ public class GraphImpl implements Graph {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
-    public Iterator getNodes() {
+    public Iterator<Node> getNodes() {
         return mainSubGraph.getNodes();
     }
 
@@ -228,15 +229,15 @@ public class GraphImpl implements Graph {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Graph#getSubGraph(java.lang.String)
      */
-    public SubGraph getSubGraph(String subGraphName) {
-        return (SubGraph) subGraphList.get(subGraphName);
+    public SubGraph getSubGraph(final String subGraphName) {
+        return subGraphList.get(subGraphName);
     }
 
     /*
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Graph#getSubgraphs()
      */
-    public Iterator getSubgraphs() {
+    public Iterator<SubGraph> getSubgraphs() {
         return subGraphList.values().iterator();
     }
 
@@ -244,7 +245,7 @@ public class GraphImpl implements Graph {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.NodeContainer#hasNode(java.lang.String)
      */
-    public boolean hasNode(String nodeName) {
+    public boolean hasNode(final String nodeName) {
         return mainSubGraph.hasNode(nodeName);
     }
 
@@ -252,7 +253,7 @@ public class GraphImpl implements Graph {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Graph#hasSubGraph(java.lang.String)
      */
-    public boolean hasSubGraph(String subGraphName) {
+    public boolean hasSubGraph(final String subGraphName) {
         return subGraphList.containsKey(subGraphName);
     }
 
@@ -293,19 +294,21 @@ public class GraphImpl implements Graph {
      *            node to remove from the links.
      */
     protected void unlinkNode(final Node node) {
-        if (log.isTraceEnabled()) log.trace("Unlinking node " + node);
+        if (log.isTraceEnabled()) {
+            log.trace("Unlinking node " + node);
+        }
 
-        for (Iterator iter = node.getLinks().iterator(); iter.hasNext();) {
-            Link link = (Link) iter.next();
+        for (final Iterator<Link> iter = node.getLinks().iterator(); iter.hasNext();) {
+            final Link link = iter.next();
             iter.remove();
-            Node endNode = link.getEndNode();
+            final Node endNode = link.getEndNode();
             endNode.removeBackLink(link);
         }
 
-        for (Iterator iter = node.getBackLinks().iterator(); iter.hasNext();) {
-            Link link = (Link) iter.next();
+        for (final Iterator<Link> iter = node.getBackLinks().iterator(); iter.hasNext();) {
+            final Link link = iter.next();
             iter.remove();
-            Node startNode = link.getStartNode();
+            final Node startNode = link.getStartNode();
             startNode.removeLink(link);
         }
 

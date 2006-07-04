@@ -46,5 +46,5 @@ public interface LinkFinder {
      * @param node node to consider.
      * @return a collection of accessible nodes.
      */
-    Collection getLinks(Node node);
+    Collection<Node> getLinks(Node node);
 }

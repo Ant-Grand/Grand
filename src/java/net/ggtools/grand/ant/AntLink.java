@@ -51,14 +51,15 @@ public class AntLink extends LinkImpl {
      * @param startNode
      * @param endNode
      */
-    public AntLink(String name, Graph graph, Node startNode, Node endNode) {
+    public AntLink(final String name, final Graph graph, final Node startNode, final Node endNode) {
         super(name, graph, startNode, endNode);
     }
     
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
-    public void accept(LinkVisitor visitor) {
+    @Override
+    public void accept(final LinkVisitor visitor) {
         visitor.visitLink(this);
     }
 }

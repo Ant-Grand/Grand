@@ -68,7 +68,7 @@ public class AntTargetNode extends NodeImpl {
          * @param style
          *            The style to set.
          */
-        final void setStyle(int style) {
+        final void setStyle(final int style) {
             this.style = style;
         }
 
@@ -76,7 +76,7 @@ public class AntTargetNode extends NodeImpl {
          * @param text
          *            The text to set.
          */
-        final void setText(String text) {
+        final void setText(final String text) {
             this.text = text;
         }
     }
@@ -101,7 +101,7 @@ public class AntTargetNode extends NodeImpl {
      * @param name
      * @param graph
      */
-    public AntTargetNode(String name, Graph graph) {
+    public AntTargetNode(final String name, final Graph graph) {
         super(name, graph);
     }
 
@@ -109,7 +109,8 @@ public class AntTargetNode extends NodeImpl {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
      */
-    public void accept(NodeVisitor visitor) {
+    @Override
+    public void accept(final NodeVisitor visitor) {
         visitor.visitNode(this);
     }
 
@@ -154,7 +155,7 @@ public class AntTargetNode extends NodeImpl {
      * @param richSource
      *            The richSource to set.
      */
-    public final void setRichSource(SourceElement[] richSource) {
+    public final void setRichSource(final SourceElement[] richSource) {
         this.richSource = richSource;
     }
 
@@ -162,7 +163,7 @@ public class AntTargetNode extends NodeImpl {
      * @param buildFile
      *            The buildFile to set.
      */
-    final void setBuildFile(String buildFile) {
+    final void setBuildFile(final String buildFile) {
         this.buildFile = buildFile;
     }
 
@@ -170,7 +171,7 @@ public class AntTargetNode extends NodeImpl {
      * @param ifCondition
      *            The ifCondition to set.
      */
-    final void setIfCondition(String ifCondition) {
+    final void setIfCondition(final String ifCondition) {
         this.ifCondition = ifCondition;
     }
 
@@ -178,7 +179,7 @@ public class AntTargetNode extends NodeImpl {
      * @param unlessCondition
      *            The unlessCondition to set.
      */
-    final void setUnlessCondition(String unlessCondition) {
+    final void setUnlessCondition(final String unlessCondition) {
         this.unlessCondition = unlessCondition;
     }
 

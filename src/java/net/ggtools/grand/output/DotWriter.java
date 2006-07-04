@@ -98,13 +98,13 @@ public class DotWriter implements GraphWriter {
          * 
          */
         private Output(final OutputStream stream) {
-            this.writer = new PrintWriter(stream);
+            writer = new PrintWriter(stream);
         }
 
         /* (non-Javadoc)
          * @see net.ggtools.grand.output.DotWriterOutput#append(java.lang.String)
          */
-        public DotWriterOutput append(String strValue) {
+        public DotWriterOutput append(final String strValue) {
             writer.print(strValue);
             return this;
         }
@@ -112,7 +112,7 @@ public class DotWriter implements GraphWriter {
         /* (non-Javadoc)
          * @see net.ggtools.grand.output.DotWriterOutput#appendEscaped(java.lang.String)
          */
-        public DotWriterOutput appendEscaped(String strValue) {
+        public DotWriterOutput appendEscaped(final String strValue) {
             writer.print(escapeString(strValue));
             return this;
         }
@@ -120,7 +120,7 @@ public class DotWriter implements GraphWriter {
         /* (non-Javadoc)
          * @see net.ggtools.grand.output.DotWriterOutput#append(int)
          */
-        public DotWriterOutput append(int intValue) {
+        public DotWriterOutput append(final int intValue) {
             writer.print(intValue);
             return this;
         }
@@ -186,7 +186,7 @@ public class DotWriter implements GraphWriter {
      */
     public void write(final File output) throws IOException, GrandException {
         log.info("Outputing to " + output);
-        FileOutputStream oStream = new FileOutputStream(output);
+        final FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();
         oStream.close();
@@ -219,8 +219,8 @@ public class DotWriter implements GraphWriter {
             startNode.accept(visitor);
         }
 
-        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
-            final Node node = (Node) iter.next();
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            final Node node = iter.next();
 
             if (node.equals(startNode) || node.getName().equals("")) {
                 continue;

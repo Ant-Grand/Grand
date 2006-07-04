@@ -41,18 +41,18 @@ public class SubGraphImplTest extends TestCase {
     private static final String NODE_NAME_2 = "Node2";
     private static final String NODE_NAME_1 = "Node1";
     private static final String UNKNOWN_NODE_NAME = "Node3";
-    private static final class TestIterator implements Iterator {
-        private final Iterator underlying;
+    private static final class TestIterator implements Iterator<Node> {
+        private final Iterator<Node> underlying;
 
-        private TestIterator(Iterator iterator) {
-            this.underlying = iterator;
+        private TestIterator(final Iterator<Node> iterator) {
+            underlying = iterator;
         }
 
         public boolean hasNext() {
             return underlying.hasNext();
         }
 
-        public Object next() {
+        public Node next() {
             return underlying.next();
         }
 
@@ -69,10 +69,11 @@ public class SubGraphImplTest extends TestCase {
      * (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() throws Exception {
         sgi = new SubGraphImpl(SUBGRAPH_NAME, new SubGraphImpl.NodeIteratorFactory() {
 
-            public Iterator createNodeIterator(final Iterator iterator) {
+            public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return new TestIterator(iterator);
             }
         });
@@ -91,7 +92,7 @@ public class SubGraphImplTest extends TestCase {
     }
 
     public final void testGetNodes() {
-        final Iterator nodes = sgi.getNodes();
+        final Iterator<Node> nodes = sgi.getNodes();
         assertEquals("Checking if getNodes return an iterator from the supplied factory.",
                 TestIterator.class, nodes.getClass());
     }
@@ -103,7 +104,7 @@ public class SubGraphImplTest extends TestCase {
     }
 
     public final void testAddNode() throws DuplicateElementException {
-        final Iterator nodes = sgi.getNodes();
+        final Iterator<Node> nodes = sgi.getNodes();
         int nodeCount = 0;
         while (nodes.hasNext()) {
             nodes.next();

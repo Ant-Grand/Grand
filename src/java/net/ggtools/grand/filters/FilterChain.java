@@ -44,7 +44,7 @@ import net.ggtools.grand.graph.GraphProducer;
  */
 public class FilterChain implements GraphFilter {
 
-    private LinkedList filterList = new LinkedList();
+    private final LinkedList<GraphFilter> filterList = new LinkedList<GraphFilter>();
 
     private GraphProducer lastFilter = null;
 
@@ -74,11 +74,11 @@ public class FilterChain implements GraphFilter {
      * 
      * @param newFilter
      */
-    public void addFilterFirst(GraphFilter newFilter) {
+    public void addFilterFirst(final GraphFilter newFilter) {
         if (filterList.isEmpty()) {
             lastFilter = newFilter;
         } else {
-            final GraphFilter oldFirstFilter = (GraphFilter) filterList.getFirst();
+            final GraphFilter oldFirstFilter = filterList.getFirst();
             oldFirstFilter.setProducer(newFilter);
         }
 
@@ -95,7 +95,7 @@ public class FilterChain implements GraphFilter {
      * 
      * @param newFilter
      */
-    public void addFilterLast(GraphFilter newFilter) {
+    public void addFilterLast(final GraphFilter newFilter) {
         filterList.addLast(newFilter);
         newFilter.setProducer(lastFilter);
         lastFilter = newFilter;
@@ -114,7 +114,7 @@ public class FilterChain implements GraphFilter {
      * Returns a list of the filter in the chain.
      * @return a readonly list of the filters.
      */
-    public List getFilterList() {
+    public List<GraphFilter> getFilterList() {
         return Collections.unmodifiableList(filterList);
     }
 
@@ -147,12 +147,12 @@ public class FilterChain implements GraphFilter {
      * 
      * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
-    public void setProducer(GraphProducer newProducer) {
+    public void setProducer(final GraphProducer newProducer) {
         producer = newProducer;
         if (filterList.isEmpty()) {
             lastFilter = newProducer;
         } else {
-            final GraphFilter firstFilter = (GraphFilter) filterList.getFirst();
+            final GraphFilter firstFilter = filterList.getFirst();
             firstFilter.setProducer(producer);
         }
     }

@@ -48,7 +48,7 @@ public class FilterChainTest extends TestCase {
     private final class DummyProducer implements GraphProducer {
         private final GraphImpl graph;
 
-        public DummyProducer(String name) {
+        public DummyProducer(final String name) {
             graph = new GraphImpl(name);
         }
 
@@ -68,7 +68,7 @@ public class FilterChainTest extends TestCase {
 
         private GraphProducer producer;
 
-        public DummyFilter(String name) {
+        public DummyFilter(final String name) {
             this.name = name;
 
         }
@@ -78,7 +78,7 @@ public class FilterChainTest extends TestCase {
             return producer.getGraph();
         }
 
-        public void setProducer(GraphProducer producer) {
+        public void setProducer(final GraphProducer producer) {
             this.producer = producer;
         }
 
@@ -153,6 +153,7 @@ public class FilterChainTest extends TestCase {
     /*
      * @see TestCase#setUp()
      */
+    @Override
     protected void setUp() {
         filter1 = new DummyFilter("1");
         filter2 = new DummyFilter("2");

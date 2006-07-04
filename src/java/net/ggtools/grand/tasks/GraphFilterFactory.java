@@ -59,7 +59,7 @@ final class GraphFilterFactory {
         try {
             CONFIGURATION.load(GraphFilterFactory.class
                     .getResourceAsStream("GraphFilterFactory.properties"));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             log.error("Cannot read properties",e);
             throw new RuntimeException(e);
         }
@@ -77,7 +77,7 @@ final class GraphFilterFactory {
             throws BuildException {
         project.log("Creating filter for name " + name, Project.MSG_DEBUG);
 
-        String filterClassName = CONFIGURATION.getProperty(name);
+        final String filterClassName = CONFIGURATION.getProperty(name);
 
         if (filterClassName == null) { throw new BuildException("Filter " + name
                 + " not configured"); }
@@ -87,18 +87,18 @@ final class GraphFilterFactory {
         Class filterClass;
         try {
             filterClass = Class.forName(filterClassName);
-        } catch (ClassNotFoundException e) {
+        } catch (final ClassNotFoundException e) {
             throw new BuildException("Cannot find filter class", e);
         }
 
         Constructor constructor;
         try {
             constructor = filterClass.getConstructor(new Class[]{Project.class});
-        } catch (SecurityException e) {
+        } catch (final SecurityException e) {
             final String message = "Cannot access constructor for class " + filterClassName;
             project.log(message, Project.MSG_ERR);
             throw new BuildException(message, e);
-        } catch (NoSuchMethodException e) {
+        } catch (final NoSuchMethodException e) {
             final String message = "Cannot find constructor for class " + filterClassName;
             project.log(message, Project.MSG_ERR);
             throw new BuildException(message, e);
@@ -107,13 +107,13 @@ final class GraphFilterFactory {
         GraphFilterType filter;
         try {
             filter = (GraphFilterType) constructor.newInstance(new Object[]{project});
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             throw new BuildException("Cannot instanciate filter", e);
-        } catch (InstantiationException e) {
+        } catch (final InstantiationException e) {
             throw new BuildException("Cannot instanciate filter", e);
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             throw new BuildException("Cannot instanciate filter", e);
-        } catch (InvocationTargetException e) {
+        } catch (final InvocationTargetException e) {
             throw new BuildException("Cannot instanciate filter", e);
         }
 

@@ -47,9 +47,9 @@ public class AntTaskLink extends AntLink {
 
     private final String taskName;
 
-    private final Map parameterMap = new HashMap();
+    private final Map<String, String> parameterMap = new HashMap<String, String>();
     
-    private final List propertyFileList = new ArrayList();
+    private final List<String> propertyFileList = new ArrayList<String>();
 
     /**
      * @param name
@@ -68,7 +68,8 @@ public class AntTaskLink extends AntLink {
      * (non-Javadoc)
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
-    public void accept(LinkVisitor visitor) {
+    @Override
+    public void accept(final LinkVisitor visitor) {
         visitor.visitLink(this);
     }
 
@@ -94,7 +95,7 @@ public class AntTaskLink extends AntLink {
      * @return
      */
     public String getParameter(final String key) {
-        return (String) parameterMap.get(key);
+        return parameterMap.get(key);
     }
     
     /**
@@ -102,7 +103,7 @@ public class AntTaskLink extends AntLink {
      * @return
      */
     public String[] getPropertyFiles() {
-        return (String[]) propertyFileList.toArray(new String[propertyFileList.size()]);
+        return propertyFileList.toArray(new String[propertyFileList.size()]);
     }
     
     /**
@@ -118,7 +119,7 @@ public class AntTaskLink extends AntLink {
      * 
      * @return a read only map of the parameters.
      */
-    public Map getParameterMap() {
+    public Map<String, String> getParameterMap() {
         return parameterMap;
     }
 }

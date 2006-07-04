@@ -54,7 +54,7 @@ public class FileComparator extends Assert {
      * @param source
      * @param dest
      */
-    public FileComparator(File source, File dest) {
+    public FileComparator(final File source, final File dest) {
         this.source = source;
         this.dest = dest;
     }
@@ -75,14 +75,14 @@ public class FileComparator extends Assert {
     public void assertLinesMatch() throws IOException {
         assertSizesMatch();
         
-        BufferedReader sourceReader = new BufferedReader(new FileReader(source));
-        BufferedReader destReader = new BufferedReader(new FileReader(dest));
+        final BufferedReader sourceReader = new BufferedReader(new FileReader(source));
+        final BufferedReader destReader = new BufferedReader(new FileReader(dest));
         
         int line = 0;
         
         while (true) {
-            String srcLine = sourceReader.readLine();
-            String dstLine = destReader.readLine();
+            final String srcLine = sourceReader.readLine();
+            final String dstLine = destReader.readLine();
             line++;
             
             // End reached, files match.

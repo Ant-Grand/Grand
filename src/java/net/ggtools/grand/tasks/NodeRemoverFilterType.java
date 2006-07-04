@@ -73,7 +73,7 @@ class NodeRemoverFilterType implements GraphFilterType {
     /* (non-Javadoc)
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
-    public void setNodeName(String name) {
+    public void setNodeName(final String name) {
         nodeName = name;
     }
 

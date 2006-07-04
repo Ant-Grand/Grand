@@ -52,7 +52,7 @@ class TargetTasksExplorer {
 
     private final AntProject antProject;
 
-    private List textElements;
+    private List<SourceElement> textElements;
 
     /**
      * Creates a new TargetTasksExplorer instance for a specific project.
@@ -71,7 +71,7 @@ class TargetTasksExplorer {
      */
     public void exploreTarget(final AntTargetNode node, final Target target) {
         log.trace("Exploring target " + target.getName());
-        textElements = new LinkedList();
+        textElements = new LinkedList<SourceElement>();
         addText("<target name=\"", AntTargetNode.SOURCE_MARKUP);
         addText(target.getName(), AntTargetNode.SOURCE_ATTRIBUTE);
         addText("\"", AntTargetNode.SOURCE_MARKUP);
@@ -92,9 +92,11 @@ class TargetTasksExplorer {
         if (dependencies.hasMoreElements()) {
             addText(" depends=\"", AntTargetNode.SOURCE_MARKUP);
             while (dependencies.hasMoreElements()) {
-                String dependency = (String) dependencies.nextElement();
+                final String dependency = (String) dependencies.nextElement();
                 addText(dependency, AntTargetNode.SOURCE_ATTRIBUTE);
-                if (dependencies.hasMoreElements()) addText(", ", AntTargetNode.SOURCE_ATTRIBUTE);
+                if (dependencies.hasMoreElements()) {
+                    addText(", ", AntTargetNode.SOURCE_ATTRIBUTE);
+                }
             }
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
@@ -106,7 +108,7 @@ class TargetTasksExplorer {
         }
 
         final Task[] taskArray = target.getTasks();
-        boolean hasChildren = taskArray.length > 0;
+        final boolean hasChildren = taskArray.length > 0;
 
         if (hasChildren) {
             addText(">\n", AntTargetNode.SOURCE_MARKUP);
@@ -115,17 +117,18 @@ class TargetTasksExplorer {
             addText(" />\n", AntTargetNode.SOURCE_MARKUP);
         }
 
-        for (int i = 0; i < taskArray.length; i++) {
-            final Task task = taskArray[i];
+        for (final Task task : taskArray) {
             exploreTask(task.getRuntimeConfigurableWrapper(), 1);
         }
 
-        if (hasChildren) addText("</target>", AntTargetNode.SOURCE_MARKUP);
+        if (hasChildren) {
+            addText("</target>", AntTargetNode.SOURCE_MARKUP);
+        }
 
         // Merge contiguous source elements of the same style.
         AntTargetNode.SourceElement previous = null;
-        for (Iterator iter = textElements.iterator(); iter.hasNext();) {
-            AntTargetNode.SourceElement element = (AntTargetNode.SourceElement) iter.next();
+        for (final Iterator<SourceElement> iter = textElements.iterator(); iter.hasNext();) {
+            final AntTargetNode.SourceElement element = iter.next();
             if (previous == null) {
                 previous = element;
             }
@@ -139,11 +142,10 @@ class TargetTasksExplorer {
                 }
             }
         }
-        node.setRichSource((SourceElement[]) textElements.toArray(new SourceElement[0]));
+        node.setRichSource(textElements.toArray(new SourceElement[0]));
 
         final StringBuffer buffer = new StringBuffer();
-        for (Iterator iter = textElements.iterator(); iter.hasNext();) {
-            AntTargetNode.SourceElement element = (AntTargetNode.SourceElement) iter.next();
+        for (SourceElement element : textElements) {
             buffer.append(element.getText());
         }
         node.setSource(buffer.toString());
@@ -154,8 +156,8 @@ class TargetTasksExplorer {
         addText("<", AntTargetNode.SOURCE_MARKUP);
         addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);
         final Map attributes = wrapper.getAttributeMap();
-        for (Iterator iter = attributes.entrySet().iterator(); iter.hasNext();) {
-            Map.Entry entry = (Map.Entry) iter.next();
+        for (final Iterator iter = attributes.entrySet().iterator(); iter.hasNext();) {
+            final Map.Entry entry = (Map.Entry) iter.next();
             addText(" ", AntTargetNode.SOURCE_MARKUP);
             addText((String) entry.getKey(), AntTargetNode.SOURCE_MARKUP);
             addText("=\"", AntTargetNode.SOURCE_MARKUP);
@@ -167,7 +169,7 @@ class TargetTasksExplorer {
         final String trimmedText = wrapper.getText().toString().trim();
         final boolean hasText = !"".equals(trimmedText);
         final boolean hasChildren = children.hasMoreElements();
-        boolean hasNestedElements = hasChildren || hasText;
+        final boolean hasNestedElements = hasChildren || hasText;
 
         // TODO process text elements.
         if (hasNestedElements) {
@@ -181,7 +183,7 @@ class TargetTasksExplorer {
         }
 
         while (children.hasMoreElements()) {
-            RuntimeConfigurable childWrapper = (RuntimeConfigurable) children.nextElement();
+            final RuntimeConfigurable childWrapper = (RuntimeConfigurable) children.nextElement();
             exploreTask(childWrapper, level + 1);
         }
 

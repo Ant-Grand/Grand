@@ -50,12 +50,13 @@ public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilte
     /* (non-Javadoc)
      * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
      */
-    protected Collection getFilteredNodes() throws GrandException {
-        Graph graph = getProducersGraph();
-        LinkedHashSet result = new LinkedHashSet();
+    @Override
+    protected Collection<Node> getFilteredNodes() throws GrandException {
+        final Graph graph = getProducersGraph();
+        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
 
-        for (Iterator iter = graph.getNodes(); iter.hasNext();) {
-            Node node = (Node) iter.next();
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            final Node node = iter.next();
 
             if (!node.hasAttributes(Node.ATTR_MISSING_NODE)) {
                 result.add(node);

@@ -40,11 +40,11 @@ public class AntLog extends SimpleLog implements Log {
 
     private static Task currentTask;
 
-    public static void setCurrentProject(Project newProject) {
+    public static void setCurrentProject(final Project newProject) {
         currentProject = newProject;
     }
 
-    public static void setCurrentTask(Task newTask) {
+    public static void setCurrentTask(final Task newTask) {
         currentTask = newTask;
     }
 
@@ -59,16 +59,24 @@ public class AntLog extends SimpleLog implements Log {
      * @see net.ggtools.grand.log.SimpleLog#log(java.lang.Object,
      *      java.lang.Throwable, int)
      */
+    @Override
     protected void log(final Object message, final Throwable t, final int level) {
         if (currentProject != null) {
             // Translate into ant log levels.
             int antMsgLevel = level - LEVEL_ERROR + Project.MSG_ERR;
-            if (antMsgLevel < Project.MSG_ERR) antMsgLevel = Project.MSG_ERR;
-            else if (antMsgLevel > Project.MSG_DEBUG) antMsgLevel = Project.MSG_DEBUG;
+            if (antMsgLevel < Project.MSG_ERR) {
+                antMsgLevel = Project.MSG_ERR;
+            }
+            else if (antMsgLevel > Project.MSG_DEBUG) {
+                antMsgLevel = Project.MSG_DEBUG;
+            }
 
-            if (currentTask == null) currentProject.log(message.toString(), antMsgLevel);
-            else
+            if (currentTask == null) {
+                currentProject.log(message.toString(), antMsgLevel);
+            }
+            else {
                 currentProject.log(currentTask, message.toString(), antMsgLevel);
+            }
         }
         else {
             super.log(message, t, level);

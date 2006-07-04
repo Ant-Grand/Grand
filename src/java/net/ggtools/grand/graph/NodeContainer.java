@@ -53,7 +53,7 @@ interface NodeContainer {
      * 
      * @return an iterator to the graph's nodes.
      */
-    Iterator getNodes();
+    Iterator<Node> getNodes();
 
     /**
      * Checks if the graph has a node with a specific name.

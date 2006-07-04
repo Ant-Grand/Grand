@@ -34,6 +34,7 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.Node;
 
 /**
  * @author Christophe Labouisse
@@ -45,7 +46,7 @@ public class AbstractGraphFilterTest extends TestCase {
      * 
      * @param name
      */
-    public AbstractGraphFilterTest(String name) {
+    public AbstractGraphFilterTest(final String name) {
         super(name);
     }
 
@@ -57,8 +58,9 @@ public class AbstractGraphFilterTest extends TestCase {
     public final void testGetGraphBeforeSet() throws GrandException {
         final GraphFilter filter = new AbstractGraphFilter() {
 
-            public Collection getFilteredNodes() throws GrandException {
-                return new LinkedList();
+            @Override
+            public Collection<Node> getFilteredNodes() throws GrandException {
+                return new LinkedList<Node>();
             }
         };
 

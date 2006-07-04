@@ -35,6 +35,7 @@ import java.util.NoSuchElementException;
 
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
@@ -52,7 +53,7 @@ public class AntProjectTest extends AbstractAntTester {
      * 
      * @param arg0
      */
-    public AntProjectTest(String arg0) {
+    public AntProjectTest(final String arg0) {
         super(arg0);
     }
 
@@ -63,7 +64,7 @@ public class AntProjectTest extends AbstractAntTester {
         assertNotNull("shoud have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gruik]", endNode.getName());
-        String buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
+        final String buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
         assertEquals("Build file should be build.xml in the current dir", buildFile, endNode
                 .getBuildFile());
 
@@ -78,26 +79,26 @@ public class AntProjectTest extends AbstractAntTester {
     }
 
     public void testAntCall() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("antcall-test");
+        final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-test");
         AntLink link = null;
         try {
             link = (AntLink) node.getLinks().iterator().next();
-        } catch (NoSuchElementException e) {
+        } catch (final NoSuchElementException e) {
             fail("Should have found a link");
         }
         assertNotNull("should have found a link", link);
         assertEquals("Target", "gruik", link.getEndNode().getName());
-        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "gruik", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
     }
 
     public void testAntCallWithTargetElements() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("antcall-with-target-elements-test");
-        final Collection links = node.getLinks();
+        final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-with-target-elements-test");
+        final Collection<Link> links = node.getLinks();
         assertNotNull("Links should not be null", links);
 
-        final Iterator iterator = links.iterator();
+        final Iterator<Link> iterator = links.iterator();
 
         AntLink link = (AntLink) iterator.next();
         assertNotNull("shoud have found a link", link);
@@ -134,10 +135,10 @@ public class AntProjectTest extends AbstractAntTester {
 
     public void testAntNoTargetDifferentFile() throws GrandException {
         // Test without target different file
-        AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
-        AntLink link = (AntLink) node.getLinks().iterator().next();
+        final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
+        final AntLink link = (AntLink) node.getLinks().iterator().next();
         assertNotNull("shoud have found a link", link);
-        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "['default']", endNode.getName());
         assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode
                 .getBuildFile());
@@ -145,20 +146,20 @@ public class AntProjectTest extends AbstractAntTester {
 
     public void testAntNoTargetSameFile() throws GrandException {
         // Test without target same file
-        AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
-        AntLink link = (AntLink) node.getLinks().iterator().next();
+        final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
+        final AntLink link = (AntLink) node.getLinks().iterator().next();
         assertNotNull("shoud have found a link", link);
-        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Should be the default target", "init", endNode.getName());
         assertNull("Build file should be the currentFile", endNode.getBuildFile());
     }
 
     public void testAntWithTargetElements() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("ant-with-target-elements-test");
-        final Collection links = node.getLinks();
+        final AntTargetNode node = (AntTargetNode) graph.getNode("ant-with-target-elements-test");
+        final Collection<Link> links = node.getLinks();
         assertNotNull("Links should not be null", links);
 
-        final Iterator iterator = links.iterator();
+        final Iterator<Link> iterator = links.iterator();
 
         AntLink link = (AntLink) iterator.next();
         assertNotNull("shoud have found a link", link);
@@ -180,7 +181,7 @@ public class AntProjectTest extends AbstractAntTester {
     }
 
     public void testIfCondition() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("if-cond-test");
+        final AntTargetNode node = (AntTargetNode) graph.getNode("if-cond-test");
         assertNotNull("if-cond-test Node", node);
         assertEquals("If condition for target if-cond-test", "test-if-condition", node
                 .getIfCondition());
@@ -192,23 +193,23 @@ public class AntProjectTest extends AbstractAntTester {
      * @throws GrandException
      */
     public void testNestedAnt() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("[nested-missing-node]");
+        final AntTargetNode node = (AntTargetNode) graph.getNode("[nested-missing-node]");
         assertNotNull("nested-missing-node not found", node);
         assertTrue("nested-missing-node has MISSING_NODE_ATTR set", node
                 .hasAttributes(Node.ATTR_MISSING_NODE));
     }
 
     public void testRunTarget() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("runtarget-test");
+        final AntTargetNode node = (AntTargetNode) graph.getNode("runtarget-test");
         AntLink link = null;
         try {
             link = (AntLink) node.getLinks().iterator().next();
-        } catch (NoSuchElementException e) {
+        } catch (final NoSuchElementException e) {
             fail("Should have found a link");
         }
         assertNotNull("should have found a link", link);
         assertEquals("Target", "gruik", link.getEndNode().getName());
-        AntTargetNode endNode = (AntTargetNode) link.getEndNode();
+        final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "gruik", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
     }
@@ -221,7 +222,7 @@ public class AntProjectTest extends AbstractAntTester {
     public void testSubant() throws GrandException {
         // Test for genericantfile.
         AntTargetNode node = (AntTargetNode) graph.getNode("subant-generic");
-        Collection links = node.getLinks();
+        Collection<Link> links = node.getLinks();
         assertEquals("Should have found 1 link", 1, links.size());
         AntLink link = (AntLink) links.iterator().next();
         assertNotNull("shoud have found a link", link);
@@ -233,7 +234,7 @@ public class AntProjectTest extends AbstractAntTester {
         node = (AntTargetNode) graph.getNode("subant-antfile");
         links = node.getLinks();
         assertEquals("Should have found 2 links", 2, links.size());
-        final Iterator iterator = links.iterator();
+        final Iterator<Link> iterator = links.iterator();
         link = (AntLink) iterator.next();
         assertNotNull("shoud have found a link", link);
         endNode = (AntTargetNode) link.getEndNode();
@@ -254,14 +255,14 @@ public class AntProjectTest extends AbstractAntTester {
         node = (AntTargetNode) graph.getNode("subant-withproperties");
         links = node.getLinks();
         assertEquals("Should have found 2 links", 2, links.size());
-        for (Iterator iter = links.iterator(); iter.hasNext();) {
-            AntTaskLink subLink = (AntTaskLink) iter.next();
+        for (Link link2 : links) {
+            final AntTaskLink subLink = (AntTaskLink) link2;
             assertEquals("A parameter call ga=meu should be defined","bu",subLink.getParameter("ga"));
         }
     }
 
     public void testUnlessCondition() throws GrandException {
-        AntTargetNode node = (AntTargetNode) graph.getNode("unless-cond-test");
+        final AntTargetNode node = (AntTargetNode) graph.getNode("unless-cond-test");
         assertNotNull("unless-cond-test Node", node);
         assertEquals("Unless condition for target unless-cond-test", "test-unless-condition", node
                 .getUnlessCondition());
@@ -285,7 +286,7 @@ public class AntProjectTest extends AbstractAntTester {
         antProject = new AntProject(project);
         try {
             graph = antProject.getGraph();
-        } catch (GrandException e) {
+        } catch (final GrandException e) {
             fail("Got exception while creating graph: " + e.getMessage());
         }
     }

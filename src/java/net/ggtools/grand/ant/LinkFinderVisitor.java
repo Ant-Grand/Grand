@@ -61,7 +61,7 @@ import org.apache.tools.ant.types.Path;
 public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     private static final Log log = LoggerManager.getLog(LinkFinderVisitor.class);
 
-    private final static Map aliases = new HashMap();
+    private final static Map<String, String> aliases = new HashMap<String, String>();
 
     // Initialize the alias list
     static {
@@ -114,6 +114,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      *            wrapper to check.
      * @see net.ggtools.grand.ant.ReflectTaskVisitorBase#defaultVisit(org.apache.tools.ant.RuntimeConfigurable)
      */
+    @Override
     public void defaultVisit(final RuntimeConfigurable wrapper) throws GrandException {
         final Enumeration children = wrapper.getChildren();
         while (children.hasMoreElements()) {
@@ -126,8 +127,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * 
      * @see net.ggtools.grand.ant.ReflectTaskVisitorBase#getAliasForTask(java.lang.String)
      */
+    @Override
     public String getAliasForTask(final String taskName) {
-        String result = (String) aliases.get(taskName);
+        String result = aliases.get(taskName);
         if (result == null) {
             result = taskName;
         }
@@ -180,16 +182,16 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
         }
 
-        final List targetElements = getTargetElementNames(wrapper);
+        final List<Object> targetElements = getTargetElementNames(wrapper);
 
         final AntTaskLink links[];
 
         if (targetElements.size() > 0) {
             links = new AntTaskLink[targetElements.size()];
             int i = 0;
-            for (final Iterator iter = targetElements.iterator(); iter.hasNext();) {
+            for (Object object : targetElements) {
                 links[i++] = createAntTaskLink(targetBuildFile, wrapper.getElementTag(),
-                        (String) iter.next());
+                        (String) object);
             }
         }
         else {
@@ -205,8 +207,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * @param wrapper
      * @return
      */
-    private List getTargetElementNames(final RuntimeConfigurable wrapper) {
-        final List targetElements = new ArrayList();
+    private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
+        final List<Object> targetElements = new ArrayList<Object>();
         final Enumeration children = wrapper.getChildren();
         while (children.hasMoreElements()) {
             final RuntimeConfigurable child = (RuntimeConfigurable) children.nextElement();
@@ -242,7 +244,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         log.info("Processing antcall target in " + startNode.getName());
         final Project antProject = project.getAntProject();
 
-        final List targetElements = getTargetElementNames(wrapper);
+        final List<Object> targetElements = getTargetElementNames(wrapper);
 
         final AntTaskLink links[];
 
@@ -250,8 +252,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         if (targetElements.size() > 0) {
             links = new AntTaskLink[targetElements.size()];
             int i = 0;
-            for (final Iterator iter = targetElements.iterator(); iter.hasNext();) {
-                final String endNodeName = antProject.replaceProperties((String) iter.next());
+            for (Object object : targetElements) {
+                final String endNodeName = antProject.replaceProperties((String) object);
 
                 final AntTargetNode endNode = findOrCreateNode(endNodeName);
 
@@ -301,10 +303,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             final Path buildPath = helper.getBuildpath();
             final String antfile = helper.getAntfile();
             final File genericantfile = helper.getGenericantfile();
-            final Collection properties = helper.getProperties();
+            final Collection<Property> properties = helper.getProperties();
             final String target = helper.getTarget();
 
-            final List genericantfileDirs = new LinkedList();
+            final List<File> genericantfileDirs = new LinkedList<File>();
 
             if ((buildPath == null) || (buildPath.size() == 0)) {
                 log.warn("buildPath is null or empty, subant task probably won't work");
@@ -313,8 +315,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
             final String[] filenames = buildPath.list();
 
-            for (int i = 0; i < filenames.length; i++) {
-                final String currentFileName = filenames[i];
+            for (final String currentFileName : filenames) {
                 File file = null;
                 File directory = null;
                 file = new File(currentFileName);
@@ -333,7 +334,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                     final AntTaskLink link = createAntTaskLink(file, wrapper.getElementTag(),
                             target);
 
-                    for (Iterator iter = properties.iterator(); iter.hasNext();) {
+                    for (final Iterator<Property> iter = properties.iterator(); iter.hasNext();) {
                         final Object next = iter.next();
                         if (next instanceof Property) {
                             final Property p = (Property) next;
@@ -345,8 +346,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                             // Property file.
                             else if (p.getFile() != null) {
                                 final File propFile = p.getFile();
-                                if (log.isDebugEnabled())
+                                if (log.isDebugEnabled()) {
                                     log.debug("Loading " + propFile.getAbsolutePath());
+                                }
                                 link.addPropertyFile(propFile.getAbsolutePath());
                             }
                         }
@@ -369,8 +371,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 final SubantTaskLink link = graph.createSubantTaskLink(null, startNode, endNode,
                         wrapper.getElementTag());
 
-                for (Iterator iter = genericantfileDirs.iterator(); iter.hasNext();) {
-                    final File currentDir = (File) iter.next();
+                for (File currentDir : genericantfileDirs) {
                     link.addDirectory(currentDir.getAbsolutePath());
                 }
             }
@@ -385,7 +386,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * @param graph
      *            The graph to set.
      */
-    public void setGraph(AntGraph graph) {
+    public void setGraph(final AntGraph graph) {
         this.graph = graph;
     }
 
@@ -393,7 +394,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * @param startNode
      *            The startNode to set.
      */
-    public void setStartNode(AntTargetNode startNode) {
+    public void setStartNode(final AntTargetNode startNode) {
         this.startNode = startNode;
     }
 
@@ -419,16 +420,14 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 if (name != null) {
                     final String propertyValue = antProject
                             .replaceProperties((String) childAttributeMap.get(ATTR_VALUE));
-                    for (int i = 0; i < links.length; i++) {
-                        final AntTaskLink link = links[i];
+                    for (final AntTaskLink link : links) {
                         link.setParameter(name, propertyValue);
                     }
                 }
                 else {
                     final String fileName = (String) childAttributeMap.get("file");
                     if (fileName != null) {
-                        for (int i = 0; i < links.length; i++) {
-                            final AntTaskLink link = links[i];
+                        for (final AntTaskLink link : links) {
                             link.addPropertyFile(antProject.replaceProperties(fileName));
                         }
                     }
@@ -475,7 +474,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         final Project antProject = project.getAntProject();
         final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));
 
-        if (targetBuildFile == null) targetBuildFile = projectFile;
+        if (targetBuildFile == null) {
+            targetBuildFile = projectFile;
+        }
 
         final boolean isSameBuildFile = projectFile.equals(targetBuildFile);
 
@@ -495,7 +496,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                     log.debug("Reading project file " + targetBuildFile);
                     final AntProject tmpProj = new AntProject(targetBuildFile);
                     targetName = tmpProj.getAntProject().getDefaultTarget();
-                } catch (GrandException e) {
+                } catch (final GrandException e) {
                     log.info("Caught exception trying to read " + targetBuildFile
                             + " using default target name", e);
                     targetName = "'default'";
@@ -512,7 +513,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             do {
                 conflict = false;
                 endNode = (AntTargetNode) graph.getNode(endNodeName);
-                if (endNode != null
+                if ((endNode != null)
                         && !targetBuildFile.getAbsolutePath().equals(endNode.getBuildFile())) {
                     log.error("Conflict on build file " + targetBuildFile + " vs "
                             + endNode.getBuildFile());
@@ -531,7 +532,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
 
-        if (!isSameBuildFile) endNode.setBuildFile(targetBuildFile.getAbsolutePath());
+        if (!isSameBuildFile) {
+            endNode.setBuildFile(targetBuildFile.getAbsolutePath());
+        }
         return endNode;
     }
 }

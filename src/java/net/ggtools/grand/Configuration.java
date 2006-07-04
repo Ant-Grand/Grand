@@ -48,7 +48,7 @@ public class Configuration {
 
     private static Properties defaultProperties;
 
-    private static Object defaultPropertiesMonitor = new Object();
+    private static final Object defaultPropertiesMonitor = new Object();
 
     /**
      * Get a configuration with the default values.
@@ -75,7 +75,7 @@ public class Configuration {
      *             if the default properties were not loadable.
      */
     public static Configuration getConfiguration(final File propFile) throws IOException {
-        Properties override = new Properties();
+        final Properties override = new Properties();
         override.load(new FileInputStream(propFile));
         return getConfiguration(override);
     }

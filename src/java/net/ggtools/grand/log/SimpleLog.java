@@ -47,7 +47,7 @@ class SimpleLog implements Log {
     protected static final String[] LEVEL_NAMES = {"NONE", "FATAL", "ERROR", "WARN", "INFO",
             "DEBUG", "TRACE", "ALL"};
 
-    private static int logLevel = LEVEL_WARN;
+    private static final int logLevel = LEVEL_WARN;
 
     /**
      * Package only instanciation.
@@ -59,7 +59,7 @@ class SimpleLog implements Log {
      * (non-Javadoc)
      * @see org.apache.commons.logging.Log#debug(java.lang.Object)
      */
-    public void debug(Object message) {
+    public void debug(final Object message) {
         log(message, LEVEL_DEBUG);
     }
 
@@ -68,7 +68,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#debug(java.lang.Object,
      *      java.lang.Throwable)
      */
-    public void debug(Object message, Throwable t) {
+    public void debug(final Object message, final Throwable t) {
         log(message, t, LEVEL_DEBUG);
     }
 
@@ -76,7 +76,7 @@ class SimpleLog implements Log {
      * (non-Javadoc)
      * @see org.apache.commons.logging.Log#error(java.lang.Object)
      */
-    public void error(Object message) {
+    public void error(final Object message) {
         log(message, LEVEL_ERROR);
     }
 
@@ -85,7 +85,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#error(java.lang.Object,
      *      java.lang.Throwable)
      */
-    public void error(Object message, Throwable t) {
+    public void error(final Object message, final Throwable t) {
         log(message, t, LEVEL_ERROR);
     }
 
@@ -93,7 +93,7 @@ class SimpleLog implements Log {
      * (non-Javadoc)
      * @see org.apache.commons.logging.Log#fatal(java.lang.Object)
      */
-    public void fatal(Object message) {
+    public void fatal(final Object message) {
         log(message, LEVEL_FATAL);
     }
 
@@ -102,7 +102,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#fatal(java.lang.Object,
      *      java.lang.Throwable)
      */
-    public void fatal(Object message, Throwable t) {
+    public void fatal(final Object message, final Throwable t) {
         log(message, t, LEVEL_FATAL);
     }
 
@@ -110,7 +110,7 @@ class SimpleLog implements Log {
      * (non-Javadoc)
      * @see org.apache.commons.logging.Log#info(java.lang.Object)
      */
-    public void info(Object message) {
+    public void info(final Object message) {
         log(message, LEVEL_INFO);
     }
 
@@ -119,7 +119,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#info(java.lang.Object,
      *      java.lang.Throwable)
      */
-    public void info(Object message, Throwable t) {
+    public void info(final Object message, final Throwable t) {
         log(message, t, LEVEL_INFO);
     }
 
@@ -175,7 +175,7 @@ class SimpleLog implements Log {
      * (non-Javadoc)
      * @see org.apache.commons.logging.Log#trace(java.lang.Object)
      */
-    public void trace(Object message) {
+    public void trace(final Object message) {
         log(message, LEVEL_TRACE);
     }
 
@@ -184,7 +184,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#trace(java.lang.Object,
      *      java.lang.Throwable)
      */
-    public void trace(Object message, Throwable t) {
+    public void trace(final Object message, final Throwable t) {
         log(message, t, LEVEL_TRACE);
     }
 
@@ -192,7 +192,7 @@ class SimpleLog implements Log {
      * (non-Javadoc)
      * @see org.apache.commons.logging.Log#warn(java.lang.Object)
      */
-    public void warn(Object message) {
+    public void warn(final Object message) {
         log(message, LEVEL_WARN);
     }
 
@@ -201,7 +201,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#warn(java.lang.Object,
      *      java.lang.Throwable)
      */
-    public void warn(Object message, Throwable t) {
+    public void warn(final Object message, final Throwable t) {
         log(message, t, LEVEL_WARN);
     }
 

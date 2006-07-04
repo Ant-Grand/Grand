@@ -46,7 +46,7 @@ public class AllTests
     
     public static Test suite()
     {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
+        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.tasks");
         //$JUnit-BEGIN$
         suite.addTestSuite(GraphFilterTypeTest.class);
         suite.addTestSuite(GrandTaskTest.class);

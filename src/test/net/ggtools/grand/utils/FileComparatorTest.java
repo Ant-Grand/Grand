@@ -53,7 +53,7 @@ public class FileComparatorTest extends TestCase {
      * 
      * @param name
      */
-    public FileComparatorTest(String name) {
+    public FileComparatorTest(final String name) {
         super(name);
     }
 
@@ -73,7 +73,7 @@ public class FileComparatorTest extends TestCase {
         try {
             comparator.assertSizesMatch();
             fail("build-simple and build-import do not have the same size");
-        } catch (AssertionFailedError e) {
+        } catch (final AssertionFailedError e) {
         }
     }
 
@@ -89,7 +89,7 @@ public class FileComparatorTest extends TestCase {
         try {
             comparator.assertLinesMatch();
             fail("build-simple and override should differ");
-        } catch (AssertionFailedError e) {
+        } catch (final AssertionFailedError e) {
         }
 
         // Different files.
@@ -97,7 +97,7 @@ public class FileComparatorTest extends TestCase {
         try {
             comparator.assertLinesMatch();
             fail("build-simple and build-import should differ");
-        } catch (AssertionFailedError e) {
+        } catch (final AssertionFailedError e) {
             assertTrue("build-simple and build-import do not have the same size",
                     e.getMessage().indexOf("Sizes do not match") >= 0);
         }

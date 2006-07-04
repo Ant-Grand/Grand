@@ -51,7 +51,7 @@ import net.ggtools.grand.utils.AbstractAntTester;
 public class FromNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
 
-    private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
+    private static final HashSet<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
                     "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
                     "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
@@ -61,13 +61,14 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Constructor for FromNodeFilterTest.
      * @param name
      */
-    public FromNodeFilterTest(String name) {
+    public FromNodeFilterTest(final String name) {
         super(name);
     }
 
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
+    @Override
     protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
@@ -76,6 +77,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
     /* (non-Javadoc)
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
@@ -86,14 +88,14 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testConnectedStartNode() throws GrandException {
-        GraphFilter filter = new FromNodeFilter("build");
+        final GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
-        Graph graph = filter.getGraph();
+        final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
             numNodes++;
-            String nodeName = ((Node) iter.next()).getName();
+            final String nodeName = iter.next().getName();
 
             assertTrue("Node " + nodeName + " should have been filtered out",
                     NODES_AFTER_FILTERING.contains(nodeName));
@@ -111,15 +113,15 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testNotFilteredStartNode() throws GrandException {
-        GraphFilter filter = new FromNodeFilter("build");
+        final GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
         project.setDefault("build");
-        Graph graph = filter.getGraph();
+        final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (Iterator iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
             numNodes++;
-            String nodeName = ((Node) iter.next()).getName();
+            final String nodeName = iter.next().getName();
 
             assertTrue("Node " + nodeName + " should have been filtered out",
                     NODES_AFTER_FILTERING.contains(nodeName));
@@ -137,12 +139,12 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      */
     public void testNonExistentNode() throws GrandException {
-        GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");
+        final GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {
-            Graph graph = filter.getGraph();
+            final Graph graph = filter.getGraph();
             fail("Should have raised a NonExistentNode exception");
-        } catch (NonExistentNodeException e) {
+        } catch (final NonExistentNodeException e) {
         }
     }
 

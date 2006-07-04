@@ -34,7 +34,6 @@ package net.ggtools.grand.graph;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -53,7 +52,7 @@ import net.ggtools.grand.utils.AbstractAntTester;
 public class GraphCrawlerTest extends AbstractAntTester {
     private GraphProducer producer;
 
-    private static final HashSet NODES_AFTER_FILTERING = new HashSet(Arrays
+    private static final HashSet<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
                     "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
                     "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
@@ -63,13 +62,14 @@ public class GraphCrawlerTest extends AbstractAntTester {
      * Constructor for GraphCrawlerTest.
      * @param arg0
      */
-    public GraphCrawlerTest(String arg0) {
+    public GraphCrawlerTest(final String arg0) {
         super(arg0);
     }
 
     /* (non-Javadoc)
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
+    @Override
     protected String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
@@ -77,6 +77,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
     /*
      * @see AbstractTaskTester#setUp()
      */
+    @Override
     protected void setUp() {
         super.setUp();
         producer = new AntProject(project);
@@ -85,6 +86,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
     /*
      * @see AbstractTaskTester#tearDown()
      */
+    @Override
     protected void tearDown() {
         super.tearDown();
     }
@@ -92,13 +94,12 @@ public class GraphCrawlerTest extends AbstractAntTester {
     public final void testCrawl() throws GrandException {
         final Graph graph = producer.getGraph();
         final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());
-        final Collection result = crawler.crawl(graph.getNode("build"));
+        final Collection<Node> result = crawler.crawl(graph.getNode("build"));
 
         assertEquals("Result and reference do not have the same size", NODES_AFTER_FILTERING
                 .size(), result.size());
         
-        for (Iterator iter = result.iterator(); iter.hasNext(); ) {
-            final Node node = (Node) iter.next();
+        for (Node node : result) {
             final String nodeName = node.getName();
             assertTrue("Node " + nodeName + " should have been filtered out",
                     NODES_AFTER_FILTERING.contains(nodeName));

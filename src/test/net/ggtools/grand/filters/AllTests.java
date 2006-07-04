@@ -47,7 +47,7 @@ public class AllTests
 
     public static Test suite()
     {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
+        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
         //$JUnit-BEGIN$
         suite.addTestSuite(ToNodeFilterTest.class);
         suite.addTestSuite(FilterChainTest.class);

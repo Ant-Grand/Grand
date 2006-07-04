@@ -67,6 +67,7 @@ public class LinkImpl extends AttributeManager implements Link {
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         return (name == null ? "" : name) + " (" + startNode + " -> " + endNode + ")";
     }
@@ -102,7 +103,7 @@ public class LinkImpl extends AttributeManager implements Link {
     /* (non-Javadoc)
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
-    public void accept(LinkVisitor visitor) {
+    public void accept(final LinkVisitor visitor) {
         visitor.visitLink(this);
     }
 

@@ -46,7 +46,7 @@ import org.apache.tools.ant.Project;
  * @author Christophe Labouisse
  */
 public class FilterType {
-    private static GraphFilterFactory filterFactory = new GraphFilterFactory();
+    private static final GraphFilterFactory filterFactory = new GraphFilterFactory();
 
     private GraphFilterType filter;
 
@@ -62,7 +62,7 @@ public class FilterType {
      * @param prj the owner's project.
      */
     public FilterType(final Project prj) {
-        this.project = prj;
+        project = prj;
     }
 
     /**

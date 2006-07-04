@@ -56,6 +56,7 @@ public class ConnectedToNodeFilter extends GraphWalkFilter implements GraphFilte
     /* (non-Javadoc)
      * @see net.ggtools.grand.filters.GraphWalkFilter#getLinkFinder()
      */
+    @Override
     public LinkFinder getLinkFinder() {
         return linkFinder;
     }

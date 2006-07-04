@@ -44,7 +44,7 @@ public class AllTests {
     private AllTests() {}
     
     public static Test suite() {
-        TestSuite suite = new TestSuite("Test for net.ggtools.grand.utils");
+        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.utils");
         //$JUnit-BEGIN$
         suite.addTestSuite(FileComparatorTest.class);
         //$JUnit-END$
