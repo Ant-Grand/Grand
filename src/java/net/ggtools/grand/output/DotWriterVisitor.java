@@ -116,7 +116,6 @@ class DotWriterVisitor implements NodeVisitor {
             visitedLinks++;
             final Node depNode = link.getEndNode();
 
-            final StringBuffer strBuf = new StringBuffer();
             output.append("\"").appendEscaped(nodeInfo).append("\"").append(" -> \"")
                     .appendEscaped(depNode.getName()).append("\"");
 

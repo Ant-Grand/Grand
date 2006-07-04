@@ -32,7 +32,6 @@
 package net.ggtools.grand.graph;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**

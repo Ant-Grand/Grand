@@ -78,10 +78,6 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     private static final String ATTR_ANTFILE = "antfile";
 
-    private static final String ATTR_BUILDPATH = "buildpath";
-
-    private static final String ATTR_BUILDPATHREF = "buildpathref";
-
     private static final String ATTR_DIR = "dir";
 
     private static final String ATTR_NAME = "name";

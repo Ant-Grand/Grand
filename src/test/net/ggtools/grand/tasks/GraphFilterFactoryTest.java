@@ -115,7 +115,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
 
    public final void testNotConfigurated() {
         try {
-            final GraphFilterType filter = factory.getFilterType(project, "notconfigured");
+            factory.getFilterType(project, "notconfigured");
         } catch (final BuildException e) {
             assertEquals("Filter notconfigured not configured", e.getMessage());
         }
@@ -123,7 +123,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
 
     public final void testClassNotFound() {
         try {
-            final GraphFilterType filter = factory.getFilterType(project, "gabuzotestfilter");
+            factory.getFilterType(project, "gabuzotestfilter");
         } catch (final BuildException e) {
             assertEquals("Cannot find filter class", e.getMessage());
         }

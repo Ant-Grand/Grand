@@ -50,8 +50,6 @@ import org.apache.tools.ant.Task;
 class TargetTasksExplorer {
     private static final Log log = LoggerManager.getLog(TargetTasksExplorer.class);
 
-    private final AntProject antProject;
-
     private List<SourceElement> textElements;
 
     /**
@@ -61,7 +59,6 @@ class TargetTasksExplorer {
      *            associated project.
      */
     TargetTasksExplorer(final AntProject antProject) {
-        this.antProject = antProject;
     }
 
     /**

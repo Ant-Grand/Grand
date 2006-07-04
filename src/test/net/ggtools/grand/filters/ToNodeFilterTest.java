@@ -140,7 +140,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
         final GraphFilter filter = new ToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {
-            final Graph graph = filter.getGraph();
+            filter.getGraph();
             fail("Should have raised a NonExistentNode exception");
         } catch (final NonExistentNodeException e) {
         }

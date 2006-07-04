@@ -1,4 +1,4 @@
-#Wed May 18 11:04:15 CEST 2005
+#Tue Jul 04 19:53:42 CEST 2006
 comment_clear_blank_lines=false
 comment_format_comments=true
 comment_format_header=true
@@ -11,6 +11,7 @@ comment_new_line_for_parameter=true
 comment_separate_root_tags=false
 eclipse.preferences.version=1
 formatter_settings_version=8
+internal.default.compliance=default
 org.eclipse.jdt.ui.exception.name=e
 org.eclipse.jdt.ui.gettersetter.use.is=true
 org.eclipse.jdt.ui.ignorelowercasenames=true
@@ -18,4 +19,5 @@ org.eclipse.jdt.ui.importorder=java;javax;org;com;
 org.eclipse.jdt.ui.javadoc=false
 org.eclipse.jdt.ui.keywordthis=false
 org.eclipse.jdt.ui.ondemandthreshold=99
+org.eclipse.jdt.ui.overrideannotation=true
 org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8"?><templates/>
