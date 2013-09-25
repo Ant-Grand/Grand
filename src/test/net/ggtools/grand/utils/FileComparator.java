@@ -44,9 +44,9 @@ import junit.framework.Assert;
  * @author Christophe Labouisse
  */
 public class FileComparator extends Assert {
+    private final File source;
 
-    private File source;
-    private File dest;
+    private final File dest;
 
     /**
      * Creates a new file comparator.
@@ -94,8 +94,10 @@ public class FileComparator extends Assert {
             // so far, it should not happend.
             assert ((srcLine != null) && (dstLine != null));
             
-            assertEquals("Files differ on line "+line,srcLine,dstLine);
+            assertEquals("Files differ on line " + line,srcLine,dstLine);
         }
+        sourceReader.close();
+        destReader.close();
     }
     
 }

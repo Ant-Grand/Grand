@@ -66,8 +66,9 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter implements Gra
         final Graph graph = getProducersGraph();
         final Node fromNode = graph.getNode(startNodeName);
 
-        if (fromNode == null) { throw new NonExistentNodeException("Node " + startNodeName
-                + " do not exist"); }
+        if (fromNode == null) {
+            throw new NonExistentNodeException("Node " + startNodeName + " do not exist");
+        }
 
         final GraphCrawler crawler = new GraphCrawler(graph, getLinkFinder());
 

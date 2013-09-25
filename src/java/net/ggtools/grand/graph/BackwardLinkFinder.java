@@ -33,6 +33,7 @@ package net.ggtools.grand.graph;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * 
@@ -47,7 +48,7 @@ public class BackwardLinkFinder implements LinkFinder {
     public Collection<Node> getLinks(final Node node) {
         final Collection<Link> links = node.getBackLinks();
 
-        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+        final Set<Node> result = new LinkedHashSet<Node>();
 
         for (Link link : links) {
             result.add(link.getStartNode());

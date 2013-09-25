@@ -5,36 +5,64 @@ edge [fontsize="10"];
 "jar" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold"];
 "jar" -> "grand.jar";
 
-"grand.jar" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Create the jar"];
-"grand.jar" -> "compile" [label="1"];
-"grand.jar" -> "test" [label="2"];
-
-"install-maven"
-
-"compile-tests"
-"compile-tests" -> "compile";
+"grand.clean" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Clean up the generated directories"];
 
 "javadoc" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Generate javadoc"];
 "javadoc" -> "jar";
 
-"test" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Run the test cases"];
-"test" -> "internal-test";
+"compile-tests"
+"compile-tests" -> "compile";
 
-"clean" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Clean up the generated directories"];
+"grand.install-maven"
+
+"compile" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Compile the code"];
+"compile" -> "get-deps";
+
+"internal-test"
+"internal-test" -> "compile-tests";
+
+"get-deps"
+"get-deps" -> "init";
+
+"grand.compile" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Compile the code"];
+"grand.compile" -> "get-deps";
+
+"grand.dist" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Create a distribution"];
+"grand.dist" -> "jar" [label="1"];
+"grand.dist" -> "javadoc" [label="2"];
 
 "dist" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Create a distribution"];
 "dist" -> "jar" [label="1"];
 "dist" -> "javadoc" [label="2"];
 
-"get-deps"
-"get-deps" -> "init";
+"grand.init" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Initializes some properties"];
 
-"internal-test"
-"internal-test" -> "compile-tests";
+"grand.get-deps"
+"grand.get-deps" -> "init";
+
+"clean" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Clean up the generated directories"];
+
+"grand.test" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Run the test cases"];
+"grand.test" -> "internal-test";
 
 "init" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Initializes some properties"];
 
-"compile" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Compile the code"];
-"compile" -> "get-deps";
+"grand.compile-tests"
+"grand.compile-tests" -> "compile";
+
+"test" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Run the test cases"];
+"test" -> "internal-test";
+
+"install-maven"
+
+"grand.internal-test"
+"grand.internal-test" -> "compile-tests";
+
+"grand.javadoc" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Generate javadoc"];
+"grand.javadoc" -> "jar";
+
+"grand.jar" [shape=box,fillcolor="cyan",style="filled,bold",fontname="Times-Bold",comment="o Create the jar"];
+"grand.jar" -> "compile" [label="1"];
+"grand.jar" -> "test" [label="2"];
 
 }

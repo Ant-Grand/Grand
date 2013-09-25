@@ -105,13 +105,13 @@ public class FilterChainTest extends TestCase {
 
     public final void testEmptyChain() throws GrandException {
         filterChain.setProducer(producer);
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
     }
     
     public final void testOneFilter() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("1",traceBuffer.toString());
     }
 
@@ -121,9 +121,9 @@ public class FilterChainTest extends TestCase {
         filterChain.addFilterFirst(filter1);
         filterChain.addFilterFirst(filter2);
         filterChain.addFilterFirst(filter3);
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("123",traceBuffer.toString());
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("123123",traceBuffer.toString());
     }
 
@@ -132,9 +132,9 @@ public class FilterChainTest extends TestCase {
         filterChain.addFilterLast(filter1);
         filterChain.addFilterLast(filter2);
         filterChain.addFilterLast(filter3);
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("321",traceBuffer.toString());
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("321321",traceBuffer.toString());
     }
 
@@ -143,10 +143,10 @@ public class FilterChainTest extends TestCase {
         filterChain.addFilterFirst(filter1);
         filterChain.addFilterFirst(filter2);
         filterChain.addFilterFirst(filter3);
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("123",traceBuffer.toString());
         filterChain.clearFilters();
-        assertSame("Both graph should be the same",producer.getGraph(),filterChain.getGraph());
+        assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
         assertEquals("Trace should not have changed","123",traceBuffer.toString());
     }
 

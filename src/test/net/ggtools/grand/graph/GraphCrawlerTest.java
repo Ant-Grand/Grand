@@ -34,6 +34,7 @@ package net.ggtools.grand.graph;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -52,7 +53,7 @@ import net.ggtools.grand.utils.AbstractAntTester;
 public class GraphCrawlerTest extends AbstractAntTester {
     private GraphProducer producer;
 
-    private static final HashSet<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
+    private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
                     "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
                     "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",

@@ -85,11 +85,11 @@ class TargetTasksExplorer {
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
 
-        final Enumeration dependencies = target.getDependencies();
+        final Enumeration<String> dependencies = target.getDependencies();
         if (dependencies.hasMoreElements()) {
             addText(" depends=\"", AntTargetNode.SOURCE_MARKUP);
             while (dependencies.hasMoreElements()) {
-                final String dependency = (String) dependencies.nextElement();
+                final String dependency = dependencies.nextElement();
                 addText(dependency, AntTargetNode.SOURCE_ATTRIBUTE);
                 if (dependencies.hasMoreElements()) {
                     addText(", ", AntTargetNode.SOURCE_ATTRIBUTE);
@@ -123,9 +123,10 @@ class TargetTasksExplorer {
         }
 
         // Merge contiguous source elements of the same style.
-        AntTargetNode.SourceElement previous = null;
+        SourceElement previous = null;
+
         for (final Iterator<SourceElement> iter = textElements.iterator(); iter.hasNext();) {
-            final AntTargetNode.SourceElement element = iter.next();
+            final SourceElement element = iter.next();
             if (previous == null) {
                 previous = element;
             }
@@ -152,17 +153,16 @@ class TargetTasksExplorer {
         indent(level);
         addText("<", AntTargetNode.SOURCE_MARKUP);
         addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);
-        final Map attributes = wrapper.getAttributeMap();
-        for (final Iterator iter = attributes.entrySet().iterator(); iter.hasNext();) {
-            final Map.Entry entry = (Map.Entry) iter.next();
+        final Map<String,Object> attributes = wrapper.getAttributeMap();
+        for (final Map.Entry<String,Object> entry : attributes.entrySet()) {
             addText(" ", AntTargetNode.SOURCE_MARKUP);
-            addText((String) entry.getKey(), AntTargetNode.SOURCE_MARKUP);
+            addText(entry.getKey(), AntTargetNode.SOURCE_MARKUP);
             addText("=\"", AntTargetNode.SOURCE_MARKUP);
             addText((String) entry.getValue(), AntTargetNode.SOURCE_ATTRIBUTE);
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
 
-        final Enumeration children = wrapper.getChildren();
+        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
         final String trimmedText = wrapper.getText().toString().trim();
         final boolean hasText = !"".equals(trimmedText);
         final boolean hasChildren = children.hasMoreElements();
@@ -180,7 +180,7 @@ class TargetTasksExplorer {
         }
 
         while (children.hasMoreElements()) {
-            final RuntimeConfigurable childWrapper = (RuntimeConfigurable) children.nextElement();
+            final RuntimeConfigurable childWrapper = children.nextElement();
             exploreTask(childWrapper, level + 1);
         }
 
@@ -199,7 +199,7 @@ class TargetTasksExplorer {
     }
 
     private void addText(final String text, final int style) {
-        textElements.add(new AntTargetNode.SourceElement(text, style));
+        textElements.add(new SourceElement(text, style));
     }
 
     private void indent(final int level) {

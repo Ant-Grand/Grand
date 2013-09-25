@@ -44,7 +44,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
      */
     @Override
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"grand-task-property.xml";
+        return TESTCASES_DIR + "grand-task-property.xml";
     }
     
     /**

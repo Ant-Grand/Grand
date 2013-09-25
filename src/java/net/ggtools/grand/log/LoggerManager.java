@@ -37,7 +37,7 @@ public class LoggerManager {
     private static LoggerFactory currentFactory;
 
     private final static LoggerFactory defaultFactory = new LoggerFactory() {
-        public Log getLog(Class clazz) {
+        public Log getLog(Class<?> clazz) {
             return new AntLog();
         }
 
@@ -46,7 +46,7 @@ public class LoggerManager {
         }
     };
 
-    public static Log getLog(final Class clazz) {
+    public static Log getLog(final Class<?> clazz) {
         if (currentFactory != null) {
             return currentFactory.getLog(clazz);
         }

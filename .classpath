@@ -2,14 +2,11 @@
 <classpath>
 	<classpathentry exported="true" kind="lib" path="src/conf"/>
 	<classpathentry excluding=".svn" kind="src" path="src/java"/>
-	<classpathentry excluding=".svn" output="target/test-classes" kind="src" path="src/test"/>
-	<classpathentry sourcepath="JRE_SRC" kind="var" path="JRE_LIB">
-		<attributes>
-			<attribute value="http://java.sun.com/j2se/1.5.0/docs/api/" name="javadoc_location"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" sourcepath="/ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-1.6.5.jar"/>
-	<classpathentry exported="true" sourcepath="/ANT_SRC" kind="var" path="MAVEN_REPO/ant/jars/ant-launcher-1.6.5.jar"/>
+	<classpathentry excluding=".svn" kind="src" output="target/test-classes" path="src/test"/>
+	<classpathentry kind="lib" path="target/lib/ant-1.9.2.jar"/>
+	<classpathentry kind="lib" path="target/lib/ant-launcher-1.9.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="target/lib/junit-3.8.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

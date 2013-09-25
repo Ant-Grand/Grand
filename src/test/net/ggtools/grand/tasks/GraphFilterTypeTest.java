@@ -26,8 +26,7 @@
 
 package net.ggtools.grand.tasks;
 
-import net.ggtools.grand.utils.*;
-
+import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
  * 
@@ -45,7 +44,7 @@ public class GraphFilterTypeTest extends AbstractAntTester {
      */
     @Override
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"graph-filter.xml";
+        return TESTCASES_DIR + "graph-filter.xml";
     }
 
     public void testIsolatedNode() {

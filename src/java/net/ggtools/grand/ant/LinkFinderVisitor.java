@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -112,9 +110,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     @Override
     public void defaultVisit(final RuntimeConfigurable wrapper) throws GrandException {
-        final Enumeration children = wrapper.getChildren();
+        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
         while (children.hasMoreElements()) {
-            visit((RuntimeConfigurable) children.nextElement());
+            visit(children.nextElement());
         }
     }
 
@@ -205,11 +203,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
         final List<Object> targetElements = new ArrayList<Object>();
-        final Enumeration children = wrapper.getChildren();
+        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
         while (children.hasMoreElements()) {
-            final RuntimeConfigurable child = (RuntimeConfigurable) children.nextElement();
+            final RuntimeConfigurable child = children.nextElement();
             if ("target".equals(child.getElementTag())) {
-                final Hashtable childAttributeMap = child.getAttributeMap();
+                final Map<String,Object> childAttributeMap = child.getAttributeMap();
                 // name is supposed to be a string however since we are putting
                 // it in an object collection, there is no need to cast it as a
                 // String right now.
@@ -330,27 +328,19 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                     final AntTaskLink link = createAntTaskLink(file, wrapper.getElementTag(),
                             target);
 
-                    for (final Iterator<Property> iter = properties.iterator(); iter.hasNext();) {
-                        final Object next = iter.next();
-                        if (next instanceof Property) {
-                            final Property p = (Property) next;
-                            // Simple property
-                            if (p.getName() != null) {
-                                link.setParameter(p.getName(), antProject.replaceProperties(p
-                                        .getValue()));
-                            }
-                            // Property file.
-                            else if (p.getFile() != null) {
-                                final File propFile = p.getFile();
-                                if (log.isDebugEnabled()) {
-                                    log.debug("Loading " + propFile.getAbsolutePath());
-                                }
-                                link.addPropertyFile(propFile.getAbsolutePath());
-                            }
+                    for (final Property property : properties) {
+                        // Simple property
+                        if (property.getName() != null) {
+                            link.setParameter(property.getName(),
+                                    antProject.replaceProperties(property.getValue()));
                         }
-                        else {
-                            log.error("Got element in subant properties of unknown class: "
-                                    + next.getClass());
+                        // Property file.
+                        else if (property.getFile() != null) {
+                            final File propFile = property.getFile();
+                            if (log.isDebugEnabled()) {
+                                log.debug("Loading " + propFile.getAbsolutePath());
+                            }
+                            link.addPropertyFile(propFile.getAbsolutePath());
                         }
                     }
                 }
@@ -407,11 +397,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     private void addNestPropertiesParameters(final RuntimeConfigurable wrapper,
             final AntTaskLink links[], final String elementName) {
         final Project antProject = project.getAntProject();
-        final Enumeration children = wrapper.getChildren();
+        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
         while (children.hasMoreElements()) {
-            final RuntimeConfigurable child = (RuntimeConfigurable) children.nextElement();
+            final RuntimeConfigurable child = children.nextElement();
             if (elementName.equals(child.getElementTag())) {
-                final Hashtable childAttributeMap = child.getAttributeMap();
+                final Map<String,Object> childAttributeMap = child.getAttributeMap();
                 final String name = (String) childAttributeMap.get(ATTR_NAME);
                 if (name != null) {
                     final String propertyValue = antProject
@@ -482,7 +472,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
         AntTargetNode endNode;
         if (isSameBuildFile) {
-            endNodeName = targetName == null ? antProject.getDefaultTarget() : targetName;
+            endNodeName = (targetName == null) ? antProject.getDefaultTarget() : targetName;
             endNode = (AntTargetNode) graph.getNode(endNodeName);
         }
         else {

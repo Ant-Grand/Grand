@@ -36,12 +36,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Vector;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -73,9 +71,9 @@ public class GrandTask extends Task {
     private File outputConfigurationFile;
 
     /** the sets of properties to pass to the graphed project */
-    private final ArrayList<PropertySet> propertySets = new ArrayList<PropertySet>();
+    private final List<PropertySet> propertySets = new ArrayList<PropertySet>();
 
-    private final LinkedList<FilterType> filters = new LinkedList<FilterType>();
+    private final List<FilterType> filters = new LinkedList<FilterType>();
 
     private boolean showGraphName = false;
 
@@ -123,7 +121,7 @@ public class GrandTask extends Task {
         }
 
         if (numFilters > 0) {
-            log("Loaded " + numFilters + (numFilters > 1 ? " filters" : " filter"));
+            log("Loaded " + numFilters + ((numFilters > 1) ? " filters" : " filter"));
         }
 
         try {
@@ -196,10 +194,8 @@ public class GrandTask extends Task {
         // Set the current project listeners to the graphed project
         // in order to get some trace if we need to execute some tasks
         // in the graphed project.
-        final Vector listeners = getProject().getBuildListeners();
-        for (final Iterator iter = listeners.iterator(); iter.hasNext();) {
-            antProject.addBuildListener((BuildListener) iter.next());
-
+        for (final BuildListener listener : getProject().getBuildListeners()) {
+            antProject.addBuildListener(listener);
         }
 
         antProject.init();
@@ -211,7 +207,11 @@ public class GrandTask extends Task {
 
         } else {
             // set all properties from calling project
-            addAlmostAll(antProject, getProject().getProperties());
+            final Properties props = new Properties();
+            for (Map.Entry<String,Object> entry : getProject().getProperties().entrySet()) {
+                props.put(entry.getKey(), entry.getValue());
+            }
+            addAlmostAll(antProject, props);
         }
 
         antProject.setUserProperty("ant.file", buildFile.getAbsolutePath());
@@ -319,8 +319,8 @@ public class GrandTask extends Task {
      * @param props properties to copy to the new project
      * @since Ant 1.6
      */
-    private void addAlmostAll(final Project destProject, final Hashtable props) {
-        final Enumeration e = props.keys();
+    private void addAlmostAll(final Project destProject, final Properties props) {
+        final Enumeration<Object> e = props.keys();
         while (e.hasMoreElements()) {
             final String key = e.nextElement().toString();
             if ("basedir".equals(key) || "ant.file".equals(key)) {

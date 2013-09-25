@@ -45,7 +45,7 @@ import org.apache.tools.ant.Project;
 public class ToNodeFilterType implements GraphFilterType {
 
     private String nodeName;
-    private Project project;
+    private final Project project;
 
     /**
      * 

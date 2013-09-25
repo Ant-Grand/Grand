@@ -28,6 +28,7 @@
 package net.ggtools.grand.ant.taskhelpers;
 
 import java.io.File;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
@@ -220,21 +221,21 @@ public class SubAntHelper extends Task {
     /**
      * @return Returns the properties.
      */
-    public final Vector<Property> getProperties() {
+    public final List<Property> getProperties() {
         return properties;
     }
 
     /**
      * @return Returns the propertySets.
      */
-    public final Vector<PropertySet> getPropertySets() {
+    public final List<PropertySet> getPropertySets() {
         return propertySets;
     }
 
     /**
      * @return Returns the references.
      */
-    public final Vector<Reference> getReferences() {
+    public final List<Reference> getReferences() {
         return references;
     }
 

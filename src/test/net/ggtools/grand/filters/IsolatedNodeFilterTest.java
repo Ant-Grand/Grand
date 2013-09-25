@@ -67,7 +67,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      */
     @Override
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"isolated-node-filter.xml";
+        return TESTCASES_DIR + "isolated-node-filter.xml";
     }
 
     /**

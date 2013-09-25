@@ -87,7 +87,9 @@ public class DotWriter implements GraphWriter {
          * @return the escaped string.
          */
         private static String escapeString(final String str) {
-            if (str == null) { return null; }
+            if (str == null) {
+                return null;
+            }
             return str.replaceAll("(\\\"\\s)", "\\\\\\1");
         }
 

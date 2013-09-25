@@ -54,7 +54,7 @@ public class FilterType {
 
     private String nodeName;
 
-    private Project project;
+    private final Project project;
 
     /**
      * Creates a new filter typ.

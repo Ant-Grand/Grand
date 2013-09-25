@@ -40,8 +40,8 @@ import junit.framework.TestSuite;
  * @author Christophe Labouisse
  */
 public class AllTests {
-
-    private AllTests() {}
+    private AllTests() {
+    }
     
     public static Test suite() {
         final TestSuite suite = new TestSuite("Test for net.ggtools.grand.utils");

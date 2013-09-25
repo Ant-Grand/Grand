@@ -67,7 +67,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      */
     @Override
     protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"missing-node-filter.xml";
+        return TESTCASES_DIR + "missing-node-filter.xml";
     }
 
     /**

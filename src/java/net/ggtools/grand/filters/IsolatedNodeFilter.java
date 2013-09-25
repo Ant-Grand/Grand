@@ -34,6 +34,7 @@ package net.ggtools.grand.filters;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -52,7 +53,7 @@ public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilt
     @Override
     protected Collection<Node> getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
-        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+        final Set<Node> result = new LinkedHashSet<Node>();
 
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             final Node node = iter.next();

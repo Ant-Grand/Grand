@@ -30,6 +30,7 @@ package net.ggtools.grand.graph;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 
@@ -44,15 +45,15 @@ import net.ggtools.grand.log.LoggerManager;
 public class NodeImpl extends AttributeManager implements Node {
     private static final Log log = LoggerManager.getLog(NodeImpl.class);
 
-    private String name;
+    private final String name;
 
-    private Graph graph;
+    private final Graph graph;
 
     private String description;
 
-    private LinkedHashSet<Link> links;
+    private final Set<Link> links;
 
-    private LinkedHashSet<Link> backLinks;
+    private final Set<Link> backLinks;
 
     private String source;
 
@@ -83,7 +84,9 @@ public class NodeImpl extends AttributeManager implements Node {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj) { return true; }
+        if (this == obj) {
+            return true;
+        }
         if (obj instanceof Node) {
             final Node otherNode = (Node) obj;
             return (graph == otherNode.getGraph()) && (name.equals(otherNode.getName()));

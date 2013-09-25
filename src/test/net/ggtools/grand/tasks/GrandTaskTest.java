@@ -71,7 +71,7 @@ public class GrandTaskTest extends AbstractAntTester {
      */
     public void testTaskDefinitionFile() {
         executeTarget("init-old");
-        final Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
+        final Class<?> graphTaskClass = project.getTaskDefinitions().get("grand");
         assertNotNull("grand task class not found", graphTaskClass);
         assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
     }
@@ -83,7 +83,7 @@ public class GrandTaskTest extends AbstractAntTester {
      */
     public void testAntLib() {
         executeTarget("init");
-        final Class graphTaskClass = (Class) project.getTaskDefinitions().get("grand");
+        final Class<?> graphTaskClass = project.getTaskDefinitions().get("grand");
         assertNotNull("grand task class not found", graphTaskClass);
         assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
     }

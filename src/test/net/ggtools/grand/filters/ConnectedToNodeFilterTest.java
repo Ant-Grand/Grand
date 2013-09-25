@@ -34,6 +34,7 @@ package net.ggtools.grand.filters;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -51,7 +52,7 @@ import net.ggtools.grand.utils.AbstractAntTester;
 public class ConnectedToNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
 
-    private static final HashSet<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
+    private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"dist", "test", "jar", "compile", "compile.java",
                     "compile.jni", "compile.cpp", "prepare", "init", "process-config-files",
                     "process-one-config-file"}));

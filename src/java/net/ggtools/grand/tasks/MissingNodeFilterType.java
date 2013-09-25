@@ -44,7 +44,7 @@ import org.apache.tools.ant.Project;
  */
 class MissingNodeFilterType implements GraphFilterType {
 
-    private Project project;
+    private final Project project;
 
     /**
      * Creates a new object.

@@ -39,14 +39,13 @@ import net.ggtools.grand.graph.visit.LinkVisitor;
  * @author Christophe Labouisse
  */
 public class LinkImpl extends AttributeManager implements Link {
+    private final Node startNode;
 
-    private Node startNode;
+    private final Node endNode;
 
-    private Node endNode;
+    private final Graph graph;
 
-    private Graph graph;
-
-    private String name;
+    private final String name;
 
     /**
      * Creates a new Link.
@@ -69,7 +68,7 @@ public class LinkImpl extends AttributeManager implements Link {
      */
     @Override
     public String toString() {
-        return (name == null ? "" : name) + " (" + startNode + " -> " + endNode + ")";
+        return ((name == null) ? "" : name) + " (" + startNode + " -> " + endNode + ")";
     }
 
     /* (non-Javadoc)

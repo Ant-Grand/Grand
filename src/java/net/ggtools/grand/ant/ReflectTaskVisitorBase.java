@@ -48,7 +48,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
     private static final Log log = LoggerManager
             .getLog(ReflectTaskVisitorBase.class);
 
-    private static final Class[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
+    private static final Class<?>[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
 
     private final Map<String, Method> methodCache = new HashMap<String, Method>();
 

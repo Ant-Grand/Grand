@@ -34,6 +34,7 @@ package net.ggtools.grand.graph;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * Walks a graph starting from a specific node to find all the nodes
@@ -44,8 +45,8 @@ import java.util.LinkedList;
 public class GraphCrawler {
     
     @SuppressWarnings("unused")
-    private Graph graph;
-    private LinkFinder finder;
+    private final Graph graph;
+    private final LinkFinder finder;
 
     /**
      * Creates a new crawler.
@@ -75,7 +76,7 @@ public class GraphCrawler {
      * @return a collection containing the traversed nodes.
      */
     public Collection<Node> crawl(final Node startNode) {
-        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+        final Set<Node> result = new LinkedHashSet<Node>();
         final LinkedList<Node> nodesToVisit = new LinkedList<Node>();
         nodesToVisit.add(startNode);
         

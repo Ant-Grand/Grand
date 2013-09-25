@@ -77,8 +77,8 @@ public abstract class AbstractAntTester extends BuildFileTest {
 
         if (tempFile != null) {
             if (testOk || Boolean.parseBoolean(System.getProperty("CleanupOnError", "false"))) {
-                final File f = new File(tempFile);
-                f.delete();
+                final File file = new File(tempFile);
+                file.delete();
             }
         }
     }
@@ -133,7 +133,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
         } catch (final Throwable t) {
             System.err.println("Ooops test failed: " + getName() + " "
                     + project.getProperty(TEMP_FILE_PROP));
-            System.err.println("Log was: "+getLog());
+            System.err.println("Log was: " + getLog());
             testOk = false;
             throw t;
         }

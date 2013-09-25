@@ -59,7 +59,7 @@ public class GraphImpl implements Graph {
         @SuppressWarnings("unused")
         private final Log log = LoggerManager.getLog(NodeIterator.class);
 
-        private Iterator<Node> underlying;
+        private final Iterator<Node> underlying;
 
         /**
          * @param iterator
@@ -167,8 +167,9 @@ public class GraphImpl implements Graph {
     public Node createNode(final SubGraph subGraph, final String nodeName)
             throws DuplicateElementException {
         // We don't want to create a node if it's not gonna be inserted.
-        if (subGraph.hasNode(nodeName)) { throw new DuplicateElementException(
-                "Creating two nodes named " + nodeName); }
+        if (subGraph.hasNode(nodeName)) {
+            throw new DuplicateElementException("Creating two nodes named " + nodeName);
+        }
         final Node node = getFactory().createNode(nodeName);
         subGraph.addNode(node);
         return node;

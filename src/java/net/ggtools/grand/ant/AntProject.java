@@ -31,7 +31,6 @@ import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -82,7 +81,7 @@ public class AntProject implements GraphProducer {
          * @throws SecurityException
          */
         public GetterConditionHelper() throws SecurityException, NoSuchMethodException {
-            final Class[] parameters = new Class[]{};
+            final Class<?>[] parameters = new Class[]{};
             Target.class.getMethod("getIf", parameters);
             Target.class.getMethod("getUnless", parameters);
         }
@@ -307,9 +306,8 @@ public class AntProject implements GraphProducer {
         log.info("Parsing from " + source);
         antProject = new Project();
         if (properties != null) {
-            for (final Object element : properties.entrySet()) {
-                final Map.Entry entry = (Map.Entry) element;
-                antProject.setProperty((String) entry.getKey(), (String) entry.getValue());
+            for (final Map.Entry<Object,Object> element : properties.entrySet()) {
+                antProject.setProperty((String) element.getKey(), (String) element.getValue());
             }
         }
         antProject.setSystemProperties();
@@ -413,8 +411,7 @@ public class AntProject implements GraphProducer {
         final AntGraph graph = new AntGraph(antProject);
 
         // First pass, create the nodes.
-        for (final Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
-            final Target target = (Target) iter.next();
+        for (final Target target : antProject.getTargets().values()) {
             if (target.getName().equals("")) {
                 continue;
             }
@@ -445,18 +442,17 @@ public class AntProject implements GraphProducer {
         }
 
         // Second pass, create the links
-        for (final Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
-            final Target target = (Target) iter.next();
+        for (final Target target : antProject.getTargets().values()) {
             if (target.getName().equals("")) {
                 continue;
             }
 
-            final Enumeration deps = target.getDependencies();
+            final Enumeration<String> deps = target.getDependencies();
             final String startNodeName = target.getName();
             final AntTargetNode startNode = (AntTargetNode) graph.getNode(startNodeName);
 
             while (deps.hasMoreElements()) {
-                createLink(graph, null, startNode, (String) deps.nextElement());
+                createLink(graph, null, startNode, deps.nextElement());
             }
 
             taskLinkFinder.setGraph(graph);

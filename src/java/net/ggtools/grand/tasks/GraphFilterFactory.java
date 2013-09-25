@@ -79,21 +79,22 @@ final class GraphFilterFactory {
 
         final String filterClassName = CONFIGURATION.getProperty(name);
 
-        if (filterClassName == null) { throw new BuildException("Filter " + name
-                + " not configured"); }
+        if (filterClassName == null) {
+            throw new BuildException("Filter " + name + " not configured");
+        }
 
         project.log("Using " + filterClassName, Project.MSG_DEBUG);
 
-        Class filterClass;
+        final Class<?> filterClass;
         try {
             filterClass = Class.forName(filterClassName);
         } catch (final ClassNotFoundException e) {
             throw new BuildException("Cannot find filter class", e);
         }
 
-        Constructor constructor;
+        final Constructor<?> constructor;
         try {
-            constructor = filterClass.getConstructor(new Class[]{Project.class});
+            constructor = filterClass.getConstructor(new Class<?>[]{Project.class});
         } catch (final SecurityException e) {
             final String message = "Cannot access constructor for class " + filterClassName;
             project.log(message, Project.MSG_ERR);
@@ -104,7 +105,7 @@ final class GraphFilterFactory {
             throw new BuildException(message, e);
         }
 
-        GraphFilterType filter;
+        final GraphFilterType filter;
         try {
             filter = (GraphFilterType) constructor.newInstance(new Object[]{project});
         } catch (final IllegalArgumentException e) {

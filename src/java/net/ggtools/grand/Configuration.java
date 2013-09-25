@@ -137,7 +137,8 @@ public class Configuration {
 
         if (antVersionStream != null) {
             antProperties.load(antVersionStream);
-            antVersionString = antProperties.getProperty("VERSION")+" ("+antProperties.getProperty("DATE","Unknown")+")";
+            antVersionString = antProperties.getProperty("VERSION")
+                    + " (" + antProperties.getProperty("DATE","Unknown") + ")";
         }
         else {
             antVersionString = null;

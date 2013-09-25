@@ -55,6 +55,7 @@
 package org.apache.tools.ant;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 
@@ -414,10 +415,10 @@ public abstract class BuildFileTest extends TestCase {
     /**
      * an output stream which saves stuff to our buffer.
      */
-    private static class AntOutputStream extends java.io.OutputStream {
-        private StringBuffer buffer;
+    private static class AntOutputStream extends OutputStream {
+        private final StringBuffer buffer;
         
-        public AntOutputStream( final StringBuffer buffer ) {
+        public AntOutputStream(final StringBuffer buffer) {
             this.buffer = buffer;
         }
         
@@ -431,7 +432,7 @@ public abstract class BuildFileTest extends TestCase {
      * our own personal build listener
      */
     private class AntTestListener implements BuildListener {
-        private int logLevel;
+        private final int logLevel;
 
         /**
          * Constructs a test listener which will ignore log events

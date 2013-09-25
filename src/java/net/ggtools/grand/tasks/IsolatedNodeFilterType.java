@@ -44,7 +44,7 @@ import org.apache.tools.ant.Project;
  */
 class IsolatedNodeFilterType implements GraphFilterType {
 
-    private Project project;
+    private final Project project;
 
     /**
      * Creates a new object.
