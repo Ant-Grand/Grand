@@ -1,4 +1,4 @@
-// $Id:  $
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
@@ -46,6 +46,9 @@ public class AntProjectFromFileTest extends AntProjectTest {
         super(arg0);
     }
 
+    /**
+     * Method createGraph.
+     */
     @Override
     protected void createGraph() {
         try {

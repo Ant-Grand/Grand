@@ -43,6 +43,9 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * @author Christophe Labouisse
  */
 public class IsolatedNodeFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
     
     /**
@@ -53,7 +56,8 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
         super(name);
     }
 
-    /*
+    /**
+     * Method setUp.
      * @see TestCase#setUp()
      */
     @Override
@@ -62,7 +66,9 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
         producer = new AntProject(project);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -71,8 +77,9 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
     }
 
     /**
-     * Check the full graph completness.
+     * Check the full graph completeness.
      *
+     * @throws GrandException
      */
     public void testFullGraph() throws GrandException {
         final Graph graph = producer.getGraph();
@@ -89,6 +96,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * Process the full graph through an IsolatedNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
      *
+     * @throws GrandException
      */
     public void testFilter() throws GrandException {
         final GraphFilter filter = new IsolatedNodeFilter();
@@ -107,6 +115,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * Process the full graph through an IsolatedNodeFilter and check that a connected
      * node as start node is not removed.
      *
+     * @throws GrandException
      */
     public void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new IsolatedNodeFilter();

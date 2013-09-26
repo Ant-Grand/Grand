@@ -46,12 +46,25 @@ public class FilterChainTest extends TestCase {
      * @author Christophe Labouisse
      */
     private final class DummyProducer implements GraphProducer {
+        /**
+         * Field graph.
+         */
         private final GraphImpl graph;
 
+        /**
+         * Constructor for DummyProducer.
+         * @param name String
+         */
         public DummyProducer(final String name) {
             graph = new GraphImpl(name);
         }
 
+        /**
+         * Method getGraph.
+         * @return Graph
+         * @throws GrandException
+         * @see net.ggtools.grand.graph.GraphProducer#getGraph()
+         */
         public Graph getGraph() throws GrandException {
             return graph;
         }
@@ -64,50 +77,106 @@ public class FilterChainTest extends TestCase {
      * @author Christophe Labouisse
      */
     private final class DummyFilter implements GraphFilter {
+        /**
+         * Field name.
+         */
         private final String name;
 
+        /**
+         * Field producer.
+         */
         private GraphProducer producer;
 
+        /**
+         * Constructor for DummyFilter.
+         * @param name String
+         */
         public DummyFilter(final String name) {
             this.name = name;
 
         }
 
+        /**
+         * Method getGraph.
+         * @return Graph
+         * @throws GrandException
+         * @see net.ggtools.grand.graph.GraphProducer#getGraph()
+         */
         public Graph getGraph() throws GrandException {
             traceBuffer.append(name);
             return producer.getGraph();
         }
 
+        /**
+         * Method setProducer.
+         * @param producer GraphProducer
+         * @see net.ggtools.grand.graph.GraphConsumer#setProducer(GraphProducer)
+         */
         public void setProducer(final GraphProducer producer) {
             this.producer = producer;
         }
 
+        /**
+         * Method getName.
+         * @return String
+         * @see net.ggtools.grand.filters.GraphFilter#getName()
+         */
         public String getName() {
             return name;
         }
     }
 
+    /**
+     * Field filter1.
+     */
     private GraphFilter filter1;
 
+    /**
+     * Field filter2.
+     */
     private GraphFilter filter2;
 
+    /**
+     * Field filter3.
+     */
     private GraphFilter filter3;
 
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
+    /**
+     * Field traceBuffer.
+     */
     private final StringBuffer traceBuffer = new StringBuffer();
 
+    /**
+     * Field filterChain.
+     */
     private FilterChain filterChain;
 
+    /**
+     * Method testUnitializedChain.
+     * @throws GrandException
+     */
     public final void testUnitializedChain() throws GrandException {
         assertNull(filterChain.getGraph());
     }
 
+    /**
+     * Method testEmptyChain.
+     * @throws GrandException
+     */
     public final void testEmptyChain() throws GrandException {
         filterChain.setProducer(producer);
         assertSame("Both graphs should be the same",producer.getGraph(),filterChain.getGraph());
     }
     
+    /**
+     * Method testOneFilter.
+     * @throws GrandException
+     */
     public final void testOneFilter() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
@@ -116,6 +185,10 @@ public class FilterChainTest extends TestCase {
     }
 
 
+    /**
+     * Method testAddFilterFirst.
+     * @throws GrandException
+     */
     public final void testAddFilterFirst() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
@@ -127,6 +200,10 @@ public class FilterChainTest extends TestCase {
         assertEquals("123123",traceBuffer.toString());
     }
 
+    /**
+     * Method testAddFilterLast.
+     * @throws GrandException
+     */
     public final void testAddFilterLast() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterLast(filter1);
@@ -138,6 +215,10 @@ public class FilterChainTest extends TestCase {
         assertEquals("321321",traceBuffer.toString());
     }
 
+    /**
+     * Method testClearFilters.
+     * @throws GrandException
+     */
     public final void testClearFilters() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
@@ -150,7 +231,8 @@ public class FilterChainTest extends TestCase {
         assertEquals("Trace should not have changed","123",traceBuffer.toString());
     }
 
-    /*
+    /**
+     * Method setUp.
      * @see TestCase#setUp()
      */
     @Override

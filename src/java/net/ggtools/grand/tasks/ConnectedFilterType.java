@@ -38,13 +38,19 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class ConnectedFilterType implements GraphFilterType {
 
+    /**
+     * Field nodeName.
+     */
     private String nodeName;
+    /**
+     * Field project.
+     */
     private final Project project;
 
     /**
@@ -55,7 +61,9 @@ public class ConnectedFilterType implements GraphFilterType {
         project = antProject;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method checkParameters.
+     * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
     public void checkParameters() throws BuildException {
@@ -66,14 +74,18 @@ public class ConnectedFilterType implements GraphFilterType {
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getFilter.
+     * @return GraphFilter
      * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
      */
     public GraphFilter getFilter() {
         return new ConnectedToNodeFilter(nodeName);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setNodeName.
+     * @param name String
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
     public void setNodeName(final String name) {

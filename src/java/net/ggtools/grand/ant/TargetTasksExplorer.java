@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,17 +44,23 @@ import org.apache.tools.ant.Task;
 /**
  * A class to recursively explore the tasks of a target to rebuild the source
  * code.
- * 
+ *
  * @author Christophe Labouisse
  */
 class TargetTasksExplorer {
+    /**
+     * Field log.
+     */
     private static final Log log = LoggerManager.getLog(TargetTasksExplorer.class);
 
+    /**
+     * Field textElements.
+     */
     private List<SourceElement> textElements;
 
     /**
      * Creates a new TargetTasksExplorer instance for a specific project.
-     * 
+     *
      * @param antProject
      *            associated project.
      */
@@ -63,8 +69,9 @@ class TargetTasksExplorer {
 
     /**
      * Rebuild a node source by exploring
-     * 
+     *
      * @param target
+     * @param node AntTargetNode
      */
     public void exploreTarget(final AntTargetNode node, final Target target) {
         log.trace("Exploring target " + target.getName());
@@ -149,6 +156,11 @@ class TargetTasksExplorer {
         node.setSource(buffer.toString());
     }
 
+    /**
+     * Method exploreTask.
+     * @param wrapper RuntimeConfigurable
+     * @param level int
+     */
     private void exploreTask(final RuntimeConfigurable wrapper, final int level) {
         indent(level);
         addText("<", AntTargetNode.SOURCE_MARKUP);
@@ -198,10 +210,19 @@ class TargetTasksExplorer {
         }
     }
 
+    /**
+     * Method addText.
+     * @param text String
+     * @param style int
+     */
     private void addText(final String text, final int style) {
         textElements.add(new SourceElement(text, style));
     }
 
+    /**
+     * Method indent.
+     * @param level int
+     */
     private void indent(final int level) {
         final StringBuffer buffer = new StringBuffer(level * 4);
         for (int i = 0; i < level; i++) {

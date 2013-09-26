@@ -39,12 +39,17 @@ import org.apache.tools.ant.BuildException;
  */
 public class GrandTaskTest extends AbstractAntTester {
 
+    /**
+     * Constructor for GrandTaskTest.
+     * @param name String
+     */
     public GrandTaskTest(final String name) {
         super(name);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -52,6 +57,9 @@ public class GrandTaskTest extends AbstractAntTester {
         return TESTCASES_DIR + "grand-task.xml";
     }
 
+    /**
+     * Method testSuitability.
+     */
     public void testSuitability() {
         boolean suitable;
 
@@ -66,7 +74,7 @@ public class GrandTaskTest extends AbstractAntTester {
     }
 
     /**
-     * Tests if the task.properties ressource file creates the grand test.
+     * Tests if the task.properties resource file creates the grand test.
      * 
      */
     public void testTaskDefinitionFile() {
@@ -88,16 +96,26 @@ public class GrandTaskTest extends AbstractAntTester {
         assertEquals("Wrong class found for task", GrandTask.class, graphTaskClass);
     }
 
+    /**
+     * Method testNoParam.
+     */
     public void testNoParam() {
         expectBuildException("test-no-param", "required attribute missing");
     }
 
+    /**
+     * Method testCurrentProject.
+     */
     public void testCurrentProject() {
         expectLogContaining("test-current-project", "Using current project");
         assertLogContaining("Writing output to ");
         assertNotNull("temp.file property", project.getProperty(TEMP_FILE_PROP));
     }
 
+    /**
+     * Method testOverride.
+     * @throws IOException
+     */
     public void testOverride() throws IOException {
         expectLogContaining("output-config-file", "Overriding default properties from ");
         assertLogContaining("build-simple.xml");
@@ -105,6 +123,10 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/override.dot");
     }
 
+    /**
+     * Method testSimpleBuild.
+     * @throws IOException
+     */
     public void testSimpleBuild() throws IOException {
         expectLogContaining("simple-build", "Loading project ");
         assertLogContaining("build-simple.xml");
@@ -112,6 +134,10 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-simple.dot");
     }
 
+    /**
+     * Method testSimpleBuildWithGraphName.
+     * @throws IOException
+     */
     public void testSimpleBuildWithGraphName() throws IOException {
         expectLogContaining("simple-build-with-graph-name", "Loading project ");
         assertLogContaining("build-simple.xml");
@@ -119,6 +145,10 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-simple-with-graph-name.dot");
     }
 
+    /**
+     * Method testImport.
+     * @throws IOException
+     */
     public void testImport() throws IOException {
         expectLogContaining("import", "Loading project ");
         assertLogContaining("build-import.xml");
@@ -126,6 +156,10 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-import.dot");
     }
 
+    /**
+     * Method testAntCall.
+     * @throws IOException
+     */
     public void testAntCall() throws IOException {
         expectLogContaining("antcall", "Loading project ");
         assertLogContaining("build-complex.xml");
@@ -133,6 +167,10 @@ public class GrandTaskTest extends AbstractAntTester {
         assertTempFileMatchExpected("src/etc/testcases/build-complex.dot");
     }
 
+    /**
+     * Method testSubant.
+     * @throws IOException
+     */
     public void testSubant() throws IOException {
         expectLogContaining("subant", "Loading project ");
         assertLogContaining("subant.xml");
@@ -147,6 +185,9 @@ public class GrandTaskTest extends AbstractAntTester {
         }
     }
 
+    /**
+     * Method testNonExistentDefaultTarget.
+     */
     public void testNonExistentDefaultTarget() {
         expectLogContaining("non-existent-default-target", "Loading project ");
         assertLogContaining("non-existent-default-target.xml");

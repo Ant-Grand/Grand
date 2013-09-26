@@ -42,13 +42,16 @@ import net.ggtools.grand.graph.Node;
 
 /**
  * A filter to remove isolated nodes in a graph.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+    /**
+     * Method getFilteredNodes.
+     * @return Collection<Node>
+     * @throws GrandException
+     * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override
     protected Collection<Node> getFilteredNodes() throws GrandException {

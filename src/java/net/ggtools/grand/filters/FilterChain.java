@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -37,21 +37,33 @@ import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphProducer;
 
 /**
- * A <i>metafilter </i> made by chaining together several filters. The behaviour
+ * A <i>metafilter</i> made by chaining together several filters. The behaviour
  * of an empty chain is to behave like an identity filter.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class FilterChain implements GraphFilter {
 
+    /**
+     * Field filterList.
+     */
     private final LinkedList<GraphFilter> filterList = new LinkedList<GraphFilter>();
 
+    /**
+     * Field lastFilter.
+     */
     private GraphProducer lastFilter = null;
 
+    /**
+     * Field name.
+     */
     private String name;
 
+    /**
+     * Field producer.
+     */
     private GraphProducer producer = null;
-    
+
     /**
      * Creates an <i>anonymous</i> filter chain.
      *
@@ -59,10 +71,10 @@ public class FilterChain implements GraphFilter {
     public FilterChain() {
         this("Anonymous");
     }
-    
+
     /**
      * Creates a named filter chain.
-     * 
+     *
      * @param name
      */
     public FilterChain(final String name) {
@@ -71,7 +83,7 @@ public class FilterChain implements GraphFilter {
 
     /**
      * Add a new filter at the beginning of the chain.
-     * 
+     *
      * @param newFilter
      */
     public void addFilterFirst(final GraphFilter newFilter) {
@@ -92,7 +104,7 @@ public class FilterChain implements GraphFilter {
 
     /**
      * Adds a new filter at the end of the chain.
-     * 
+     *
      * @param newFilter
      */
     public void addFilterLast(final GraphFilter newFilter) {
@@ -103,24 +115,26 @@ public class FilterChain implements GraphFilter {
 
     /**
      * Removes all the filters in the chain.
-     *  
+     *
      */
     public void clearFilters() {
         filterList.clear();
         lastFilter = producer;
     }
-    
+
     /**
      * Returns a list of the filter in the chain.
+     *
      * @return a readonly list of the filters.
      */
     public List<GraphFilter> getFilterList() {
         return Collections.unmodifiableList(filterList);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method getGraph.
+     * @return Graph
+     * @throws GrandException
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
     public Graph getGraph() throws GrandException {
@@ -135,16 +149,18 @@ public class FilterChain implements GraphFilter {
         return filteredGraph;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getName.
+     * @return String
      * @see net.ggtools.grand.filters.GraphFilter#getName()
      */
     public String getName() {
         return name;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method setProducer.
+     * @param newProducer GraphProducer
      * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
     public void setProducer(final GraphProducer newProducer) {

@@ -38,26 +38,45 @@ import org.apache.tools.ant.BuildFileTest;
  * tearDown method removing temporary file after running a test.
  * 
  * This clean up is disabled is the test fails. However this behaviour can be
- * overriden by setting the <code>CleanupOnError</code> system property to
+ * overridden by setting the <code>CleanupOnError</code> system property to
  * <code>true</code>.
  * 
  * @author Christophe Labouisse
  */
 public abstract class AbstractAntTester extends BuildFileTest {
+    /**
+     * Field JUNIT_TEST_NAME.
+     * (value is ""junit.test.name"")
+     */
     protected static final String JUNIT_TEST_NAME = "junit.test.name";
 
+    /**
+     * Field TEMP_FILE_PROP.
+     * (value is ""temp.file"")
+     */
     protected static final String TEMP_FILE_PROP = "temp.file";
 
+    /**
+     * Field TESTCASES_DIR.
+     * (value is ""src/etc/testcases/"")
+     */
     protected static final String TESTCASES_DIR = "src/etc/testcases/";
 
+    /**
+     * Field testOk.
+     */
     private boolean testOk = true;
 
+    /**
+     * Constructor for AbstractAntTester.
+     * @param name String
+     */
     public AbstractAntTester(final String name) {
         super(name);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setUp.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -67,8 +86,8 @@ public abstract class AbstractAntTester extends BuildFileTest {
         project.setProperty(JUNIT_TEST_NAME, getName());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method tearDown.
      * @see junit.framework.TestCase#tearDown()
      */
     @Override
@@ -107,6 +126,10 @@ public abstract class AbstractAntTester extends BuildFileTest {
         comparator.assertLinesMatch();
     }
 
+    /**
+     * Method assertFullLogContaining.
+     * @param substring String
+     */
     protected void assertFullLogContaining(final String substring) {
         final String realLog = getFullLog();
         assertTrue("expecting full log to contain \"" + substring + "\" full log was \"" + realLog
@@ -116,14 +139,17 @@ public abstract class AbstractAntTester extends BuildFileTest {
     /**
      * Assert that the given message has been logged when running the given
      * target.
+     * @param target String
+     * @param log String
      */
     protected void expectFullLogContaining(final String target, final String log) {
         executeTarget(target);
         assertFullLogContaining(log);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method runTest.
+     * @throws Throwable
      * @see junit.framework.TestCase#runTest()
      */
     @Override

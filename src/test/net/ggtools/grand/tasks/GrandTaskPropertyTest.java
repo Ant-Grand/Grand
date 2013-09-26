@@ -1,4 +1,4 @@
-// $Id: GrandTaskTest.java 254 2004-02-06 06:37:35Z moi $
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
@@ -35,11 +35,17 @@ import net.ggtools.grand.utils.AbstractAntTester;
  */
 public class GrandTaskPropertyTest extends AbstractAntTester {
 
+    /**
+     * Constructor for GrandTaskPropertyTest.
+     * @param name String
+     */
     public GrandTaskPropertyTest(final String name) {
         super(name);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     @Override

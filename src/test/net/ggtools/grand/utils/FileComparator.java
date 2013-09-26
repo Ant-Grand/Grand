@@ -44,8 +44,14 @@ import junit.framework.Assert;
  * @author Christophe Labouisse
  */
 public class FileComparator extends Assert {
+    /**
+     * Field source.
+     */
     private final File source;
 
+    /**
+     * Field dest.
+     */
     private final File dest;
 
     /**
@@ -91,7 +97,7 @@ public class FileComparator extends Assert {
             }
             
             // Since both files have the same length and are identical
-            // so far, it should not happend.
+            // so far, it should not happen.
             assert ((srcLine != null) && (dstLine != null));
             
             assertEquals("Files differ on line " + line,srcLine,dstLine);

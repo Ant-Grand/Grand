@@ -38,13 +38,16 @@ import net.ggtools.grand.graph.LinkFinder;
 /**
  * A graph filter returning all nodes connected to a specific node
  * be it through forward or backward links (or both).
- * 
+ *
  * @author Christophe Labouisse
  */
 public class ConnectedToNodeFilter extends GraphWalkFilter implements GraphFilter {
 
+    /**
+     * Field linkFinder.
+     */
     private final LinkFinder linkFinder = new ConnectedNodesFinder();
-    
+
     /**
      * Creates a new filter.
      * @param nodeName node to search from.
@@ -53,7 +56,9 @@ public class ConnectedToNodeFilter extends GraphWalkFilter implements GraphFilte
         super(nodeName);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getLinkFinder.
+     * @return LinkFinder
      * @see net.ggtools.grand.filters.GraphWalkFilter#getLinkFinder()
      */
     @Override

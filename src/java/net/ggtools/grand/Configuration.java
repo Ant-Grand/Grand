@@ -1,19 +1,18 @@
-// $Id: /grand/local/Grand/src/java/net/ggtools/grand/Configuration.java 146
-// 2004-07-20T23:05:53.903912Z moi $
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -37,22 +36,35 @@ import java.util.Properties;
 
 /**
  * A singleton class for configuration.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class Configuration {
 
+    /**
+     * Field ANT_VERSION_TXT.
+     * (value is ""/org/apache/tools/ant/version.txt"")
+     */
     private static final String ANT_VERSION_TXT = "/org/apache/tools/ant/version.txt";
 
+    /**
+     * Field defaultConfiguration.
+     */
     private static Configuration defaultConfiguration;
 
+    /**
+     * Field defaultProperties.
+     */
     private static Properties defaultProperties;
 
+    /**
+     * Field defaultPropertiesMonitor.
+     */
     private static final Object defaultPropertiesMonitor = new Object();
 
     /**
      * Get a configuration with the default values.
-     * 
+     *
      * @return new configuration
      * @throws IOException
      *             if the default properties were not loadable.
@@ -67,7 +79,7 @@ public class Configuration {
 
     /**
      * Returns an new configuration overriding some parameters from a file.
-     * 
+     *
      * @param propFile
      *            override file
      * @return new configuration
@@ -82,7 +94,7 @@ public class Configuration {
 
     /**
      * Returns a new configuration overriding some parameters.
-     * 
+     *
      * @param override
      *            the properties to override.
      * @return new configuration
@@ -101,19 +113,31 @@ public class Configuration {
         return new Configuration(override);
     }
 
+    /**
+     * Field antVersionString.
+     */
     private final String antVersionString;
 
+    /**
+     * Field buildProperties.
+     */
     private final Properties buildProperties;
 
+    /**
+     * Field properties.
+     */
     private final Properties properties;
 
+    /**
+     * Field versionString.
+     */
     private final String versionString;
 
     /**
      * Creates a new configuration. The new object's get methods will return
      * values from the supplied properties if the demanded key exists or from
      * the default properties in other case.
-     * 
+     *
      * @param override
      *            properties to override in the default configuration.
      * @throws IOException
@@ -147,7 +171,7 @@ public class Configuration {
 
     /**
      * Get a parameter as a String.
-     * 
+     *
      * @param key
      *            parameter to look for.
      * @return parameter value.
@@ -156,6 +180,10 @@ public class Configuration {
         return properties.getProperty(key);
     }
 
+    /**
+     * Method getAntVersionString.
+     * @return String
+     */
     public String getAntVersionString() {
         return antVersionString;
     }

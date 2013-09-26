@@ -43,13 +43,16 @@ import net.ggtools.grand.graph.Node;
 /**
  * A filter removing the <i>missing</i> nodes, that is nodes with
  * {@link net.ggtools.grand.graph.Node#ATTR_MISSING_NODE} set.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilter {
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+    /**
+     * Method getFilteredNodes.
+     * @return Collection<Node>
+     * @throws GrandException
+     * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override
     protected Collection<Node> getFilteredNodes() throws GrandException {

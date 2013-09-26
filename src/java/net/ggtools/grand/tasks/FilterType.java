@@ -42,23 +42,38 @@ import org.apache.tools.ant.Project;
  * enclosing task need to call the {@link #checkParameters()} method
  * to check if the filter is properly configured and {@link #getFilter()}
  * to get the actual graph filter.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class FilterType {
+    /**
+     * Field filterFactory.
+     */
     private static final GraphFilterFactory filterFactory = new GraphFilterFactory();
 
+    /**
+     * Field filter.
+     */
     private GraphFilterType filter;
 
+    /**
+     * Field filterName.
+     */
     private String filterName;
 
+    /**
+     * Field nodeName.
+     */
     private String nodeName;
 
+    /**
+     * Field project.
+     */
     private final Project project;
 
     /**
-     * Creates a new filter typ.
-     * 
+     * Creates a new filter type.
+     *
      * @param prj the owner's project.
      */
     public FilterType(final Project prj) {
@@ -80,8 +95,8 @@ public class FilterType {
     }
 
     /**
-     * Cheks if the filter parameters are correct.
-     * 
+     * Checks if the filter parameters are correct.
+     *
      * @throws BuildException if the parameters are not ok
      */
     void checkParameters() throws BuildException {
@@ -96,7 +111,7 @@ public class FilterType {
 
     /**
      * Return the actual filter after creating it if needed.
-     * 
+     *
      * @return the actual filter.
      */
     public GraphFilter getFilter() {
@@ -106,7 +121,7 @@ public class FilterType {
 
     /**
      * Sets the filter's name
-     * 
+     *
      * @param name filter's name
      */
     public void setName(final String name) {
@@ -115,7 +130,7 @@ public class FilterType {
 
     /**
      * Sets the filter's node name.
-     * 
+     *
      * @param node node's name.
      */
     public void setNode(final String node) {

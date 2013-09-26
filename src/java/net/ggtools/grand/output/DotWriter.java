@@ -51,10 +51,10 @@ import org.apache.commons.logging.Log;
 
 /**
  * A class to write dependency graph in dot format.
- * 
+ *
  * The rendering can be customized either by properties at object creation or
- * at runtime usign various setters.
- * 
+ * at runtime using various setters.
+ *
  * The property names use the following scheme: <code>dot.<i>objecttype</i>.attributes</code>.
  * Where <i>objectype</i> can be:
  * <ul>
@@ -65,12 +65,12 @@ import org.apache.commons.logging.Log;
  * <li><code>startnode</code> for the start node,</li>
  * <li>and <code>graph</code> for the graph itself.</li>
  * </ul>
- * 
+ *
  * The property values are sets of valid dot attributes without the surrounding
  * bracket.
- * 
- * @TODO The current configuration scheme sucks create something more generic.
- * 
+ *
+ * @todo The current configuration scheme sucks create something more generic.
+ *
  * @author Christophe Labouisse
  * @see <a href="http://www.research.att.com/sw/tools/graphviz/">Graphviz home page</a>
  * @see <a href="http://www.research.att.com/~erg/graphviz/info/attrs.html">Dot attributes</a>
@@ -82,7 +82,7 @@ public class DotWriter implements GraphWriter {
     private static class Output implements DotWriterOutput {
         /**
          * Escapes a string from special dot chars.
-         * 
+         *
          * @param str string to escape.
          * @return the escaped string.
          */
@@ -93,17 +93,23 @@ public class DotWriter implements GraphWriter {
             return str.replaceAll("(\\\"\\s)", "\\\\\\1");
         }
 
-
+        /**
+         * Field writer.
+         */
         private final PrintWriter writer;
 
         /**
-         * 
+         *
+         * @param stream OutputStream
          */
         private Output(final OutputStream stream) {
             writer = new PrintWriter(stream);
         }
 
-        /* (non-Javadoc)
+        /**
+         * Method append.
+         * @param strValue String
+         * @return DotWriterOutput
          * @see net.ggtools.grand.output.DotWriterOutput#append(java.lang.String)
          */
         public DotWriterOutput append(final String strValue) {
@@ -111,7 +117,10 @@ public class DotWriter implements GraphWriter {
             return this;
         }
 
-        /* (non-Javadoc)
+        /**
+         * Method appendEscaped.
+         * @param strValue String
+         * @return DotWriterOutput
          * @see net.ggtools.grand.output.DotWriterOutput#appendEscaped(java.lang.String)
          */
         public DotWriterOutput appendEscaped(final String strValue) {
@@ -119,7 +128,10 @@ public class DotWriter implements GraphWriter {
             return this;
         }
 
-        /* (non-Javadoc)
+        /**
+         * Method append.
+         * @param intValue int
+         * @return DotWriterOutput
          * @see net.ggtools.grand.output.DotWriterOutput#append(int)
          */
         public DotWriterOutput append(final int intValue) {
@@ -127,7 +139,9 @@ public class DotWriter implements GraphWriter {
             return this;
         }
 
-        /* (non-Javadoc)
+        /**
+         * Method newLine.
+         * @return DotWriterOutput
          * @see net.ggtools.grand.output.DotWriterOutput#newLine()
          */
         public DotWriterOutput newLine() {
@@ -135,27 +149,63 @@ public class DotWriter implements GraphWriter {
             return this;
         }
 
+        /**
+         * Method close.
+         */
         private void close() {
             writer.close();
         }
     }
+    /**
+     * Field log.
+     */
     private static final Log log = LoggerManager.getLog(DotWriter.class);
+    /**
+     * Field DOT_GRAPH_ATTRIBUTES.
+     * (value is ""dot.graph.attributes"")
+     */
     private static final String DOT_GRAPH_ATTRIBUTES = "dot.graph.attributes";
 
+    /**
+     * Field DOT_LINK_ATTRIBUTES.
+     * (value is ""dot.link.attributes"")
+     */
     private static final String DOT_LINK_ATTRIBUTES = "dot.link.attributes";
 
 
+    /**
+     * Field DOT_NODE_ATTRIBUTES.
+     * (value is ""dot.node.attributes"")
+     */
     private static final String DOT_NODE_ATTRIBUTES = "dot.node.attributes";
+    /**
+     * Field graphAttributes.
+     */
     private String graphAttributes;
 
+    /**
+     * Field linkAttributes.
+     */
     private String linkAttributes;
 
+    /**
+     * Field nodeAttributes.
+     */
     private String nodeAttributes;
 
+    /**
+     * Field config.
+     */
     private final Configuration config;
 
+    /**
+     * Field graphProducer.
+     */
     private GraphProducer graphProducer;
 
+    /**
+     * Field showGraphName.
+     */
     private boolean showGraphName;
 
     /**
@@ -169,7 +219,7 @@ public class DotWriter implements GraphWriter {
     /**
      * Creates a new DotWriter with custom properties. No
      * overriding will take place if override is null.
-     * 
+     *
      * @param override
      *            custom configuration.
      * @throws IOException when the configuration cannot be loaded.
@@ -181,10 +231,12 @@ public class DotWriter implements GraphWriter {
         nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.File)
+    /**
+     * Method write.
+     * @param output File
+     * @throws IOException
+     * @throws GrandException
+     * @see net.ggtools.grand.graph.GraphWriter#write(java.io.File)
      */
     public void write(final File output) throws IOException, GrandException {
         log.info("Outputing to " + output);
@@ -194,10 +246,11 @@ public class DotWriter implements GraphWriter {
         oStream.close();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ggtools.dependgraph.GraphWriter#Write(java.io.OutputStream)
+    /**
+     * Method write.
+     * @param stream OutputStream
+     * @throws GrandException
+     * @see net.ggtools.grand.graph.GraphWriter#write(java.io.OutputStream)
      */
     public void write(final OutputStream stream) throws GrandException {
         final Output output = new Output(stream);
@@ -229,20 +282,24 @@ public class DotWriter implements GraphWriter {
             }
             node.accept(visitor);
         }
-        
+
         output.append("}").newLine();
-        
+
         output.close();
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
+    /**
+     * Method setProducer.
+     * @param producer GraphProducer
+     * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
     public void setProducer(final GraphProducer producer) {
         graphProducer = producer;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setShowGraphName.
+     * @param show boolean
      * @see net.ggtools.grand.graph.GraphWriter#setShowGraphName(boolean)
      */
     public void setShowGraphName(final boolean show) {

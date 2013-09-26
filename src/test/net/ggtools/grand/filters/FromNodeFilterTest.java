@@ -50,8 +50,14 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * @author Christophe Labouisse
  */
 public class FromNodeFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
+    /**
+     * Field NODES_AFTER_FILTERING.
+     */
     private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
                     "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
@@ -66,7 +72,8 @@ public class FromNodeFilterTest extends AbstractAntTester {
         super(name);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setUp.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -75,7 +82,9 @@ public class FromNodeFilterTest extends AbstractAntTester {
         producer = new AntProject(project);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -87,6 +96,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process log4j 1.2.8 build.xml and from the "build" node and check
      * if we get what we want.
      *
+     * @throws GrandException
      */
     public void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("build");
@@ -112,6 +122,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
      * target as default. Check if the project start node has not been filtered out.
      *
+     * @throws GrandException
      */
     public void testNotFilteredStartNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("build");
@@ -138,6 +149,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to filter from an non existent node.
      *
+     * @throws GrandException
      */
     public void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");

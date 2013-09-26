@@ -73,28 +73,46 @@ import junit.framework.TestCase;
  */
 public abstract class BuildFileTest extends TestCase {
 
+    /**
+     * Field project.
+     */
     protected Project project;
 
+    /**
+     * Field logBuffer.
+     */
     private StringBuffer logBuffer;
+    /**
+     * Field fullLogBuffer.
+     */
     private StringBuffer fullLogBuffer;
+    /**
+     * Field outBuffer.
+     */
     private StringBuffer outBuffer;
+    /**
+     * Field errBuffer.
+     */
     private StringBuffer errBuffer;
+    /**
+     * Field buildException.
+     */
     private BuildException buildException;
 
     /**
-     *  Constructor for the BuildFileTest object
+     * Constructor for the BuildFileTest object
      *
-     *@param  name string to pass up to TestCase constructor
+     * @param  name string to pass up to TestCase constructor
      */
     public BuildFileTest(final String name) {
         super(name);
     }
 
     /**
-     *  run a target, expect for any build exception
+     * run a target, expect for any build exception
      *
-     *@param  target target to run
-     *@param  cause  information string to reader of report
+     * @param  target target to run
+     * @param  cause  information string to reader of report
      */
     protected void expectBuildException(final String target, final String cause) {
         expectSpecificBuildException(target, cause, null);
@@ -103,6 +121,8 @@ public abstract class BuildFileTest extends TestCase {
     /**
      * Assert that only the given message has been logged with a
      * priority &gt;= INFO when running the given target.
+     * @param target String
+     * @param log String
      */
     protected void expectLog(final String target, final String log) {
         executeTarget(target);
@@ -112,8 +132,8 @@ public abstract class BuildFileTest extends TestCase {
     
     /**
      * Assert that the given substring is in the log messages
+     * @param substring String
      */
-
     protected void assertLogContaining(final String substring) {
         final String realLog = getLog();
         assertTrue("expecting log to contain \"" + substring + "\" log was \""
@@ -124,6 +144,8 @@ public abstract class BuildFileTest extends TestCase {
     /**
      * Assert that the given message has been logged with a priority
      * &gt;= INFO when running the given target.
+     * @param target String
+     * @param log String
      */
     protected void expectLogContaining(final String target, final String log) {
         executeTarget(target);
@@ -131,9 +153,9 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  Gets the log the BuildFileTest object.
-     *  only valid if configureProject() has
-     *  been called.
+     * Gets the log the BuildFileTest object.
+     * only valid if configureProject() has
+     * been called.
      * @pre logBuffer!=null
      * @return    The log value
      */
@@ -144,6 +166,8 @@ public abstract class BuildFileTest extends TestCase {
     /**
      * Assert that the given message has been logged with a priority
      * &gt;= DEBUG when running the given target.
+     * @param target String
+     * @param log String
      */
     protected void expectDebuglog(final String target, final String log) {
         executeTarget(target);
@@ -152,9 +176,9 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  Gets the log the BuildFileTest object.
-     *  only valid if configureProject() has
-     *  been called.
+     * Gets the log the BuildFileTest object.
+     * only valid if configureProject() has
+     * been called.
      * @pre fullLogBuffer!=null
      * @return    The log value
      */
@@ -163,12 +187,11 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  execute the target, verify output matches expectations
+     * execute the target, verify output matches expectations
      *
-     *@param  target  target to execute
-     *@param  output  output to look for
+     * @param  target  target to execute
+     * @param  output  output to look for
      */
-
     protected void expectOutput(final String target, final String output) {
         executeTarget(target);
         final String realOutput = getOutput();
@@ -176,13 +199,12 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  execute the target, verify output matches expectations
-     *  and that we got the named error at the end
-     *@param  target  target to execute
-     *@param  output  output to look for
-     *@param  error   Description of Parameter
+     * execute the target, verify output matches expectations
+     * and that we got the named error at the end
+     * @param  target  target to execute
+     * @param  output  output to look for
+     * @param  error   Description of Parameter
      */
-
     protected void expectOutputAndError(final String target, final String output, final String error) {
         executeTarget(target);
         final String realOutput = getOutput();
@@ -191,18 +213,35 @@ public abstract class BuildFileTest extends TestCase {
         assertEquals(error, realError);
     }
 
+    /**
+     * Method getOutput.
+     * @return String
+     */
     protected String getOutput() {
         return cleanBuffer(outBuffer);
     }
 
+    /**
+     * Method getError.
+     * @return String
+     */
     protected String getError() {
         return cleanBuffer(errBuffer);
     }
 
+    /**
+     * Method getBuildException.
+     * @return BuildException
+     */
     protected BuildException getBuildException() {
         return buildException;
     }
 
+    /**
+     * Method cleanBuffer.
+     * @param buffer StringBuffer
+     * @return String
+     */
     private String cleanBuffer(final StringBuffer buffer) {
         final StringBuffer cleanedBuffer = new StringBuffer();
         boolean cr = false;
@@ -223,18 +262,21 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  set up to run the named project
+     * set up to run the named project
      *
      * @param  filename name of project file to run
+     * @throws BuildException
      */
     protected void configureProject(final String filename) throws BuildException {
         configureProject(filename, Project.MSG_DEBUG);
     }
 
     /**
-     *  set up to run the named project
+     * set up to run the named project
      *
      * @param  filename name of project file to run
+     * @param logLevel int
+     * @throws BuildException
      */
     protected void configureProject(final String filename, final int logLevel)
         throws BuildException {
@@ -250,7 +292,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  execute a target we have set up
+     * execute a target we have set up
      * @pre configureProject has been called
      * @param  targetName  target to run
      */
@@ -295,12 +337,12 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  run a target, wait for a build exception
+     * run a target, wait for a build exception
      *
-     *@param  target target to run
-     *@param  cause  information string to reader of report
-     *@param  msg    the message value of the build exception we are waiting for
-              set to null for any build exception to be valid
+     * @param  target target to run
+     * @param  cause  information string to reader of report
+     * @param  msg    the message value of the build exception we are waiting for
+     *         set to null for any build exception to be valid
      */
     protected void expectSpecificBuildException(final String target, final String cause, final String msg) {
         try {
@@ -318,12 +360,12 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     *  run a target, expect an exception string
-     *  containing the substring we look for (case sensitive match)
+     * run a target, expect an exception string
+     * containing the substring we look for (case sensitive match)
      *
-     *@param  target target to run
-     *@param  cause  information string to reader of report
-     *@param  contains  substring of the build exception to look for
+     * @param  target target to run
+     * @param  cause  information string to reader of report
+     * @param  contains  substring of the build exception to look for
      */
     protected void expectBuildExceptionContaining(final String target, final String cause, final String contains) {
         try {
@@ -346,7 +388,6 @@ public abstract class BuildFileTest extends TestCase {
      * @param property property name
      * @param value expected value
      */
-
     protected void expectPropertySet(final String target, final String property, final String value) {
         executeTarget(target);
         assertPropertyEquals(property, value);
@@ -378,7 +419,6 @@ public abstract class BuildFileTest extends TestCase {
         assertPropertyEquals(property, null);
     }
 
-
     /**
      * call a target, verify named property is "true".
      *
@@ -388,7 +428,6 @@ public abstract class BuildFileTest extends TestCase {
     protected void expectPropertySet(final String target, final String property) {
         expectPropertySet(target, property, "true");
     }
-
 
     /**
      * call a target, verify property is null
@@ -404,6 +443,7 @@ public abstract class BuildFileTest extends TestCase {
      * assuming a vm working directory. The resource path must be
      * relative to the package name or absolute from the root path.
      * @param resource the resource to retrieve its url.
+     * @return URL
      * @throws AssertionFailureException if resource is not found.
      */
     protected URL getResource(final String resource){
@@ -416,12 +456,23 @@ public abstract class BuildFileTest extends TestCase {
      * an output stream which saves stuff to our buffer.
      */
     private static class AntOutputStream extends OutputStream {
+        /**
+         * Field buffer.
+         */
         private final StringBuffer buffer;
         
+        /**
+         * Constructor for AntOutputStream.
+         * @param buffer StringBuffer
+         */
         public AntOutputStream(final StringBuffer buffer) {
             this.buffer = buffer;
         }
         
+        /**
+         * Method write.
+         * @param b int
+         */
         @Override
         public void write(final int b) { 
             buffer.append((char)b);
@@ -430,76 +481,89 @@ public abstract class BuildFileTest extends TestCase {
 
     /**
      * our own personal build listener
+     * @author Christophe Labouisse
      */
     private class AntTestListener implements BuildListener {
+        /**
+         * Field logLevel.
+         */
         private final int logLevel;
 
         /**
          * Constructs a test listener which will ignore log events
          * above the given level
+         * @param logLevel int
          */
         public AntTestListener(final int logLevel) {
             this.logLevel = logLevel;
         }
 
         /**
-         *  Fired before any targets are started.
+         * Fired before any targets are started.
+         * @param event BuildEvent
+         * @see org.apache.tools.ant.BuildListener#buildStarted(BuildEvent)
          */
         public void buildStarted(final BuildEvent event) {
         }
 
         /**
-         *  Fired after the last target has finished. This event
-         *  will still be thrown if an error occured during the build.
+         * Fired after the last target has finished. This event
+         * will still be thrown if an error occurred during the build.
          *
-         *  @see BuildEvent#getException()
+         * @param event BuildEvent
+         * @see BuildEvent#getException()
          */
         public void buildFinished(final BuildEvent event) {
         }
 
         /**
-         *  Fired when a target is started.
+         * Fired when a target is started.
          *
-         *  @see BuildEvent#getTarget()
+         * @param event BuildEvent
+         * @see BuildEvent#getTarget()
          */
         public void targetStarted(final BuildEvent event) {
             //System.out.println("targetStarted " + event.getTarget().getName());
         }
 
         /**
-         *  Fired when a target has finished. This event will
-         *  still be thrown if an error occured during the build.
+         * Fired when a target has finished. This event will
+         * still be thrown if an error occurred during the build.
          *
-         *  @see BuildEvent#getException()
+         * @param event BuildEvent
+         * @see BuildEvent#getException()
          */
         public void targetFinished(final BuildEvent event) {
             //System.out.println("targetFinished " + event.getTarget().getName());
         }
 
         /**
-         *  Fired when a task is started.
+         * Fired when a task is started.
          *
-         *  @see BuildEvent#getTask()
+         * @param event BuildEvent
+         * @see BuildEvent#getTask()
          */
         public void taskStarted(final BuildEvent event) {
             //System.out.println("taskStarted " + event.getTask().getTaskName());
         }
 
         /**
-         *  Fired when a task has finished. This event will still
-         *  be throw if an error occured during the build.
+         * Fired when a task has finished. This event will still
+         * be throw if an error occurred during the build.
          *
-         *  @see BuildEvent#getException()
+         * @param event BuildEvent
+         * @see BuildEvent#getException()
          */
         public void taskFinished(final BuildEvent event) {
             //System.out.println("taskFinished " + event.getTask().getTaskName());
         }
 
         /**
-         *  Fired whenever a message is logged.
+         * Fired whenever a message is logged.
          *
-         *  @see BuildEvent#getMessage()
-         *  @see BuildEvent#getPriority()
+         * @param event BuildEvent
+         * @see BuildEvent#getMessage()
+         * @see BuildEvent#getPriority()
          */
         public void messageLogged(final BuildEvent event) {
             if (event.getPriority() > logLevel) {
@@ -516,6 +580,5 @@ public abstract class BuildFileTest extends TestCase {
 
         }
     }
-
 
 }

@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -34,23 +34,24 @@ import org.apache.tools.ant.taskdefs.Taskdef;
  * problems. This works by setting error to <i>report </i> and overriding the
  * {@link org.apache.tools.ant.taskdefs.Definer#setOnError(org.apache.tools.ant.taskdefs.Definer.OnError)}
  * not to change anything.
- * 
+ *
  * This is a crude hack for ticket #79 and there is probably a cleaner way to do
  * it.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class TaskDefHelper extends Taskdef {
     /**
-     * 
+     *
      */
     public TaskDefHelper() {
         super();
         super.setOnError(new OnError("report"));
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setOnError.
+     * @param onError OnError
      * @see org.apache.tools.ant.taskdefs.Definer#setOnError(org.apache.tools.ant.taskdefs.Definer.OnError)
      */
     @Override

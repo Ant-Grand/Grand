@@ -36,13 +36,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class BackwardLinkFinder implements LinkFinder {
 
-    /* (non-Javadoc)
+    /**
+     * Method getLinks.
+     * @param node Node
+     * @return Collection<Node>
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
     public Collection<Node> getLinks(final Node node) {

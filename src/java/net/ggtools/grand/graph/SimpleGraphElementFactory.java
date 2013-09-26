@@ -35,13 +35,16 @@ package net.ggtools.grand.graph;
  * A basic implementation of {@link net.ggtools.grand.graph.GraphElementFactory} creating
  * {@link net.ggtools.grand.graph.NodeImpl} & {@link net.ggtools.grand.graph.LinkImpl}.
  * Instances of this class are linked to a specific graph.
- * 
+ *
  * @author Christophe Labouisse
  */
 class SimpleGraphElementFactory implements GraphElementFactory {
-    
+
+    /**
+     * Field graph.
+     */
     final private Graph graph;
-    
+
     /**
      * Creates a factory instance linked to a specific graph.
      * @param graph
@@ -50,14 +53,22 @@ class SimpleGraphElementFactory implements GraphElementFactory {
         this.graph = graph;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method createNode.
+     * @param nodeName String
+     * @return Node
      * @see net.ggtools.grand.graph.GraphElementFactory#createNode(java.lang.String)
      */
     public Node createNode(final String nodeName) {
         return new NodeImpl(nodeName, graph);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method createLink.
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @return Link
      * @see net.ggtools.grand.graph.GraphElementFactory#createLink(java.lang.String, net.ggtools.grand.graph.Node, net.ggtools.grand.graph.Node)
      */
     public Link createLink(final String linkName, final Node startNode, final Node endNode) {

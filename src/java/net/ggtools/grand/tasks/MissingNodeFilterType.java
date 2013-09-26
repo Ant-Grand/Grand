@@ -1,4 +1,4 @@
-// $Id: IsolatedNodeFilterType.java 252 2004-02-05 22:56:30Z moi $
+// $Id$
 /* ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
@@ -39,37 +39,46 @@ import org.apache.tools.ant.Project;
 
 /**
  * Ant frontend to {@link net.ggtools.grand.filters.MissingNodeFilter}.
- * 
+ *
  * @author Christophe Labouisse
  */
 class MissingNodeFilterType implements GraphFilterType {
 
+    /**
+     * Field project.
+     */
     private final Project project;
 
     /**
      * Creates a new object.
-     * 
+     *
      * @param antProject project within which the filter will run.
      */
     public MissingNodeFilterType(final Project antProject) {
         project = antProject;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method checkParameters.
+     * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
     public void checkParameters() throws BuildException {
         // Do nothing.
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getFilter.
+     * @return GraphFilter
      * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
      */
     public GraphFilter getFilter() {
         return new MissingNodeFilter();
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setNodeName.
+     * @param name String
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
     public void setNodeName(final String name) {

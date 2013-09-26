@@ -34,38 +34,50 @@ package net.ggtools.grand.graph;
 
 /**
  * Abstract class to manage GraphObjet's attributes.
- * 
+ *
  * @author Christophe Labouisse
  */
 abstract class AttributeManager implements GraphObject {
+    /**
+     * Field attributes.
+     */
     private int attributes = 0;
-    
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#setAttribute(int)
+
+    /**
+     * Method setAttributes.
+     * @param attributeMask int
+     * @see net.ggtools.grand.graph.GraphObject#setAttributes(int)
      */
     public void setAttributes(final int attributeMask) {
         attributes |= attributeMask;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphObject#getAttributes()
+    /**
+     * Method getAttributes.
+     * @return int
+     * @see net.ggtools.grand.graph.GraphObject#getAttributes()
      */
     public int getAttributes() {
         return attributes;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#setAttribute(int)
+    /**
+     * Method clearAttributes.
+     * @param attributeMask int
+     * @see net.ggtools.grand.graph.GraphObject#clearAttributes(int)
      */
     public void clearAttributes(final int attributeMask) {
         attributes &= -1 ^ attributeMask;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Node#hasAttribute(int)
+    /**
+     * Method hasAttributes.
+     * @param attributeMask int
+     * @return boolean
+     * @see net.ggtools.grand.graph.GraphObject#hasAttributes(int)
      */
     public boolean hasAttributes(final int attributeMask) {
         return (attributes & attributeMask) == attributeMask;
     }
-    
+
 }

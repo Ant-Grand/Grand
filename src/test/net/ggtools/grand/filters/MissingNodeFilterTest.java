@@ -1,4 +1,4 @@
-// $Id: IsolatedNodeFilterTest.java 252 2004-02-05 22:56:30Z moi $
+// $Id$
 /* ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
@@ -43,6 +43,9 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * @author Christophe Labouisse
  */
 public class MissingNodeFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
     
     /**
@@ -53,7 +56,8 @@ public class MissingNodeFilterTest extends AbstractAntTester {
         super(name);
     }
 
-    /*
+    /**
+     * Method setUp.
      * @see TestCase#setUp()
      */
     @Override
@@ -62,7 +66,9 @@ public class MissingNodeFilterTest extends AbstractAntTester {
         producer = new AntProject(project);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -71,8 +77,9 @@ public class MissingNodeFilterTest extends AbstractAntTester {
     }
 
     /**
-     * Check the full graph completness.
+     * Check the full graph completeness.
      *
+     * @throws GrandException
      */
     public void testFullGraph() throws GrandException {
         final Graph graph = producer.getGraph();
@@ -89,6 +96,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      * Process the full graph through an MissingNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
      *
+     * @throws GrandException
      */
     public void testFilter() throws GrandException {
         final GraphFilter filter = new MissingNodeFilter();

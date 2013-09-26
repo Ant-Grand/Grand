@@ -45,10 +45,13 @@ import org.apache.tools.ant.Project;
 /**
  * A class to instanciante the right filter type classes based
  * on the name parameter.
- * 
+ *
  * @author Christophe Labouisse
  */
 final class GraphFilterFactory {
+    /**
+     * Field log.
+     */
     private static final Log log = LoggerManager.getLog(GraphFilterFactory.class);
     /**
      * Properties giving the java class to use for a filter name.
@@ -67,7 +70,7 @@ final class GraphFilterFactory {
 
     /**
      * Get a filter object for a name.
-     * 
+     *
      * @param project owner project
      * @param name value of the name attribute in the filter element
      * @return a GraphFilterType object.

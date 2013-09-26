@@ -44,8 +44,14 @@ import net.ggtools.grand.utils.AbstractAntTester;
  */
 public class AntProjectTest extends AbstractAntTester {
 
+    /**
+     * Field antProject.
+     */
     protected AntProject antProject;
 
+    /**
+     * Field graph.
+     */
     protected Graph graph;
 
     /**
@@ -57,6 +63,10 @@ public class AntProjectTest extends AbstractAntTester {
         super(arg0);
     }
 
+    /**
+     * Method testAnt.
+     * @throws GrandException
+     */
     public void testAnt() throws GrandException {
         // Test without antfile nor dir
         AntTargetNode node = (AntTargetNode) graph.getNode("ant-test");
@@ -78,6 +88,10 @@ public class AntProjectTest extends AbstractAntTester {
                 .getBuildFile());
     }
 
+    /**
+     * Method testAntCall.
+     * @throws GrandException
+     */
     public void testAntCall() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-test");
         AntLink link = null;
@@ -93,6 +107,10 @@ public class AntProjectTest extends AbstractAntTester {
         assertNull("Build file", endNode.getBuildFile());
     }
 
+    /**
+     * Method testAntCallWithTargetElements.
+     * @throws GrandException
+     */
     public void testAntCallWithTargetElements() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-with-target-elements-test");
         final Collection<Link> links = node.getLinks();
@@ -133,6 +151,10 @@ public class AntProjectTest extends AbstractAntTester {
         expectLogContaining("undefined-task", "Outputing to ");
     }
 
+    /**
+     * Method testAntNoTargetDifferentFile.
+     * @throws GrandException
+     */
     public void testAntNoTargetDifferentFile() throws GrandException {
         // Test without target different file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
@@ -144,6 +166,10 @@ public class AntProjectTest extends AbstractAntTester {
                 .getBuildFile());
     }
 
+    /**
+     * Method testAntNoTargetSameFile.
+     * @throws GrandException
+     */
     public void testAntNoTargetSameFile() throws GrandException {
         // Test without target same file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
@@ -154,6 +180,10 @@ public class AntProjectTest extends AbstractAntTester {
         assertNull("Build file should be the currentFile", endNode.getBuildFile());
     }
 
+    /**
+     * Method testAntWithTargetElements.
+     * @throws GrandException
+     */
     public void testAntWithTargetElements() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-with-target-elements-test");
         final Collection<Link> links = node.getLinks();
@@ -180,6 +210,10 @@ public class AntProjectTest extends AbstractAntTester {
         assertFalse("There should be target after the second one", iterator.hasNext());
     }
 
+    /**
+     * Method testIfCondition.
+     * @throws GrandException
+     */
     public void testIfCondition() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("if-cond-test");
         assertNotNull("if-cond-test Node", node);
@@ -188,7 +222,7 @@ public class AntProjectTest extends AbstractAntTester {
     }
 
     /**
-     * Test if the nested task are found (ticket #29).
+     * Test if the nested tasks are found (ticket #29).
      * 
      * @throws GrandException
      */
@@ -199,6 +233,10 @@ public class AntProjectTest extends AbstractAntTester {
                 .hasAttributes(Node.ATTR_MISSING_NODE));
     }
 
+    /**
+     * Method testRunTarget.
+     * @throws GrandException
+     */
     public void testRunTarget() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("runtarget-test");
         AntLink link = null;
@@ -261,6 +299,10 @@ public class AntProjectTest extends AbstractAntTester {
         }
     }
 
+    /**
+     * Method testUnlessCondition.
+     * @throws GrandException
+     */
     public void testUnlessCondition() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("unless-cond-test");
         assertNotNull("unless-cond-test Node", node);
@@ -268,20 +310,26 @@ public class AntProjectTest extends AbstractAntTester {
                 .getUnlessCondition());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractAntTester#getTestBuildFileName()
      */
     protected String getTestBuildFileName() {
         return TESTCASES_DIR + "ant-project-test.xml";
     }
 
+    /**
+     * Method setUp.
+     */
     protected void setUp() {
         super.setUp();
         createGraph();
     }
 
+    /**
+     * Method createGraph.
+     */
     protected void createGraph() {
         antProject = new AntProject(project);
         try {

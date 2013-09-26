@@ -51,8 +51,14 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * @author Christophe Labouisse
  */
 public class GraphCrawlerTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
+    /**
+     * Field NODES_AFTER_FILTERING.
+     */
     private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
                     "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
@@ -67,7 +73,9 @@ public class GraphCrawlerTest extends AbstractAntTester {
         super(arg0);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -75,7 +83,8 @@ public class GraphCrawlerTest extends AbstractAntTester {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
-    /*
+    /**
+     * Method setUp.
      * @see AbstractTaskTester#setUp()
      */
     @Override
@@ -84,7 +93,8 @@ public class GraphCrawlerTest extends AbstractAntTester {
         producer = new AntProject(project);
     }
 
-    /*
+    /**
+     * Method tearDown.
      * @see AbstractTaskTester#tearDown()
      */
     @Override
@@ -92,6 +102,10 @@ public class GraphCrawlerTest extends AbstractAntTester {
         super.tearDown();
     }
 
+    /**
+     * Method testCrawl.
+     * @throws GrandException
+     */
     public final void testCrawl() throws GrandException {
         final Graph graph = producer.getGraph();
         final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());

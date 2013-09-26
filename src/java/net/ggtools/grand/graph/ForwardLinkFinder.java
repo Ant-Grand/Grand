@@ -37,12 +37,15 @@ import java.util.Set;
 
 /**
  * A link finder returning links starting from nodes.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class ForwardLinkFinder implements LinkFinder {
 
-    /* (non-Javadoc)
+    /**
+     * Method getLinks.
+     * @param node Node
+     * @return Collection<Node>
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
     public Collection<Node> getLinks(final Node node) {

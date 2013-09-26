@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -50,30 +50,61 @@ import org.apache.tools.ant.types.Path.PathElement;
 /**
  * A Proxy for the {@link org.apache.tools.ant.taskdefs.SubAnt}class allowing
  * to retrieve some data after configuration.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class SubAntHelper extends Task {
+    /**
+     * Field antfile.
+     */
     private String antfile = "build.xml";
 
+    /**
+     * Field buildpath.
+     */
     private Path buildpath;
 
+    /**
+     * Field genericantfile.
+     */
     private File genericantfile = null;
 
+    /**
+     * Field properties.
+     */
     private final Vector<Property> properties = new Vector<Property>();
 
+    /**
+     * Field propertySets.
+     */
     private final Vector<PropertySet> propertySets = new Vector<PropertySet>();
 
+    /**
+     * Field references.
+     */
     private final Vector<Reference> references = new Vector<Reference>();
 
+    /**
+     * Field subAntTarget.
+     */
     private String subAntTarget = null;
 
+    /**
+     * Field underlying.
+     */
     final SubAnt underlying;
 
+    /**
+     * Constructor for SubAntHelper.
+     */
     public SubAntHelper() {
         underlying = new SubAnt();
     }
 
+    /**
+     * Constructor for SubAntHelper.
+     * @param underlying SubAnt
+     */
     public SubAntHelper(final SubAnt underlying) {
         this.underlying = underlying;
     }
@@ -124,21 +155,23 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @return
+     * @return Path
      */
     public Path createBuildpath() {
         return getBuildpath().createPath();
     }
 
     /**
-     * @return
+     * @return PathElement
      */
     public PathElement createBuildpathElement() {
         return getBuildpath().createPathElement();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method equals.
+     * @param obj Object
+     * @return boolean
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -146,8 +179,9 @@ public class SubAntHelper extends Task {
         return underlying.equals(obj);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method execute.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
@@ -165,7 +199,7 @@ public class SubAntHelper extends Task {
 
     /**
      * Gets the implicit build path, creating it if <code>null</code>.
-     * 
+     *
      * @return the implicit build path.
      */
     public Path getBuildpath() {
@@ -175,8 +209,9 @@ public class SubAntHelper extends Task {
         return buildpath;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getDescription.
+     * @return String
      * @see org.apache.tools.ant.Task#getDescription()
      */
     @Override
@@ -191,8 +226,9 @@ public class SubAntHelper extends Task {
         return genericantfile;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getLocation.
+     * @return Location
      * @see org.apache.tools.ant.Task#getLocation()
      */
     @Override
@@ -200,8 +236,9 @@ public class SubAntHelper extends Task {
         return underlying.getLocation();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getOwningTarget.
+     * @return Target
      * @see org.apache.tools.ant.Task#getOwningTarget()
      */
     @Override
@@ -209,8 +246,9 @@ public class SubAntHelper extends Task {
         return underlying.getOwningTarget();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getProject.
+     * @return Project
      * @see org.apache.tools.ant.ProjectComponent#getProject()
      */
     @Override
@@ -239,8 +277,9 @@ public class SubAntHelper extends Task {
         return references;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getRuntimeConfigurableWrapper.
+     * @return RuntimeConfigurable
      * @see org.apache.tools.ant.Task#getRuntimeConfigurableWrapper()
      */
     @Override
@@ -248,8 +287,9 @@ public class SubAntHelper extends Task {
         return underlying.getRuntimeConfigurableWrapper();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTaskName.
+     * @return String
      * @see org.apache.tools.ant.Task#getTaskName()
      */
     @Override
@@ -257,8 +297,9 @@ public class SubAntHelper extends Task {
         return underlying.getTaskName();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTaskType.
+     * @return String
      * @see org.apache.tools.ant.Task#getTaskType()
      */
     @Override
@@ -266,8 +307,9 @@ public class SubAntHelper extends Task {
         return underlying.getTaskType();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method hashCode.
+     * @return int
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -275,8 +317,9 @@ public class SubAntHelper extends Task {
         return underlying.hashCode();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method init.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#init()
      */
     @Override
@@ -284,8 +327,9 @@ public class SubAntHelper extends Task {
         underlying.init();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method log.
+     * @param msg String
      * @see org.apache.tools.ant.Task#log(java.lang.String)
      */
     @Override
@@ -293,8 +337,10 @@ public class SubAntHelper extends Task {
         underlying.log(msg);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method log.
+     * @param msg String
+     * @param msgLevel int
      * @see org.apache.tools.ant.Task#log(java.lang.String, int)
      */
     @Override
@@ -302,8 +348,9 @@ public class SubAntHelper extends Task {
         underlying.log(msg, msgLevel);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method maybeConfigure.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#maybeConfigure()
      */
     @Override
@@ -311,8 +358,8 @@ public class SubAntHelper extends Task {
         underlying.maybeConfigure();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method reconfigure.
      * @see org.apache.tools.ant.Task#reconfigure()
      */
     @Override
@@ -342,8 +389,9 @@ public class SubAntHelper extends Task {
         createBuildpath().setRefid(r);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setDescription.
+     * @param desc String
      * @see org.apache.tools.ant.Task#setDescription(java.lang.String)
      */
     @Override
@@ -380,8 +428,9 @@ public class SubAntHelper extends Task {
         underlying.setInheritrefs(b);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setLocation.
+     * @param location Location
      * @see org.apache.tools.ant.Task#setLocation(org.apache.tools.ant.Location)
      */
     @Override
@@ -395,6 +444,7 @@ public class SubAntHelper extends Task {
     public final String getTarget() {
         return subAntTarget;
     }
+
     /**
      * @param s
      */
@@ -402,8 +452,9 @@ public class SubAntHelper extends Task {
         underlying.setOutput(s);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setOwningTarget.
+     * @param target Target
      * @see org.apache.tools.ant.Task#setOwningTarget(org.apache.tools.ant.Target)
      */
     @Override
@@ -411,8 +462,9 @@ public class SubAntHelper extends Task {
         underlying.setOwningTarget(target);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setProject.
+     * @param project Project
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
     @Override
@@ -420,8 +472,9 @@ public class SubAntHelper extends Task {
         underlying.setProject(project);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setRuntimeConfigurableWrapper.
+     * @param wrapper RuntimeConfigurable
      * @see org.apache.tools.ant.Task#setRuntimeConfigurableWrapper(org.apache.tools.ant.RuntimeConfigurable)
      */
     @Override
@@ -437,8 +490,9 @@ public class SubAntHelper extends Task {
         underlying.setTarget(target);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setTaskName.
+     * @param name String
      * @see org.apache.tools.ant.Task#setTaskName(java.lang.String)
      */
     @Override
@@ -446,8 +500,9 @@ public class SubAntHelper extends Task {
         underlying.setTaskName(name);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setTaskType.
+     * @param type String
      * @see org.apache.tools.ant.Task#setTaskType(java.lang.String)
      */
     @Override

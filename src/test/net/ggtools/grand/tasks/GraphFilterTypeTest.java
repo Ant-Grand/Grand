@@ -34,12 +34,17 @@ import net.ggtools.grand.utils.AbstractAntTester;
  */
 public class GraphFilterTypeTest extends AbstractAntTester {
 
+    /**
+     * Constructor for GraphFilterTypeTest.
+     * @param name String
+     */
     public GraphFilterTypeTest(final String name) {
         super(name);
     }
 
-
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -47,11 +52,17 @@ public class GraphFilterTypeTest extends AbstractAntTester {
         return TESTCASES_DIR + "graph-filter.xml";
     }
 
+    /**
+     * Method testIsolatedNode.
+     */
     public void testIsolatedNode() {
         expectLogContaining("test","Node parameter useless for isolatednode");
         assertLogContaining("Loaded 1 filter");
     }
 
+    /**
+     * Method testNamelessFilter.
+     */
     public void testNamelessFilter() {
         expectBuildException("noname","required attribute missing");
     }

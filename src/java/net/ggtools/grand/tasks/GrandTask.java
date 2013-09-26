@@ -58,32 +58,55 @@ import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.PropertySet;
 
 /**
- * A task to create graphs. 
- * 
+ * A task to create graphs.
+ *
  * @author Christophe Labouisse
  */
 public class GrandTask extends Task {
 
+    /**
+     * Field buildFile.
+     */
     private File buildFile;
 
+    /**
+     * Field output.
+     */
     private File output;
 
+    /**
+     * Field outputConfigurationFile.
+     */
     private File outputConfigurationFile;
 
-    /** the sets of properties to pass to the graphed project */
+    /**
+     * the sets of properties to pass to the graphed project
+     */
     private final List<PropertySet> propertySets = new ArrayList<PropertySet>();
 
+    /**
+     * Field filters.
+     */
     private final List<FilterType> filters = new LinkedList<FilterType>();
 
+    /**
+     * Field showGraphName.
+     */
     private boolean showGraphName = false;
 
+    /**
+     * Field inheritAll.
+     */
     private boolean inheritAll = false;
 
+    /**
+     * Field properties.
+     */
     private final List<Property> properties = new LinkedList<Property>();
 
     /**
      * Check the parameters validity before execution.
-     * 
+     *
      */
     private void checkParams() {
         if (output == null) {
@@ -97,7 +120,9 @@ public class GrandTask extends Task {
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method execute.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
@@ -150,8 +175,8 @@ public class GrandTask extends Task {
     /**
      * Create and initialize a GraphProducer according to the
      * task parameters.
-     * 
-     * @return an intialized GraphProducer.
+     *
+     * @return an initialized GraphProducer.
      */
     private GraphProducer initAntProject() {
 
@@ -185,7 +210,7 @@ public class GrandTask extends Task {
 
     /**
      * Load an initialize a new project from a ant build file.
-     * 
+     *
      * @return a new initialized ant project.
      */
     private Project loadNewProject() {
@@ -224,7 +249,9 @@ public class GrandTask extends Task {
         return antProject;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setProject.
+     * @param project Project
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
     @Override
@@ -236,7 +263,7 @@ public class GrandTask extends Task {
 
     /**
      * Sets the buildFile.
-     * 
+     *
      * @param file
      */
     public void setBuildFile(final File file) {
@@ -245,7 +272,7 @@ public class GrandTask extends Task {
 
     /**
      * Sets the output file.
-     * 
+     *
      * @param file
      */
     public void setOutput(final File file) {
@@ -254,8 +281,8 @@ public class GrandTask extends Task {
 
     /**
      * Set a property file to override the output default configuration.
-     * @param outputConfigurationFile The outputConfigurationFile to set.
      * @deprecated use {@link #setOutputConfigFile(File)}.
+     * @param propertyFile File
      */
     @Deprecated
     public void setPropertyFile(final File propertyFile) {
@@ -267,12 +294,16 @@ public class GrandTask extends Task {
 
     /**
      * Set a property file to override the output default configuration.
-     * @param outputConfigurationFile The outputConfigurationFile to set.
+     * @param propertyFile File
      */
     public void setOutputConfigFile(final File propertyFile) {
         outputConfigurationFile = propertyFile;
     }
 
+    /**
+     * Method setShowGraphName.
+     * @param show boolean
+     */
     public void setShowGraphName(final boolean show) {
         showGraphName = show;
     }
@@ -296,7 +327,7 @@ public class GrandTask extends Task {
 
     /**
      * Add a new property to be passed to the graphed project.
-     * 
+     *
      * @param p the property to set.
      */
     public void addProperty(final Property p) {
@@ -318,6 +349,7 @@ public class GrandTask extends Task {
      * well as properties named basedir or ant.file.
      * @param props properties to copy to the new project
      * @since Ant 1.6
+     * @param destProject Project
      */
     private void addAlmostAll(final Project destProject, final Properties props) {
         final Enumeration<Object> e = props.keys();

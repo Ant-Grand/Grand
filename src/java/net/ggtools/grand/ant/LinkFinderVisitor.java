@@ -1,19 +1,18 @@
-// $Id: /grand/local/Grand/src/java/net/ggtools/grand/ant/LinkFinderVisitor.java
-// 1056 2005-08-26T13:02:43.897872Z clabouisse $
+// $Id$
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -53,12 +52,18 @@ import org.apache.tools.ant.types.Path;
 /**
  * A task visitor looking for links created by tasks like <code>ant</code>,
  * <code>antcall</code>, etc.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class LinkFinderVisitor extends ReflectTaskVisitorBase {
+    /**
+     * Field log.
+     */
     private static final Log log = LoggerManager.getLog(LinkFinderVisitor.class);
 
+    /**
+     * Field aliases.
+     */
     private final static Map<String, String> aliases = new HashMap<String, String>();
 
     // Initialize the alias list
@@ -72,30 +77,79 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         aliases.put("trycatch", "if");
     }
 
+    /**
+     * Field ANT_FILE_PROPERTY.
+     * (value is ""ant.file"")
+     */
     private static final String ANT_FILE_PROPERTY = "ant.file";
 
+    /**
+     * Field ATTR_ANTFILE.
+     * (value is ""antfile"")
+     */
     private static final String ATTR_ANTFILE = "antfile";
 
+    /**
+     * Field ATTR_DIR.
+     * (value is ""dir"")
+     */
     private static final String ATTR_DIR = "dir";
 
+    /**
+     * Field ATTR_NAME.
+     * (value is ""name"")
+     */
     private static final String ATTR_NAME = "name";
 
+    /**
+     * Field ATTR_TARGET.
+     * (value is ""target"")
+     */
     private static final String ATTR_TARGET = "target";
 
+    /**
+     * Field ATTR_VALUE.
+     * (value is ""value"")
+     */
     private static final String ATTR_VALUE = "value";
 
+    /**
+     * Field BUILD_XML.
+     * (value is ""build.xml"")
+     */
     private static final String BUILD_XML = "build.xml";
 
+    /**
+     * Field PARAM_ELEMENT.
+     * (value is ""param"")
+     */
     private static final String PARAM_ELEMENT = "param";
 
+    /**
+     * Field PROPERTY_ELEMENT.
+     * (value is ""property"")
+     */
     private static final String PROPERTY_ELEMENT = "property";
 
+    /**
+     * Field graph.
+     */
     private AntGraph graph;
 
+    /**
+     * Field project.
+     */
     private final AntProject project;
 
+    /**
+     * Field startNode.
+     */
     private AntTargetNode startNode;
 
+    /**
+     * Constructor for LinkFinderVisitor.
+     * @param project AntProject
+     */
     public LinkFinderVisitor(final AntProject project) {
         this.project = project;
     }
@@ -103,9 +157,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     /**
      * Default action for unknown task. The default behavior is to recurse in
      * the children to find a possible task.
-     * 
+     *
      * @param wrapper
      *            wrapper to check.
+     * @throws GrandException
      * @see net.ggtools.grand.ant.ReflectTaskVisitorBase#defaultVisit(org.apache.tools.ant.RuntimeConfigurable)
      */
     @Override
@@ -116,9 +171,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method getAliasForTask.
+     * @param taskName String
+     * @return String
      * @see net.ggtools.grand.ant.ReflectTaskVisitorBase#getAliasForTask(java.lang.String)
      */
     @Override
@@ -136,11 +192,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * nested <code>property</code> nodes to set the link properties. Only
      * <code>name</code>,<code>value</code> property nodes will be
      * processed: the <code>file</code> property nodes will be ignored.
-     * 
+     *
      * The called node name will be either the plain <code>target</code>
      * attribute value if it is located in the current build file or
      * <code>[<em>target</em>]</code>.
-     * 
+     *
      * @param wrapper
      *            the wrapper to process.
      * @throws DuplicateElementException
@@ -199,7 +255,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /**
      * @param wrapper
-     * @return
+     * @return List<Object>
      */
     private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
         final List<Object> targetElements = new ArrayList<Object>();
@@ -227,7 +283,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      * {@link Node#ATTR_MISSING_NODE}if no such node exists. It will then
      * create an {@link AntTaskLink}link and look for nested <code>param</code>
      * elements to set parameters to newly created link.
-     * 
+     *
      * @param wrapper
      *            wrapper to process.
      * @throws DuplicateElementException
@@ -274,10 +330,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     /**
      * Process <code>subant</code> task. Depending of the existence of the
      * <code>genericantfile</code> attribute, this method will either create a
-     * special link holding a list of directories or a set of <i>ant taskish
-     * </i> links. During those creations, the end nodes will be created with
+     * special link holding a list of directories or a set of <i>ant taskish</i>
+     * links. During those creations, the end nodes will be created with
      * the {@link Node#ATTR_MISSING_NODE}attribute if needed.
-     * 
+     *
      * @param wrapper
      *            wrapper to process.
      * @throws DuplicateElementException
@@ -386,11 +442,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /**
      * Add to a given link the properties contained in an element.
-     * 
+     *
      * @param wrapper
      *            wrapper for the task.
-     * @param link
-     *            link to populate.
+     * @param links AntTaskLink[]
      * @param elementName
      *            name of the elements holding the properties.
      */
@@ -423,11 +478,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
-     * @param antProject
      * @param targetBuildFile
      * @param taskName
      * @param target
-     * @return
+     * @return AntTaskLink
      * @throws DuplicateElementException
      */
     private AntTaskLink createAntTaskLink(final File targetBuildFile, final String taskName,
@@ -440,7 +494,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /**
      * @param endNodeName
-     * @return
+     * @return AntTargetNode
      * @throws DuplicateElementException
      */
     private AntTargetNode findOrCreateNode(final String endNodeName)
@@ -451,8 +505,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     /**
      * @param target
      * @param targetBuildFile
-     * @param antProject
-     * @return
+     * @return AntTargetNode
      * @throws DuplicateElementException
      */
     private AntTargetNode findOrCreateNode(final String target, File targetBuildFile)
@@ -491,7 +544,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
 
             // Find out the "right" node avoiding conflicts.
-            // FIXME: the current algorithm seems really bad check is a cache is
+            // FIXME: the current algorithm seems really bad, check if a cache is
             // worth implementing.
             int index = 1;
             boolean conflict = false;

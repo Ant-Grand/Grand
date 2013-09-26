@@ -38,13 +38,16 @@ import net.ggtools.grand.graph.LinkFinder;
  * A graph filter returning all the nodes accessible from a specific node
  * using only backward links. In ant this will extract the sub graph of all
  * target depending on a specific target.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class ToNodeFilter extends GraphWalkFilter {
 
+    /**
+     * Field linkFinder.
+     */
     private final LinkFinder linkFinder = new BackwardLinkFinder();
-    
+
     /**
      * Creates a new filter.
      * @param nodeName node to search from.
@@ -53,7 +56,9 @@ public class ToNodeFilter extends GraphWalkFilter {
         super(nodeName);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getLinkFinder.
+     * @return LinkFinder
      * @see net.ggtools.grand.filters.GraphWalkFilter#getLinkFinder()
      */
     @Override

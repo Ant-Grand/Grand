@@ -41,9 +41,15 @@ import junit.framework.TestSuite;
  */
 public class AllTests {
     /**
+     * Constructor for AllTests.
+     */
     private AllTests() {
     }
 
+    /**
+     * Method suite.
+     * @return Test
+     */
     public static Test suite() {
         final TestSuite suite = new TestSuite("Test for net.ggtools.grand.graph");
         //$JUnit-BEGIN$

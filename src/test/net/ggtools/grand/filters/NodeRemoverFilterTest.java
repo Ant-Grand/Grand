@@ -45,6 +45,9 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * @author Christophe Labouisse
  */
 public class NodeRemoverFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
     /**
@@ -58,6 +61,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to removed a non existent node.
      * 
+     * @throws GrandException
      */
     public void testNonExistentNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
@@ -75,6 +79,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to removed with an empty list.
      * 
+     * @throws GrandException
      */
     public void testNonNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
@@ -88,10 +93,10 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
                 numNodeAfterFiltering);
     }
 
-
     /**
      * Process log4j 1.2.8 build.xml and remove the "init" node.
      * 
+     * @throws GrandException
      */
     public void testOneNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
@@ -112,6 +117,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * Process log4j 1.2.8 build.xml and remove the "init", "build" and jar
      * nodes.
      * 
+     * @throws GrandException
      */
     public void testSeveralNodes() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
@@ -130,6 +136,11 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         }
     }
 
+    /**
+     * Method countNodes.
+     * @param graph Graph
+     * @return int
+     */
     private int countNodes(final Graph graph) {
         int numNode = 0;
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
@@ -139,8 +150,9 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         return numNode;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -148,8 +160,8 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setUp.
      * @see junit.framework.TestCase#setUp()
      */
     @Override

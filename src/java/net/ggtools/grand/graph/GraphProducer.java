@@ -34,8 +34,8 @@ package net.ggtools.grand.graph;
 import net.ggtools.grand.exceptions.GrandException;
 
 /**
- * Interface for class creating graphs. 
- * 
+ * Interface for class creating graphs.
+ *
  * @author Christophe Labouisse
  */
 public interface GraphProducer {
@@ -43,9 +43,9 @@ public interface GraphProducer {
     /**
      * Ask the producer to create a graph.
      * The created graph can be modified by the caller object.
-     * 
+     *
      * @return new graph.
-     * @throws GrandException is an error occurs contructing the graph.
+     * @throws GrandException is an error occurs constructing the graph.
      */
     Graph getGraph() throws GrandException;
 }

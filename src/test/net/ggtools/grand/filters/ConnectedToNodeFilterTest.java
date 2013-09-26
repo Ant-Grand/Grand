@@ -50,8 +50,14 @@ import net.ggtools.grand.utils.AbstractAntTester;
  * @author Christophe Labouisse
  */
 public class ConnectedToNodeFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
+    /**
+     * Field NODES_AFTER_FILTERING.
+     */
     private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
             .asList(new String[]{"dist", "test", "jar", "compile", "compile.java",
                     "compile.jni", "compile.cpp", "prepare", "init", "process-config-files",
@@ -65,7 +71,8 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
         super(name);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setUp.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -74,7 +81,9 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
         producer = new AntProject(project);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
@@ -84,6 +93,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
 
     /**
      * Process build-complex.xml to find the nodes connected to jar. 
+     * @throws GrandException
      */
     public void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("jar");
@@ -109,6 +119,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to filter from an non existent node.
      *
+     * @throws GrandException
      */
     public void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");

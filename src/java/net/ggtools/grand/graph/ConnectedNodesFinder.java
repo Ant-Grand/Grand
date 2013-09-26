@@ -37,12 +37,15 @@ import java.util.Set;
 
 /**
  * A finder returning both backward and forward node.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class ConnectedNodesFinder implements LinkFinder {
 
-    /* (non-Javadoc)
+    /**
+     * Method getLinks.
+     * @param node Node
+     * @return Collection<Node>
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
     public Collection<Node> getLinks(final Node node) {

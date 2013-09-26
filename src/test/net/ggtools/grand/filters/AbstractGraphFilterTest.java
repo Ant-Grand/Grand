@@ -54,6 +54,7 @@ public class AbstractGraphFilterTest extends TestCase {
      * Test if AbstractGraphFilter does not meet an NPE when getting graph
      * before setting the producer.
      *  
+     * @throws GrandException
      */
     public final void testGetGraphBeforeSet() throws GrandException {
         final GraphFilter filter = new AbstractGraphFilter() {
