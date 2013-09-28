@@ -62,7 +62,7 @@ public class ToNodeFilter extends GraphWalkFilter {
      * @see net.ggtools.grand.filters.GraphWalkFilter#getLinkFinder()
      */
     @Override
-    public LinkFinder getLinkFinder() {
+    public final LinkFinder getLinkFinder() {
         return linkFinder;
     }
 

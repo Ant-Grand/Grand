@@ -79,7 +79,7 @@ public class DotWriter implements GraphWriter {
     /**
      * @author Christophe Labouisse
      */
-    private static class Output implements DotWriterOutput {
+    private static final class Output implements DotWriterOutput {
         /**
          * Escapes a string from special dot chars.
          *
@@ -159,7 +159,7 @@ public class DotWriter implements GraphWriter {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(DotWriter.class);
+    private static final Log LOG = LoggerManager.getLog(DotWriter.class);
     /**
      * Field DOT_GRAPH_ATTRIBUTES.
      * (value is ""dot.graph.attributes"")
@@ -238,8 +238,8 @@ public class DotWriter implements GraphWriter {
      * @throws GrandException
      * @see net.ggtools.grand.graph.GraphWriter#write(java.io.File)
      */
-    public void write(final File output) throws IOException, GrandException {
-        log.info("Outputing to " + output);
+    public final void write(final File output) throws IOException, GrandException {
+        LOG.info("Outputing to " + output);
         final FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();
@@ -252,7 +252,7 @@ public class DotWriter implements GraphWriter {
      * @throws GrandException
      * @see net.ggtools.grand.graph.GraphWriter#write(java.io.OutputStream)
      */
-    public void write(final OutputStream stream) throws GrandException {
+    public final void write(final OutputStream stream) throws GrandException {
         final Output output = new Output(stream);
 
         final Graph graph = graphProducer.getGraph();
@@ -267,7 +267,7 @@ public class DotWriter implements GraphWriter {
         output.append("node [").append(nodeAttributes).append("];").newLine();
         output.append("edge [").append(linkAttributes).append("];").newLine();
 
-        final DotWriterVisitor visitor = new DotWriterVisitor(output,config);
+        final DotWriterVisitor visitor = new DotWriterVisitor(output, config);
         final Node startNode = graph.getStartNode();
 
         if (startNode != null) {
@@ -293,7 +293,7 @@ public class DotWriter implements GraphWriter {
      * @param producer GraphProducer
      * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
-    public void setProducer(final GraphProducer producer) {
+    public final void setProducer(final GraphProducer producer) {
         graphProducer = producer;
     }
 
@@ -302,7 +302,7 @@ public class DotWriter implements GraphWriter {
      * @param show boolean
      * @see net.ggtools.grand.graph.GraphWriter#setShowGraphName(boolean)
      */
-    public void setShowGraphName(final boolean show) {
+    public final void setShowGraphName(final boolean show) {
         showGraphName = show;
     }
 

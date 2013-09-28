@@ -58,9 +58,10 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
     /**
      * Field NODES_AFTER_FILTERING.
      */
-    private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
-            .asList(new String[]{"dist", "test", "jar", "compile", "compile.java",
-                    "compile.jni", "compile.cpp", "prepare", "init", "process-config-files",
+    private static final Set<String> NODES_AFTER_FILTERING =
+            new HashSet<String>(Arrays.asList(new String[]{"dist", "test",
+                    "jar", "compile", "compile.java", "compile.jni",
+                    "compile.cpp", "prepare", "init", "process-config-files",
                     "process-one-config-file"}));
 
     /**
@@ -76,7 +77,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -87,7 +88,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "build-complex.xml";
     }
 
@@ -95,13 +96,13 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * Process build-complex.xml to find the nodes connected to jar.
      * @throws GrandException
      */
-    public void testConnectedStartNode() throws GrandException {
+    public final void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("jar");
         filter.setProducer(producer);
         final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             numNodes++;
             final String nodeName = iter.next().getName();
 
@@ -109,11 +110,11 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
                     NODES_AFTER_FILTERING.contains(nodeName));
         }
 
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
+        assertEquals("Filtered graph does not have the right node count",
+                NODES_AFTER_FILTERING.size(), numNodes);
 
-        assertNotNull("Start node 'compile' should not have been filtered out", graph
-                .getStartNode());
+        assertNotNull("Start node 'compile' should not have been filtered out",
+                graph.getStartNode());
     }
 
     /**
@@ -121,7 +122,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testNonExistentNode() throws GrandException {
+    public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {

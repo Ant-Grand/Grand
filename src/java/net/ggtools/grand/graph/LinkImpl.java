@@ -81,7 +81,7 @@ public class LinkImpl extends AttributeManager implements Link {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return ((name == null) ? "" : name) + " (" + startNode + " -> " + endNode + ")";
     }
 
@@ -90,7 +90,7 @@ public class LinkImpl extends AttributeManager implements Link {
      * @return Node
      * @see net.ggtools.grand.graph.Link#getStartNode()
      */
-    public Node getStartNode() {
+    public final Node getStartNode() {
         return startNode;
     }
 
@@ -99,7 +99,7 @@ public class LinkImpl extends AttributeManager implements Link {
      * @return Node
      * @see net.ggtools.grand.graph.Link#getEndNode()
      */
-    public Node getEndNode() {
+    public final Node getEndNode() {
         return endNode;
     }
 
@@ -108,7 +108,7 @@ public class LinkImpl extends AttributeManager implements Link {
      * @return Graph
      * @see net.ggtools.grand.graph.GraphObject#getGraph()
      */
-    public Graph getGraph() {
+    public final Graph getGraph() {
         return graph;
     }
 
@@ -117,7 +117,7 @@ public class LinkImpl extends AttributeManager implements Link {
      * @return String
      * @see net.ggtools.grand.graph.GraphObject#getName()
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 

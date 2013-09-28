@@ -115,7 +115,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * @param reference String
      * @throws IOException
      */
-    protected void assertTempFileMatchExpected(final String reference) throws IOException {
+    protected final void assertTempFileMatchExpected(final String reference) throws IOException {
         final String tempFileProp = project.getProperty(TEMP_FILE_PROP);
         assertNotNull("temp.file property", tempFileProp);
         final File tempFile = new File(tempFileProp);
@@ -130,7 +130,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * Method assertFullLogContaining.
      * @param substring String
      */
-    protected void assertFullLogContaining(final String substring) {
+    protected final void assertFullLogContaining(final String substring) {
         final String realLog = getFullLog();
         assertTrue("expecting full log to contain \"" + substring + "\" full log was \"" + realLog
                 + "\"", realLog.indexOf(substring) >= 0);
@@ -142,7 +142,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * @param target String
      * @param log String
      */
-    protected void expectFullLogContaining(final String target, final String log) {
+    protected final void expectFullLogContaining(final String target, final String log) {
         executeTarget(target);
         assertFullLogContaining(log);
     }
@@ -153,7 +153,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * @see junit.framework.TestCase#runTest()
      */
     @Override
-    protected void runTest() throws Throwable {
+    protected final void runTest() throws Throwable {
         try {
             super.runTest();
         } catch (final Throwable t) {

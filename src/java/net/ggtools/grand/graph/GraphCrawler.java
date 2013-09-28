@@ -81,7 +81,7 @@ public class GraphCrawler {
      * @param startNode node to start the crawl from.
      * @return a collection containing the traversed nodes.
      */
-    public Collection<Node> crawl(final Node startNode) {
+    public final Collection<Node> crawl(final Node startNode) {
         final Set<Node> result = new LinkedHashSet<Node>();
         final LinkedList<Node> nodesToVisit = new LinkedList<Node>();
         nodesToVisit.add(startNode);

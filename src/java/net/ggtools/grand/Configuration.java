@@ -60,7 +60,8 @@ public class Configuration {
     /**
      * Field defaultPropertiesMonitor.
      */
-    private static final Object defaultPropertiesMonitor = new Object();
+    private static final Object DEFAULT_PROPERTIES_MONITOR =
+            new Object();
 
     /**
      * Get a configuration with the default values.
@@ -86,7 +87,8 @@ public class Configuration {
      * @throws IOException
      *             if the default properties were not loadable.
      */
-    public static Configuration getConfiguration(final File propFile) throws IOException {
+    public static Configuration getConfiguration(final File propFile)
+            throws IOException {
         final Properties override = new Properties();
         override.load(new FileInputStream(propFile));
         return getConfiguration(override);
@@ -101,8 +103,9 @@ public class Configuration {
      * @throws IOException
      *             if the default properties were not loadable.
      */
-    public static Configuration getConfiguration(final Properties override) throws IOException {
-        synchronized (defaultPropertiesMonitor) {
+    public static Configuration getConfiguration(final Properties override)
+            throws IOException {
+        synchronized (DEFAULT_PROPERTIES_MONITOR) {
             if (defaultProperties == null) {
                 defaultProperties = new Properties();
                 defaultProperties.load(Configuration.class
@@ -146,8 +149,7 @@ public class Configuration {
         if (override != null) {
             properties = new Properties(defaultProperties);
             properties.putAll(override);
-        }
-        else {
+        } else {
             properties = defaultProperties;
         }
         buildProperties = new Properties();
@@ -162,9 +164,8 @@ public class Configuration {
         if (antVersionStream != null) {
             antProperties.load(antVersionStream);
             antVersionString = antProperties.getProperty("VERSION")
-                    + " (" + antProperties.getProperty("DATE","Unknown") + ")";
-        }
-        else {
+                    + " (" + antProperties.getProperty("DATE", "Unknown") + ")";
+        } else {
             antVersionString = null;
         }
     }
@@ -184,7 +185,7 @@ public class Configuration {
      * Method getAntVersionString.
      * @return String
      */
-    public String getAntVersionString() {
+    public final String getAntVersionString() {
         return antVersionString;
     }
 

@@ -39,7 +39,7 @@ import junit.framework.TestSuite;
  *
  * @author Christophe Labouisse
  */
-public class AllTests {
+public final class AllTests {
     /**
      * Constructor for AllTests.
      */

@@ -51,15 +51,15 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "grand-task-property.xml";
     }
 
     /**
      * Run the test with an undefined property.
      */
-    public void testUndefinedProperty() {
-        project.setProperty("antcall.target","init");
+    public final void testUndefinedProperty() {
+        project.setProperty("antcall.target", "init");
         expectLogContaining("test-noprops", "Outputing to ");
         assertFullLogContaining("Creating link from antcall-props-1 to ${antcall.target}");
         assertFullLogContaining("Creating link from antcall-props-2 to do-${antcall.target}");
@@ -68,8 +68,8 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     /**
      * Set the property in the calling project and create a graph with inheritall set.
      */
-    public void testInheritAll() {
-        project.setProperty("antcall.target","init");
+    public final void testInheritAll() {
+        project.setProperty("antcall.target", "init");
         expectLogContaining("test-inheritall", "Outputing to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
@@ -78,7 +78,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     /**
      * Use the nested element "property" to set antcall.target.
      */
-    public void testPropertyElement() {
+    public final void testPropertyElement() {
         expectLogContaining("test-property", "Outputing to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
@@ -87,8 +87,8 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     /**
      * Use the nested element "propertyset" to set antcall.target.
      */
-    public void testPropertySet() {
-        project.setProperty("antcall.target","init");
+    public final void testPropertySet() {
+        project.setProperty("antcall.target", "init");
         expectLogContaining("test-propertyset", "Outputing to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
@@ -100,8 +100,8 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
      * and use a property element with a different value. The inheritall property
      * should prevail.
      */
-    public void testInheritPrevailsOverProperty() {
-        project.setProperty("antcall.target","init");
+    public final void testInheritPrevailsOverProperty() {
+        project.setProperty("antcall.target", "init");
         expectLogContaining("test-property", "Outputing to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");

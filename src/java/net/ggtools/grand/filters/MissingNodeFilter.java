@@ -55,7 +55,7 @@ public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilte
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override
-    protected Collection<Node> getFilteredNodes() throws GrandException {
+    protected final Collection<Node> getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
         final Set<Node> result = new LinkedHashSet<Node>();
 

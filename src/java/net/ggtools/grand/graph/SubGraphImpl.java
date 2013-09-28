@@ -57,7 +57,7 @@ class SubGraphImpl implements SubGraph {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(SubGraphImpl.class);
+    private static final Log LOG = LoggerManager.getLog(SubGraphImpl.class);
 
     /**
      * Field name.
@@ -83,7 +83,7 @@ class SubGraphImpl implements SubGraph {
     SubGraphImpl(final String name) {
         this(name, new NodeIteratorFactory() {
 
-            final public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
+            public final Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return iterator;
             }
         });
@@ -111,7 +111,7 @@ class SubGraphImpl implements SubGraph {
     public void addNode(final Node node) throws DuplicateElementException {
         final String nodeName = node.getName();
         if (nodeList.containsKey(nodeName)) {
-            log.error("addNode() - Cannot add two nodes with the same name : nodeName = "
+            LOG.error("addNode() - Cannot add two nodes with the same name : nodeName = "
                     + nodeName, null);
             throw new DuplicateElementException("Creating two nodes named " + nodeName);
         }

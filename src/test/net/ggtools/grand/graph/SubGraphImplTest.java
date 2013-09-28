@@ -116,7 +116,7 @@ public class SubGraphImplTest extends TestCase {
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() throws Exception {
+    protected final void setUp() throws Exception {
         sgi = new SubGraphImpl(SUBGRAPH_NAME, new SubGraphImpl.NodeIteratorFactory() {
 
             public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
@@ -158,8 +158,10 @@ public class SubGraphImplTest extends TestCase {
      * @throws DuplicateElementException
      */
     public final void testHasNode() throws DuplicateElementException {
-        assertEquals(sgi.getNode(NODE_NAME_1),new NodeImpl(NODE_NAME_1,null));
-        assertEquals(sgi.getNode(NODE_NAME_2),new NodeImpl(NODE_NAME_2,null));
+        assertEquals(sgi.getNode(NODE_NAME_1),
+                new NodeImpl(NODE_NAME_1, null));
+        assertEquals(sgi.getNode(NODE_NAME_2),
+                new NodeImpl(NODE_NAME_2, null));
         assertNull(sgi.getNode(UNKNOWN_NODE_NAME));
     }
 

@@ -106,7 +106,7 @@ public class GraphImpl implements Graph {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(GraphImpl.class);
+    private static final Log LOG = LoggerManager.getLog(GraphImpl.class);
 
     /**
      * Field elementFactory.
@@ -143,7 +143,7 @@ public class GraphImpl implements Graph {
         name = graphName;
         mainSubGraph = new SubGraphImpl(graphName, new SubGraphImpl.NodeIteratorFactory() {
 
-            final public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
+            public final Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return new NodeIterator(iterator);
             }
         });
@@ -163,7 +163,8 @@ public class GraphImpl implements Graph {
      * @return new link
      * @see net.ggtools.grand.graph.Graph#createLink(String, Node, Node)
      */
-    public Link createLink(final String linkName, final Node startNode, final Node endNode) {
+    public final Link createLink(final String linkName, final Node startNode,
+            final Node endNode) {
         final Link link = getFactory().createLink(linkName, startNode, endNode);
         startNode.addLink(link);
         endNode.addBackLink(link);
@@ -181,7 +182,8 @@ public class GraphImpl implements Graph {
      *             if there is already a node with the same name.
      * @see net.ggtools.grand.graph.Graph#createNode(String)
      */
-    public Node createNode(final String nodeName) throws DuplicateElementException {
+    public final Node createNode(final String nodeName)
+            throws DuplicateElementException {
         return createNode(mainSubGraph, nodeName);
     }
 
@@ -194,7 +196,7 @@ public class GraphImpl implements Graph {
      * @see net.ggtools.grand.graph.Graph#createNode(net.ggtools.grand.graph.SubGraph,
      *      java.lang.String)
      */
-    public Node createNode(final SubGraph subGraph, final String nodeName)
+    public final Node createNode(final SubGraph subGraph, final String nodeName)
             throws DuplicateElementException {
         // We don't want to create a node if it's not gonna be inserted.
         if (subGraph.hasNode(nodeName)) {
@@ -212,9 +214,10 @@ public class GraphImpl implements Graph {
      * @throws DuplicateElementException
      * @see net.ggtools.grand.graph.Graph#createSubGraph(java.lang.String)
      */
-    public SubGraph createSubGraph(final String subGraphName) throws DuplicateElementException {
+    public final SubGraph createSubGraph(final String subGraphName)
+            throws DuplicateElementException {
         if (subGraphList.containsKey(subGraphName)) {
-            log.error("createSubGraph(subGraphName = " + subGraphName
+            LOG.error("createSubGraph(subGraphName = " + subGraphName
                     + ") - Cannot create two subgraphs with the same name", null);
             throw new DuplicateElementException("A subgraph called " + subGraphName
                     + " already exists");
@@ -240,7 +243,7 @@ public class GraphImpl implements Graph {
      * @return Node
      * @see net.ggtools.grand.graph.NodeContainer#getNode(java.lang.String)
      */
-    public Node getNode(final String nodeName) {
+    public final Node getNode(final String nodeName) {
         return mainSubGraph.getNode(nodeName);
     }
 
@@ -249,7 +252,7 @@ public class GraphImpl implements Graph {
      * @return Iterator<Node>
      * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
-    public Iterator<Node> getNodes() {
+    public final Iterator<Node> getNodes() {
         return mainSubGraph.getNodes();
     }
 
@@ -260,7 +263,7 @@ public class GraphImpl implements Graph {
      * @return start node
      * @see net.ggtools.grand.graph.Graph#getStartNode()
      */
-    public Node getStartNode() {
+    public final Node getStartNode() {
         return graphStartNode;
     }
 
@@ -270,7 +273,7 @@ public class GraphImpl implements Graph {
      * @return SubGraph
      * @see net.ggtools.grand.graph.Graph#getSubGraph(java.lang.String)
      */
-    public SubGraph getSubGraph(final String subGraphName) {
+    public final SubGraph getSubGraph(final String subGraphName) {
         return subGraphList.get(subGraphName);
     }
 
@@ -279,7 +282,7 @@ public class GraphImpl implements Graph {
      * @return Iterator<SubGraph>
      * @see net.ggtools.grand.graph.Graph#getSubgraphs()
      */
-    public Iterator<SubGraph> getSubgraphs() {
+    public final Iterator<SubGraph> getSubgraphs() {
         return subGraphList.values().iterator();
     }
 
@@ -289,7 +292,7 @@ public class GraphImpl implements Graph {
      * @return boolean
      * @see net.ggtools.grand.graph.NodeContainer#hasNode(java.lang.String)
      */
-    public boolean hasNode(final String nodeName) {
+    public final boolean hasNode(final String nodeName) {
         return mainSubGraph.hasNode(nodeName);
     }
 
@@ -299,7 +302,7 @@ public class GraphImpl implements Graph {
      * @return boolean
      * @see net.ggtools.grand.graph.Graph#hasSubGraph(java.lang.String)
      */
-    public boolean hasSubGraph(final String subGraphName) {
+    public final boolean hasSubGraph(final String subGraphName) {
         return subGraphList.containsKey(subGraphName);
     }
 
@@ -310,7 +313,7 @@ public class GraphImpl implements Graph {
      *            to be marked as the starting node of the graph.
      * @see net.ggtools.grand.graph.Graph#setStartNode(Node)
      */
-    public void setStartNode(final Node node) {
+    public final void setStartNode(final Node node) {
         if (graphStartNode != null) {
             graphStartNode.clearAttributes(Node.ATTR_START_NODE);
         }
@@ -340,9 +343,9 @@ public class GraphImpl implements Graph {
      * @param node
      *            node to remove from the links.
      */
-    protected void unlinkNode(final Node node) {
-        if (log.isTraceEnabled()) {
-            log.trace("Unlinking node " + node);
+    protected final void unlinkNode(final Node node) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Unlinking node " + node);
         }
 
         for (final Iterator<Link> iter = node.getLinks().iterator(); iter.hasNext();) {

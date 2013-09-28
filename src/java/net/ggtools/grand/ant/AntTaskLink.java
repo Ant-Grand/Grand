@@ -87,7 +87,7 @@ public class AntTaskLink extends AntLink {
     /**
      * @return Returns the taskName.
      */
-    public String getTaskName() {
+    public final String getTaskName() {
         return taskName;
     }
 
@@ -96,7 +96,7 @@ public class AntTaskLink extends AntLink {
      * @param key String
      * @param value String
      */
-    public void setParameter(final String key, final String value) {
+    public final void setParameter(final String key, final String value) {
         parameterMap.put(key, value);
     }
 
@@ -105,7 +105,7 @@ public class AntTaskLink extends AntLink {
      * @param key String
      * @return String
      */
-    public String getParameter(final String key) {
+    public final String getParameter(final String key) {
         return parameterMap.get(key);
     }
 
@@ -113,7 +113,7 @@ public class AntTaskLink extends AntLink {
      * Returns an array of property files set for this link.
      * @return String[]
      */
-    public String[] getPropertyFiles() {
+    public final String[] getPropertyFiles() {
         return propertyFileList.toArray(new String[propertyFileList.size()]);
     }
 
@@ -121,7 +121,7 @@ public class AntTaskLink extends AntLink {
      * Add a new property file to the current list.
      * @param fileName String
      */
-    public void addPropertyFile(final String fileName) {
+    public final void addPropertyFile(final String fileName) {
         propertyFileList.add(fileName);
     }
 
@@ -130,7 +130,7 @@ public class AntTaskLink extends AntLink {
      *
      * @return a read only map of the parameters.
      */
-    public Map<String, String> getParameterMap() {
+    public final Map<String, String> getParameterMap() {
         return parameterMap;
     }
 

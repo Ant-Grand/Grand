@@ -47,7 +47,8 @@ public class FilterChain implements GraphFilter {
     /**
      * Field filterList.
      */
-    private final LinkedList<GraphFilter> filterList = new LinkedList<GraphFilter>();
+    private final LinkedList<GraphFilter> filterList =
+                new LinkedList<GraphFilter>();
 
     /**
      * Field lastFilter.
@@ -86,7 +87,7 @@ public class FilterChain implements GraphFilter {
      *
      * @param newFilter GraphFilter
      */
-    public void addFilterFirst(final GraphFilter newFilter) {
+    public final void addFilterFirst(final GraphFilter newFilter) {
         if (filterList.isEmpty()) {
             lastFilter = newFilter;
         } else {
@@ -107,7 +108,7 @@ public class FilterChain implements GraphFilter {
      *
      * @param newFilter GraphFilter
      */
-    public void addFilterLast(final GraphFilter newFilter) {
+    public final void addFilterLast(final GraphFilter newFilter) {
         filterList.addLast(newFilter);
         newFilter.setProducer(lastFilter);
         lastFilter = newFilter;
@@ -117,7 +118,7 @@ public class FilterChain implements GraphFilter {
      * Removes all the filters in the chain.
      *
      */
-    public void clearFilters() {
+    public final void clearFilters() {
         filterList.clear();
         lastFilter = producer;
     }
@@ -127,7 +128,7 @@ public class FilterChain implements GraphFilter {
      *
      * @return a readonly list of the filters.
      */
-    public List<GraphFilter> getFilterList() {
+    public final List<GraphFilter> getFilterList() {
         return Collections.unmodifiableList(filterList);
     }
 
@@ -137,7 +138,7 @@ public class FilterChain implements GraphFilter {
      * @throws GrandException
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
-    public Graph getGraph() throws GrandException {
+    public final Graph getGraph() throws GrandException {
         final Graph filteredGraph;
 
         if (lastFilter == null) {
@@ -154,7 +155,7 @@ public class FilterChain implements GraphFilter {
      * @return String
      * @see net.ggtools.grand.filters.GraphFilter#getName()
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -163,7 +164,7 @@ public class FilterChain implements GraphFilter {
      * @param newProducer GraphProducer
      * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
-    public void setProducer(final GraphProducer newProducer) {
+    public final void setProducer(final GraphProducer newProducer) {
         producer = newProducer;
         if (filterList.isEmpty()) {
             lastFilter = newProducer;

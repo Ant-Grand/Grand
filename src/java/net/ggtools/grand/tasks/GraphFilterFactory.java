@@ -52,7 +52,7 @@ final class GraphFilterFactory {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(GraphFilterFactory.class);
+    private static final Log LOG = LoggerManager.getLog(GraphFilterFactory.class);
     /**
      * Properties giving the java class to use for a filter name.
      */
@@ -63,7 +63,7 @@ final class GraphFilterFactory {
             CONFIGURATION.load(GraphFilterFactory.class
                     .getResourceAsStream("GraphFilterFactory.properties"));
         } catch (final IOException e) {
-            log.error("Cannot read properties",e);
+            LOG.error("Cannot read properties", e);
             throw new RuntimeException(e);
         }
     }

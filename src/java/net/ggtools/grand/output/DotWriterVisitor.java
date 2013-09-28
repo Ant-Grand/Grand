@@ -53,7 +53,7 @@ class DotWriterVisitor implements NodeVisitor {
      *
      * @author Christophe Labouisse
      */
-    private class NodeLinksVisitor implements LinkVisitor {
+    private final class NodeLinksVisitor implements LinkVisitor {
 
         /**
          * Field node.
@@ -227,7 +227,7 @@ class DotWriterVisitor implements NodeVisitor {
      * Field log.
      */
     @SuppressWarnings("unused")
-    private static final Log log = LoggerManager.getLog(DotWriterVisitor.class);
+    private static final Log LOG = LoggerManager.getLog(DotWriterVisitor.class);
 
     /**
      * Field config.
@@ -323,11 +323,9 @@ class DotWriterVisitor implements NodeVisitor {
 
         if (node.hasAttributes(Node.ATTR_START_NODE)) {
             attributes = startNodeAttributes;
-        }
-        else if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
+        } else if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {
             attributes = mainNodeAttributes;
-        }
-        else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {
+        } else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {
             attributes = missingNodeAttributes;
         }
 

@@ -48,8 +48,8 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager
-            .getLog(ReflectTaskVisitorBase.class);
+    private static final Log LOG =
+            LoggerManager.getLog(ReflectTaskVisitorBase.class);
 
     /**
      * Field METHOD_PARAMETER_TYPES.
@@ -93,9 +93,9 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod = getClass().getDeclaredMethod(methodName, METHOD_PARAMETER_TYPES);
                 methodCache.put(taskName, visitMethod);
             } catch (final SecurityException e) {
-                log.warn("Caught Security exception looking for" + methodName, e);
+                LOG.warn("Caught Security exception looking for" + methodName, e);
             } catch (final NoSuchMethodException e) {
-                log.debug("Cannot find method " + methodName);
+                LOG.debug("Cannot find method " + methodName);
             }
         }
 
@@ -106,18 +106,16 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod.invoke(this, new Object[]{wrapper});
                 invokationOk = true;
             } catch (final IllegalAccessException e) {
-                log.warn("Caught IllegalAccessException invoking " + visitMethod, e);
+                LOG.warn("Caught IllegalAccessException invoking " + visitMethod, e);
             } catch (final InvocationTargetException e) {
                 // Process the exception raised by the method invokation.
                 // GrandException & RuntimeException are propagated.
                 final Throwable cause = e.getCause();
                 if (cause instanceof GrandException) {
                     throw (GrandException) cause;
-                }
-                else if (cause instanceof RuntimeException) {
+                } else if (cause instanceof RuntimeException) {
                     throw (RuntimeException) cause;
-                }
-                else {
+                } else {
                     // FIXME that's a real exception what to do with it?
                     LOG.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
                 }
@@ -136,7 +134,8 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
      * @param wrapper RuntimeConfigurable
      * @throws GrandException
      */
-    public abstract void defaultVisit(RuntimeConfigurable wrapper) throws GrandException;
+    public abstract void defaultVisit(RuntimeConfigurable wrapper)
+            throws GrandException;
 
     /**
      * A default implementation returning the task name.

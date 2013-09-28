@@ -67,7 +67,7 @@ public class AntProject implements GraphProducer {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(AntProject.class);
+    private static final Log LOG = LoggerManager.getLog(AntProject.class);
 
     /**
      * A condition helper using the {@link Target#getIf()}&
@@ -81,9 +81,8 @@ public class AntProject implements GraphProducer {
          * available in the last versions of Ant, we check if those method can
          * be loaded.
          * @throws NoSuchMethodException
-         * @throws SecurityException
          */
-        public GetterConditionHelper() throws SecurityException, NoSuchMethodException {
+        public GetterConditionHelper() throws NoSuchMethodException {
             final Class<?>[] parameters = new Class[]{};
             Target.class.getMethod("getIf", parameters);
             Target.class.getMethod("getUnless", parameters);
@@ -162,9 +161,8 @@ public class AntProject implements GraphProducer {
         /**
          * Constructor for ReflectHelper.
          * @throws NoSuchFieldException
-         * @throws SecurityException
          */
-        public ReflectHelper() throws SecurityException, NoSuchFieldException {
+        public ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
             unlessCondition = Target.class.getDeclaredField("unlessCondition");
             AccessibleObject.setAccessible(new AccessibleObject[]{ifCondition, unlessCondition}, true);
@@ -185,7 +183,7 @@ public class AntProject implements GraphProducer {
                     result = null;
                 }
             } catch (final Exception e) {
-                log.error("Caugh exception, ignoring if condition", e);
+                LOG.error("Caugh exception, ignoring if condition", e);
             }
 
             return result;
@@ -206,7 +204,7 @@ public class AntProject implements GraphProducer {
                     result = null;
                 }
             } catch (final Exception e) {
-                log.error("Caugh exception, ignoring unless condition", e);
+                LOG.error("Caugh exception, ignoring unless condition", e);
             }
 
             return result;
@@ -220,7 +218,7 @@ public class AntProject implements GraphProducer {
      *
      * @author Christophe Labouisse
      */
-    private static interface TargetConditionHelper {
+    private interface TargetConditionHelper {
         /**
          * Returns the <em>if condition</em> for a specific target.
          *
@@ -245,7 +243,7 @@ public class AntProject implements GraphProducer {
      *
      * @author Christophe Labouisse
      */
-    private static class TargetConditionHelperFactory {
+    private static final class TargetConditionHelperFactory {
 
         /**
          * Creates a new TargetConditionHelper.
@@ -257,18 +255,18 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = new GetterConditionHelper();
-                log.debug("Using ant 1.6.2 getter");
+                LOG.debug("Using ant 1.6.2 getter");
             } catch (final Exception e) {
-                log.debug("Cannot create GetterConditionHelper, trying next one");
+                LOG.debug("Cannot create GetterConditionHelper, trying next one");
                 result = null;
             }
 
             if (result == null) {
                 try {
                     result = new ReflectHelper();
-                    log.debug("Using ReflectHelper");
+                    LOG.debug("Using ReflectHelper");
                 } catch (final Exception e) {
-                    log.debug("Cannot create ReflectHelper, trying next one");
+                    LOG.debug("Cannot create ReflectHelper, trying next one");
                     result = null;
                 }
             }
@@ -340,10 +338,10 @@ public class AntProject implements GraphProducer {
      *             if the project cannot be loaded.
      */
     public AntProject(final File source, final Properties properties) throws GrandException {
-        log.info("Parsing from " + source);
+        LOG.info("Parsing from " + source);
         antProject = new Project();
         if (properties != null) {
-            for (final Map.Entry<Object,Object> element : properties.entrySet()) {
+            for (final Map.Entry<Object, Object> element : properties.entrySet()) {
                 antProject.setProperty((String) element.getKey(), (String) element.getValue());
             }
         }
@@ -357,10 +355,10 @@ public class AntProject implements GraphProducer {
             final ProjectHelper loader = ProjectHelper.getProjectHelper();
             antProject.addReference("ant.projectHelper", loader);
             loader.parse(antProject, source);
-            log.debug("Done parsing");
+            LOG.debug("Done parsing");
         } catch (final BuildException e) {
             final String message = "Cannot open project file " + source;
-            log.error(message, e);
+            LOG.error(message, e);
             // TODO better rethrowing?
             throw new GrandException(message, e);
         }
@@ -379,23 +377,18 @@ public class AntProject implements GraphProducer {
         if (helper != null) {
             final AntTypeDefinition subAntDef = helper.getDefinition("subant");
             if (subAntDef == null) {
-                log
-                        .warn("No definition found for the subant task in ComponentHelper, disabling subant");
-            }
-            else {
+                LOG.warn("No definition found for the subant task in ComponentHelper, disabling subant");
+            } else {
                 subAntDef.setClass(SubAntHelper.class);
             }
             final AntTypeDefinition taskDefDef = helper.getDefinition("taskdef");
             if (taskDefDef == null) {
-                log
-                        .warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
-            }
-            else {
+                LOG.warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
+            } else {
                 taskDefDef.setClass(TaskDefHelper.class);
             }
-        }
-        else {
-            log.warn("No component helper in current project");
+        } else {
+            LOG.warn("No component helper in current project");
         }
     }
 
@@ -415,7 +408,7 @@ public class AntProject implements GraphProducer {
      *
      * @return underlying ant project.
      */
-    public Project getAntProject() {
+    public final Project getAntProject() {
         return antProject;
     }
 
@@ -442,8 +435,8 @@ public class AntProject implements GraphProducer {
      *             if the project cannot be converted to a graph.
      * @see GraphProducer#getGraph()
      */
-    public Graph getGraph() throws GrandException {
-        log.debug("Triggering AntProject");
+    public final Graph getGraph() throws GrandException {
+        LOG.debug("Triggering AntProject");
 
         final AntGraph graph = new AntGraph(antProject);
 
@@ -525,13 +518,13 @@ public class AntProject implements GraphProducer {
         Node endNode = graph.getNode(endNodeName);
 
         if (endNode == null) {
-            log.warn("Target " + startNode + " has dependency to non existent target "
+            LOG.warn("Target " + startNode + " has dependency to non existent target "
                     + endNodeName + ", creating a dummy node");
             endNode = graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
 
-        log.debug("Creating link from " + startNode + " to " + endNodeName);
+        LOG.debug("Creating link from " + startNode + " to " + endNodeName);
         return (AntLink) graph.createLink(linkName, startNode, endNode);
     }
 }

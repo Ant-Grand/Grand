@@ -45,7 +45,7 @@ class NodeRemoverFilterType implements GraphFilterType {
     /**
      * Field project.
      */
-    final private Project project;
+    private final Project project;
 
     /**
      * Field nodeName.

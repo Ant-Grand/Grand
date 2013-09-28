@@ -50,7 +50,7 @@ public class AntProjectFromFileTest extends AntProjectTest {
      * Method createGraph.
      */
     @Override
-    protected void createGraph() {
+    protected final void createGraph() {
         try {
             antProject = new AntProject(new File(getTestBuildFileName()));
             antProject.getAntProject().setBasedir(TESTCASES_DIR);

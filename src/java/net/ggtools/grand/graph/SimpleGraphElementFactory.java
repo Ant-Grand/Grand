@@ -43,7 +43,7 @@ class SimpleGraphElementFactory implements GraphElementFactory {
     /**
      * Field graph.
      */
-    final private Graph graph;
+    private final Graph graph;
 
     /**
      * Creates a factory instance linked to a specific graph.

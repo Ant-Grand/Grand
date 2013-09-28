@@ -31,7 +31,7 @@
 
 package net.ggtools.grand.tasks;
 
-import net.ggtools.grand.utils.*;
+import net.ggtools.grand.utils.AbstractAntTester;
 
 import org.apache.tools.ant.BuildException;
 
@@ -60,7 +60,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
      * @see TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         factory = new GraphFilterFactory();
     }
@@ -70,7 +70,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
      * @see TestCase#tearDown()
      */
     @Override
-    protected void tearDown() {
+    protected final void tearDown() {
         super.tearDown();
     }
 
@@ -80,7 +80,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "empty.xml";
     }
 

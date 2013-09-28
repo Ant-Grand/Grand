@@ -38,11 +38,6 @@ import java.util.Set;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.ForwardLinkFinder;
-import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.GraphCrawler;
-import net.ggtools.grand.graph.GraphProducer;
-import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
@@ -59,11 +54,12 @@ public class GraphCrawlerTest extends AbstractAntTester {
     /**
      * Field NODES_AFTER_FILTERING.
      */
-    private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
-            .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
-                    "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
-                    "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
-                    "jmxCheck"}));
+    private static final Set<String> NODES_AFTER_FILTERING =
+            new HashSet<String>(Arrays.asList(new String[]{"build", "init",
+                    "build.core", "build.examples", "build.xml", "jaxp",
+                    "jaxpCheck", "build.javamail", "javamail",
+                    "javamailCheck", "build.jms", "jms", "jmsCheck", "jndi",
+                    "jndiCheck", "build.jmx", "jmx", "jmxCheck"}));
 
     /**
      * Constructor for GraphCrawlerTest.
@@ -79,7 +75,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
@@ -88,7 +84,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
      * @see AbstractTaskTester#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -98,7 +94,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
      * @see AbstractTaskTester#tearDown()
      */
     @Override
-    protected void tearDown() {
+    protected final void tearDown() {
         super.tearDown();
     }
 
@@ -111,9 +107,9 @@ public class GraphCrawlerTest extends AbstractAntTester {
         final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());
         final Collection<Node> result = crawler.crawl(graph.getNode("build"));
 
-        assertEquals("Result and reference do not have the same size", NODES_AFTER_FILTERING
-                .size(), result.size());
-        
+        assertEquals("Result and reference do not have the same size",
+                NODES_AFTER_FILTERING.size(), result.size());
+
         for (Node node : result) {
             final String nodeName = node.getName();
             assertTrue("Node " + nodeName + " should have been filtered out",

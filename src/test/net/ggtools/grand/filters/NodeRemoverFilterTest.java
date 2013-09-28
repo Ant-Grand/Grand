@@ -63,7 +63,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testNonExistentNode() throws GrandException {
+    public final void testNonExistentNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         toRemove.add("gruik-gruik-you-won't-find-me");
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
@@ -81,7 +81,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testNonNode() throws GrandException {
+    public final void testNonNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
         filter.setProducer(producer);
@@ -98,7 +98,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testOneNode() throws GrandException {
+    public final void testOneNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         toRemove.add("init");
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
@@ -119,7 +119,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testSeveralNodes() throws GrandException {
+    public final void testSeveralNodes() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         toRemove.add("init");
         toRemove.add("build");
@@ -156,7 +156,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
@@ -165,7 +165,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }

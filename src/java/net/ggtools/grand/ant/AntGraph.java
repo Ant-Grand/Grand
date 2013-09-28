@@ -69,10 +69,10 @@ public class AntGraph extends GraphImpl {
      * @param taskName String
      * @return AntTaskLink
      */
-    public AntTaskLink createTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
-        final AntTaskLink link = getFactoryInternal().createTaskLink(linkName, startNode, endNode,
-                taskName);
+    public final AntTaskLink createTaskLink(final String linkName,
+            final Node startNode, final Node endNode, final String taskName) {
+        final AntTaskLink link = getFactoryInternal().createTaskLink(linkName,
+                startNode, endNode, taskName);
         startNode.addLink(link);
         endNode.addBackLink(link);
         return link;
@@ -87,10 +87,10 @@ public class AntGraph extends GraphImpl {
      * @param taskName String
      * @return SubantTaskLink
      */
-    public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
-        final SubantTaskLink link = getFactoryInternal().createSubantTaskLink(linkName, startNode, endNode,
-                taskName);
+    public final SubantTaskLink createSubantTaskLink(final String linkName,
+            final Node startNode, final Node endNode, final String taskName) {
+        final SubantTaskLink link = getFactoryInternal().createSubantTaskLink(linkName,
+                startNode, endNode, taskName);
         startNode.addLink(link);
         endNode.addBackLink(link);
         return link;
@@ -100,7 +100,7 @@ public class AntGraph extends GraphImpl {
      * Returns the project.
      * @return Project
      */
-    public Project getProject() {
+    public final Project getProject() {
         return project;
     }
 
@@ -109,7 +109,7 @@ public class AntGraph extends GraphImpl {
      * the {@link AntGraphElementFactory}type.
      * @return AntGraphElementFactory
      */
-    private final AntGraphElementFactory getFactoryInternal() {
+    private AntGraphElementFactory getFactoryInternal() {
         if (elementFactory == null) {
             elementFactory = new AntGraphElementFactory(this);
         }
@@ -122,7 +122,7 @@ public class AntGraph extends GraphImpl {
      * @see net.ggtools.grand.graph.GraphImpl#getFactory()
      */
     @Override
-    protected GraphElementFactory getFactory() {
+    protected final GraphElementFactory getFactory() {
         return getFactoryInternal();
     }
 }

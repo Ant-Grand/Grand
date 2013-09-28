@@ -50,7 +50,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
 
     /**
      * Constructor for IsolatedNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public IsolatedNodeFilterTest(final String name) {
         super(name);
@@ -61,7 +61,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * @see TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -72,7 +72,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "isolated-node-filter.xml";
     }
 
@@ -81,14 +81,14 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testFullGraph() throws GrandException {
+    public final void testFullGraph() throws GrandException {
         final Graph graph = producer.getGraph();
-        
-        assertNotNull("Target not found",graph.getNode("init"));
-        assertNotNull("Target not found",graph.getNode("depend-1"));
-        assertNotNull("Target not found",graph.getNode("depend-2"));
-        assertNotNull("Target not found",graph.getNode("isolated"));
-        assertNotNull("Start node not found",graph.getStartNode());
+
+        assertNotNull("Target not found", graph.getNode("init"));
+        assertNotNull("Target not found", graph.getNode("depend-1"));
+        assertNotNull("Target not found", graph.getNode("depend-2"));
+        assertNotNull("Target not found", graph.getNode("isolated"));
+        assertNotNull("Start node not found", graph.getStartNode());
     }
 
 
@@ -98,16 +98,21 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testFilter() throws GrandException {
+    public final void testFilter() throws GrandException {
         final GraphFilter filter = new IsolatedNodeFilter();
         filter.setProducer(producer);
         final Graph graph = filter.getGraph();
-        
-        assertNotNull("Connected node should not have been removed",graph.getNode("init"));
-        assertNotNull("Connected node should not have been removed",graph.getNode("depend-1"));
-        assertNotNull("Connected node should not have been removed",graph.getNode("depend-2"));
-        assertNull("Isolated node should not have been found",graph.getNode("isolated"));
-        assertNull("Isolated start node should have been removed",graph.getStartNode());
+
+        assertNotNull("Connected node should not have been removed",
+                graph.getNode("init"));
+        assertNotNull("Connected node should not have been removed",
+                graph.getNode("depend-1"));
+        assertNotNull("Connected node should not have been removed",
+                graph.getNode("depend-2"));
+        assertNull("Isolated node should not have been found",
+                graph.getNode("isolated"));
+        assertNull("Isolated start node should have been removed",
+                graph.getStartNode());
     }
 
 
@@ -117,13 +122,14 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testConnectedStartNode() throws GrandException {
+    public final void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new IsolatedNodeFilter();
         filter.setProducer(producer);
         project.setDefault("depend-1");
         final Graph graph = filter.getGraph();
-        
-        assertNotNull("Connected start node should not have been removed",graph.getStartNode());
+
+        assertNotNull("Connected start node should not have been removed",
+                graph.getStartNode());
     }
 
 }

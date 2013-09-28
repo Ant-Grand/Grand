@@ -46,7 +46,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(AbstractGraphFilter.class);
+    private static final Log LOG = LoggerManager.getLog(AbstractGraphFilter.class);
 
     /**
      * Field graphProducer.
@@ -86,8 +86,8 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @throws GrandException
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
-    public Graph getGraph() throws GrandException {
-        log.debug("Triggering AbstractGraphFilter");
+    public final Graph getGraph() throws GrandException {
+        LOG.debug("Triggering AbstractGraphFilter");
         final Graph graph = getProducersGraph();
 
         if (graph != null) {
@@ -114,7 +114,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @param producer GraphProducer
      * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
-    public void setProducer(final GraphProducer producer) {
+    public final void setProducer(final GraphProducer producer) {
         graphProducer = producer;
         producersGraph = null;
     }
@@ -124,7 +124,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @return String
      * @see net.ggtools.grand.filters.GraphFilter#getName()
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -137,7 +137,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @throws GrandException
      *             if the filtering cannot be done
      */
-    abstract protected Collection<Node> getFilteredNodes() throws GrandException;
+    protected abstract Collection<Node> getFilteredNodes() throws GrandException;
 
     /**
      * Returns the current graph producer.

@@ -58,7 +58,8 @@ public class SubantTaskLink extends AntTaskLink {
      * @param endNode Node
      * @param taskName String
      */
-    public SubantTaskLink(final String name, final Graph graph, final Node startNode, final Node endNode, final String taskName) {
+    public SubantTaskLink(final String name, final Graph graph,
+            final Node startNode, final Node endNode, final String taskName) {
         super(name, graph, startNode, endNode, taskName);
     }
 
@@ -68,7 +69,7 @@ public class SubantTaskLink extends AntTaskLink {
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
     @Override
-    public void accept(final LinkVisitor visitor) {
+    public final void accept(final LinkVisitor visitor) {
         visitor.visitLink(this);
     }
 
@@ -77,7 +78,7 @@ public class SubantTaskLink extends AntTaskLink {
      * ant file.
      * @param newDir String
      */
-    public void addDirectory(final String newDir) {
+    public final void addDirectory(final String newDir) {
         directories.add(newDir);
     }
 
@@ -86,7 +87,7 @@ public class SubantTaskLink extends AntTaskLink {
      *
      * @return a read-only list of directories.
      */
-    public Collection<String> getDirectories() {
+    public final Collection<String> getDirectories() {
         return Collections.unmodifiableList(directories);
     }
 

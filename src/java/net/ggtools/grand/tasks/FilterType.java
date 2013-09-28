@@ -49,7 +49,8 @@ public class FilterType {
     /**
      * Field filterFactory.
      */
-    private static final GraphFilterFactory filterFactory = new GraphFilterFactory();
+    private static final GraphFilterFactory FILTER_FACTORY =
+            new GraphFilterFactory();
 
     /**
      * Field filter.
@@ -85,7 +86,7 @@ public class FilterType {
      */
     private void checkFilter() {
         if (filter == null) {
-            filter = filterFactory.getFilterType(project, filterName);
+            filter = FILTER_FACTORY.getFilterType(project, filterName);
             if (nodeName != null) {
                 filter.setNodeName(nodeName);
             }
@@ -99,7 +100,7 @@ public class FilterType {
      *
      * @throws BuildException if the parameters are not ok
      */
-    void checkParameters() throws BuildException {
+    final void checkParameters() throws BuildException {
         if (filterName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);
@@ -114,17 +115,17 @@ public class FilterType {
      *
      * @return the actual filter.
      */
-    public GraphFilter getFilter() {
+    public final GraphFilter getFilter() {
         checkFilter();
         return filter.getFilter();
     }
 
     /**
-     * Sets the filter's name
+     * Sets the filter's name.
      *
      * @param name filter's name
      */
-    public void setName(final String name) {
+    public final void setName(final String name) {
         filterName = name;
     }
 
@@ -133,14 +134,14 @@ public class FilterType {
      *
      * @param node node's name.
      */
-    public void setNode(final String node) {
+    public final void setNode(final String node) {
         nodeName = node;
     }
 
     /**
      * @return Returns the filterName.
      */
-    public String getFilterName() {
+    public final String getFilterName() {
         return filterName;
     }
 }

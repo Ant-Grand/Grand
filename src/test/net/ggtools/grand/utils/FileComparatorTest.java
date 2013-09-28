@@ -44,20 +44,20 @@ public class FileComparatorTest extends TestCase {
     /**
      * Field BUILD_SIMPLE.
      */
-    private static final File BUILD_SIMPLE = new File(
-            "src/etc/testcases/build-simple.dot");
+    private static final File BUILD_SIMPLE =
+            new File("src/etc/testcases/build-simple.dot");
 
     /**
      * Field BUILD_IMPORT.
      */
-    private static final File BUILD_IMPORT = new File(
-            "src/etc/testcases/build-import.dot");
+    private static final File BUILD_IMPORT =
+            new File("src/etc/testcases/build-import.dot");
 
     /**
      * Field OVERRIDE.
      */
-    private static final File OVERRIDE = new File(
-            "src/etc/testcases/override.dot");
+    private static final File OVERRIDE =
+            new File("src/etc/testcases/override.dot");
 
     /**
      * Constructor for FileComparatorTest.

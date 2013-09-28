@@ -71,7 +71,8 @@ class AntGraphElementFactory implements GraphElementFactory {
      * @see net.ggtools.grand.graph.GraphElementFactory#createLink(java.lang.String,
      *      net.ggtools.grand.graph.Node, net.ggtools.grand.graph.Node)
      */
-    public Link createLink(final String linkName, final Node startNode, final Node endNode) {
+    public Link createLink(final String linkName,
+            final Node startNode, final Node endNode) {
         return new AntLink(linkName, graph, startNode, endNode);
     }
 
@@ -84,8 +85,8 @@ class AntGraphElementFactory implements GraphElementFactory {
      * @param taskName String
      * @return AntTaskLink
      */
-    public AntTaskLink createTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
+    public AntTaskLink createTaskLink(final String linkName,
+            final Node startNode, final Node endNode, final String taskName) {
         return new AntTaskLink(linkName, graph, startNode, endNode, taskName);
     }
 
@@ -100,8 +101,8 @@ class AntGraphElementFactory implements GraphElementFactory {
      * @param taskName String
      * @return SubantTaskLink
      */
-    public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
+    public SubantTaskLink createSubantTaskLink(final String linkName,
+            final Node startNode, final Node endNode, final String taskName) {
         return new SubantTaskLink(linkName, graph, startNode, endNode, taskName);
     }
 

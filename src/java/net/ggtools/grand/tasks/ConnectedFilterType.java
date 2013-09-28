@@ -66,7 +66,7 @@ public class ConnectedFilterType implements GraphFilterType {
      * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
-    public void checkParameters() throws BuildException {
+    public final void checkParameters() throws BuildException {
         if (nodeName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);
@@ -79,7 +79,7 @@ public class ConnectedFilterType implements GraphFilterType {
      * @return GraphFilter
      * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
      */
-    public GraphFilter getFilter() {
+    public final GraphFilter getFilter() {
         return new ConnectedToNodeFilter(nodeName);
     }
 
@@ -88,7 +88,7 @@ public class ConnectedFilterType implements GraphFilterType {
      * @param name String
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
-    public void setNodeName(final String name) {
+    public final void setNodeName(final String name) {
         nodeName = name;
     }
 

@@ -32,7 +32,7 @@ import org.apache.commons.logging.Log;
 /**
  * @author Christophe Labouisse
  */
-public class LoggerManager {
+public final class LoggerManager {
 
     /**
      * Field currentFactory.
@@ -42,12 +42,12 @@ public class LoggerManager {
     /**
      * Field defaultFactory.
      */
-    private final static LoggerFactory defaultFactory = new LoggerFactory() {
-        public Log getLog(Class<?> clazz) {
+    private static final LoggerFactory DEFAULT_FACTORY = new LoggerFactory() {
+        public Log getLog(final Class<?> clazz) {
             return new AntLog();
         }
 
-        public Log getLog(String name) {
+        public Log getLog(final String name) {
             return new AntLog();
         }
     };
@@ -60,9 +60,8 @@ public class LoggerManager {
     public static Log getLog(final Class<?> clazz) {
         if (currentFactory != null) {
             return currentFactory.getLog(clazz);
-        }
-        else {
-            return defaultFactory.getLog(clazz);
+        } else {
+            return DEFAULT_FACTORY.getLog(clazz);
         }
     }
 
@@ -74,9 +73,8 @@ public class LoggerManager {
     public static Log getLog(final String name) {
         if (currentFactory != null) {
             return currentFactory.getLog(name);
-        }
-        else {
-            return defaultFactory.getLog(name);
+        } else {
+            return DEFAULT_FACTORY.getLog(name);
         }
     }
 

@@ -50,23 +50,23 @@ public class GraphFilterTypeTest extends AbstractAntTester {
      * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "graph-filter.xml";
     }
 
     /**
      * Method testIsolatedNode.
      */
-    public void testIsolatedNode() {
-        expectLogContaining("test","Node parameter useless for isolatednode");
+    public final void testIsolatedNode() {
+        expectLogContaining("test", "Node parameter useless for isolatednode");
         assertLogContaining("Loaded 1 filter");
     }
 
     /**
      * Method testNamelessFilter.
      */
-    public void testNamelessFilter() {
-        expectBuildException("noname","required attribute missing");
+    public final void testNamelessFilter() {
+        expectBuildException("noname", "required attribute missing");
     }
 
 }

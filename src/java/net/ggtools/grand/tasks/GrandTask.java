@@ -126,7 +126,7 @@ public class GrandTask extends Task {
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
-    public void execute() throws BuildException {
+    public final void execute() throws BuildException {
         checkParams();
 
         final GraphProducer graphProject = initAntProject();
@@ -233,7 +233,7 @@ public class GrandTask extends Task {
         } else {
             // set all properties from calling project
             final Properties props = new Properties();
-            for (Map.Entry<String,Object> entry : getProject().getProperties().entrySet()) {
+            for (Map.Entry<String, Object> entry : getProject().getProperties().entrySet()) {
                 props.put(entry.getKey(), entry.getValue());
             }
             addAlmostAll(antProject, props);
@@ -255,7 +255,7 @@ public class GrandTask extends Task {
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
     @Override
-    public void setProject(final Project project) {
+    public final void setProject(final Project project) {
         super.setProject(project);
         AntLog.setCurrentProject(project);
         AntLog.setCurrentTask(this);
@@ -266,7 +266,7 @@ public class GrandTask extends Task {
      *
      * @param file File
      */
-    public void setBuildFile(final File file) {
+    public final void setBuildFile(final File file) {
         buildFile = file;
     }
 
@@ -275,7 +275,7 @@ public class GrandTask extends Task {
      *
      * @param file File
      */
-    public void setOutput(final File file) {
+    public final void setOutput(final File file) {
         output = file;
     }
 
@@ -285,7 +285,7 @@ public class GrandTask extends Task {
      * @param propertyFile File
      */
     @Deprecated
-    public void setPropertyFile(final File propertyFile) {
+    public final void setPropertyFile(final File propertyFile) {
         log(
 "Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
                 Project.MSG_WARN);
@@ -296,7 +296,7 @@ public class GrandTask extends Task {
      * Set a property file to override the output default configuration.
      * @param propertyFile File
      */
-    public void setOutputConfigFile(final File propertyFile) {
+    public final void setOutputConfigFile(final File propertyFile) {
         outputConfigurationFile = propertyFile;
     }
 
@@ -304,7 +304,7 @@ public class GrandTask extends Task {
      * Method setShowGraphName.
      * @param show boolean
      */
-    public void setShowGraphName(final boolean show) {
+    public final void setShowGraphName(final boolean show) {
         showGraphName = show;
     }
 
@@ -313,7 +313,7 @@ public class GrandTask extends Task {
      * Defaults to true.
      * @param value if true pass all properties to the new Ant project.
      */
-    public void setInheritAll(final boolean value) {
+    public final void setInheritAll(final boolean value) {
         inheritAll = value;
     }
 
@@ -321,7 +321,7 @@ public class GrandTask extends Task {
      * Add a filter to the task.
      * @param filter FilterType
      */
-    public void addFilter(final FilterType filter) {
+    public final void addFilter(final FilterType filter) {
         filters.add(filter);
     }
 
@@ -330,7 +330,7 @@ public class GrandTask extends Task {
      *
      * @param p the property to set.
      */
-    public void addProperty(final Property p) {
+    public final void addProperty(final Property p) {
         properties.add(p);
     }
 
@@ -339,7 +339,7 @@ public class GrandTask extends Task {
      *
      * @param ps property set to add
      */
-    public void addPropertyset(final PropertySet ps) {
+    public final void addPropertyset(final PropertySet ps) {
         propertySets.add(ps);
     }
 

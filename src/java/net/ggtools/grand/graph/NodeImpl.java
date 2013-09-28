@@ -46,7 +46,7 @@ public class NodeImpl extends AttributeManager implements Node {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(NodeImpl.class);
+    private static final Log LOG = LoggerManager.getLog(NodeImpl.class);
 
     /**
      * Field name.
@@ -104,7 +104,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -123,7 +123,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return name.hashCode();
     }
 
@@ -133,7 +133,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return name;
     }
 
@@ -142,7 +142,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return Collection<Link>
      * @see net.ggtools.grand.graph.Node#getLinks()
      */
-    public Collection<Link> getLinks() {
+    public final Collection<Link> getLinks() {
         return links;
     }
 
@@ -151,7 +151,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return Collection<Link>
      * @see net.ggtools.grand.graph.Node#getBackLinks()
      */
-    public Collection<Link> getBackLinks() {
+    public final Collection<Link> getBackLinks() {
         return backLinks;
     }
 
@@ -160,7 +160,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return String
      * @see net.ggtools.grand.graph.Node#getDescription()
      */
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
@@ -169,7 +169,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @param desc String
      * @see net.ggtools.grand.graph.Node#setDescription(java.lang.String)
      */
-    public void setDescription(final String desc) {
+    public final void setDescription(final String desc) {
         description = desc;
     }
 
@@ -178,7 +178,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return Graph
      * @see net.ggtools.grand.graph.GraphObject#getGraph()
      */
-    public Graph getGraph() {
+    public final Graph getGraph() {
         return graph;
     }
 
@@ -187,7 +187,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return String
      * @see net.ggtools.grand.graph.GraphObject#getName()
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -196,7 +196,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @param link Link
      * @see net.ggtools.grand.graph.Node#addLink(net.ggtools.grand.graph.Link)
      */
-    public void addLink(final Link link) {
+    public final void addLink(final Link link) {
         links.add(link);
     }
 
@@ -205,7 +205,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @param link Link
      * @see net.ggtools.grand.graph.Node#addBackLink(net.ggtools.grand.graph.Link)
      */
-    public void addBackLink(final Link link) {
+    public final void addBackLink(final Link link) {
         backLinks.add(link);
     }
 
@@ -214,9 +214,9 @@ public class NodeImpl extends AttributeManager implements Node {
      * @param link Link
      * @see net.ggtools.grand.graph.Node#removeLink(net.ggtools.grand.graph.Link)
      */
-    public void removeLink(final Link link) {
-        if (log.isTraceEnabled()) {
-            log.trace(name + ": removing link " + link);
+    public final void removeLink(final Link link) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(name + ": removing link " + link);
         }
         links.remove(link);
     }
@@ -226,9 +226,9 @@ public class NodeImpl extends AttributeManager implements Node {
      * @param link Link
      * @see net.ggtools.grand.graph.Node#removeBackLink(net.ggtools.grand.graph.Link)
      */
-    public void removeBackLink(final Link link) {
-        if (log.isTraceEnabled()) {
-            log.trace(name + ": removing back link " + link);
+    public final void removeBackLink(final Link link) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(name + ": removing back link " + link);
         }
         backLinks.remove(link);
     }
@@ -247,7 +247,7 @@ public class NodeImpl extends AttributeManager implements Node {
      * @return String
      * @see net.ggtools.grand.graph.Node#getSource()
      */
-    public String getSource() {
+    public final String getSource() {
         return source;
     }
 
@@ -256,7 +256,7 @@ public class NodeImpl extends AttributeManager implements Node {
      *
      * @param newSource String
      */
-    public void setSource(final String newSource) {
+    public final void setSource(final String newSource) {
         source = newSource;
     }
 }

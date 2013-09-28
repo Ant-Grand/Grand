@@ -104,25 +104,25 @@ public class AntTargetNode extends NodeImpl {
      * Field SOURCE_ATTRIBUTE.
      * (value is 2)
      */
-    public final static int SOURCE_ATTRIBUTE = 2;
+    public static final int SOURCE_ATTRIBUTE = 2;
 
     /**
      * Field SOURCE_INKNOWN.
      * (value is 0)
      */
-    public final static int SOURCE_INKNOWN = 0;
+    public static final int SOURCE_INKNOWN = 0;
 
     /**
      * Field SOURCE_MARKUP.
      * (value is 1)
      */
-    public final static int SOURCE_MARKUP = 1;
+    public static final int SOURCE_MARKUP = 1;
 
     /**
      * Field SOURCE_TEXT.
      * (value is 3)
      */
-    public final static int SOURCE_TEXT = 3;
+    public static final int SOURCE_TEXT = 3;
 
     /**
      * Field buildFile.
@@ -159,7 +159,7 @@ public class AntTargetNode extends NodeImpl {
      * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
      */
     @Override
-    public void accept(final NodeVisitor visitor) {
+    public final void accept(final NodeVisitor visitor) {
         visitor.visitNode(this);
     }
 

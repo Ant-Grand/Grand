@@ -49,7 +49,7 @@ public class NodeRemoverFilter extends AbstractGraphFilter {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(NodeRemoverFilter.class);
+    private static final Log LOG = LoggerManager.getLog(NodeRemoverFilter.class);
 
     /**
      * Field nodesToRemove.
@@ -72,7 +72,7 @@ public class NodeRemoverFilter extends AbstractGraphFilter {
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override
-    protected Collection<Node> getFilteredNodes() throws GrandException {
+    protected final Collection<Node> getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
         final Set<Node> result = new LinkedHashSet<Node>();
 
@@ -84,8 +84,8 @@ public class NodeRemoverFilter extends AbstractGraphFilter {
             }
         }
 
-        if (log.isDebugEnabled()) {
-            log.debug("getFilteredNodes() - end - return value = " + result);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("getFilteredNodes() - end - return value = " + result);
         }
         return result;
     }

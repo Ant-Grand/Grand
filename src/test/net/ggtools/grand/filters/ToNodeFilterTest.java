@@ -58,8 +58,9 @@ public class ToNodeFilterTest extends AbstractAntTester {
     /**
      * Field NODES_AFTER_FILTERING.
      */
-    private static final Set<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
-            .asList(new String[]{"dist", "jar", "log4j.jar", "prejar", "chainsaw", "build",
+    private static final Set<String> NODES_AFTER_FILTERING =
+            new HashSet<String>(Arrays.asList(new String[]{"dist", "jar",
+                    "log4j.jar", "prejar", "chainsaw", "build",
                     "build.jms", "jndi", "jndiCheck", "build.jmx"}));
 
     /**
@@ -75,7 +76,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
@@ -86,7 +87,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
@@ -96,13 +97,13 @@ public class ToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testConnectedStartNode() throws GrandException {
+    public final void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new ToNodeFilter("jndiCheck");
         filter.setProducer(producer);
         final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             numNodes++;
             final String nodeName = iter.next().getName();
 
@@ -122,14 +123,14 @@ public class ToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testNotFilteredStartNode() throws GrandException {
+    public final void testNotFilteredStartNode() throws GrandException {
         final GraphFilter filter = new ToNodeFilter("jndiCheck");
         filter.setProducer(producer);
         project.setDefault("build");
         final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             numNodes++;
             final String nodeName = iter.next().getName();
 
@@ -137,11 +138,11 @@ public class ToNodeFilterTest extends AbstractAntTester {
                     NODES_AFTER_FILTERING.contains(nodeName));
         }
 
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
+        assertEquals("Filtered graph does not have the right node count",
+                NODES_AFTER_FILTERING.size(), numNodes);
 
-        assertNotNull("Start node 'build' should not have been filtered out", graph
-                .getStartNode());
+        assertNotNull("Start node 'build' should not have been filtered out",
+                graph.getStartNode());
     }
 
     /**
@@ -149,7 +150,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
-    public void testNonExistentNode() throws GrandException {
+    public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new ToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {

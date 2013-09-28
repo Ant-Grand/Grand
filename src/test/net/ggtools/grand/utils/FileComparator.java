@@ -68,8 +68,8 @@ public class FileComparator extends Assert {
     /**
      * Asserts that both files have the same length.
      */
-    public void assertSizesMatch() {
-        assertEquals("Sizes do not match",source.length(),dest.length());
+    public final void assertSizesMatch() {
+        assertEquals("Sizes do not match", source.length(), dest.length());
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileComparator extends Assert {
      *
      * @throws IOException
      */
-    public void assertLinesMatch() throws IOException {
+    public final void assertLinesMatch() throws IOException {
         assertSizesMatch();
 
         final BufferedReader sourceReader = new BufferedReader(new FileReader(source));
@@ -99,8 +99,8 @@ public class FileComparator extends Assert {
             // Since both files have the same length and are identical
             // so far, it should not happen.
             assert ((srcLine != null) && (dstLine != null));
-            assertEquals("Files differ on line " + line,srcLine,dstLine);
 
+            assertEquals("Files differ on line " + line, srcLine, dstLine);
         }
         sourceReader.close();
         destReader.close();

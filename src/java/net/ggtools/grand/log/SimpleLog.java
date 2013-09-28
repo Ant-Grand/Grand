@@ -39,53 +39,53 @@ class SimpleLog implements Log {
      * Field LEVEL_NONE.
      * (value is 0)
      */
-    protected final static int LEVEL_NONE = 0;
+    protected static final int LEVEL_NONE = 0;
     /**
      * Field LEVEL_FATAL.
      * (value is 1)
      */
-    protected final static int LEVEL_FATAL = 1;
+    protected static final int LEVEL_FATAL = 1;
     /**
      * Field LEVEL_ERROR.
      * (value is 2)
      */
-    protected final static int LEVEL_ERROR = 2;
+    protected static final int LEVEL_ERROR = 2;
     /**
      * Field LEVEL_WARN.
      * (value is 3)
      */
-    protected final static int LEVEL_WARN = 3;
+    protected static final int LEVEL_WARN = 3;
     /**
      * Field LEVEL_INFO.
      * (value is 4)
      */
-    protected final static int LEVEL_INFO = 4;
+    protected static final int LEVEL_INFO = 4;
     /**
      * Field LEVEL_DEBUG.
      * (value is 5)
      */
-    protected final static int LEVEL_DEBUG = 5;
+    protected static final int LEVEL_DEBUG = 5;
     /**
      * Field LEVEL_TRACE.
      * (value is 6)
      */
-    protected final static int LEVEL_TRACE = 6;
+    protected static final int LEVEL_TRACE = 6;
     /**
      * Field LEVEL_ALL.
      * (value is 7)
      */
-    protected final static int LEVEL_ALL = 7;
+    protected static final int LEVEL_ALL = 7;
 
     /**
      * Field LEVEL_NAMES.
      */
-    protected static final String[] LEVEL_NAMES = {"NONE", "FATAL", "ERROR", "WARN", "INFO",
-            "DEBUG", "TRACE", "ALL"};
+    protected static final String[] LEVEL_NAMES = {"NONE", "FATAL",
+        "ERROR", "WARN", "INFO", "DEBUG", "TRACE", "ALL"};
 
     /**
      * Field logLevel.
      */
-    private static final int logLevel = LEVEL_WARN;
+    private static final int LOG_LEVEL = LEVEL_WARN;
 
     /**
      * Package only instanciation.
@@ -175,7 +175,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#isDebugEnabled()
      */
     public boolean isDebugEnabled() {
-        return logLevel >= LEVEL_DEBUG;
+        return LOG_LEVEL >= LEVEL_DEBUG;
     }
 
     /**
@@ -184,7 +184,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#isErrorEnabled()
      */
     public boolean isErrorEnabled() {
-        return logLevel >= LEVEL_ERROR;
+        return LOG_LEVEL >= LEVEL_ERROR;
     }
 
     /**
@@ -193,7 +193,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#isFatalEnabled()
      */
     public boolean isFatalEnabled() {
-        return logLevel >= LEVEL_FATAL;
+        return LOG_LEVEL >= LEVEL_FATAL;
     }
 
     /**
@@ -202,7 +202,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#isInfoEnabled()
      */
     public boolean isInfoEnabled() {
-        return logLevel >= LEVEL_INFO;
+        return LOG_LEVEL >= LEVEL_INFO;
     }
 
     /**
@@ -211,7 +211,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#isTraceEnabled()
      */
     public boolean isTraceEnabled() {
-        return logLevel >= LEVEL_TRACE;
+        return LOG_LEVEL >= LEVEL_TRACE;
     }
 
     /**
@@ -220,7 +220,7 @@ class SimpleLog implements Log {
      * @see org.apache.commons.logging.Log#isWarnEnabled()
      */
     public boolean isWarnEnabled() {
-        return logLevel >= LEVEL_WARN;
+        return LOG_LEVEL >= LEVEL_WARN;
     }
 
     /**
@@ -277,7 +277,7 @@ class SimpleLog implements Log {
      * @param level int
      */
     protected void log(final Object message, final Throwable t, final int level) {
-        if (level <= logLevel) {
+        if (level <= LOG_LEVEL) {
             System.out.println("[" + LEVEL_NAMES[level] + "] " + message);
             if (t != null) {
                 t.printStackTrace(System.out);

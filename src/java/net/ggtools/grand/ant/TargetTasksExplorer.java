@@ -51,7 +51,7 @@ class TargetTasksExplorer {
     /**
      * Field log.
      */
-    private static final Log log = LoggerManager.getLog(TargetTasksExplorer.class);
+    private static final Log LOG = LoggerManager.getLog(TargetTasksExplorer.class);
 
     /**
      * Field textElements.
@@ -74,7 +74,7 @@ class TargetTasksExplorer {
      * @param target Target
      */
     public void exploreTarget(final AntTargetNode node, final Target target) {
-        log.trace("Exploring target " + target.getName());
+        LOG.trace("Exploring target " + target.getName());
         textElements = new LinkedList<SourceElement>();
         addText("<target name=\"", AntTargetNode.SOURCE_MARKUP);
         addText(target.getName(), AntTargetNode.SOURCE_ATTRIBUTE);
@@ -116,8 +116,7 @@ class TargetTasksExplorer {
 
         if (hasChildren) {
             addText(">\n", AntTargetNode.SOURCE_MARKUP);
-        }
-        else {
+        } else {
             addText(" />\n", AntTargetNode.SOURCE_MARKUP);
         }
 
@@ -136,13 +135,11 @@ class TargetTasksExplorer {
             final SourceElement element = iter.next();
             if (previous == null) {
                 previous = element;
-            }
-            else {
+            } else {
                 if (previous.getStyle() == element.getStyle()) {
                     previous.setText(previous.getText().concat(element.getText()));
                     iter.remove();
-                }
-                else {
+                } else {
                     previous = element;
                 }
             }
@@ -165,8 +162,8 @@ class TargetTasksExplorer {
         indent(level);
         addText("<", AntTargetNode.SOURCE_MARKUP);
         addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);
-        final Map<String,Object> attributes = wrapper.getAttributeMap();
-        for (final Map.Entry<String,Object> entry : attributes.entrySet()) {
+        final Map<String, Object> attributes = wrapper.getAttributeMap();
+        for (final Map.Entry<String, Object> entry : attributes.entrySet()) {
             addText(" ", AntTargetNode.SOURCE_MARKUP);
             addText(entry.getKey(), AntTargetNode.SOURCE_MARKUP);
             addText("=\"", AntTargetNode.SOURCE_MARKUP);
@@ -186,8 +183,7 @@ class TargetTasksExplorer {
             if (hasChildren) {
                 addText("\n", AntTargetNode.SOURCE_MARKUP);
             }
-        }
-        else {
+        } else {
             addText(" />\n", AntTargetNode.SOURCE_MARKUP);
         }
 
