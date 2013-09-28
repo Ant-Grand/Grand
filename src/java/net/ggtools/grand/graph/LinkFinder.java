@@ -35,14 +35,14 @@ import java.util.Collection;
 
 /**
  * An interface used to find out what the possible links from a node.
- * 
+ *
  * @author Christophe Labouisse
  */
 public interface LinkFinder {
     /**
      * Returns all the accessible nodes from a specific one. Implementations
      * should insure that the returned collection will only contains Node objects.
-     * 
+     *
      * @param node node to consider.
      * @return a collection of accessible nodes.
      */

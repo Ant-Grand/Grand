@@ -42,23 +42,39 @@ import org.apache.tools.ant.Project;
  * enclosing task need to call the {@link #checkParameters()} method
  * to check if the filter is properly configured and {@link #getFilter()}
  * to get the actual graph filter.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class FilterType {
-    private static final GraphFilterFactory filterFactory = new GraphFilterFactory();
-
-    private GraphFilterType filter;
-
-    private String filterName;
-
-    private String nodeName;
-
-    private Project project;
+    /**
+     * Field filterFactory.
+     */
+    private static final GraphFilterFactory FILTER_FACTORY =
+            new GraphFilterFactory();
 
     /**
-     * Creates a new filter typ.
-     * 
+     * Field filter.
+     */
+    private GraphFilterType filter;
+
+    /**
+     * Field filterName.
+     */
+    private String filterName;
+
+    /**
+     * Field nodeName.
+     */
+    private String nodeName;
+
+    /**
+     * Field project.
+     */
+    private final Project project;
+
+    /**
+     * Creates a new filter type.
+     *
      * @param prj the owner's project.
      */
     public FilterType(final Project prj) {
@@ -70,7 +86,7 @@ public class FilterType {
      */
     private void checkFilter() {
         if (filter == null) {
-            filter = filterFactory.getFilterType(project, filterName);
+            filter = FILTER_FACTORY.getFilterType(project, filterName);
             if (nodeName != null) {
                 filter.setNodeName(nodeName);
             }
@@ -80,11 +96,11 @@ public class FilterType {
     }
 
     /**
-     * Cheks if the filter parameters are correct.
-     * 
+     * Checks if the filter parameters are correct.
+     *
      * @throws BuildException if the parameters are not ok
      */
-    void checkParameters() throws BuildException {
+    final void checkParameters() throws BuildException {
         if (filterName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);
@@ -96,36 +112,36 @@ public class FilterType {
 
     /**
      * Return the actual filter after creating it if needed.
-     * 
+     *
      * @return the actual filter.
      */
-    public GraphFilter getFilter() {
+    public final GraphFilter getFilter() {
         checkFilter();
         return filter.getFilter();
     }
 
     /**
-     * Sets the filter's name
-     * 
+     * Sets the filter's name.
+     *
      * @param name filter's name
      */
-    public void setName(final String name) {
+    public final void setName(final String name) {
         filterName = name;
     }
 
     /**
      * Sets the filter's node name.
-     * 
+     *
      * @param node node's name.
      */
-    public void setNode(final String node) {
+    public final void setNode(final String node) {
         nodeName = node;
     }
 
     /**
      * @return Returns the filterName.
      */
-    public String getFilterName() {
+    public final String getFilterName() {
         return filterName;
     }
 }

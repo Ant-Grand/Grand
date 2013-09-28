@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,17 +36,23 @@ import org.apache.tools.ant.Project;
 
 /**
  * A Graph implementation specialized in Ant build files.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class AntGraph extends GraphImpl {
+    /**
+     * Field elementFactory.
+     */
     private AntGraphElementFactory elementFactory;
 
+    /**
+     * Field project.
+     */
     private final Project project;
 
     /**
      * Creates a new graph.
-     * 
+     *
      * @param project
      *            the graph's project.
      */
@@ -57,35 +63,34 @@ public class AntGraph extends GraphImpl {
 
     /**
      * Creates a link representing a call by a task like <code>ant</code>.
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
-     * @return
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
+     * @return AntTaskLink
      */
-    public AntTaskLink createTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
-        final AntTaskLink link = getFactoryInternal().createTaskLink(linkName, startNode, endNode,
-                taskName);
+    public final AntTaskLink createTaskLink(final String linkName,
+            final Node startNode, final Node endNode, final String taskName) {
+        final AntTaskLink link = getFactoryInternal().createTaskLink(linkName,
+                startNode, endNode, taskName);
         startNode.addLink(link);
         endNode.addBackLink(link);
         return link;
     }
 
-
     /**
      * Creates a link representing a call by a <code>subant</code> task.
-     * 
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
-     * @return
+     *
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
+     * @return SubantTaskLink
      */
-    public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,
-            final Node endNode, final String taskName) {
-        final SubantTaskLink link = getFactoryInternal().createSubantTaskLink(linkName, startNode, endNode,
-                taskName);
+    public final SubantTaskLink createSubantTaskLink(final String linkName,
+            final Node startNode, final Node endNode, final String taskName) {
+        final SubantTaskLink link = getFactoryInternal().createSubantTaskLink(linkName,
+                startNode, endNode, taskName);
         startNode.addLink(link);
         endNode.addBackLink(link);
         return link;
@@ -93,31 +98,31 @@ public class AntGraph extends GraphImpl {
 
     /**
      * Returns the project.
-     * @return
+     * @return Project
      */
-    public Project getProject() {
+    public final Project getProject() {
         return project;
     }
 
     /**
      * Getter/Instanciator to {@link #elementFactory}. Used internally to keep
      * the {@link AntGraphElementFactory}type.
-     * @return
+     * @return AntGraphElementFactory
      */
-    private final AntGraphElementFactory getFactoryInternal() {
+    private AntGraphElementFactory getFactoryInternal() {
         if (elementFactory == null) {
             elementFactory = new AntGraphElementFactory(this);
         }
         return elementFactory;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method getFactory.
+     * @return GraphElementFactory
      * @see net.ggtools.grand.graph.GraphImpl#getFactory()
      */
     @Override
-    protected GraphElementFactory getFactory() {
+    protected final GraphElementFactory getFactory() {
         return getFactoryInternal();
     }
 }

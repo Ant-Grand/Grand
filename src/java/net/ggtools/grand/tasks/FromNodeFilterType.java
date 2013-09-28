@@ -39,27 +39,35 @@ import org.apache.tools.ant.Project;
 
 /**
  * Ant's front end for the FromFilter.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class FromNodeFilterType implements GraphFilterType {
 
+    /**
+     * Field nodeName.
+     */
     private String nodeName;
-    private Project project;
+    /**
+     * Field project.
+     */
+    private final Project project;
 
     /**
      * Creates a new filter.
-     * 
+     *
      * @param antProject owner's project.
      */
     public FromNodeFilterType(final Project antProject) {
         project = antProject;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method checkParameters.
+     * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
-    public void checkParameters() throws BuildException {
+    public final void checkParameters() throws BuildException {
         if (nodeName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);
@@ -67,17 +75,21 @@ public class FromNodeFilterType implements GraphFilterType {
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getFilter.
+     * @return GraphFilter
      * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
      */
-    public GraphFilter getFilter() {
+    public final GraphFilter getFilter() {
         return new FromNodeFilter(nodeName);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setNodeName.
+     * @param name String
      * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
      */
-    public void setNodeName(final String name) {
+    public final void setNodeName(final String name) {
         nodeName = name;
     }
 

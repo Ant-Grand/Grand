@@ -33,13 +33,13 @@ package net.ggtools.grand.exceptions;
 
 /**
  * Base class for all grand exceptions.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class GrandException extends Exception {
 
     /**
-     * Comment for <code>serialVersionUID</code>
+     * Comment for <code>serialVersionUID</code>.
      */
     private static final long serialVersionUID = -6883312368091628491L;
 
@@ -52,8 +52,8 @@ public class GrandException extends Exception {
 
     /**
      * Creates an new exception.
-     * 
-     * @param message explainatory message of the exception cause.
+     *
+     * @param message explanatory message of the exception cause.
      */
     public GrandException(final String message) {
         super(message);
@@ -61,7 +61,7 @@ public class GrandException extends Exception {
 
     /**
      * Creates an new exception.
-     * 
+     *
      * @param cause root cause
      */
     public GrandException(final Throwable cause) {
@@ -70,8 +70,8 @@ public class GrandException extends Exception {
 
     /**
      * Creates an new exception.
-     * 
-     * @param message explainatory message of the exception cause.
+     *
+     * @param message explanatory message of the exception cause.
      * @param cause root cause
      */
     public GrandException(final String message, final Throwable cause) {

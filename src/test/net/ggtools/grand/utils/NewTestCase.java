@@ -9,13 +9,28 @@ import junit.framework.AssertionFailedError;
 
 import org.junit.Test;
 
+/**
+ * @author Christophe Labouisse
+ */
 public class NewTestCase {
+    /**
+     * Field BUILD_SIMPLE.
+     */
     private static final File BUILD_SIMPLE = new File("src/etc/testcases/build-simple.dot");
 
+    /**
+     * Field BUILD_IMPORT.
+     */
     private static final File BUILD_IMPORT = new File("src/etc/testcases/build-import.dot");
 
+    /**
+     * Field OVERRIDE.
+     */
     private static final File OVERRIDE = new File("src/etc/testcases/override.dot");
 
+    /**
+     * Method testAssertSizesMatch.
+     */
     @Test
     public final void testAssertSizesMatch() {
         FileComparator comparator;
@@ -37,6 +52,10 @@ public class NewTestCase {
         }
     }
 
+    /**
+     * Method testAssertLinesMatch.
+     * @throws IOException
+     */
     @Test
     public final void testAssertLinesMatch() throws IOException {
         FileComparator comparator;

@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -45,25 +45,37 @@ class SubGraphImpl implements SubGraph {
      */
     interface NodeIteratorFactory {
         /**
-         * Create a new iterator from an existing one. A trival implementation
+         * Create a new iterator from an existing one. A trivial implementation
          * may merely return <code>iterator</code>.
-         * 
-         * @param iterator
-         * @return
+         *
+         * @param iterator Iterator<Node>
+         * @return Iterator<Node>
          */
         Iterator<Node> createNodeIterator(final Iterator<Node> iterator);
     }
 
-    private static final Log log = LoggerManager.getLog(SubGraphImpl.class);
+    /**
+     * Field log.
+     */
+    private static final Log LOG = LoggerManager.getLog(SubGraphImpl.class);
 
+    /**
+     * Field name.
+     */
     private final String name;
 
+    /**
+     * Field nodeIteratorFactory.
+     */
     private final NodeIteratorFactory nodeIteratorFactory;
 
+    /**
+     * Field nodeList.
+     */
     private final Map<String, Node> nodeList = new LinkedHashMap<String, Node>();
 
     /**
-     * Creates a new instance using a trival
+     * Creates a new instance using a trivial
      * {@link SubGraphImpl.NodeIteratorFactory}.
      * @param name
      *            sub graph name.
@@ -71,7 +83,7 @@ class SubGraphImpl implements SubGraph {
     SubGraphImpl(final String name) {
         this(name, new NodeIteratorFactory() {
 
-            final public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
+            public final Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return iterator;
             }
         });
@@ -90,42 +102,54 @@ class SubGraphImpl implements SubGraph {
         this.nodeIteratorFactory = nodeIteratorFactory;
     }
 
+    /**
+     * Method addNode.
+     * @param node Node
+     * @throws DuplicateElementException
+     * @see net.ggtools.grand.graph.SubGraph#addNode(Node)
+     */
     public void addNode(final Node node) throws DuplicateElementException {
         final String nodeName = node.getName();
         if (nodeList.containsKey(nodeName)) {
-            log.error("addNode() - Cannot add two nodes with the same name : nodeName = "
+            LOG.error("addNode() - Cannot add two nodes with the same name : nodeName = "
                     + nodeName, null);
             throw new DuplicateElementException("Creating two nodes named " + nodeName);
         }
         nodeList.put(nodeName, node);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getName.
+     * @return String
      * @see net.ggtools.grand.graph.SubGraph#getName()
      */
     public String getName() {
         return name;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getNode.
+     * @param nodeName String
+     * @return Node
      * @see net.ggtools.grand.graph.NodeContainer#getNode(java.lang.String)
      */
     public Node getNode(final String nodeName) {
         return nodeList.get(nodeName);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getNodes.
+     * @return Iterator<Node>
      * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
     public Iterator<Node> getNodes() {
         return nodeIteratorFactory.createNodeIterator(nodeList.values().iterator());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method hasNode.
+     * @param nodeName String
+     * @return boolean
      * @see net.ggtools.grand.graph.NodeContainer#hasNode(java.lang.String)
      */
     public boolean hasNode(final String nodeName) {

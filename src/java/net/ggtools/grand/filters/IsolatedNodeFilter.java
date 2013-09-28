@@ -34,6 +34,7 @@ package net.ggtools.grand.filters;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -41,18 +42,21 @@ import net.ggtools.grand.graph.Node;
 
 /**
  * A filter to remove isolated nodes in a graph.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class IsolatedNodeFilter extends AbstractGraphFilter implements GraphFilter {
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.filters.GraphFilter#getFilteredNodes()
+    /**
+     * Method getFilteredNodes.
+     * @return Collection<Node>
+     * @throws GrandException
+     * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override
-    protected Collection<Node> getFilteredNodes() throws GrandException {
+    protected final Collection<Node> getFilteredNodes() throws GrandException {
         final Graph graph = getProducersGraph();
-        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+        final Set<Node> result = new LinkedHashSet<Node>();
 
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             final Node node = iter.next();

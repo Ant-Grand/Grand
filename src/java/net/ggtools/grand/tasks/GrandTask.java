@@ -36,12 +36,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Vector;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -60,32 +58,55 @@ import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.types.PropertySet;
 
 /**
- * A task to create graphs. 
- * 
+ * A task to create graphs.
+ *
  * @author Christophe Labouisse
  */
 public class GrandTask extends Task {
 
+    /**
+     * Field buildFile.
+     */
     private File buildFile;
 
+    /**
+     * Field output.
+     */
     private File output;
 
+    /**
+     * Field outputConfigurationFile.
+     */
     private File outputConfigurationFile;
 
-    /** the sets of properties to pass to the graphed project */
-    private final ArrayList<PropertySet> propertySets = new ArrayList<PropertySet>();
+    /**
+     * The sets of properties to pass to the graphed project.
+     */
+    private final List<PropertySet> propertySets = new ArrayList<PropertySet>();
 
-    private final LinkedList<FilterType> filters = new LinkedList<FilterType>();
+    /**
+     * Field filters.
+     */
+    private final List<FilterType> filters = new LinkedList<FilterType>();
 
+    /**
+     * Field showGraphName.
+     */
     private boolean showGraphName = false;
 
+    /**
+     * Field inheritAll.
+     */
     private boolean inheritAll = false;
 
+    /**
+     * Field properties.
+     */
     private final List<Property> properties = new LinkedList<Property>();
 
     /**
      * Check the parameters validity before execution.
-     * 
+     *
      */
     private void checkParams() {
         if (output == null) {
@@ -99,11 +120,13 @@ public class GrandTask extends Task {
         }
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method execute.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
-    public void execute() throws BuildException {
+    public final void execute() throws BuildException {
         checkParams();
 
         final GraphProducer graphProject = initAntProject();
@@ -123,7 +146,7 @@ public class GrandTask extends Task {
         }
 
         if (numFilters > 0) {
-            log("Loaded " + numFilters + (numFilters > 1 ? " filters" : " filter"));
+            log("Loaded " + numFilters + ((numFilters > 1) ? " filters" : " filter"));
         }
 
         try {
@@ -152,8 +175,8 @@ public class GrandTask extends Task {
     /**
      * Create and initialize a GraphProducer according to the
      * task parameters.
-     * 
-     * @return an intialized GraphProducer.
+     *
+     * @return an initialized GraphProducer.
      */
     private GraphProducer initAntProject() {
 
@@ -187,7 +210,7 @@ public class GrandTask extends Task {
 
     /**
      * Load an initialize a new project from a ant build file.
-     * 
+     *
      * @return a new initialized ant project.
      */
     private Project loadNewProject() {
@@ -196,10 +219,8 @@ public class GrandTask extends Task {
         // Set the current project listeners to the graphed project
         // in order to get some trace if we need to execute some tasks
         // in the graphed project.
-        final Vector listeners = getProject().getBuildListeners();
-        for (final Iterator iter = listeners.iterator(); iter.hasNext();) {
-            antProject.addBuildListener((BuildListener) iter.next());
-
+        for (final BuildListener listener : getProject().getBuildListeners()) {
+            antProject.addBuildListener(listener);
         }
 
         antProject.init();
@@ -211,7 +232,11 @@ public class GrandTask extends Task {
 
         } else {
             // set all properties from calling project
-            addAlmostAll(antProject, getProject().getProperties());
+            final Properties props = new Properties();
+            for (Map.Entry<String, Object> entry : getProject().getProperties().entrySet()) {
+                props.put(entry.getKey(), entry.getValue());
+            }
+            addAlmostAll(antProject, props);
         }
 
         antProject.setUserProperty("ant.file", buildFile.getAbsolutePath());
@@ -224,11 +249,13 @@ public class GrandTask extends Task {
         return antProject;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setProject.
+     * @param project Project
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
     @Override
-    public void setProject(final Project project) {
+    public final void setProject(final Project project) {
         super.setProject(project);
         AntLog.setCurrentProject(project);
         AntLog.setCurrentTask(this);
@@ -236,29 +263,29 @@ public class GrandTask extends Task {
 
     /**
      * Sets the buildFile.
-     * 
-     * @param file
+     *
+     * @param file File
      */
-    public void setBuildFile(final File file) {
+    public final void setBuildFile(final File file) {
         buildFile = file;
     }
 
     /**
      * Sets the output file.
-     * 
-     * @param file
+     *
+     * @param file File
      */
-    public void setOutput(final File file) {
+    public final void setOutput(final File file) {
         output = file;
     }
 
     /**
      * Set a property file to override the output default configuration.
-     * @param outputConfigurationFile The outputConfigurationFile to set.
      * @deprecated use {@link #setOutputConfigFile(File)}.
+     * @param propertyFile File
      */
     @Deprecated
-    public void setPropertyFile(final File propertyFile) {
+    public final void setPropertyFile(final File propertyFile) {
         log(
 "Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
                 Project.MSG_WARN);
@@ -267,13 +294,17 @@ public class GrandTask extends Task {
 
     /**
      * Set a property file to override the output default configuration.
-     * @param outputConfigurationFile The outputConfigurationFile to set.
+     * @param propertyFile File
      */
-    public void setOutputConfigFile(final File propertyFile) {
+    public final void setOutputConfigFile(final File propertyFile) {
         outputConfigurationFile = propertyFile;
     }
 
-    public void setShowGraphName(final boolean show) {
+    /**
+     * Method setShowGraphName.
+     * @param show boolean
+     */
+    public final void setShowGraphName(final boolean show) {
         showGraphName = show;
     }
 
@@ -282,24 +313,24 @@ public class GrandTask extends Task {
      * Defaults to true.
      * @param value if true pass all properties to the new Ant project.
      */
-    public void setInheritAll(final boolean value) {
+    public final void setInheritAll(final boolean value) {
         inheritAll = value;
     }
 
     /**
      * Add a filter to the task.
-     * @param filter
+     * @param filter FilterType
      */
-    public void addFilter(final FilterType filter) {
+    public final void addFilter(final FilterType filter) {
         filters.add(filter);
     }
 
     /**
      * Add a new property to be passed to the graphed project.
-     * 
+     *
      * @param p the property to set.
      */
-    public void addProperty(final Property p) {
+    public final void addProperty(final Property p) {
         properties.add(p);
     }
 
@@ -308,7 +339,7 @@ public class GrandTask extends Task {
      *
      * @param ps property set to add
      */
-    public void addPropertyset(final PropertySet ps) {
+    public final void addPropertyset(final PropertySet ps) {
         propertySets.add(ps);
     }
 
@@ -318,9 +349,10 @@ public class GrandTask extends Task {
      * well as properties named basedir or ant.file.
      * @param props properties to copy to the new project
      * @since Ant 1.6
+     * @param destProject Project
      */
-    private void addAlmostAll(final Project destProject, final Hashtable props) {
-        final Enumeration e = props.keys();
+    private void addAlmostAll(final Project destProject, final Properties props) {
+        final Enumeration<Object> e = props.keys();
         while (e.hasMoreElements()) {
             final String key = e.nextElement().toString();
             if ("basedir".equals(key) || "ant.file".equals(key)) {

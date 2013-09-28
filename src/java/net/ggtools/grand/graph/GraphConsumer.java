@@ -33,7 +33,7 @@ package net.ggtools.grand.graph;
 
 /**
  * Interface for classes using graphs.
- * 
+ *
  * @author Christophe Labouisse
  */
 public interface GraphConsumer {
@@ -41,7 +41,7 @@ public interface GraphConsumer {
     /**
      * Set the graph producer. Such a producer will be called whenever the
      * consumer needs a graph.
-     * 
+     *
      * @param producer the producer to get the graph from.
      */
     void setProducer(final GraphProducer producer);

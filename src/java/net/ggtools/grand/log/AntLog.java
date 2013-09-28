@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -36,14 +36,28 @@ import org.apache.tools.ant.Task;
  */
 public class AntLog extends SimpleLog implements Log {
 
+    /**
+     * Field currentProject.
+     */
     private static Project currentProject;
 
+    /**
+     * Field currentTask.
+     */
     private static Task currentTask;
 
+    /**
+     * Method setCurrentProject.
+     * @param newProject Project
+     */
     public static void setCurrentProject(final Project newProject) {
         currentProject = newProject;
     }
 
+    /**
+     * Method setCurrentTask.
+     * @param newTask Task
+     */
     public static void setCurrentTask(final Task newTask) {
         currentTask = newTask;
     }
@@ -54,31 +68,31 @@ public class AntLog extends SimpleLog implements Log {
     AntLog() {
     }
 
-    /*
-     * (non-Javadoc)
-     * @see net.ggtools.grand.log.SimpleLog#log(java.lang.Object,
-     *      java.lang.Throwable, int)
+    /**
+     * Method log.
+     * @param message Object
+     * @param t Throwable
+     * @param level int
+     * @see net.ggtools.grand.log.SimpleLog#log(java.lang.Object, java.lang.Throwable, int)
      */
     @Override
-    protected void log(final Object message, final Throwable t, final int level) {
+    protected final void log(final Object message, final Throwable t,
+            final int level) {
         if (currentProject != null) {
             // Translate into ant log levels.
             int antMsgLevel = level - LEVEL_ERROR + Project.MSG_ERR;
             if (antMsgLevel < Project.MSG_ERR) {
                 antMsgLevel = Project.MSG_ERR;
-            }
-            else if (antMsgLevel > Project.MSG_DEBUG) {
+            } else if (antMsgLevel > Project.MSG_DEBUG) {
                 antMsgLevel = Project.MSG_DEBUG;
             }
 
             if (currentTask == null) {
                 currentProject.log(message.toString(), antMsgLevel);
-            }
-            else {
+            } else {
                 currentProject.log(currentTask, message.toString(), antMsgLevel);
             }
-        }
-        else {
+        } else {
             super.log(message, t, level);
         }
     }

@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,17 +43,29 @@ import net.ggtools.grand.log.LoggerManager;
  * @author Christophe Labouisse
  */
 public abstract class AbstractGraphFilter implements GraphFilter {
-    private static final Log log = LoggerManager.getLog(AbstractGraphFilter.class);
+    /**
+     * Field log.
+     */
+    private static final Log LOG = LoggerManager.getLog(AbstractGraphFilter.class);
 
+    /**
+     * Field graphProducer.
+     */
     private GraphProducer graphProducer;
 
+    /**
+     * Field producersGraph.
+     */
     private Graph producersGraph;
 
+    /**
+     * Field name.
+     */
     protected String name;
 
     /**
      * Creates an anonymous filter.
-     *  
+     *
      */
     public AbstractGraphFilter() {
         this("Anonymous");
@@ -61,20 +73,21 @@ public abstract class AbstractGraphFilter implements GraphFilter {
 
     /**
      * Creates a named filter.
-     * 
-     * @param name
+     *
+     * @param name String
      */
     public AbstractGraphFilter(final String name) {
         this.name = name;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method getGraph.
+     * @return Graph
+     * @throws GrandException
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
-    public Graph getGraph() throws GrandException {
-        log.debug("Triggering AbstractGraphFilter");
+    public final Graph getGraph() throws GrandException {
+        LOG.debug("Triggering AbstractGraphFilter");
         final Graph graph = getProducersGraph();
 
         if (graph != null) {
@@ -89,30 +102,29 @@ public abstract class AbstractGraphFilter implements GraphFilter {
             }
         }
 
-        // The graph had been filtered so it must not be used if the filter is
-        // called
-        // again.
+        // The graph had been filtered so it must not be used
+        // if the filter is called again.
         producersGraph = null;
 
         return graph;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see net.ggtools.grand.GraphConsumer#setProducer(net.ggtools.grand.GraphProducer)
+    /**
+     * Method setProducer.
+     * @param producer GraphProducer
+     * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
      */
-    public void setProducer(final GraphProducer producer) {
+    public final void setProducer(final GraphProducer producer) {
         graphProducer = producer;
         producersGraph = null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Method getName.
+     * @return String
      * @see net.ggtools.grand.filters.GraphFilter#getName()
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
@@ -120,16 +132,16 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * Get the nodes from the graph that pass the filter. This method should not
      * alter the input graph. The returned collection may be read only and
      * return {@link UnsupportedOperationException}on modification methods.
-     * 
+     *
      * @return a collection of nodes.
      * @throws GrandException
      *             if the filtering cannot be done
      */
-    abstract protected Collection<Node> getFilteredNodes() throws GrandException;
+    protected abstract Collection<Node> getFilteredNodes() throws GrandException;
 
     /**
      * Returns the current graph producer.
-     * 
+     *
      * @return graph producer.
      */
     protected final GraphProducer getGraphProducer() {
@@ -139,7 +151,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
     /**
      * Returns the graph from the current producer. This method is intended to
      * prevent calling several time the producer to get a graph.
-     * 
+     *
      * @return current graph.
      * @throws GrandException
      *             if something goes wrong.

@@ -33,21 +33,25 @@ package net.ggtools.grand.graph;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * A link finder returning links starting from nodes.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class ForwardLinkFinder implements LinkFinder {
 
-    /* (non-Javadoc)
+    /**
+     * Method getLinks.
+     * @param node Node
+     * @return Collection<Node>
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
-    public Collection<Node> getLinks(final Node node) {
+    public final Collection<Node> getLinks(final Node node) {
         final Collection<Link> links = node.getLinks();
 
-        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+        final Set<Node> result = new LinkedHashSet<Node>();
 
         for (Link link : links) {
             result.add(link.getEndNode());

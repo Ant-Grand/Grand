@@ -33,25 +33,25 @@ package net.ggtools.grand.exceptions;
 
 /**
  * Exception raised when trying to process a non existent node.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class NonExistentNodeException extends GrandException {
 
     /**
-     * Comment for <code>serialVersionUID</code>
+     * Comment for <code>serialVersionUID</code>.
      */
     private static final long serialVersionUID = 1353648414053112433L;
 
     /**
-     * 
+     *
      */
     public NonExistentNodeException() {
         super();
     }
 
     /**
-     * @param message an explainatory message for the exeception.
+     * @param message an explanatory message for the exception.
      */
     public NonExistentNodeException(final String message) {
         super(message);
@@ -65,7 +65,7 @@ public class NonExistentNodeException extends GrandException {
     }
 
     /**
-     * @param message an explainatory message for the exeception.
+     * @param message an explanatory message for the exception.
      * @param cause root cause
      */
     public NonExistentNodeException(final String message, final Throwable cause) {

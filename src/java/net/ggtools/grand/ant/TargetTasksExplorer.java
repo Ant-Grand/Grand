@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -44,17 +44,23 @@ import org.apache.tools.ant.Task;
 /**
  * A class to recursively explore the tasks of a target to rebuild the source
  * code.
- * 
+ *
  * @author Christophe Labouisse
  */
 class TargetTasksExplorer {
-    private static final Log log = LoggerManager.getLog(TargetTasksExplorer.class);
+    /**
+     * Field log.
+     */
+    private static final Log LOG = LoggerManager.getLog(TargetTasksExplorer.class);
 
+    /**
+     * Field textElements.
+     */
     private List<SourceElement> textElements;
 
     /**
      * Creates a new TargetTasksExplorer instance for a specific project.
-     * 
+     *
      * @param antProject
      *            associated project.
      */
@@ -62,12 +68,13 @@ class TargetTasksExplorer {
     }
 
     /**
-     * Rebuild a node source by exploring
-     * 
-     * @param target
+     * Rebuild a node source by exploring.
+     *
+     * @param node AntTargetNode
+     * @param target Target
      */
     public void exploreTarget(final AntTargetNode node, final Target target) {
-        log.trace("Exploring target " + target.getName());
+        LOG.trace("Exploring target " + target.getName());
         textElements = new LinkedList<SourceElement>();
         addText("<target name=\"", AntTargetNode.SOURCE_MARKUP);
         addText(target.getName(), AntTargetNode.SOURCE_ATTRIBUTE);
@@ -85,11 +92,11 @@ class TargetTasksExplorer {
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
 
-        final Enumeration dependencies = target.getDependencies();
+        final Enumeration<String> dependencies = target.getDependencies();
         if (dependencies.hasMoreElements()) {
             addText(" depends=\"", AntTargetNode.SOURCE_MARKUP);
             while (dependencies.hasMoreElements()) {
-                final String dependency = (String) dependencies.nextElement();
+                final String dependency = dependencies.nextElement();
                 addText(dependency, AntTargetNode.SOURCE_ATTRIBUTE);
                 if (dependencies.hasMoreElements()) {
                     addText(", ", AntTargetNode.SOURCE_ATTRIBUTE);
@@ -109,8 +116,7 @@ class TargetTasksExplorer {
 
         if (hasChildren) {
             addText(">\n", AntTargetNode.SOURCE_MARKUP);
-        }
-        else {
+        } else {
             addText(" />\n", AntTargetNode.SOURCE_MARKUP);
         }
 
@@ -123,18 +129,17 @@ class TargetTasksExplorer {
         }
 
         // Merge contiguous source elements of the same style.
-        AntTargetNode.SourceElement previous = null;
+        SourceElement previous = null;
+
         for (final Iterator<SourceElement> iter = textElements.iterator(); iter.hasNext();) {
-            final AntTargetNode.SourceElement element = iter.next();
+            final SourceElement element = iter.next();
             if (previous == null) {
                 previous = element;
-            }
-            else {
+            } else {
                 if (previous.getStyle() == element.getStyle()) {
                     previous.setText(previous.getText().concat(element.getText()));
                     iter.remove();
-                }
-                else {
+                } else {
                     previous = element;
                 }
             }
@@ -148,21 +153,25 @@ class TargetTasksExplorer {
         node.setSource(buffer.toString());
     }
 
+    /**
+     * Method exploreTask.
+     * @param wrapper RuntimeConfigurable
+     * @param level int
+     */
     private void exploreTask(final RuntimeConfigurable wrapper, final int level) {
         indent(level);
         addText("<", AntTargetNode.SOURCE_MARKUP);
         addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);
-        final Map attributes = wrapper.getAttributeMap();
-        for (final Iterator iter = attributes.entrySet().iterator(); iter.hasNext();) {
-            final Map.Entry entry = (Map.Entry) iter.next();
+        final Map<String, Object> attributes = wrapper.getAttributeMap();
+        for (final Map.Entry<String, Object> entry : attributes.entrySet()) {
             addText(" ", AntTargetNode.SOURCE_MARKUP);
-            addText((String) entry.getKey(), AntTargetNode.SOURCE_MARKUP);
+            addText(entry.getKey(), AntTargetNode.SOURCE_MARKUP);
             addText("=\"", AntTargetNode.SOURCE_MARKUP);
             addText((String) entry.getValue(), AntTargetNode.SOURCE_ATTRIBUTE);
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
 
-        final Enumeration children = wrapper.getChildren();
+        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
         final String trimmedText = wrapper.getText().toString().trim();
         final boolean hasText = !"".equals(trimmedText);
         final boolean hasChildren = children.hasMoreElements();
@@ -174,13 +183,12 @@ class TargetTasksExplorer {
             if (hasChildren) {
                 addText("\n", AntTargetNode.SOURCE_MARKUP);
             }
-        }
-        else {
+        } else {
             addText(" />\n", AntTargetNode.SOURCE_MARKUP);
         }
 
         while (children.hasMoreElements()) {
-            final RuntimeConfigurable childWrapper = (RuntimeConfigurable) children.nextElement();
+            final RuntimeConfigurable childWrapper = children.nextElement();
             exploreTask(childWrapper, level + 1);
         }
 
@@ -198,10 +206,19 @@ class TargetTasksExplorer {
         }
     }
 
+    /**
+     * Method addText.
+     * @param text String
+     * @param style int
+     */
     private void addText(final String text, final int style) {
-        textElements.add(new AntTargetNode.SourceElement(text, style));
+        textElements.add(new SourceElement(text, style));
     }
 
+    /**
+     * Method indent.
+     * @param level int
+     */
     private void indent(final int level) {
         final StringBuffer buffer = new StringBuffer(level * 4);
         for (int i = 0; i < level; i++) {

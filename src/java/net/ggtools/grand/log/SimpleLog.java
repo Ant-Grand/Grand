@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,23 +31,61 @@ import org.apache.commons.logging.Log;
 
 /**
  * Simple log class logging to stdout.
- * 
+ *
  * @author Christophe Labouisse
  */
 class SimpleLog implements Log {
-    protected final static int LEVEL_NONE = 0;
-    protected final static int LEVEL_FATAL = 1;
-    protected final static int LEVEL_ERROR = 2;
-    protected final static int LEVEL_WARN = 3;
-    protected final static int LEVEL_INFO = 4;
-    protected final static int LEVEL_DEBUG = 5;
-    protected final static int LEVEL_TRACE = 6;
-    protected final static int LEVEL_ALL = 7;
+    /**
+     * Field LEVEL_NONE.
+     * (value is 0)
+     */
+    protected static final int LEVEL_NONE = 0;
+    /**
+     * Field LEVEL_FATAL.
+     * (value is 1)
+     */
+    protected static final int LEVEL_FATAL = 1;
+    /**
+     * Field LEVEL_ERROR.
+     * (value is 2)
+     */
+    protected static final int LEVEL_ERROR = 2;
+    /**
+     * Field LEVEL_WARN.
+     * (value is 3)
+     */
+    protected static final int LEVEL_WARN = 3;
+    /**
+     * Field LEVEL_INFO.
+     * (value is 4)
+     */
+    protected static final int LEVEL_INFO = 4;
+    /**
+     * Field LEVEL_DEBUG.
+     * (value is 5)
+     */
+    protected static final int LEVEL_DEBUG = 5;
+    /**
+     * Field LEVEL_TRACE.
+     * (value is 6)
+     */
+    protected static final int LEVEL_TRACE = 6;
+    /**
+     * Field LEVEL_ALL.
+     * (value is 7)
+     */
+    protected static final int LEVEL_ALL = 7;
 
-    protected static final String[] LEVEL_NAMES = {"NONE", "FATAL", "ERROR", "WARN", "INFO",
-            "DEBUG", "TRACE", "ALL"};
+    /**
+     * Field LEVEL_NAMES.
+     */
+    protected static final String[] LEVEL_NAMES = {"NONE", "FATAL",
+        "ERROR", "WARN", "INFO", "DEBUG", "TRACE", "ALL"};
 
-    private static final int logLevel = LEVEL_WARN;
+    /**
+     * Field logLevel.
+     */
+    private static final int LOG_LEVEL = LEVEL_WARN;
 
     /**
      * Package only instanciation.
@@ -55,162 +93,191 @@ class SimpleLog implements Log {
     SimpleLog() {
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method debug.
+     * @param message Object
      * @see org.apache.commons.logging.Log#debug(java.lang.Object)
      */
     public void debug(final Object message) {
         log(message, LEVEL_DEBUG);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.logging.Log#debug(java.lang.Object,
-     *      java.lang.Throwable)
+    /**
+     * Method debug.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#debug(java.lang.Object, java.lang.Throwable)
      */
     public void debug(final Object message, final Throwable t) {
         log(message, t, LEVEL_DEBUG);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method error.
+     * @param message Object
      * @see org.apache.commons.logging.Log#error(java.lang.Object)
      */
     public void error(final Object message) {
         log(message, LEVEL_ERROR);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.logging.Log#error(java.lang.Object,
-     *      java.lang.Throwable)
+    /**
+     * Method error.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#error(java.lang.Object, java.lang.Throwable)
      */
     public void error(final Object message, final Throwable t) {
         log(message, t, LEVEL_ERROR);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method fatal.
+     * @param message Object
      * @see org.apache.commons.logging.Log#fatal(java.lang.Object)
      */
     public void fatal(final Object message) {
         log(message, LEVEL_FATAL);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.logging.Log#fatal(java.lang.Object,
-     *      java.lang.Throwable)
+    /**
+     * Method fatal.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#fatal(java.lang.Object, java.lang.Throwable)
      */
     public void fatal(final Object message, final Throwable t) {
         log(message, t, LEVEL_FATAL);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method info.
+     * @param message Object
      * @see org.apache.commons.logging.Log#info(java.lang.Object)
      */
     public void info(final Object message) {
         log(message, LEVEL_INFO);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.logging.Log#info(java.lang.Object,
-     *      java.lang.Throwable)
+    /**
+     * Method info.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#info(java.lang.Object, java.lang.Throwable)
      */
     public void info(final Object message, final Throwable t) {
         log(message, t, LEVEL_INFO);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method isDebugEnabled.
+     * @return boolean
      * @see org.apache.commons.logging.Log#isDebugEnabled()
      */
     public boolean isDebugEnabled() {
-        return logLevel >= LEVEL_DEBUG;
+        return LOG_LEVEL >= LEVEL_DEBUG;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method isErrorEnabled.
+     * @return boolean
      * @see org.apache.commons.logging.Log#isErrorEnabled()
      */
     public boolean isErrorEnabled() {
-        return logLevel >= LEVEL_ERROR;
+        return LOG_LEVEL >= LEVEL_ERROR;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method isFatalEnabled.
+     * @return boolean
      * @see org.apache.commons.logging.Log#isFatalEnabled()
      */
     public boolean isFatalEnabled() {
-        return logLevel >= LEVEL_FATAL;
+        return LOG_LEVEL >= LEVEL_FATAL;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method isInfoEnabled.
+     * @return boolean
      * @see org.apache.commons.logging.Log#isInfoEnabled()
      */
     public boolean isInfoEnabled() {
-        return logLevel >= LEVEL_INFO;
+        return LOG_LEVEL >= LEVEL_INFO;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method isTraceEnabled.
+     * @return boolean
      * @see org.apache.commons.logging.Log#isTraceEnabled()
      */
     public boolean isTraceEnabled() {
-        return logLevel >= LEVEL_TRACE;
+        return LOG_LEVEL >= LEVEL_TRACE;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method isWarnEnabled.
+     * @return boolean
      * @see org.apache.commons.logging.Log#isWarnEnabled()
      */
     public boolean isWarnEnabled() {
-        return logLevel >= LEVEL_WARN;
+        return LOG_LEVEL >= LEVEL_WARN;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method trace.
+     * @param message Object
      * @see org.apache.commons.logging.Log#trace(java.lang.Object)
      */
     public void trace(final Object message) {
         log(message, LEVEL_TRACE);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.logging.Log#trace(java.lang.Object,
-     *      java.lang.Throwable)
+    /**
+     * Method trace.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#trace(java.lang.Object, java.lang.Throwable)
      */
     public void trace(final Object message, final Throwable t) {
         log(message, t, LEVEL_TRACE);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method warn.
+     * @param message Object
      * @see org.apache.commons.logging.Log#warn(java.lang.Object)
      */
     public void warn(final Object message) {
         log(message, LEVEL_WARN);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.apache.commons.logging.Log#warn(java.lang.Object,
-     *      java.lang.Throwable)
+    /**
+     * Method warn.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#warn(java.lang.Object, java.lang.Throwable)
      */
     public void warn(final Object message, final Throwable t) {
         log(message, t, LEVEL_WARN);
     }
 
+    /**
+     * Method log.
+     * @param message Object
+     * @param level int
+     */
     protected void log(final Object message, final int level) {
         log(message, null, level);
     }
 
+    /**
+     * Method log.
+     * @param message Object
+     * @param t Throwable
+     * @param level int
+     */
     protected void log(final Object message, final Throwable t, final int level) {
-        if (level <= logLevel) {
+        if (level <= LOG_LEVEL) {
             System.out.println("[" + LEVEL_NAMES[level] + "] " + message);
             if (t != null) {
                 t.printStackTrace(System.out);
