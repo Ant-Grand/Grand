@@ -40,7 +40,7 @@ import net.ggtools.grand.graph.visit.NodeVisitor;
 public class AntTargetNode extends NodeImpl {
 
     /**
-     * Inner class SourceElement
+     * Inner class SourceElement.
      * @author Christophe Labouisse
      */
     public static class SourceElement {
@@ -145,9 +145,9 @@ public class AntTargetNode extends NodeImpl {
     private String unlessCondition;
 
     /**
-     * Constructor
-     * @param name
-     * @param graph
+     * Constructor.
+     * @param name String
+     * @param graph Graph
      */
     public AntTargetNode(final String name, final Graph graph) {
         super(name, graph);

@@ -63,10 +63,10 @@ public class AntGraph extends GraphImpl {
 
     /**
      * Creates a link representing a call by a task like <code>ant</code>.
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
      * @return AntTaskLink
      */
     public AntTaskLink createTaskLink(final String linkName, final Node startNode,
@@ -81,10 +81,10 @@ public class AntGraph extends GraphImpl {
     /**
      * Creates a link representing a call by a <code>subant</code> task.
      *
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
      * @return SubantTaskLink
      */
     public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,

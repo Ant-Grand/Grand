@@ -48,7 +48,7 @@ class SubGraphImpl implements SubGraph {
          * Create a new iterator from an existing one. A trivial implementation
          * may merely return <code>iterator</code>.
          *
-         * @param iterator
+         * @param iterator Iterator<Node>
          * @return Iterator<Node>
          */
         Iterator<Node> createNodeIterator(final Iterator<Node> iterator);

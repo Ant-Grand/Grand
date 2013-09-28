@@ -70,11 +70,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     static {
         aliases.put("runtarget", "antcall");
         aliases.put("foreach", "antcall");
-        // TODO: check those tasks.
         aliases.put("antcallback", "antcall");
         aliases.put("antfetch", "ant");
         aliases.put("switch", "if");
         aliases.put("trycatch", "if");
+        // TODO check those tasks.
     }
 
     /**
@@ -254,7 +254,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
-     * @param wrapper
+     * @param wrapper RuntimeConfigurable
      * @return List<Object>
      */
     private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
@@ -385,13 +385,13 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                             target);
 
                     for (final Property property : properties) {
-                        // Simple property
                         if (property.getName() != null) {
+                            // Simple property
                             link.setParameter(property.getName(),
                                     antProject.replaceProperties(property.getValue()));
                         }
-                        // Property file.
                         else if (property.getFile() != null) {
+                            // Property file.
                             final File propFile = property.getFile();
                             if (log.isDebugEnabled()) {
                                 log.debug("Loading " + propFile.getAbsolutePath());
@@ -478,9 +478,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
-     * @param targetBuildFile
-     * @param taskName
-     * @param target
+     * @param targetBuildFile File
+     * @param taskName String
+     * @param target String
      * @return AntTaskLink
      * @throws DuplicateElementException
      */
@@ -493,7 +493,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
-     * @param endNodeName
+     * @param endNodeName String
      * @return AntTargetNode
      * @throws DuplicateElementException
      */
@@ -503,8 +503,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     }
 
     /**
-     * @param target
-     * @param targetBuildFile
+     * @param target String
+     * @param targetBuildFile File
      * @return AntTargetNode
      * @throws DuplicateElementException
      */
@@ -531,8 +531,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
         else {
             if (targetName == null) {
                 try {
-                    // TODO Caching.
                     log.debug("Reading project file " + targetBuildFile);
+                    // TODO caching.
                     final AntProject tmpProj = new AntProject(targetBuildFile);
                     targetName = tmpProj.getAntProject().getDefaultTarget();
                 } catch (final GrandException e) {
@@ -544,7 +544,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             }
 
             // Find out the "right" node avoiding conflicts.
-            // FIXME: the current algorithm seems really bad, check if a cache is
+            // FIXME the current algorithm seems really bad, check if a cache is
             // worth implementing.
             int index = 1;
             boolean conflict = false;

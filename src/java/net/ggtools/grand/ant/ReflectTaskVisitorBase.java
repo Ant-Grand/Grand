@@ -118,8 +118,8 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                     throw (RuntimeException) cause;
                 }
                 else {
-                    // FIXME That's a real exception what to do with it?
-                    log.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
+                    // FIXME that's a real exception what to do with it?
+                    LOG.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
                 }
             }
         }
@@ -141,7 +141,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
     /**
      * A default implementation returning the task name.
      *
-     * @param taskName
+     * @param taskName String
      * @return the name to use when look for the method to invoke. Should not be
      *         <code>null</code>.
      */

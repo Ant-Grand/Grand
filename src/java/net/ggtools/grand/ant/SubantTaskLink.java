@@ -52,11 +52,11 @@ public class SubantTaskLink extends AntTaskLink {
     private final List<String> directories = new LinkedList<String>();
 
     /**
-     * @param name
-     * @param graph
-     * @param startNode
-     * @param endNode
-     * @param taskName
+     * @param name String
+     * @param graph Graph
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
      */
     public SubantTaskLink(final String name, final Graph graph, final Node startNode, final Node endNode, final String taskName) {
         super(name, graph, startNode, endNode, taskName);
@@ -75,7 +75,7 @@ public class SubantTaskLink extends AntTaskLink {
     /**
      * Add a directory to the list of directory used when applying the generic
      * ant file.
-     * @param newDir
+     * @param newDir String
      */
     public void addDirectory(final String newDir) {
         directories.add(newDir);

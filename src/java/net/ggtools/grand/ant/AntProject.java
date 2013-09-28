@@ -224,7 +224,7 @@ public class AntProject implements GraphProducer {
         /**
          * Returns the <em>if condition</em> for a specific target.
          *
-         * @param target
+         * @param target Target
          * @return the <em>if condition</em> or <code>null</code> if none
          *         defined.
          */
@@ -233,7 +233,7 @@ public class AntProject implements GraphProducer {
         /**
          * Returns the <em>unless condition</em> for a specific target.
          *
-         * @param target
+         * @param target Target
          * @return the <em>unless condition</em> or <code>null</code> if
          *         none defined.
          */
@@ -361,7 +361,7 @@ public class AntProject implements GraphProducer {
         } catch (final BuildException e) {
             final String message = "Cannot open project file " + source;
             log.error(message, e);
-            // TODO Better rethrowing?
+            // TODO better rethrowing?
             throw new GrandException(message, e);
         }
     }

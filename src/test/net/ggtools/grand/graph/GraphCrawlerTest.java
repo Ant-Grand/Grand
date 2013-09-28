@@ -46,8 +46,8 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class GraphCrawlerTest extends AbstractAntTester {
@@ -67,7 +67,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
 
     /**
      * Constructor for GraphCrawlerTest.
-     * @param arg0
+     * @param arg0 String
      */
     public GraphCrawlerTest(final String arg0) {
         super(arg0);

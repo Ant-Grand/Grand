@@ -74,7 +74,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
     /**
      * Creates a named filter.
      *
-     * @param name
+     * @param name String
      */
     public AbstractGraphFilter(final String name) {
         this.name = name;

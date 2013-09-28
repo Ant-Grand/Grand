@@ -35,8 +35,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class AllTests {

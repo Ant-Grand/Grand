@@ -34,7 +34,7 @@ import org.apache.tools.ant.BuildException;
 
 /**
  * Tests for GrandTask.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class GrandTaskTest extends AbstractAntTester {
@@ -75,7 +75,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Tests if the task.properties resource file creates the grand test.
-     * 
+     *
      */
     public void testTaskDefinitionFile() {
         executeTarget("init-old");
@@ -87,7 +87,7 @@ public class GrandTaskTest extends AbstractAntTester {
     /**
      * Test if the antlib.xml resource correctly initialize custom tasks and
      * types.
-     * 
+     *
      */
     public void testAntLib() {
         executeTarget("init");

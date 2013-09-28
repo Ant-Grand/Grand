@@ -100,16 +100,16 @@ public abstract class BuildFileTest extends TestCase {
     private BuildException buildException;
 
     /**
-     * Constructor for the BuildFileTest object
+     * Constructor for the BuildFileTest object.
      *
-     * @param  name string to pass up to TestCase constructor
+     * @param name string to pass up to TestCase constructor
      */
     public BuildFileTest(final String name) {
         super(name);
     }
 
     /**
-     * run a target, expect for any build exception
+     * run a target, expect for any build exception.
      *
      * @param  target target to run
      * @param  cause  information string to reader of report
@@ -129,9 +129,9 @@ public abstract class BuildFileTest extends TestCase {
         final String realLog = getLog();
         assertEquals(log, realLog);
     }
-    
+
     /**
-     * Assert that the given substring is in the log messages
+     * Assert that the given substring is in the log messages.
      * @param substring String
      */
     protected void assertLogContaining(final String substring) {
@@ -140,7 +140,7 @@ public abstract class BuildFileTest extends TestCase {
                    + realLog + "\"",
                    realLog.indexOf(substring) >= 0);
     }
-    
+
     /**
      * Assert that the given message has been logged with a priority
      * &gt;= INFO when running the given target.
@@ -187,7 +187,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * execute the target, verify output matches expectations
+     * Execute the target, verify output matches expectations.
      *
      * @param  target  target to execute
      * @param  output  output to look for
@@ -199,8 +199,8 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * execute the target, verify output matches expectations
-     * and that we got the named error at the end
+     * Execute the target, verify output matches expectations
+     * and that we got the named error at the end.
      * @param  target  target to execute
      * @param  output  output to look for
      * @param  error   Description of Parameter
@@ -262,7 +262,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * set up to run the named project
+     * Set up to run the named project.
      *
      * @param  filename name of project file to run
      * @throws BuildException
@@ -272,7 +272,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * set up to run the named project
+     * Set up to run the named project.
      *
      * @param  filename name of project file to run
      * @param logLevel int
@@ -292,7 +292,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * execute a target we have set up
+     * Execute a target we have set up.
      * @pre configureProject has been called
      * @param  targetName  target to run
      */
@@ -329,7 +329,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * get the directory of the project
+     * Get the directory of the project.
      * @return the base dir of the project
      */
     protected File getProjectDir() {
@@ -337,7 +337,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * run a target, wait for a build exception
+     * Run a target, wait for a build exception.
      *
      * @param  target target to run
      * @param  cause  information string to reader of report
@@ -360,7 +360,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * run a target, expect an exception string
+     * Run a target, expect an exception string.
      * containing the substring we look for (case sensitive match)
      *
      * @param  target target to run
@@ -382,7 +382,7 @@ public abstract class BuildFileTest extends TestCase {
 
 
     /**
-     * call a target, verify property is as expected
+     * Call a target, verify property is as expected.
      *
      * @param target build file target
      * @param property property name
@@ -394,7 +394,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * assert that a property equals a value; comparison is case sensitive.
+     * Assert that a property equals a value; comparison is case sensitive.
      * @param property property name
      * @param value expected value
      */
@@ -404,7 +404,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * assert that a property equals &quot;true&quot;
+     * Assert that a property equals &quot;true&quot;.
      * @param property property name
      */
     protected void assertPropertySet(final String property) {
@@ -412,7 +412,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * assert that a property is null
+     * Assert that a property is null.
      * @param property property name
      */
     protected void assertPropertyUnset(final String property) {
@@ -420,7 +420,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * call a target, verify named property is "true".
+     * Call a target, verify named property is "true".
      *
      * @param target build file target
      * @param property property name
@@ -430,7 +430,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * call a target, verify property is null
+     * Call a target, verify property is null.
      * @param target build file target
      * @param property property name
      */
@@ -460,7 +460,7 @@ public abstract class BuildFileTest extends TestCase {
          * Field buffer.
          */
         private final StringBuffer buffer;
-        
+
         /**
          * Constructor for AntOutputStream.
          * @param buffer StringBuffer
@@ -468,7 +468,7 @@ public abstract class BuildFileTest extends TestCase {
         public AntOutputStream(final StringBuffer buffer) {
             this.buffer = buffer;
         }
-        
+
         /**
          * Method write.
          * @param b int
@@ -480,7 +480,7 @@ public abstract class BuildFileTest extends TestCase {
     }
 
     /**
-     * our own personal build listener
+     * Our own personal build listener.
      * @author Christophe Labouisse
      */
     private class AntTestListener implements BuildListener {
@@ -491,7 +491,7 @@ public abstract class BuildFileTest extends TestCase {
 
         /**
          * Constructs a test listener which will ignore log events
-         * above the given level
+         * above the given level.
          * @param logLevel int
          */
         public AntTestListener(final int logLevel) {

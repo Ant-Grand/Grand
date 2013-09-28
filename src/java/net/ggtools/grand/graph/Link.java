@@ -67,7 +67,7 @@ public interface Link extends GraphObject {
     /**
      * Accepts a visitor. The implementation must call the appropriate
      * <code>visitLink</code> method.
-     * @param visitor
+     * @param visitor LinkVisitor
      */
     void accept(LinkVisitor visitor);
 }

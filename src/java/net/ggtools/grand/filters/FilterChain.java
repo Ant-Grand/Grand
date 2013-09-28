@@ -75,7 +75,7 @@ public class FilterChain implements GraphFilter {
     /**
      * Creates a named filter chain.
      *
-     * @param name
+     * @param name String
      */
     public FilterChain(final String name) {
         this.name = name;
@@ -84,7 +84,7 @@ public class FilterChain implements GraphFilter {
     /**
      * Add a new filter at the beginning of the chain.
      *
-     * @param newFilter
+     * @param newFilter GraphFilter
      */
     public void addFilterFirst(final GraphFilter newFilter) {
         if (filterList.isEmpty()) {
@@ -105,7 +105,7 @@ public class FilterChain implements GraphFilter {
     /**
      * Adds a new filter at the end of the chain.
      *
-     * @param newFilter
+     * @param newFilter GraphFilter
      */
     public void addFilterLast(final GraphFilter newFilter) {
         filterList.addLast(newFilter);

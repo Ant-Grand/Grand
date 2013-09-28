@@ -254,7 +254,7 @@ public class NodeImpl extends AttributeManager implements Node {
     /**
      * Sets the source snippet for the node.
      *
-     * @param newSource
+     * @param newSource String
      */
     public void setSource(final String newSource) {
         source = newSource;

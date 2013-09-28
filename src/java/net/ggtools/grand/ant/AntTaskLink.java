@@ -61,14 +61,14 @@ public class AntTaskLink extends AntLink {
     private final List<String> propertyFileList = new ArrayList<String>();
 
     /**
-     * @param name
-     * @param graph
-     * @param startNode
-     * @param endNode
+     * @param name String
+     * @param graph Graph
+     * @param startNode Node
+     * @param endNode Node
      * @param taskName String
      */
-    public AntTaskLink(final String name, final Graph graph, final Node startNode,
-            final Node endNode, final String taskName) {
+    public AntTaskLink(final String name, final Graph graph,
+            final Node startNode, final Node endNode, final String taskName) {
         super(name, graph, startNode, endNode);
         this.taskName = taskName;
         setAttributes(ATTR_WEAK_LINK);
@@ -93,8 +93,8 @@ public class AntTaskLink extends AntLink {
 
     /**
      * Sets an attribute for the link.
-     * @param key
-     * @param value
+     * @param key String
+     * @param value String
      */
     public void setParameter(final String key, final String value) {
         parameterMap.put(key, value);
@@ -102,7 +102,7 @@ public class AntTaskLink extends AntLink {
 
     /**
      * Return the value of a parameter or <code>null</code> if not defined.
-     * @param key
+     * @param key String
      * @return String
      */
     public String getParameter(final String key) {
@@ -119,7 +119,7 @@ public class AntTaskLink extends AntLink {
 
     /**
      * Add a new property file to the current list.
-     * @param fileName
+     * @param fileName String
      */
     public void addPropertyFile(final String fileName) {
         propertyFileList.add(fileName);

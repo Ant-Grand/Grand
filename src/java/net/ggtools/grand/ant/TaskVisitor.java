@@ -42,7 +42,7 @@ interface TaskVisitor {
      * Visits a wrapper doing what ever is necessary. This will include recursively explore
      * the children.
      *
-     * @param wrapper
+     * @param wrapper RuntimeConfigurable
      * @throws GrandException
      */
     void visit(RuntimeConfigurable wrapper) throws GrandException;

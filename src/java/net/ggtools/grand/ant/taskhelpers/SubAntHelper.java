@@ -110,28 +110,28 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param set
+     * @param set DirSet
      */
     public void addDirset(final DirSet set) {
         getBuildpath().addDirset(set);
     }
 
     /**
-     * @param list
+     * @param list FileList
      */
     public void addFilelist(final FileList list) {
         getBuildpath().addFilelist(list);
     }
 
     /**
-     * @param set
+     * @param set FileSet
      */
     public void addFileset(final FileSet set) {
         getBuildpath().addFileset(set);
     }
 
     /**
-     * @param p
+     * @param p Property
      */
     public void addProperty(final Property p) {
         properties.addElement(p);
@@ -139,7 +139,7 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param ps
+     * @param ps PropertySet
      */
     public void addPropertyset(final PropertySet ps) {
         propertySets.addElement(ps);
@@ -147,7 +147,7 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param r
+     * @param r Reference
      */
     public void addReference(final Reference r) {
         references.addElement(r);
@@ -368,7 +368,7 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param antfile
+     * @param antfile String
      */
     public void setAntfile(final String antfile) {
         this.antfile = antfile;
@@ -376,14 +376,14 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param s
+     * @param s Path
      */
     public void setBuildpath(final Path s) {
         getBuildpath().append(s);
     }
 
     /**
-     * @param r
+     * @param r Reference
      */
     public void setBuildpathRef(final org.apache.tools.ant.types.Reference r) {
         createBuildpath().setRefid(r);
@@ -400,14 +400,14 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param failOnError
+     * @param failOnError boolean
      */
     public void setFailonerror(final boolean failOnError) {
         underlying.setFailonerror(failOnError);
     }
 
     /**
-     * @param afile
+     * @param afile File
      */
     public void setGenericAntfile(final File afile) {
         genericantfile = afile;
@@ -415,14 +415,14 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param b
+     * @param b boolean
      */
     public void setInheritall(final boolean b) {
         underlying.setInheritall(b);
     }
 
     /**
-     * @param b
+     * @param b boolean
      */
     public void setInheritrefs(final boolean b) {
         underlying.setInheritrefs(b);
@@ -446,7 +446,7 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param s
+     * @param s String
      */
     public void setOutput(final String s) {
         underlying.setOutput(s);
@@ -483,7 +483,7 @@ public class SubAntHelper extends Task {
     }
 
     /**
-     * @param target
+     * @param target String
      */
     public void setTarget(final String target) {
         subAntTarget = target;

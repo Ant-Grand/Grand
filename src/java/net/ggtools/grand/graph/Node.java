@@ -146,7 +146,7 @@ public interface Node extends GraphObject {
      * Accepts a visitor. The implementation should call the appropriate
      * <code>visitNode</code> method of the visitor.
      *
-     * @param visitor
+     * @param visitor NodeVisitor
      */
     void accept(NodeVisitor visitor);
 

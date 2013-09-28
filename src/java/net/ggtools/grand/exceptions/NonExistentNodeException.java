@@ -39,7 +39,7 @@ package net.ggtools.grand.exceptions;
 public class NonExistentNodeException extends GrandException {
 
     /**
-     * Comment for <code>serialVersionUID</code>
+     * Comment for <code>serialVersionUID</code>.
      */
     private static final long serialVersionUID = 1353648414053112433L;
 

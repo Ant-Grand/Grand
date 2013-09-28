@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,8 +40,8 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class NodeRemoverFilterTest extends AbstractAntTester {
@@ -52,7 +52,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     /**
      * Constructor for NodeRemoverFilterTest.
-     * @param name
+     * @param name String
      */
     public NodeRemoverFilterTest(final String name) {
         super(name);
@@ -60,7 +60,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     /**
      * Process the build file, trying to removed a non existent node.
-     * 
+     *
      * @throws GrandException
      */
     public void testNonExistentNode() throws GrandException {
@@ -78,7 +78,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     /**
      * Process the build file, trying to removed with an empty list.
-     * 
+     *
      * @throws GrandException
      */
     public void testNonNode() throws GrandException {
@@ -95,7 +95,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     /**
      * Process log4j 1.2.8 build.xml and remove the "init" node.
-     * 
+     *
      * @throws GrandException
      */
     public void testOneNode() throws GrandException {
@@ -116,7 +116,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process log4j 1.2.8 build.xml and remove the "init", "build" and jar
      * nodes.
-     * 
+     *
      * @throws GrandException
      */
     public void testSeveralNodes() throws GrandException {

@@ -45,8 +45,8 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class FromNodeFilterTest extends AbstractAntTester {
@@ -66,7 +66,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
 
     /**
      * Constructor for FromNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public FromNodeFilterTest(final String name) {
         super(name);

@@ -45,8 +45,8 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class ToNodeFilterTest extends AbstractAntTester {
@@ -64,7 +64,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
 
     /**
      * Constructor for IsolatedNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public ToNodeFilterTest(final String name) {
         super(name);
@@ -117,7 +117,7 @@ public class ToNodeFilterTest extends AbstractAntTester {
     }
 
     /**
-     * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
+     * Process a modified version of log4j 1.2.8 build.xml featuring the "build"
      * target as default. Check if the project start node has not been filtered out.
      *
      * @throws GrandException

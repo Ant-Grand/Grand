@@ -60,7 +60,7 @@ interface GraphFilterType {
      * different with implementations and may even be meaningless for
      * some filter.
      *
-     * @param name
+     * @param name String
      */
     void setNodeName(String name);
 }

@@ -45,8 +45,8 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class ConnectedToNodeFilterTest extends AbstractAntTester {
@@ -65,7 +65,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
 
     /**
      * Constructor for ConnectedToNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public ConnectedToNodeFilterTest(final String name) {
         super(name);
@@ -92,7 +92,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
     }
 
     /**
-     * Process build-complex.xml to find the nodes connected to jar. 
+     * Process build-complex.xml to find the nodes connected to jar.
      * @throws GrandException
      */
     public void testConnectedStartNode() throws GrandException {

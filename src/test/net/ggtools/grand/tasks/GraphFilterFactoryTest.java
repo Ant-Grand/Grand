@@ -36,15 +36,15 @@ import net.ggtools.grand.utils.*;
 import org.apache.tools.ant.BuildException;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class GraphFilterFactoryTest extends AbstractAntTester {
 
     /**
-     * Creates an test case. 
-     * @param name
+     * Creates an test case.
+     * @param name String
      */
     public GraphFilterFactoryTest(final String name) {
         super(name);

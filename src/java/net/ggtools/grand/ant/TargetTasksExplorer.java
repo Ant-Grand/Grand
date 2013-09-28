@@ -68,10 +68,10 @@ class TargetTasksExplorer {
     }
 
     /**
-     * Rebuild a node source by exploring
+     * Rebuild a node source by exploring.
      *
-     * @param target
      * @param node AntTargetNode
+     * @param target Target
      */
     public void exploreTarget(final AntTargetNode node, final Target target) {
         log.trace("Exploring target " + target.getName());

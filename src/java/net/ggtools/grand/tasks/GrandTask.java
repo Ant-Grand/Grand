@@ -80,7 +80,7 @@ public class GrandTask extends Task {
     private File outputConfigurationFile;
 
     /**
-     * the sets of properties to pass to the graphed project
+     * The sets of properties to pass to the graphed project.
      */
     private final List<PropertySet> propertySets = new ArrayList<PropertySet>();
 
@@ -264,7 +264,7 @@ public class GrandTask extends Task {
     /**
      * Sets the buildFile.
      *
-     * @param file
+     * @param file File
      */
     public void setBuildFile(final File file) {
         buildFile = file;
@@ -273,7 +273,7 @@ public class GrandTask extends Task {
     /**
      * Sets the output file.
      *
-     * @param file
+     * @param file File
      */
     public void setOutput(final File file) {
         output = file;
@@ -319,7 +319,7 @@ public class GrandTask extends Task {
 
     /**
      * Add a filter to the task.
-     * @param filter
+     * @param filter FilterType
      */
     public void addFilter(final FilterType filter) {
         filters.add(filter);

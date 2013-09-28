@@ -40,7 +40,7 @@ package net.ggtools.grand.exceptions;
 public class DuplicateElementException extends GrandException {
 
     /**
-     * Comment for <code>serialVersionUID</code>
+     * Comment for <code>serialVersionUID</code>.
      */
     private static final long serialVersionUID = -6223346009226211821L;
 

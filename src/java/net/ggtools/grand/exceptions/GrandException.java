@@ -39,7 +39,7 @@ package net.ggtools.grand.exceptions;
 public class GrandException extends Exception {
 
     /**
-     * Comment for <code>serialVersionUID</code>
+     * Comment for <code>serialVersionUID</code>.
      */
     private static final long serialVersionUID = -6883312368091628491L;
 

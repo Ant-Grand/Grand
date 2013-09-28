@@ -47,7 +47,7 @@ class SimpleGraphElementFactory implements GraphElementFactory {
 
     /**
      * Creates a factory instance linked to a specific graph.
-     * @param graph
+     * @param graph Graph
      */
     SimpleGraphElementFactory(final Graph graph) {
         this.graph = graph;

@@ -46,10 +46,10 @@ public class AntLink extends LinkImpl {
     /**
      * Creates a new link.
      *
-     * @param name
-     * @param graph
-     * @param startNode
-     * @param endNode
+     * @param name String
+     * @param graph Graph
+     * @param startNode Node
+     * @param endNode Node
      */
     public AntLink(final String name, final Graph graph, final Node startNode, final Node endNode) {
         super(name, graph, startNode, endNode);

@@ -38,8 +38,8 @@ import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class MissingNodeFilterTest extends AbstractAntTester {
@@ -47,10 +47,10 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      * Field producer.
      */
     private GraphProducer producer;
-    
+
     /**
      * Constructor for IsolatedNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public MissingNodeFilterTest(final String name) {
         super(name);
@@ -91,7 +91,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
         assertNotNull("Target not found",graph.getNode("missing"));
     }
 
-    
+
     /**
      * Process the full graph through an MissingNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.

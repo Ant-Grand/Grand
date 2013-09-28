@@ -38,8 +38,8 @@ import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class IsolatedNodeFilterTest extends AbstractAntTester {
@@ -47,7 +47,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * Field producer.
      */
     private GraphProducer producer;
-    
+
     /**
      * Constructor for IsolatedNodeFilterTest.
      * @param name
@@ -91,7 +91,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
         assertNotNull("Start node not found",graph.getStartNode());
     }
 
-    
+
     /**
      * Process the full graph through an IsolatedNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
@@ -109,11 +109,11 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
         assertNull("Isolated node should not have been found",graph.getNode("isolated"));
         assertNull("Isolated start node should have been removed",graph.getStartNode());
     }
-    
-    
+
+
     /**
-     * Process the full graph through an IsolatedNodeFilter and check that a connected
-     * node as start node is not removed.
+     * Process the full graph through an IsolatedNodeFilter and check that
+     * a connected node as start node is not removed.
      *
      * @throws GrandException
      */

@@ -46,7 +46,7 @@ class AntGraphElementFactory implements GraphElementFactory {
     /**
      * Creates a new factory linked to a specific graph.
      *
-     * @param graph
+     * @param graph AntGraph
      */
     public AntGraphElementFactory(final AntGraph graph) {
         this.graph = graph;
@@ -78,10 +78,10 @@ class AntGraphElementFactory implements GraphElementFactory {
     /**
      * Creates a link for a task call.
      *
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
      * @return AntTaskLink
      */
     public AntTaskLink createTaskLink(final String linkName, final Node startNode,
@@ -94,10 +94,10 @@ class AntGraphElementFactory implements GraphElementFactory {
      * kind of link resulting from a subant task, this method is intended to be
      * called for the <em>genericantfile</em> version of the task.
      *
-     * @param linkName
-     * @param startNode
-     * @param endNode
-     * @param taskName
+     * @param linkName String
+     * @param startNode Node
+     * @param endNode Node
+     * @param taskName String
      * @return SubantTaskLink
      */
     public SubantTaskLink createSubantTaskLink(final String linkName, final Node startNode,
