@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,38 +32,56 @@ import org.apache.commons.logging.Log;
 /**
  * @author Christophe Labouisse
  */
-public class LoggerManager {
+public final class LoggerManager {
 
+    /**
+     * Field currentFactory.
+     */
     private static LoggerFactory currentFactory;
 
-    private final static LoggerFactory defaultFactory = new LoggerFactory() {
-        public Log getLog(Class clazz) {
+    /**
+     * Field defaultFactory.
+     */
+    private static final LoggerFactory DEFAULT_FACTORY = new LoggerFactory() {
+        public Log getLog(final Class<?> clazz) {
             return new AntLog();
         }
 
-        public Log getLog(String name) {
+        public Log getLog(final String name) {
             return new AntLog();
         }
     };
 
-    public static Log getLog(final Class clazz) {
+    /**
+     * Method getLog.
+     * @param clazz Class<?>
+     * @return Log
+     */
+    public static Log getLog(final Class<?> clazz) {
         if (currentFactory != null) {
             return currentFactory.getLog(clazz);
-        }
-        else {
-            return defaultFactory.getLog(clazz);
+        } else {
+            return DEFAULT_FACTORY.getLog(clazz);
         }
     }
 
+    /**
+     * Method getLog.
+     * @param name String
+     * @return Log
+     */
     public static Log getLog(final String name) {
         if (currentFactory != null) {
             return currentFactory.getLog(name);
-        }
-        else {
-            return defaultFactory.getLog(name);
+        } else {
+            return DEFAULT_FACTORY.getLog(name);
         }
     }
 
+    /**
+     * Method setFactory.
+     * @param factory LoggerFactory
+     */
     public static void setFactory(final LoggerFactory factory) {
         currentFactory = factory;
     }
@@ -73,4 +91,5 @@ public class LoggerManager {
      */
     private LoggerManager() {
     }
+
 }

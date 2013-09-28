@@ -34,22 +34,29 @@ package net.ggtools.grand.graph;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * Walks a graph starting from a specific node to find all the nodes
  * accessible from it.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class GraphCrawler {
-    
+
+    /**
+     * Field graph.
+     */
     @SuppressWarnings("unused")
-    private Graph graph;
-    private LinkFinder finder;
+    private final Graph graph;
+    /**
+     * Field finder.
+     */
+    private final LinkFinder finder;
 
     /**
      * Creates a new crawler.
-     * 
+     *
      * @param graph graph to inspect
      * @param finder finder to use.
      */
@@ -61,33 +68,33 @@ public class GraphCrawler {
     /**
      * Walks the graph from <code>startNode</code> and returns the traversed
      * nodes.
-     * 
+     *
      * The method maintain a list of nodes to visit initialized with
      * <code>startNode</code> and a  LinkedHashSet of results.
-     * 
+     *
      * The startNode is popped from the list, added to the result set,
-     * and the finder is used to findout all the accessible nodes from it.
+     * and the finder is used to find all the accessible nodes from it.
      * The nodes founds are added to the list of nodes to visit.
-     * 
+     *
      * This continue until there is no node to visit.
-     * 
+     *
      * @param startNode node to start the crawl from.
      * @return a collection containing the traversed nodes.
      */
-    public Collection<Node> crawl(final Node startNode) {
-        final LinkedHashSet<Node> result = new LinkedHashSet<Node>();
+    public final Collection<Node> crawl(final Node startNode) {
+        final Set<Node> result = new LinkedHashSet<Node>();
         final LinkedList<Node> nodesToVisit = new LinkedList<Node>();
         nodesToVisit.add(startNode);
-        
+
         while (!nodesToVisit.isEmpty()) {
             final Node current = nodesToVisit.removeFirst();
-            
+
             if (!result.contains(current)) {
                 result.add(current);
                 nodesToVisit.addAll(finder.getLinks(current));
             }
         }
-        
+
         return result;
     }
 }

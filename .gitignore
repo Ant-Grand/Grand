@@ -1,0 +1,4 @@
+target/
+dist/docs/
+tmp*.dot
+*.old

@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,7 +31,6 @@ import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -56,20 +55,23 @@ import org.apache.tools.ant.Task;
 /**
  * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
  * objects. The nodes will be the project's target and the links will be the
- * dependencies between targets. Beside <i>hard </i> dependencies, this producer
+ * dependencies between targets. Beside <i>hard</i> dependencies, this producer
  * is also able to create weaks links from dependencies introduced by the use of
  * the <code>antcall</code> or <code>foreach</code> tasks.
- * 
+ *
  * @author Christophe Labouisse
- * @see <a href="http://ant-contrib.sourceforge.net/">Ant contrib tasks </a> for
+ * @see <a href="http://ant-contrib.sourceforge.net/">Ant contrib tasks</a> for
  *      the <code>foreach</code> task.
  */
 public class AntProject implements GraphProducer {
-    private static final Log log = LoggerManager.getLog(AntProject.class);
+    /**
+     * Field log.
+     */
+    private static final Log LOG = LoggerManager.getLog(AntProject.class);
 
     /**
      * A condition helper using the {@link Target#getIf()}&
-     * {@link Target#getUnless()}methods introduced in Ant 1.6.2.
+     * {@link Target#getUnless()} methods introduced in Ant 1.6.2.
      * @author Christophe Labouisse
      */
     private static class GetterConditionHelper implements TargetConditionHelper {
@@ -79,25 +81,28 @@ public class AntProject implements GraphProducer {
          * available in the last versions of Ant, we check if those method can
          * be loaded.
          * @throws NoSuchMethodException
-         * @throws SecurityException
          */
-        public GetterConditionHelper() throws SecurityException, NoSuchMethodException {
-            final Class[] parameters = new Class[]{};
+        public GetterConditionHelper() throws NoSuchMethodException {
+            final Class<?>[] parameters = new Class[]{};
             Target.class.getMethod("getIf", parameters);
             Target.class.getMethod("getUnless", parameters);
         }
 
-        /*
-         * (non-Javadoc)
-         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+        /**
+         * Method getIfCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
         public String getIfCondition(final Target target) {
             return target.getIf();
         }
 
-        /*
-         * (non-Javadoc)
-         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+        /**
+         * Method getUnlessCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
         public String getUnlessCondition(final Target target) {
             return target.getUnless();
@@ -108,24 +113,26 @@ public class AntProject implements GraphProducer {
     /**
      * A condition helper always returning <code>null</code>. This class will
      * be used as a fallback helper
-     * 
+     *
      * @author Christophe Labouisse
      */
     private static class NullConditionHelper implements TargetConditionHelper {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Task)
+        /**
+         * Method getIfCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
         public String getIfCondition(final Target target) {
             return null;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Task)
+        /**
+         * Method getUnlessCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
         public String getUnlessCondition(final Target target) {
             return null;
@@ -137,24 +144,35 @@ public class AntProject implements GraphProducer {
      * A dirty hack using {@link Field}methods in order to gain access to the
      * private {@link Target#ifCondition}and {@link Target#unlessCondition}
      * attributes.
-     * 
+     *
      * @author Christophe Labouisse
      */
     private static class ReflectHelper implements TargetConditionHelper {
+        /**
+         * Field ifCondition.
+         */
         private final Field ifCondition;
 
+        /**
+         * Field unlessCondition.
+         */
         private final Field unlessCondition;
 
-        public ReflectHelper() throws SecurityException, NoSuchFieldException {
+        /**
+         * Constructor for ReflectHelper.
+         * @throws NoSuchFieldException
+         */
+        public ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
             unlessCondition = Target.class.getDeclaredField("unlessCondition");
             AccessibleObject.setAccessible(new AccessibleObject[]{ifCondition, unlessCondition}, true);
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Task)
+        /**
+         * Method getIfCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
         public String getIfCondition(final Target target) {
             String result = null;
@@ -165,16 +183,17 @@ public class AntProject implements GraphProducer {
                     result = null;
                 }
             } catch (final Exception e) {
-                log.error("Caugh exception, ignoring if condition", e);
+                LOG.error("Caugh exception, ignoring if condition", e);
             }
 
             return result;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Task)
+        /**
+         * Method getUnlessCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
         public String getUnlessCondition(final Target target) {
             String result = null;
@@ -185,7 +204,7 @@ public class AntProject implements GraphProducer {
                     result = null;
                 }
             } catch (final Exception e) {
-                log.error("Caugh exception, ignoring unless condition", e);
+                LOG.error("Caugh exception, ignoring unless condition", e);
             }
 
             return result;
@@ -196,14 +215,14 @@ public class AntProject implements GraphProducer {
     /**
      * Helper interface to access the <em>if</em> and <em>unless</em>
      * conditions of targets.
-     * 
+     *
      * @author Christophe Labouisse
      */
-    private static interface TargetConditionHelper {
+    private interface TargetConditionHelper {
         /**
          * Returns the <em>if condition</em> for a specific target.
-         * 
-         * @param target
+         *
+         * @param target Target
          * @return the <em>if condition</em> or <code>null</code> if none
          *         defined.
          */
@@ -211,8 +230,8 @@ public class AntProject implements GraphProducer {
 
         /**
          * Returns the <em>unless condition</em> for a specific target.
-         * 
-         * @param target
+         *
+         * @param target Target
          * @return the <em>unless condition</em> or <code>null</code> if
          *         none defined.
          */
@@ -221,14 +240,14 @@ public class AntProject implements GraphProducer {
 
     /**
      * Factory class creating TargetConditionHelper objects.
-     * 
+     *
      * @author Christophe Labouisse
      */
-    private static class TargetConditionHelperFactory {
+    private static final class TargetConditionHelperFactory {
 
         /**
          * Creates a new TargetConditionHelper.
-         * 
+         *
          * @return the best help available.
          */
         public static TargetConditionHelper getTargetConditionHelper() {
@@ -236,18 +255,18 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = new GetterConditionHelper();
-                log.debug("Using ant 1.6.2 getter");
+                LOG.debug("Using ant 1.6.2 getter");
             } catch (final Exception e) {
-                log.debug("Cannot create GetterConditionHelper, trying next one");
+                LOG.debug("Cannot create GetterConditionHelper, trying next one");
                 result = null;
             }
 
             if (result == null) {
                 try {
                     result = new ReflectHelper();
-                    log.debug("Using ReflectHelper");
+                    LOG.debug("Using ReflectHelper");
                 } catch (final Exception e) {
-                    log.debug("Cannot create ReflectHelper, trying next one");
+                    LOG.debug("Cannot create ReflectHelper, trying next one");
                     result = null;
                 }
             }
@@ -259,25 +278,40 @@ public class AntProject implements GraphProducer {
             return result;
         }
 
+        /**
+         * Constructor for TargetConditionHelperFactory.
+         */
         private TargetConditionHelperFactory() {
         }
     }
 
+    /**
+     * Field antProject.
+     */
     private org.apache.tools.ant.Project antProject;
 
+    /**
+     * Field targetConditionHelper.
+     */
     private final TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
             .getTargetConditionHelper();
 
+    /**
+     * Field targetExplorer.
+     */
     private final TargetTasksExplorer targetExplorer = new TargetTasksExplorer(this);
 
+    /**
+     * Field taskLinkFinder.
+     */
     private LinkFinderVisitor taskLinkFinder;
 
     /**
      * Creates a new project from an ant build file.
-     * 
+     *
      * The source object can be anything supported by {@link ProjectHelper}
      * which is at least a File.
-     * 
+     *
      * @param source
      *            The source for XML configuration.
      * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
@@ -290,10 +324,10 @@ public class AntProject implements GraphProducer {
 
     /**
      * Creates a new project from an ant build file.
-     * 
+     *
      * The source object can be anything supported by {@link ProjectHelper}
      * which is at least a File.
-     * 
+     *
      * @param source
      *            The source for XML configuration.
      * @param properties
@@ -304,12 +338,11 @@ public class AntProject implements GraphProducer {
      *             if the project cannot be loaded.
      */
     public AntProject(final File source, final Properties properties) throws GrandException {
-        log.info("Parsing from " + source);
+        LOG.info("Parsing from " + source);
         antProject = new Project();
         if (properties != null) {
-            for (final Object element : properties.entrySet()) {
-                final Map.Entry entry = (Map.Entry) element;
-                antProject.setProperty((String) entry.getKey(), (String) entry.getValue());
+            for (final Map.Entry<Object, Object> element : properties.entrySet()) {
+                antProject.setProperty((String) element.getKey(), (String) element.getValue());
             }
         }
         antProject.setSystemProperties();
@@ -322,11 +355,11 @@ public class AntProject implements GraphProducer {
             final ProjectHelper loader = ProjectHelper.getProjectHelper();
             antProject.addReference("ant.projectHelper", loader);
             loader.parse(antProject, source);
-            log.debug("Done parsing");
+            LOG.debug("Done parsing");
         } catch (final BuildException e) {
             final String message = "Cannot open project file " + source;
-            log.error(message, e);
-            // TODO Better rethrowing?
+            LOG.error(message, e);
+            // TODO better rethrowing?
             throw new GrandException(message, e);
         }
     }
@@ -344,29 +377,24 @@ public class AntProject implements GraphProducer {
         if (helper != null) {
             final AntTypeDefinition subAntDef = helper.getDefinition("subant");
             if (subAntDef == null) {
-                log
-                        .warn("No definition found for the subant task in ComponentHelper, disabling subant");
-            }
-            else {
+                LOG.warn("No definition found for the subant task in ComponentHelper, disabling subant");
+            } else {
                 subAntDef.setClass(SubAntHelper.class);
             }
             final AntTypeDefinition taskDefDef = helper.getDefinition("taskdef");
             if (taskDefDef == null) {
-                log
-                        .warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
-            }
-            else {
+                LOG.warn("No definition found for the taskdef task in ComponentHelper, some file may not load properly");
+            } else {
                 taskDefDef.setClass(TaskDefHelper.class);
             }
-        }
-        else {
-            log.warn("No component helper in current project");
+        } else {
+            LOG.warn("No component helper in current project");
         }
     }
 
     /**
      * Creates a new project from an existing ant project.
-     * 
+     *
      * @param project
      *            project to create the graph from.
      */
@@ -377,18 +405,18 @@ public class AntProject implements GraphProducer {
 
     /**
      * Returns the underlying ant project.
-     * 
+     *
      * @return underlying ant project.
      */
-    public Project getAntProject() {
+    public final Project getAntProject() {
         return antProject;
     }
 
     /**
      * Convert an Ant project to a Grand Graph.
-     * 
+     *
      * The conversion is done in several steps:
-     * 
+     *
      * <ol>
      * <li>Each ant target will be converted to a Grand Node using both the
      * target's name and description the the node's ones. Targets with a non
@@ -401,20 +429,19 @@ public class AntProject implements GraphProducer {
      * task will be translated in links with the
      * {@link net.ggtools.grand.graph.Link#ATTR_WEAK_LINK}set.</li>
      * </ol>
-     * 
+     *
      * @return a graph representing the dependency of the ant project.
      * @throws GrandException
      *             if the project cannot be converted to a graph.
      * @see GraphProducer#getGraph()
      */
-    public Graph getGraph() throws GrandException {
-        log.debug("Triggering AntProject");
+    public final Graph getGraph() throws GrandException {
+        LOG.debug("Triggering AntProject");
 
         final AntGraph graph = new AntGraph(antProject);
 
         // First pass, create the nodes.
-        for (final Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
-            final Target target = (Target) iter.next();
+        for (final Target target : antProject.getTargets().values()) {
             if (target.getName().equals("")) {
                 continue;
             }
@@ -445,18 +472,17 @@ public class AntProject implements GraphProducer {
         }
 
         // Second pass, create the links
-        for (final Iterator iter = antProject.getTargets().values().iterator(); iter.hasNext();) {
-            final Target target = (Target) iter.next();
+        for (final Target target : antProject.getTargets().values()) {
             if (target.getName().equals("")) {
                 continue;
             }
 
-            final Enumeration deps = target.getDependencies();
+            final Enumeration<String> deps = target.getDependencies();
             final String startNodeName = target.getName();
             final AntTargetNode startNode = (AntTargetNode) graph.getNode(startNodeName);
 
             while (deps.hasMoreElements()) {
-                createLink(graph, null, startNode, (String) deps.nextElement());
+                createLink(graph, null, startNode, deps.nextElement());
             }
 
             taskLinkFinder.setGraph(graph);
@@ -473,7 +499,7 @@ public class AntProject implements GraphProducer {
     /**
      * Creates a new link. The end node will be created if needed with the
      * MISSING_NODE attribute set.
-     * 
+     *
      * @param graph
      *            owning graph
      * @param linkName
@@ -492,13 +518,13 @@ public class AntProject implements GraphProducer {
         Node endNode = graph.getNode(endNodeName);
 
         if (endNode == null) {
-            log.warn("Target " + startNode + " has dependency to non existent target "
+            LOG.warn("Target " + startNode + " has dependency to non existent target "
                     + endNodeName + ", creating a dummy node");
             endNode = graph.createNode(endNodeName);
             endNode.setAttributes(Node.ATTR_MISSING_NODE);
         }
 
-        log.debug("Creating link from " + startNode + " to " + endNodeName);
+        LOG.debug("Creating link from " + startNode + " to " + endNodeName);
         return (AntLink) graph.createLink(linkName, startNode, endNode);
     }
 }

@@ -32,8 +32,8 @@
 package net.ggtools.grand.graph;
 
 /**
- * Interface to be implemented by classes creating graph elements (nodes & links).
- * 
+ * Interface to be implemented by classes creating graph elements (nodes and links).
+ *
  * @author Christophe Labouisse
  */
 public interface GraphElementFactory {
@@ -44,7 +44,7 @@ public interface GraphElementFactory {
      * @return a new node.
      */
     Node createNode(String nodeName);
-    
+
     /**
      * Creates a new link between 2 nodes.
      * @param linkName the new link name, can be <code>null</code>.

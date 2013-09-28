@@ -45,11 +45,14 @@ import org.apache.tools.ant.Project;
 /**
  * A class to instanciante the right filter type classes based
  * on the name parameter.
- * 
+ *
  * @author Christophe Labouisse
  */
 final class GraphFilterFactory {
-    private static final Log log = LoggerManager.getLog(GraphFilterFactory.class);
+    /**
+     * Field log.
+     */
+    private static final Log LOG = LoggerManager.getLog(GraphFilterFactory.class);
     /**
      * Properties giving the java class to use for a filter name.
      */
@@ -60,14 +63,14 @@ final class GraphFilterFactory {
             CONFIGURATION.load(GraphFilterFactory.class
                     .getResourceAsStream("GraphFilterFactory.properties"));
         } catch (final IOException e) {
-            log.error("Cannot read properties",e);
+            LOG.error("Cannot read properties", e);
             throw new RuntimeException(e);
         }
     }
 
     /**
      * Get a filter object for a name.
-     * 
+     *
      * @param project owner project
      * @param name value of the name attribute in the filter element
      * @return a GraphFilterType object.
@@ -79,21 +82,22 @@ final class GraphFilterFactory {
 
         final String filterClassName = CONFIGURATION.getProperty(name);
 
-        if (filterClassName == null) { throw new BuildException("Filter " + name
-                + " not configured"); }
+        if (filterClassName == null) {
+            throw new BuildException("Filter " + name + " not configured");
+        }
 
         project.log("Using " + filterClassName, Project.MSG_DEBUG);
 
-        Class filterClass;
+        final Class<?> filterClass;
         try {
             filterClass = Class.forName(filterClassName);
         } catch (final ClassNotFoundException e) {
             throw new BuildException("Cannot find filter class", e);
         }
 
-        Constructor constructor;
+        final Constructor<?> constructor;
         try {
-            constructor = filterClass.getConstructor(new Class[]{Project.class});
+            constructor = filterClass.getConstructor(new Class<?>[]{Project.class});
         } catch (final SecurityException e) {
             final String message = "Cannot access constructor for class " + filterClassName;
             project.log(message, Project.MSG_ERR);
@@ -104,7 +108,7 @@ final class GraphFilterFactory {
             throw new BuildException(message, e);
         }
 
-        GraphFilterType filter;
+        final GraphFilterType filter;
         try {
             filter = (GraphFilterType) constructor.newInstance(new Object[]{project});
         } catch (final IllegalArgumentException e) {

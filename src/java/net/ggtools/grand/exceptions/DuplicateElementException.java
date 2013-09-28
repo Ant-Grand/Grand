@@ -34,13 +34,13 @@ package net.ggtools.grand.exceptions;
 /**
  * Exception raised when trying to create two elements with the same key in
  * a container. For instance two nodes with the same name in one graph.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class DuplicateElementException extends GrandException {
-    
+
     /**
-     * Comment for <code>serialVersionUID</code>
+     * Comment for <code>serialVersionUID</code>.
      */
     private static final long serialVersionUID = -6223346009226211821L;
 
@@ -50,11 +50,11 @@ public class DuplicateElementException extends GrandException {
     public DuplicateElementException() {
         super();
     }
-    
+
     /**
      * Creates a new exception.
-     * 
-     * @param message explainatory message of the exception cause.
+     *
+     * @param message explanatory message of the exception cause.
      */
     public DuplicateElementException(final String message) {
         super(message);
@@ -62,8 +62,8 @@ public class DuplicateElementException extends GrandException {
 
     /**
      * Creates a new exception.
-     * 
-     * @param message explainatory message of the exception cause.
+     *
+     * @param message explanatory message of the exception cause.
      * @param cause root cause.
      */
     public DuplicateElementException(final String message, final Throwable cause) {
@@ -72,7 +72,7 @@ public class DuplicateElementException extends GrandException {
 
     /**
      * Creates a new exception.
-     * 
+     *
      * @param cause root cause
      */
     public DuplicateElementException(final Throwable cause) {

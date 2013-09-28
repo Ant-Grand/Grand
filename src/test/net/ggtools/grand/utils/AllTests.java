@@ -35,14 +35,21 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
-public class AllTests {
+public final class AllTests {
+    /**
+     * Constructor for AllTests.
+     */
+    private AllTests() {
+    }
 
-    private AllTests() {}
-    
+    /**
+     * Method suite.
+     * @return Test
+     */
     public static Test suite() {
         final TestSuite suite = new TestSuite("Test for net.ggtools.grand.utils");
         //$JUnit-BEGIN$

@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,6 +28,7 @@
 package net.ggtools.grand.ant.taskhelpers;
 
 import java.io.File;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.tools.ant.BuildException;
@@ -49,108 +50,142 @@ import org.apache.tools.ant.types.Path.PathElement;
 /**
  * A Proxy for the {@link org.apache.tools.ant.taskdefs.SubAnt}class allowing
  * to retrieve some data after configuration.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class SubAntHelper extends Task {
+    /**
+     * Field antfile.
+     */
     private String antfile = "build.xml";
 
+    /**
+     * Field buildpath.
+     */
     private Path buildpath;
 
+    /**
+     * Field genericantfile.
+     */
     private File genericantfile = null;
 
+    /**
+     * Field properties.
+     */
     private final Vector<Property> properties = new Vector<Property>();
 
+    /**
+     * Field propertySets.
+     */
     private final Vector<PropertySet> propertySets = new Vector<PropertySet>();
 
+    /**
+     * Field references.
+     */
     private final Vector<Reference> references = new Vector<Reference>();
 
+    /**
+     * Field subAntTarget.
+     */
     private String subAntTarget = null;
 
+    /**
+     * Field underlying.
+     */
     final SubAnt underlying;
 
+    /**
+     * Constructor for SubAntHelper.
+     */
     public SubAntHelper() {
         underlying = new SubAnt();
     }
 
+    /**
+     * Constructor for SubAntHelper.
+     * @param underlying SubAnt
+     */
     public SubAntHelper(final SubAnt underlying) {
         this.underlying = underlying;
     }
 
     /**
-     * @param set
+     * @param set DirSet
      */
-    public void addDirset(final DirSet set) {
+    public final void addDirset(final DirSet set) {
         getBuildpath().addDirset(set);
     }
 
     /**
-     * @param list
+     * @param list FileList
      */
-    public void addFilelist(final FileList list) {
+    public final void addFilelist(final FileList list) {
         getBuildpath().addFilelist(list);
     }
 
     /**
-     * @param set
+     * @param set FileSet
      */
-    public void addFileset(final FileSet set) {
+    public final void addFileset(final FileSet set) {
         getBuildpath().addFileset(set);
     }
 
     /**
-     * @param p
+     * @param p Property
      */
-    public void addProperty(final Property p) {
+    public final void addProperty(final Property p) {
         properties.addElement(p);
         underlying.addProperty(p);
     }
 
     /**
-     * @param ps
+     * @param ps PropertySet
      */
-    public void addPropertyset(final PropertySet ps) {
+    public final void addPropertyset(final PropertySet ps) {
         propertySets.addElement(ps);
         underlying.addPropertyset(ps);
     }
 
     /**
-     * @param r
+     * @param r Reference
      */
-    public void addReference(final Reference r) {
+    public final void addReference(final Reference r) {
         references.addElement(r);
         underlying.addReference(r);
     }
 
     /**
-     * @return
+     * @return Path
      */
-    public Path createBuildpath() {
+    public final Path createBuildpath() {
         return getBuildpath().createPath();
     }
 
     /**
-     * @return
+     * @return PathElement
      */
-    public PathElement createBuildpathElement() {
+    public final PathElement createBuildpathElement() {
         return getBuildpath().createPathElement();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method equals.
+     * @param obj Object
+     * @return boolean
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         return underlying.equals(obj);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method execute.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
-    public void execute() throws BuildException {
+    public final void execute() throws BuildException {
         underlying.setBuildpath(buildpath);
         underlying.execute();
     }
@@ -164,22 +199,23 @@ public class SubAntHelper extends Task {
 
     /**
      * Gets the implicit build path, creating it if <code>null</code>.
-     * 
+     *
      * @return the implicit build path.
      */
-    public Path getBuildpath() {
+    public final Path getBuildpath() {
         if (buildpath == null) {
             buildpath = new Path(getProject());
         }
         return buildpath;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getDescription.
+     * @return String
      * @see org.apache.tools.ant.Task#getDescription()
      */
     @Override
-    public String getDescription() {
+    public final String getDescription() {
         return underlying.getDescription();
     }
 
@@ -190,201 +226,215 @@ public class SubAntHelper extends Task {
         return genericantfile;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getLocation.
+     * @return Location
      * @see org.apache.tools.ant.Task#getLocation()
      */
     @Override
-    public Location getLocation() {
+    public final Location getLocation() {
         return underlying.getLocation();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getOwningTarget.
+     * @return Target
      * @see org.apache.tools.ant.Task#getOwningTarget()
      */
     @Override
-    public Target getOwningTarget() {
+    public final Target getOwningTarget() {
         return underlying.getOwningTarget();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getProject.
+     * @return Project
      * @see org.apache.tools.ant.ProjectComponent#getProject()
      */
     @Override
-    public Project getProject() {
+    public final Project getProject() {
         return underlying.getProject();
     }
 
     /**
      * @return Returns the properties.
      */
-    public final Vector<Property> getProperties() {
+    public final List<Property> getProperties() {
         return properties;
     }
 
     /**
      * @return Returns the propertySets.
      */
-    public final Vector<PropertySet> getPropertySets() {
+    public final List<PropertySet> getPropertySets() {
         return propertySets;
     }
 
     /**
      * @return Returns the references.
      */
-    public final Vector<Reference> getReferences() {
+    public final List<Reference> getReferences() {
         return references;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getRuntimeConfigurableWrapper.
+     * @return RuntimeConfigurable
      * @see org.apache.tools.ant.Task#getRuntimeConfigurableWrapper()
      */
     @Override
-    public RuntimeConfigurable getRuntimeConfigurableWrapper() {
+    public final RuntimeConfigurable getRuntimeConfigurableWrapper() {
         return underlying.getRuntimeConfigurableWrapper();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTaskName.
+     * @return String
      * @see org.apache.tools.ant.Task#getTaskName()
      */
     @Override
-    public String getTaskName() {
+    public final String getTaskName() {
         return underlying.getTaskName();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTaskType.
+     * @return String
      * @see org.apache.tools.ant.Task#getTaskType()
      */
     @Override
-    public String getTaskType() {
+    public final String getTaskType() {
         return underlying.getTaskType();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method hashCode.
+     * @return int
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return underlying.hashCode();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method init.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#init()
      */
     @Override
-    public void init() throws BuildException {
+    public final void init() throws BuildException {
         underlying.init();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method log.
+     * @param msg String
      * @see org.apache.tools.ant.Task#log(java.lang.String)
      */
     @Override
-    public void log(final String msg) {
+    public final void log(final String msg) {
         underlying.log(msg);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method log.
+     * @param msg String
+     * @param msgLevel int
      * @see org.apache.tools.ant.Task#log(java.lang.String, int)
      */
     @Override
-    public void log(final String msg, final int msgLevel) {
+    public final void log(final String msg, final int msgLevel) {
         underlying.log(msg, msgLevel);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method maybeConfigure.
+     * @throws BuildException
      * @see org.apache.tools.ant.Task#maybeConfigure()
      */
     @Override
-    public void maybeConfigure() throws BuildException {
+    public final void maybeConfigure() throws BuildException {
         underlying.maybeConfigure();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method reconfigure.
      * @see org.apache.tools.ant.Task#reconfigure()
      */
     @Override
-    public void reconfigure() {
+    public final void reconfigure() {
         underlying.reconfigure();
     }
 
     /**
-     * @param antfile
+     * @param antfile String
      */
-    public void setAntfile(final String antfile) {
+    public final void setAntfile(final String antfile) {
         this.antfile = antfile;
         underlying.setAntfile(antfile);
     }
 
     /**
-     * @param s
+     * @param s Path
      */
-    public void setBuildpath(final Path s) {
+    public final void setBuildpath(final Path s) {
         getBuildpath().append(s);
     }
 
     /**
-     * @param r
+     * @param r Reference
      */
-    public void setBuildpathRef(final org.apache.tools.ant.types.Reference r) {
+    public final void setBuildpathRef(final Reference r) {
         createBuildpath().setRefid(r);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setDescription.
+     * @param desc String
      * @see org.apache.tools.ant.Task#setDescription(java.lang.String)
      */
     @Override
-    public void setDescription(final String desc) {
+    public final void setDescription(final String desc) {
         underlying.setDescription(desc);
     }
 
     /**
-     * @param failOnError
+     * @param failOnError boolean
      */
-    public void setFailonerror(final boolean failOnError) {
+    public final void setFailonerror(final boolean failOnError) {
         underlying.setFailonerror(failOnError);
     }
 
     /**
-     * @param afile
+     * @param afile File
      */
-    public void setGenericAntfile(final File afile) {
+    public final void setGenericAntfile(final File afile) {
         genericantfile = afile;
         underlying.setGenericAntfile(afile);
     }
 
     /**
-     * @param b
+     * @param b boolean
      */
-    public void setInheritall(final boolean b) {
+    public final void setInheritall(final boolean b) {
         underlying.setInheritall(b);
     }
 
     /**
-     * @param b
+     * @param b boolean
      */
-    public void setInheritrefs(final boolean b) {
+    public final void setInheritrefs(final boolean b) {
         underlying.setInheritrefs(b);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setLocation.
+     * @param location Location
      * @see org.apache.tools.ant.Task#setLocation(org.apache.tools.ant.Location)
      */
     @Override
-    public void setLocation(final Location location) {
+    public final void setLocation(final Location location) {
         underlying.setLocation(location);
     }
 
@@ -394,63 +444,69 @@ public class SubAntHelper extends Task {
     public final String getTarget() {
         return subAntTarget;
     }
+
     /**
-     * @param s
+     * @param s String
      */
-    public void setOutput(final String s) {
+    public final void setOutput(final String s) {
         underlying.setOutput(s);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setOwningTarget.
+     * @param target Target
      * @see org.apache.tools.ant.Task#setOwningTarget(org.apache.tools.ant.Target)
      */
     @Override
-    public void setOwningTarget(final Target target) {
+    public final void setOwningTarget(final Target target) {
         underlying.setOwningTarget(target);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setProject.
+     * @param project Project
      * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
      */
     @Override
-    public void setProject(final Project project) {
+    public final void setProject(final Project project) {
         underlying.setProject(project);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setRuntimeConfigurableWrapper.
+     * @param wrapper RuntimeConfigurable
      * @see org.apache.tools.ant.Task#setRuntimeConfigurableWrapper(org.apache.tools.ant.RuntimeConfigurable)
      */
     @Override
-    public void setRuntimeConfigurableWrapper(final RuntimeConfigurable wrapper) {
+    public final void setRuntimeConfigurableWrapper(final RuntimeConfigurable wrapper) {
         underlying.setRuntimeConfigurableWrapper(wrapper);
     }
 
     /**
-     * @param target
+     * @param target String
      */
-    public void setTarget(final String target) {
+    public final void setTarget(final String target) {
         subAntTarget = target;
         underlying.setTarget(target);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setTaskName.
+     * @param name String
      * @see org.apache.tools.ant.Task#setTaskName(java.lang.String)
      */
     @Override
-    public void setTaskName(final String name) {
+    public final void setTaskName(final String name) {
         underlying.setTaskName(name);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setTaskType.
+     * @param type String
      * @see org.apache.tools.ant.Task#setTaskType(java.lang.String)
      */
     @Override
-    public void setTaskType(final String type) {
+    public final void setTaskType(final String type) {
         underlying.setTaskType(type);
     }
 }

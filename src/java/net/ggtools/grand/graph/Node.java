@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -33,12 +33,12 @@ import net.ggtools.grand.graph.visit.NodeVisitor;
 
 /**
  * Interface implementated by nodes populating the graph.
- * 
+ *
  * @author Christophe Labouisse
  */
 public interface Node extends GraphObject {
     /**
-     * Attribute bit to be set on <i>main </i> nodes. The definition of a main
+     * Attribute bit to be set on <i>main</i> nodes. The definition of a main
      * node depends on the graph's source. For Ant a main node will be a target
      * with a description attribute.
      */
@@ -48,7 +48,7 @@ public interface Node extends GraphObject {
      * Attribute bit to be set on missing nodes, that is nodes created by the
      * graph producer even if no such node exists in the original data source.
      * The cause of such creations depends on the graph's source. For ant
-     * projects, <i>missing </i> nodes may be created when a target (or an
+     * projects, <i>missing</i> nodes may be created when a target (or an
      * antcall) refers a non existing node.
      */
     int ATTR_MISSING_NODE = 1 << 1;
@@ -59,7 +59,7 @@ public interface Node extends GraphObject {
      * in ant with a <code>if</code> or <code>unless</code> attribute set.
      */
     int ATTR_CONDITIONAL_NODE = 1 << 2;
-    
+
     /**
      * Attribute bit to be set on the start node(s). The definition of a start
      * node depends of the graph's source. For Ant a the start node is the default
@@ -71,9 +71,9 @@ public interface Node extends GraphObject {
      * Returns links originating from the node. The implementing class should
      * insure that the returned list only contains objects implementing the Link
      * interface.
-     * 
+     *
      * The returned collection should allow modification operations.
-     * 
+     *
      * @return list of links.
      */
     Collection<Link> getLinks();
@@ -82,9 +82,9 @@ public interface Node extends GraphObject {
      * Returns links coming to the node. The implementing class should insure
      * that the returned list only contains objects implementing the Link
      * interface.
-     * 
+     *
      * The returned collection should allow modification operations.
-     * 
+     *
      * @return list of links.
      */
     Collection<Link> getBackLinks();
@@ -93,7 +93,7 @@ public interface Node extends GraphObject {
      * Add a link to the node. This method should be called when the link starts
      * from the node. The implementations should try to preserve the order in
      * which the nodes were added.
-     * 
+     *
      * @param link
      *            link to add
      */
@@ -103,7 +103,7 @@ public interface Node extends GraphObject {
      * Add a link to the node. This method should be called when the link ends
      * at the node. The implementations should try to preserve the order in
      * which the nodes were added.
-     * 
+     *
      * @param link
      *            link to add
      */
@@ -112,7 +112,7 @@ public interface Node extends GraphObject {
     /**
      * Remove a link from the node. This method should be called when the link
      * starts from the node.
-     * 
+     *
      * @param link
      *            link to remove
      */
@@ -121,7 +121,7 @@ public interface Node extends GraphObject {
     /**
      * Remove a link from the node. This method should be called when the link
      * ends at the node.
-     * 
+     *
      * @param link
      *            link to remove
      */
@@ -129,14 +129,14 @@ public interface Node extends GraphObject {
 
     /**
      * Returns a short description (one line of less) of the node.
-     * 
+     *
      * @return description.
      */
     String getDescription();
 
     /**
      * Sets the node's description.
-     * 
+     *
      * @param description
      *            node's description
      */
@@ -145,8 +145,8 @@ public interface Node extends GraphObject {
     /**
      * Accepts a visitor. The implementation should call the appropriate
      * <code>visitNode</code> method of the visitor.
-     * 
-     * @param visitor
+     *
+     * @param visitor NodeVisitor
      */
     void accept(NodeVisitor visitor);
 
@@ -154,7 +154,7 @@ public interface Node extends GraphObject {
      * Returns the source snippet for the node. Implementations may return
      * <code>null</code> if no source is available or if the source concept is
      * not relevant.
-     * 
+     *
      * @return The source snippet for the node or <code>null</code>;
      */
     String getSource();

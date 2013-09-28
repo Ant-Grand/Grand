@@ -28,7 +28,7 @@
   <target name="compile" description="o Compile the code" depends="get-deps">
     <mkdir dir="${classesdir}">
     </mkdir>
-    <javac source="1.4" target="1.4" destdir="${classesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
+    <javac source="1.5" target="1.5" includeantruntime="false" destdir="${classesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
       <src>
         <pathelement location="src/java">
         </pathelement>
@@ -106,7 +106,7 @@
   <target name="compile-tests" depends="compile">
     <mkdir dir="${testclassesdir}">
     </mkdir>
-    <javac source="1.4" target="1.4" destdir="${testclassesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
+    <javac source="1.5" target="1.5" includeantruntime="false" destdir="${testclassesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
       <src>
         <pathelement location="src/test">
         </pathelement>
@@ -144,11 +144,11 @@
     </javadoc>
   </target>
   <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.2.jar">
+    <get dest="${libdir}/ant-1.9.2.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant/1.9.2/ant-1.9.2.jar">
     </get>
-    <get dest="${libdir}/ant-launcher-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-launcher-1.6.2.jar">
+    <get dest="${libdir}/ant-launcher-1.9.2.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant-launcher/1.9.2/ant-launcher-1.9.2.jar">
     </get>
-    <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar">
+    <get dest="${libdir}/junit-3.8.2.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar">
     </get>
   </target>
   <target name="install-maven">

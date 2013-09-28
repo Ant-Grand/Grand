@@ -34,71 +34,82 @@ package net.ggtools.grand.graph;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
-import net.ggtools.grand.graph.ForwardLinkFinder;
-import net.ggtools.grand.graph.Graph;
-import net.ggtools.grand.graph.GraphCrawler;
-import net.ggtools.grand.graph.GraphProducer;
-import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class GraphCrawlerTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
-    private static final HashSet<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
-            .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
-                    "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
-                    "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
-                    "jmxCheck"}));
+    /**
+     * Field NODES_AFTER_FILTERING.
+     */
+    private static final Set<String> NODES_AFTER_FILTERING =
+            new HashSet<String>(Arrays.asList(new String[]{"build", "init",
+                    "build.core", "build.examples", "build.xml", "jaxp",
+                    "jaxpCheck", "build.javamail", "javamail",
+                    "javamailCheck", "build.jms", "jms", "jmsCheck", "jndi",
+                    "jndiCheck", "build.jmx", "jmx", "jmxCheck"}));
 
     /**
      * Constructor for GraphCrawlerTest.
-     * @param arg0
+     * @param arg0 String
      */
     public GraphCrawlerTest(final String arg0) {
         super(arg0);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
-    /*
+    /**
+     * Method setUp.
      * @see AbstractTaskTester#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
 
-    /*
+    /**
+     * Method tearDown.
      * @see AbstractTaskTester#tearDown()
      */
     @Override
-    protected void tearDown() {
+    protected final void tearDown() {
         super.tearDown();
     }
 
+    /**
+     * Method testCrawl.
+     * @throws GrandException
+     */
     public final void testCrawl() throws GrandException {
         final Graph graph = producer.getGraph();
         final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());
         final Collection<Node> result = crawler.crawl(graph.getNode("build"));
 
-        assertEquals("Result and reference do not have the same size", NODES_AFTER_FILTERING
-                .size(), result.size());
-        
+        assertEquals("Result and reference do not have the same size",
+                NODES_AFTER_FILTERING.size(), result.size());
+
         for (Node node : result) {
             final String nodeName = node.getName();
             assertTrue("Node " + nodeName + " should have been filtered out",

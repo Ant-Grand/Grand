@@ -40,62 +40,70 @@ import junit.framework.Assert;
 
 /**
  * Utility class to compare two files.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class FileComparator extends Assert {
+    /**
+     * Field source.
+     */
+    private final File source;
 
-    private File source;
-    private File dest;
+    /**
+     * Field dest.
+     */
+    private final File dest;
 
     /**
      * Creates a new file comparator.
-     * 
-     * @param source
-     * @param dest
+     *
+     * @param source File
+     * @param dest File
      */
     public FileComparator(final File source, final File dest) {
         this.source = source;
         this.dest = dest;
     }
-    
+
     /**
      * Asserts that both files have the same length.
      */
-    public void assertSizesMatch() {
-        assertEquals("Sizes do not match",source.length(),dest.length());
+    public final void assertSizesMatch() {
+        assertEquals("Sizes do not match", source.length(), dest.length());
     }
-    
+
     /**
      * Asserts that both files match line for line. This method also assert
      * the both files have the same length.
-     * 
+     *
      * @throws IOException
      */
-    public void assertLinesMatch() throws IOException {
+    public final void assertLinesMatch() throws IOException {
         assertSizesMatch();
-        
+
         final BufferedReader sourceReader = new BufferedReader(new FileReader(source));
         final BufferedReader destReader = new BufferedReader(new FileReader(dest));
-        
+
         int line = 0;
-        
+
         while (true) {
             final String srcLine = sourceReader.readLine();
             final String dstLine = destReader.readLine();
             line++;
-            
+
             // End reached, files match.
             if ((srcLine == null) && (dstLine == null)) {
                 break;
             }
-            
+
             // Since both files have the same length and are identical
-            // so far, it should not happend.
+            // so far, it should not happen.
             assert ((srcLine != null) && (dstLine != null));
-            
-            assertEquals("Files differ on line "+line,srcLine,dstLine);
+
+            assertEquals("Files differ on line " + line, srcLine, dstLine);
         }
+        sourceReader.close();
+        destReader.close();
     }
-    
+
 }

@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,16 +40,19 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class NodeRemoverFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
     /**
      * Constructor for NodeRemoverFilterTest.
-     * @param name
+     * @param name String
      */
     public NodeRemoverFilterTest(final String name) {
         super(name);
@@ -57,9 +60,10 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     /**
      * Process the build file, trying to removed a non existent node.
-     * 
+     *
+     * @throws GrandException
      */
-    public void testNonExistentNode() throws GrandException {
+    public final void testNonExistentNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         toRemove.add("gruik-gruik-you-won't-find-me");
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
@@ -74,9 +78,10 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
 
     /**
      * Process the build file, trying to removed with an empty list.
-     * 
+     *
+     * @throws GrandException
      */
-    public void testNonNode() throws GrandException {
+    public final void testNonNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
         filter.setProducer(producer);
@@ -88,12 +93,12 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
                 numNodeAfterFiltering);
     }
 
-
     /**
      * Process log4j 1.2.8 build.xml and remove the "init" node.
-     * 
+     *
+     * @throws GrandException
      */
-    public void testOneNode() throws GrandException {
+    public final void testOneNode() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         toRemove.add("init");
         final GraphFilter filter = new NodeRemoverFilter(toRemove);
@@ -111,9 +116,10 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process log4j 1.2.8 build.xml and remove the "init", "build" and jar
      * nodes.
-     * 
+     *
+     * @throws GrandException
      */
-    public void testSeveralNodes() throws GrandException {
+    public final void testSeveralNodes() throws GrandException {
         final Set<String> toRemove = new HashSet<String>();
         toRemove.add("init");
         toRemove.add("build");
@@ -130,6 +136,11 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         }
     }
 
+    /**
+     * Method countNodes.
+     * @param graph Graph
+     * @return int
+     */
     private int countNodes(final Graph graph) {
         int numNode = 0;
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
@@ -139,21 +150,22 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         return numNode;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setUp.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }

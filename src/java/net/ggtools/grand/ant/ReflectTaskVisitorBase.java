@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,15 +41,24 @@ import org.apache.tools.ant.RuntimeConfigurable;
 /**
  * A base class using reflectivity in order to invoke a method depending on the
  * visited wrapper.
- * 
+ *
  * @author Christophe Labouisse
  */
 abstract class ReflectTaskVisitorBase implements TaskVisitor {
-    private static final Log log = LoggerManager
-            .getLog(ReflectTaskVisitorBase.class);
+    /**
+     * Field log.
+     */
+    private static final Log LOG =
+            LoggerManager.getLog(ReflectTaskVisitorBase.class);
 
-    private static final Class[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
+    /**
+     * Field METHOD_PARAMETER_TYPES.
+     */
+    private static final Class<?>[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
 
+    /**
+     * Field methodCache.
+     */
     private final Map<String, Method> methodCache = new HashMap<String, Method>();
 
     /**
@@ -64,10 +73,10 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
      * <code>reflectVisit_<em>task_name</em></code>,</li>
      * <li>call the found method.</li>
      * </ol>
-     * 
+     *
      * If the following algorithm fails then we'll use the
      * {@link #defaultVisit(RuntimeConfigurable)}fallback method.
-     * 
+     *
      * @param wrapper
      *            Wrapper to visit.
      * @throws GrandException
@@ -84,9 +93,9 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod = getClass().getDeclaredMethod(methodName, METHOD_PARAMETER_TYPES);
                 methodCache.put(taskName, visitMethod);
             } catch (final SecurityException e) {
-                log.warn("Caught Security exception looking for" + methodName, e);
+                LOG.warn("Caught Security exception looking for" + methodName, e);
             } catch (final NoSuchMethodException e) {
-                log.debug("Cannot find method " + methodName);
+                LOG.debug("Cannot find method " + methodName);
             }
         }
 
@@ -97,37 +106,41 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod.invoke(this, new Object[]{wrapper});
                 invokationOk = true;
             } catch (final IllegalAccessException e) {
-                log.warn("Caught IllegalAccessException invoking " + visitMethod, e);
+                LOG.warn("Caught IllegalAccessException invoking " + visitMethod, e);
             } catch (final InvocationTargetException e) {
                 // Process the exception raised by the method invokation.
                 // GrandException & RuntimeException are propagated.
                 final Throwable cause = e.getCause();
                 if (cause instanceof GrandException) {
                     throw (GrandException) cause;
-                }
-                else if (cause instanceof RuntimeException) {
+                } else if (cause instanceof RuntimeException) {
                     throw (RuntimeException) cause;
-                }
-                else {
-                    // FIXME That's a real exception what to do with it?
-                    log.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
+                } else {
+                    // FIXME that's a real exception what to do with it?
+                    LOG.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
                 }
             }
         }
 
-        // If the reflective invokation hasn't taken place, use the default
+        // If the reflective invocation hasn't taken place, use the default
         // method.
         if (!invokationOk) {
             defaultVisit(wrapper);
         }
     }
 
-    public abstract void defaultVisit(RuntimeConfigurable wrapper) throws GrandException;
+    /**
+     * Method defaultVisit.
+     * @param wrapper RuntimeConfigurable
+     * @throws GrandException
+     */
+    public abstract void defaultVisit(RuntimeConfigurable wrapper)
+            throws GrandException;
 
     /**
      * A default implementation returning the task name.
-     * 
-     * @param taskName
+     *
+     * @param taskName String
      * @return the name to use when look for the method to invoke. Should not be
      *         <code>null</code>.
      */

@@ -34,23 +34,34 @@ package net.ggtools.grand.graph;
 import net.ggtools.grand.graph.visit.LinkVisitor;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class LinkImpl extends AttributeManager implements Link {
+    /**
+     * Field startNode.
+     */
+    private final Node startNode;
 
-    private Node startNode;
+    /**
+     * Field endNode.
+     */
+    private final Node endNode;
 
-    private Node endNode;
+    /**
+     * Field graph.
+     */
+    private final Graph graph;
 
-    private Graph graph;
-
-    private String name;
+    /**
+     * Field name.
+     */
+    private final String name;
 
     /**
      * Creates a new Link.
-     * 
+     *
      * @param name link's name, may be <code>null</code>.
      * @param graph owning graph.
      * @param startNode start node of the link
@@ -64,43 +75,55 @@ public class LinkImpl extends AttributeManager implements Link {
         this.endNode = endNode;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method toString.
+     * @return String
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
-        return (name == null ? "" : name) + " (" + startNode + " -> " + endNode + ")";
+    public final String toString() {
+        return ((name == null) ? "" : name) + " (" + startNode + " -> " + endNode + ")";
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Link#getStartNode()
+    /**
+     * Method getStartNode.
+     * @return Node
+     * @see net.ggtools.grand.graph.Link#getStartNode()
      */
-    public Node getStartNode() {
+    public final Node getStartNode() {
         return startNode;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.Link#getEndNode()
+    /**
+     * Method getEndNode.
+     * @return Node
+     * @see net.ggtools.grand.graph.Link#getEndNode()
      */
-    public Node getEndNode() {
+    public final Node getEndNode() {
         return endNode;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphObject#getGraph()
+    /**
+     * Method getGraph.
+     * @return Graph
+     * @see net.ggtools.grand.graph.GraphObject#getGraph()
      */
-    public Graph getGraph() {
+    public final Graph getGraph() {
         return graph;
     }
 
-    /* (non-Javadoc)
-     * @see net.ggtools.grand.GraphObject#getName()
+    /**
+     * Method getName.
+     * @return String
+     * @see net.ggtools.grand.graph.GraphObject#getName()
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method accept.
+     * @param visitor LinkVisitor
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
     public void accept(final LinkVisitor visitor) {

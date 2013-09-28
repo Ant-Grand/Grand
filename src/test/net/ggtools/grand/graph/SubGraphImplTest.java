@@ -2,17 +2,17 @@
 /*
  * ====================================================================
  * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
- * 
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -38,39 +38,85 @@ import junit.framework.TestCase;
  */
 public class SubGraphImplTest extends TestCase {
 
+    /**
+     * Field NODE_NAME_2.
+     * (value is ""Node2"")
+     */
     private static final String NODE_NAME_2 = "Node2";
+
+    /**
+     * Field NODE_NAME_1.
+     * (value is ""Node1"")
+     */
     private static final String NODE_NAME_1 = "Node1";
+
+    /**
+     * Field UNKNOWN_NODE_NAME.
+     * (value is ""Node3"")
+     */
     private static final String UNKNOWN_NODE_NAME = "Node3";
+
+    /**
+     */
     private static final class TestIterator implements Iterator<Node> {
+        /**
+         * Field underlying.
+         */
         private final Iterator<Node> underlying;
 
+        /**
+         * Constructor for TestIterator.
+         * @param iterator Iterator<Node>
+         */
         private TestIterator(final Iterator<Node> iterator) {
             underlying = iterator;
         }
 
+        /**
+         * Method hasNext.
+         * @return boolean
+         * @see java.util.Iterator#hasNext()
+         */
         public boolean hasNext() {
             return underlying.hasNext();
         }
 
+        /**
+         * Method next.
+         * @return Node
+         * @see java.util.Iterator#next()
+         */
         public Node next() {
             return underlying.next();
         }
 
+        /**
+         * Method remove.
+         * @see java.util.Iterator#remove()
+         */
         public void remove() {
             underlying.remove();
         }
     }
 
+    /**
+     * Field SUBGRAPH_NAME.
+     * (value is ""myname"")
+     */
     private static final String SUBGRAPH_NAME = "myname";
 
+    /**
+     * Field sgi.
+     */
     private SubGraphImpl sgi;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Method setUp.
+     * @throws Exception
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() throws Exception {
+    protected final void setUp() throws Exception {
         sgi = new SubGraphImpl(SUBGRAPH_NAME, new SubGraphImpl.NodeIteratorFactory() {
 
             public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
@@ -81,28 +127,48 @@ public class SubGraphImplTest extends TestCase {
         sgi.addNode(new NodeImpl(NODE_NAME_2, null));
     }
 
+    /**
+     * Method testGetName.
+     */
     public final void testGetName() {
         assertEquals(SUBGRAPH_NAME, sgi.getName());
     }
 
+    /**
+     * Method testGetNode.
+     * @throws DuplicateElementException
+     */
     public final void testGetNode() throws DuplicateElementException {
         assertTrue(sgi.hasNode(NODE_NAME_1));
         assertTrue(sgi.hasNode(NODE_NAME_2));
         assertFalse(sgi.hasNode(UNKNOWN_NODE_NAME));
     }
 
+    /**
+     * Method testGetNodes.
+     */
     public final void testGetNodes() {
         final Iterator<Node> nodes = sgi.getNodes();
         assertEquals("Checking if getNodes return an iterator from the supplied factory.",
                 TestIterator.class, nodes.getClass());
     }
 
+    /**
+     * Method testHasNode.
+     * @throws DuplicateElementException
+     */
     public final void testHasNode() throws DuplicateElementException {
-        assertEquals(sgi.getNode(NODE_NAME_1),new NodeImpl(NODE_NAME_1,null));
-        assertEquals(sgi.getNode(NODE_NAME_2),new NodeImpl(NODE_NAME_2,null));
+        assertEquals(sgi.getNode(NODE_NAME_1),
+                new NodeImpl(NODE_NAME_1, null));
+        assertEquals(sgi.getNode(NODE_NAME_2),
+                new NodeImpl(NODE_NAME_2, null));
         assertNull(sgi.getNode(UNKNOWN_NODE_NAME));
     }
 
+    /**
+     * Method testAddNode.
+     * @throws DuplicateElementException
+     */
     public final void testAddNode() throws DuplicateElementException {
         final Iterator<Node> nodes = sgi.getNodes();
         int nodeCount = 0;

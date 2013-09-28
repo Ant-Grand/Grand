@@ -38,28 +38,32 @@ import net.ggtools.grand.graph.visit.LinkVisitor;
 
 /**
  * A basic (<em>i.e.</em> dependency) link in ant build file.
- * 
+ *
  * @author Christophe Labouisse
  */
 public class AntLink extends LinkImpl {
 
     /**
      * Creates a new link.
-     * 
-     * @param name
-     * @param graph
-     * @param startNode
-     * @param endNode
+     *
+     * @param name String
+     * @param graph Graph
+     * @param startNode Node
+     * @param endNode Node
      */
-    public AntLink(final String name, final Graph graph, final Node startNode, final Node endNode) {
+    public AntLink(final String name, final Graph graph,
+            final Node startNode, final Node endNode) {
         super(name, graph, startNode, endNode);
     }
-    
-    /* (non-Javadoc)
+
+    /**
+     * Method accept.
+     * @param visitor LinkVisitor
      * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
      */
     @Override
     public void accept(final LinkVisitor visitor) {
         visitor.visitLink(this);
     }
+
 }

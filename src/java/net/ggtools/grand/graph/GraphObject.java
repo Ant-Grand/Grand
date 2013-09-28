@@ -36,29 +36,29 @@ package net.ggtools.grand.graph;
  * Base for objects populating graphs. GraphObjects have three
  * main traits: a name, a owner graph and attributes. Attributes
  * should be implemented by setting or clearing a bit(s) in an
- * <code>int</code>. It is recommanded that implementing classes
+ * <code>int</code>. It is recommended that implementing classes
  * or children interfaces define constants to represent attributes.
- * 
+ *
  * @author Christophe Labouisse
  */
 public interface GraphObject {
-    
+
     /**
      * An attribute mask representing all attributes.
      */
     int ATTR_ALL = -1;
-    
+
     /**
      * An attribute mask representing no attribute.
      */
     int ATTR_NONE = 0;
-    
+
     /**
      * Gets the owner graph of the object.
      * @return the owning graph.
      */
     Graph getGraph();
-    
+
     /**
      * Gets the object's name.
      * @return object's name.
@@ -68,9 +68,9 @@ public interface GraphObject {
     /**
      * Sets one or more attributes of the object. Multiple attributes
      * should be combined by <i>oring</i> individual attributes:
-     * 
+     *
      * <code>setAttributes(ATTR_ONE | ATTR_TWO);</code>
-     * 
+     *
      * @param attributeMask a bit mask of attributes to set.
      */
     void setAttributes(int attributeMask);
@@ -80,21 +80,21 @@ public interface GraphObject {
      * @return object's attributes.
      */
     int getAttributes();
-    
+
     /**
      * Sets one or more attributes of the object. Multiple attributes
      * should be combined by <i>oring</i> individual attributes:
-     * 
+     *
      * <code>clearAttributes(ATTR_ONE | ATTR_TWO);</code>
-     * 
+     *
      * @param attributeMask a bit mask of attributes to clean.
      */
     void clearAttributes(int attributeMask);
-    
+
     /**
      * Returns true if all the attributes specified by the
      * bit mask are set.
-     * 
+     *
      * @param attributeMask a bit mask of attributes to test.
      * @return true if all attributes are set.
      */

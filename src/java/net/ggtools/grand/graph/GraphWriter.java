@@ -39,23 +39,23 @@ import net.ggtools.grand.exceptions.GrandException;
 
 /**
  * Interface for graph writers.
- * 
+ *
  * @author Christophe Labouisse
  */
 public interface GraphWriter extends GraphConsumer {
     /**
      * Write a project's graph to a file.
-     * 
+     *
      * @param output file to write the graph to.
      * @throws IOException if the file cannot be written.
      * @throws GrandException if the graph cannot be written for a problem
      *  within Grand.
      */
     void write(File output) throws GrandException, IOException;
-    
+
     /**
      * Write a project's graph to a stream.
-     * 
+     *
      * @param stream The stream to write to.
      * @throws GrandException if the graph cannot be written for a problem
      *  within Grand.
@@ -63,9 +63,9 @@ public interface GraphWriter extends GraphConsumer {
     void write(OutputStream stream) throws GrandException;
 
     /**
-     * Set wether or not the graph name should be display on the written
+     * Set whether or not the graph name should be display on the written
      * graph. The default value depends on the implementations.
-     * 
+     *
      * @param showGraphName true to display the graph name.
      */
     void setShowGraphName(boolean showGraphName);

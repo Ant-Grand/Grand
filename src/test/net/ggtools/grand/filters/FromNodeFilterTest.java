@@ -34,6 +34,7 @@ package net.ggtools.grand.filters;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -44,41 +45,51 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class FromNodeFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
 
-    private static final HashSet<String> NODES_AFTER_FILTERING = new HashSet<String>(Arrays
-            .asList(new String[]{"build", "init", "build.core", "build.examples", "build.xml",
-                    "jaxp", "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
-                    "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck", "build.jmx", "jmx",
-                    "jmxCheck"}));
+    /**
+     * Field NODES_AFTER_FILTERING.
+     */
+    private static final Set<String> NODES_AFTER_FILTERING =
+            new HashSet<String>(Arrays.asList(new String[]{"build", "init",
+                    "build.core", "build.examples", "build.xml", "jaxp",
+                    "jaxpCheck", "build.javamail", "javamail", "javamailCheck",
+                    "build.jms", "jms", "jmsCheck", "jndi", "jndiCheck",
+                    "build.jmx", "jmx", "jmxCheck"}));
 
     /**
      * Constructor for FromNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public FromNodeFilterTest(final String name) {
         super(name);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method setUp.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
+    protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
@@ -86,14 +97,15 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process log4j 1.2.8 build.xml and from the "build" node and check
      * if we get what we want.
      *
+     * @throws GrandException
      */
-    public void testConnectedStartNode() throws GrandException {
+    public final void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
         final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             numNodes++;
             final String nodeName = iter.next().getName();
 
@@ -111,15 +123,16 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
      * target as default. Check if the project start node has not been filtered out.
      *
+     * @throws GrandException
      */
-    public void testNotFilteredStartNode() throws GrandException {
+    public final void testNotFilteredStartNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
         project.setDefault("build");
         final Graph graph = filter.getGraph();
 
         int numNodes = 0;
-        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext(); ) {
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             numNodes++;
             final String nodeName = iter.next().getName();
 
@@ -137,8 +150,9 @@ public class FromNodeFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to filter from an non existent node.
      *
+     * @throws GrandException
      */
-    public void testNonExistentNode() throws GrandException {
+    public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
         try {

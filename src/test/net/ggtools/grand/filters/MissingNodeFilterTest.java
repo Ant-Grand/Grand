@@ -1,4 +1,4 @@
-// $Id: IsolatedNodeFilterTest.java 252 2004-02-05 22:56:30Z moi $
+// $Id$
 /* ====================================================================
  * Copyright (c) 2002-2003, Christophe Labouisse
  * All rights reserved.
@@ -38,67 +38,80 @@ import net.ggtools.grand.graph.GraphProducer;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
- * 
- * 
+ *
+ *
  * @author Christophe Labouisse
  */
 public class MissingNodeFilterTest extends AbstractAntTester {
+    /**
+     * Field producer.
+     */
     private GraphProducer producer;
-    
+
     /**
      * Constructor for IsolatedNodeFilterTest.
-     * @param name
+     * @param name String
      */
     public MissingNodeFilterTest(final String name) {
         super(name);
     }
 
-    /*
+    /**
+     * Method setUp.
      * @see TestCase#setUp()
      */
     @Override
-    protected void setUp() {
+    protected final void setUp() {
         super.setUp();
         producer = new AntProject(project);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Method getTestBuildFileName.
+     * @return String
      * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
     @Override
-    protected String getTestBuildFileName() {
-        return TESTCASES_DIR+"missing-node-filter.xml";
+    protected final String getTestBuildFileName() {
+        return TESTCASES_DIR + "missing-node-filter.xml";
     }
 
     /**
-     * Check the full graph completness.
+     * Check the full graph completeness.
      *
+     * @throws GrandException
      */
-    public void testFullGraph() throws GrandException {
+    public final void testFullGraph() throws GrandException {
         final Graph graph = producer.getGraph();
-        
-        assertNotNull("Target not found",graph.getNode("init"));
-        assertNotNull("Target not found",graph.getNode("depend-1"));
-        assertNotNull("Target not found",graph.getNode("depend-2"));
-        assertNotNull("Target not found",graph.getNode("depend-3"));
-        assertNotNull("Target not found",graph.getNode("missing"));
+
+        assertNotNull("Target not found", graph.getNode("init"));
+        assertNotNull("Target not found", graph.getNode("depend-1"));
+        assertNotNull("Target not found", graph.getNode("depend-2"));
+        assertNotNull("Target not found", graph.getNode("depend-3"));
+        assertNotNull("Target not found", graph.getNode("missing"));
     }
 
-    
+
     /**
      * Process the full graph through an MissingNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
      *
+     * @throws GrandException
      */
-    public void testFilter() throws GrandException {
+    public final void testFilter() throws GrandException {
         final GraphFilter filter = new MissingNodeFilter();
         filter.setProducer(producer);
         final Graph graph = filter.getGraph();
-        
-        assertNotNull("Normal node should not have been removed",graph.getNode("init"));
-        assertNotNull("Normal node should not have been removed",graph.getNode("depend-1"));
-        assertNotNull("Normal node should not have been removed",graph.getNode("depend-2"));
-        assertNotNull("Normal node should not have been removed",graph.getNode("depend-3"));
-        assertNull("Missing node should have been found",graph.getNode("missing"));
+
+        assertNotNull("Normal node should not have been removed",
+                graph.getNode("init"));
+        assertNotNull("Normal node should not have been removed",
+                graph.getNode("depend-1"));
+        assertNotNull("Normal node should not have been removed",
+                graph.getNode("depend-2"));
+        assertNotNull("Normal node should not have been removed",
+                graph.getNode("depend-3"));
+        assertNull("Missing node should have been found",
+                graph.getNode("missing"));
     }
 }
