@@ -46,7 +46,8 @@ import net.ggtools.grand.graph.Node;
  *
  * @author Christophe Labouisse
  */
-public abstract class GraphWalkFilter extends AbstractGraphFilter implements GraphFilter {
+public abstract class GraphWalkFilter extends AbstractGraphFilter
+    implements GraphFilter {
 
     /**
      * Field startNodeName.
@@ -64,7 +65,7 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter implements Gra
     /**
      * Method getFilteredNodes.
      * @return Collection<Node>
-     * @throws GrandException
+     * @throws GrandException if an error occurs in getProducersGraph()
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override

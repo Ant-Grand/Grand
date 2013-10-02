@@ -110,7 +110,8 @@ public class NodeImpl extends AttributeManager implements Node {
         }
         if (obj instanceof Node) {
             final Node otherNode = (Node) obj;
-            return (graph == otherNode.getGraph()) && (name.equals(otherNode.getName()));
+            return (graph == otherNode.getGraph())
+                    && (name.equals(otherNode.getName()));
         }
         return false;
     }

@@ -41,7 +41,7 @@ import java.util.Collection;
 public interface LinkFinder {
     /**
      * Returns all the accessible nodes from a specific one. Implementations
-     * should insure that the returned collection will only contains Node objects.
+     * must ensure that the returned collection will only contain Node objects.
      *
      * @param node node to consider.
      * @return a collection of accessible nodes.

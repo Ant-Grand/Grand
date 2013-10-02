@@ -61,9 +61,9 @@ public interface Node extends GraphObject {
     int ATTR_CONDITIONAL_NODE = 1 << 2;
 
     /**
-     * Attribute bit to be set on the start node(s). The definition of a start
-     * node depends of the graph's source. For Ant a the start node is the default
-     * target.
+     * Attribute bit to be set on the start node(s). The definition of a
+     * start node depends of the graph's source. For Ant, the start node is
+     * the default target.
      */
     int ATTR_START_NODE = 1 << 3;
 

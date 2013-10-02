@@ -90,7 +90,8 @@ public class AntLog extends SimpleLog implements Log {
             if (currentTask == null) {
                 currentProject.log(message.toString(), antMsgLevel);
             } else {
-                currentProject.log(currentTask, message.toString(), antMsgLevel);
+                currentProject.log(currentTask, message.toString(),
+                        antMsgLevel);
             }
         } else {
             super.log(message, t, level);

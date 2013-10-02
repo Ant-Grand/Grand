@@ -32,7 +32,8 @@
 package net.ggtools.grand.graph;
 
 /**
- * Interface to be implemented by classes creating graph elements (nodes and links).
+ * Interface to be implemented by classes creating graph elements
+ * (nodes and links).
  *
  * @author Christophe Labouisse
  */

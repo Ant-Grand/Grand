@@ -49,7 +49,8 @@ public class NodeRemoverFilter extends AbstractGraphFilter {
     /**
      * Field log.
      */
-    private static final Log LOG = LoggerManager.getLog(NodeRemoverFilter.class);
+    private static final Log LOG =
+            LoggerManager.getLog(NodeRemoverFilter.class);
 
     /**
      * Field nodesToRemove.
@@ -68,7 +69,7 @@ public class NodeRemoverFilter extends AbstractGraphFilter {
     /**
      * Method getFilteredNodes.
      * @return Collection<Node>
-     * @throws GrandException
+     * @throws GrandException if an error occurs in getProducersGraph()
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override

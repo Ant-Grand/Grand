@@ -122,11 +122,10 @@ public class GrandTask extends Task {
 
     /**
      * Method execute.
-     * @throws BuildException
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
-    public final void execute() throws BuildException {
+    public final void execute() {
         checkParams();
 
         final GraphProducer graphProject = initAntProject();
@@ -146,7 +145,8 @@ public class GrandTask extends Task {
         }
 
         if (numFilters > 0) {
-            log("Loaded " + numFilters + ((numFilters > 1) ? " filters" : " filter"));
+            log("Loaded " + numFilters + ((numFilters > 1) ?
+                    " filters" : " filter"));
         }
 
         try {
@@ -286,8 +286,7 @@ public class GrandTask extends Task {
      */
     @Deprecated
     public final void setPropertyFile(final File propertyFile) {
-        log(
-"Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
+        log("Using of deprecated \"propertyfile\" attribute, use \"outputconfigfile\" from now on",
                 Project.MSG_WARN);
         outputConfigurationFile = propertyFile;
     }

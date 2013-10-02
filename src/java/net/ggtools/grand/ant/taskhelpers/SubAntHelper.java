@@ -31,7 +31,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
@@ -181,11 +180,10 @@ public class SubAntHelper extends Task {
 
     /**
      * Method execute.
-     * @throws BuildException
      * @see org.apache.tools.ant.Task#execute()
      */
     @Override
-    public final void execute() throws BuildException {
+    public final void execute() {
         underlying.setBuildpath(buildpath);
         underlying.execute();
     }
@@ -319,11 +317,10 @@ public class SubAntHelper extends Task {
 
     /**
      * Method init.
-     * @throws BuildException
      * @see org.apache.tools.ant.Task#init()
      */
     @Override
-    public final void init() throws BuildException {
+    public final void init() {
         underlying.init();
     }
 
@@ -350,11 +347,10 @@ public class SubAntHelper extends Task {
 
     /**
      * Method maybeConfigure.
-     * @throws BuildException
      * @see org.apache.tools.ant.Task#maybeConfigure()
      */
     @Override
-    public final void maybeConfigure() throws BuildException {
+    public final void maybeConfigure() {
         underlying.maybeConfigure();
     }
 

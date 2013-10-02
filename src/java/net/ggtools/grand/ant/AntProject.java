@@ -31,7 +31,7 @@ import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
@@ -70,17 +70,18 @@ public class AntProject implements GraphProducer {
     private static final Log LOG = LoggerManager.getLog(AntProject.class);
 
     /**
-     * A condition helper using the {@link Target#getIf()}&
+     * A condition helper using the {@link Target#getIf()} &
      * {@link Target#getUnless()} methods introduced in Ant 1.6.2.
      * @author Christophe Labouisse
      */
-    private static class GetterConditionHelper implements TargetConditionHelper {
+    private static class GetterConditionHelper
+        implements TargetConditionHelper {
 
         /**
          * Build a new GetterConditionHelper. Since the need methods are only
          * available in the last versions of Ant, we check if those method can
          * be loaded.
-         * @throws NoSuchMethodException
+         * @throws NoSuchMethodException when methods are not found
          */
         public GetterConditionHelper() throws NoSuchMethodException {
             final Class<?>[] parameters = new Class[]{};
@@ -141,7 +142,7 @@ public class AntProject implements GraphProducer {
     }
 
     /**
-     * A dirty hack using {@link Field}methods in order to gain access to the
+     * A dirty hack using {@link Field} methods in order to gain access to the
      * private {@link Target#ifCondition}and {@link Target#unlessCondition}
      * attributes.
      *
@@ -160,7 +161,7 @@ public class AntProject implements GraphProducer {
 
         /**
          * Constructor for ReflectHelper.
-         * @throws NoSuchFieldException
+         * @throws NoSuchFieldException when fields are not found
          */
         public ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
@@ -293,13 +294,14 @@ public class AntProject implements GraphProducer {
     /**
      * Field targetConditionHelper.
      */
-    private final TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
-            .getTargetConditionHelper();
+    private final TargetConditionHelper targetConditionHelper =
+            TargetConditionHelperFactory.getTargetConditionHelper();
 
     /**
      * Field targetExplorer.
      */
-    private final TargetTasksExplorer targetExplorer = new TargetTasksExplorer(this);
+    private final TargetTasksExplorer targetExplorer =
+            new TargetTasksExplorer(this);
 
     /**
      * Field taskLinkFinder.
@@ -337,12 +339,14 @@ public class AntProject implements GraphProducer {
      * @throws GrandException
      *             if the project cannot be loaded.
      */
-    public AntProject(final File source, final Properties properties) throws GrandException {
+    public AntProject(final File source, final Properties properties)
+            throws GrandException {
         LOG.info("Parsing from " + source);
         antProject = new Project();
         if (properties != null) {
-            for (final Map.Entry<Object, Object> element : properties.entrySet()) {
-                antProject.setProperty((String) element.getKey(), (String) element.getValue());
+            for (final Entry<Object, Object> element : properties.entrySet()) {
+                antProject.setProperty((String) element.getKey(),
+                        (String) element.getValue());
             }
         }
         antProject.setSystemProperties();
@@ -447,7 +451,8 @@ public class AntProject implements GraphProducer {
             }
 
             final String targetName = target.getName();
-            final AntTargetNode node = (AntTargetNode) graph.createNode(targetName);
+            final AntTargetNode node =
+                    (AntTargetNode) graph.createNode(targetName);
 
             // Mark nodes with a description as MAIN.
             final String targetDescription = target.getDescription();

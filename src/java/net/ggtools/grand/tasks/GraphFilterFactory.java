@@ -52,7 +52,8 @@ final class GraphFilterFactory {
     /**
      * Field log.
      */
-    private static final Log LOG = LoggerManager.getLog(GraphFilterFactory.class);
+    private static final Log LOG =
+            LoggerManager.getLog(GraphFilterFactory.class);
     /**
      * Properties giving the java class to use for a filter name.
      */
@@ -74,10 +75,8 @@ final class GraphFilterFactory {
      * @param project owner project
      * @param name value of the name attribute in the filter element
      * @return a GraphFilterType object.
-     * @throws BuildException
      */
-    GraphFilterType getFilterType(final Project project, final String name)
-            throws BuildException {
+    GraphFilterType getFilterType(final Project project, final String name) {
         project.log("Creating filter for name " + name, Project.MSG_DEBUG);
 
         final String filterClassName = CONFIGURATION.getProperty(name);

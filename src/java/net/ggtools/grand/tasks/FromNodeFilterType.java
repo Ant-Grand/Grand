@@ -64,10 +64,9 @@ public class FromNodeFilterType implements GraphFilterType {
 
     /**
      * Method checkParameters.
-     * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
-    public final void checkParameters() throws BuildException {
+    public final void checkParameters() {
         if (nodeName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);

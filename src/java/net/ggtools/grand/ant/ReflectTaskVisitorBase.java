@@ -54,12 +54,14 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
     /**
      * Field METHOD_PARAMETER_TYPES.
      */
-    private static final Class<?>[] METHOD_PARAMETER_TYPES = new Class[]{RuntimeConfigurable.class};
+    private static final Class<?>[] METHOD_PARAMETER_TYPES =
+            new Class[]{RuntimeConfigurable.class};
 
     /**
      * Field methodCache.
      */
-    private final Map<String, Method> methodCache = new HashMap<String, Method>();
+    private final Map<String, Method> methodCache =
+            new HashMap<String, Method>();
 
     /**
      * Invoke the <em>right</em> method depending on the wrapper's element
@@ -106,7 +108,8 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                 visitMethod.invoke(this, new Object[]{wrapper});
                 invokationOk = true;
             } catch (final IllegalAccessException e) {
-                LOG.warn("Caught IllegalAccessException invoking " + visitMethod, e);
+                LOG.warn("Caught IllegalAccessException invoking "
+                        + visitMethod, e);
             } catch (final InvocationTargetException e) {
                 // Process the exception raised by the method invokation.
                 // GrandException & RuntimeException are propagated.
@@ -117,7 +120,8 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                     throw (RuntimeException) cause;
                 } else {
                     // FIXME that's a real exception what to do with it?
-                    LOG.error("Caught unexepected exception " + cause + " on " + visitMethod, e);
+                    LOG.error("Caught unexepected exception " + cause + " on "
+                            + visitMethod, e);
                 }
             }
         }
@@ -132,7 +136,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
     /**
      * Method defaultVisit.
      * @param wrapper RuntimeConfigurable
-     * @throws GrandException
+     * @throws GrandException see visit()
      */
     public abstract void defaultVisit(RuntimeConfigurable wrapper)
             throws GrandException;
