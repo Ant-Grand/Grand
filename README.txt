@@ -11,26 +11,26 @@ Usage
 
 Grand's front end is an ant task that must be defined with the following line:
 
-	<typedef resource="net/ggtools/grand/antlib.xml"/>
-	
-You may have to had classpath="path_to_grand.jar" if the grand jar isn't
-already in the classpath.
+   <typedef resource="net/ggtools/grand/antlib.xml"/>
+
+You may have to add attribute classpath="path_to_grand.jar" if the grand jar
+isn't already in the classpath.
 
 The grand task takes the following attributes:
 
-  output  			name of the output file (mandatory).
-  
-  buildfile 		name of the build file to graph. If omitted, the current
-  					build file will be used.
-  					
-  outputconfigfile 	a property file to configure the output.
-  
-  showgraphname 	if true, the generated graph will have the ant project's
-  					name displayed a the graph label.
-  					
-  inheritall 		If true, the properties of the current build file will be
-  					passed to the graphed build file. The default is not to
-  					pass the properties to the graphed project.
+  output            name of the output file (mandatory).
+
+  buildfile         name of the build file to graph. If omitted, the current
+                    build file will be used.
+
+  outputconfigfile  a property file to configure the output.
+
+  showgraphname     if true, the generated graph will have the ant project's
+                    name displayed a the graph label.
+
+  inheritall        If true, the properties of the current build file will be
+                    passed to the graphed build file. The default is not to
+                    pass the properties to the graphed project.
 
 Beside these attributes, the task can take as nested elements: property,
 propertyset and filter. The first two are the standard Ant elements and are
@@ -39,31 +39,35 @@ used to pass properties to the graphed project.
 The filter element is used to apply filter on the full graph. The filter
 element accepts the following attributes:
 
-  name  	filter's name. Can be one of isolatednode, fromnode, tonode,
-  			missingnode or connect, mandatory.
-  			
-  node	 	a node's name. Depending of the selected filter, this attribute
-  			can have different meanings and can or cannot be mandatory.
+  name      filter name. Can be one of isolatednode, missingnode,
+            fromnode, tonode, connected or prefixed; mandatory.
+
+  node      node name. Depending of the selected filter, this attribute
+            can have different meanings and may or may not be mandatory.
 
 Isolated node
     Removes isolated nodes (i.e.: nodes with no links) from the graph. The
     node attribute is not used by this filter.
-    
+
 Missing node
-    Removes nodes created when a link make reference to a non existing one.
+    Removes nodes created when a link make reference to a nonexistent one.
     The node attribute is not used by this filter.
-    
+
 From node
-    Keeps only a selected node a the nodes it depends upon. The node parameter
-    is the name of the node to start from.
-    
+    Keeps only a selected node and the nodes it depends upon. The node
+    parameter is the name of the node to start from.
+
 To node
-    Keeps only a selected node a the nodes depending upon it. The node
+    Keeps only a selected node and the nodes depending upon it. The node
     parameter is the name of the node to start from.
-    
-Connect
-    Keeps only a selected node all the nodes connected to it. The node
+
+Connected
+    Keeps only a selected node and the nodes connected to it. The node
     parameter is the name of the node to start from.
+
+Prefixed
+    Removes prefixed nodes created by <import/> in Ant 1.8+ that may
+    clutter the graph. The node attribute is not used by this filter.
 
 
 Examples
@@ -84,7 +88,6 @@ A two filters example:
 	    <filter name="fromnode" node="dist"/>
 	    <filter name="tonode" node="prepare"/>
 	</grand>
-
 
 
 Known issues
