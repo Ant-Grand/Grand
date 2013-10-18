@@ -68,6 +68,14 @@ public interface Node extends GraphObject {
     int ATTR_START_NODE = 1 << 3;
 
     /**
+     * Attribute bit to be set on the prefixed node(s). A node is prefixed
+     * if there exists a node with a shorter name corresponding to a target
+     * with the same location. Ant creates these for <code>import</code>ed
+     * project files.
+     */
+    int ATTR_PREFIXED_NODE = 1 << 4;
+
+    /**
      * Returns links originating from the node. The implementing class should
      * insure that the returned list only contains objects implementing the Link
      * interface.

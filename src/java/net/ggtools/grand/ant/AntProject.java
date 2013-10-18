@@ -31,6 +31,8 @@ import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -443,6 +445,7 @@ public class AntProject implements GraphProducer {
         LOG.debug("Triggering AntProject");
 
         final AntGraph graph = new AntGraph(antProject);
+        final Map<String, String> targetMap = new HashMap<String, String>();
 
         // First pass, create the nodes.
         for (final Target target : antProject.getTargets().values()) {
@@ -453,6 +456,13 @@ public class AntProject implements GraphProducer {
             final String targetName = target.getName();
             final AntTargetNode node =
                     (AntTargetNode) graph.createNode(targetName);
+
+            // Prefixed nodes have the same location as non-prefixed; skip them.
+            String location = target.getLocation().toString();
+            if (!targetMap.containsKey(location)
+                    || targetMap.get(location).length() > targetName.length()) {
+                targetMap.put(location, targetName);
+            }
 
             // Mark nodes with a description as MAIN.
             final String targetDescription = target.getDescription();
@@ -484,7 +494,11 @@ public class AntProject implements GraphProducer {
 
             final Enumeration<String> deps = target.getDependencies();
             final String startNodeName = target.getName();
-            final AntTargetNode startNode = (AntTargetNode) graph.getNode(startNodeName);
+            final AntTargetNode startNode =
+                    (AntTargetNode) graph.getNode(startNodeName);
+            if (!targetMap.containsValue(startNodeName)) {
+                startNode.setAttributes(Node.ATTR_PREFIXED_NODE);
+            }
 
             while (deps.hasMoreElements()) {
                 createLink(graph, null, startNode, deps.nextElement());
