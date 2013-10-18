@@ -256,7 +256,7 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = new GetterConditionHelper();
-                LOG.debug("Using ant 1.6.2 getter");
+                LOG.debug("Using Ant getter");
             } catch (final Exception e) {
                 LOG.debug("Cannot create GetterConditionHelper, trying next one");
                 result = null;
@@ -289,7 +289,7 @@ public class AntProject implements GraphProducer {
     /**
      * Field antProject.
      */
-    private org.apache.tools.ant.Project antProject;
+    private Project antProject;
 
     /**
      * Field targetConditionHelper.

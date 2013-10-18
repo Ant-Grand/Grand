@@ -57,6 +57,7 @@ public class SubGraphImplTest extends TestCase {
     private static final String UNKNOWN_NODE_NAME = "Node3";
 
     /**
+     * @author Christophe Labouisse
      */
     private static final class TestIterator implements Iterator<Node> {
         /**
@@ -112,11 +113,11 @@ public class SubGraphImplTest extends TestCase {
 
     /**
      * Method setUp.
-     * @throws Exception
+     * @throws DuplicateElementException
      * @see junit.framework.TestCase#setUp()
      */
     @Override
-    protected final void setUp() throws Exception {
+    protected final void setUp() throws DuplicateElementException {
         sgi = new SubGraphImpl(SUBGRAPH_NAME, new SubGraphImpl.NodeIteratorFactory() {
 
             public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {

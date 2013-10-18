@@ -355,7 +355,7 @@ public abstract class BuildFileTest extends TestCase {
             final String cause, final String msg) {
         try {
             executeTarget(target);
-        } catch (final org.apache.tools.ant.BuildException ex) {
+        } catch (final BuildException ex) {
             buildException = ex;
             if ((null != msg) && (!ex.getMessage().equals(msg))) {
                 fail("Should throw BuildException because '" + cause
@@ -379,7 +379,7 @@ public abstract class BuildFileTest extends TestCase {
             final String cause, final String contains) {
         try {
             executeTarget(target);
-        } catch (final org.apache.tools.ant.BuildException ex) {
+        } catch (final BuildException ex) {
             buildException = ex;
             if ((null != contains) && (ex.getMessage().indexOf(contains) == -1)) {
                 fail("Should throw BuildException because '" + cause
@@ -589,7 +589,7 @@ public abstract class BuildFileTest extends TestCase {
             if ((event.getPriority() == Project.MSG_INFO)
                     || (event.getPriority() == Project.MSG_WARN)
                     || (event.getPriority() == Project.MSG_ERR)) {
-                logBuffer.append(event.getMessage());
+                logBuffer.append(event.getMessage()).append(System.getProperty("line.separator"));
             }
             fullLogBuffer.append(event.getMessage());
 
