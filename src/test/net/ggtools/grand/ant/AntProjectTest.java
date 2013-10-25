@@ -84,8 +84,10 @@ public class AntProjectTest extends AbstractAntTester {
         assertNotNull("should have found a link", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gabuzo]", endNode.getName());
-        assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode
-                .getBuildFile());
+        File referenceFile = System.getProperty("os.version").startsWith("Windows") ?
+                new File(project.getBaseDir(), "/gruik/gruik.xml") : new File("/gruik/gruik.xml");
+        assertEquals("Build file", referenceFile.getAbsolutePath(),
+                endNode.getBuildFile());
     }
 
     /**
@@ -162,8 +164,10 @@ public class AntProjectTest extends AbstractAntTester {
         assertNotNull("should have found a link", link);
         final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "['default']", endNode.getName());
-        assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode
-                .getBuildFile());
+        File referenceFile = System.getProperty("os.version").startsWith("Windows") ?
+                new File(project.getBaseDir(), "/gruik/gruik.xml") : new File("/gruik/gruik.xml");
+        assertEquals("Build file", referenceFile.getAbsolutePath(),
+                endNode.getBuildFile());
     }
 
     /**
