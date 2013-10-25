@@ -59,13 +59,13 @@
     <delete dir="${distdir}">
     </delete>
   </target>
-  <target name="dist" description="o Create a distribution" depends="jar, javadoc">
+  <target name="dist" description="o Create a distribution" depends="jar,javadoc">
     <mkdir dir="dist">
     </mkdir>
     <copy todir="dist">
       <fileset dir="${defaulttargetdir}" includes="*.jar">
       </fileset>
-      <fileset dir="${basedir}" includes="LICENSE*, README*">
+      <fileset dir="${basedir}" includes="LICENSE*,README*">
       </fileset>
     </copy>
   </target>

@@ -71,17 +71,17 @@ public class AntProjectTest extends AbstractAntTester {
         // Test without antfile nor dir
         AntTargetNode node = (AntTargetNode) graph.getNode("ant-test");
         AntLink link = (AntLink) node.getLinks().iterator().next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gruik]", endNode.getName());
         final String buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
-        assertEquals("Build file should be build.xml in the current dir", buildFile, endNode
-                .getBuildFile());
+        assertEquals("Build file should be build.xml in the current dir", buildFile,
+                endNode.getBuildFile());
 
         // Test with antfile & dir set
         node = (AntTargetNode) graph.getNode("ant-with-file-test");
         link = (AntLink) node.getLinks().iterator().next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gabuzo]", endNode.getName());
         assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode
@@ -119,13 +119,13 @@ public class AntProjectTest extends AbstractAntTester {
         final Iterator<Link> iterator = links.iterator();
 
         AntLink link = (AntLink) iterator.next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "gruik", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
 
         link = (AntLink) iterator.next();
-        assertNotNull("shoud have found twos links", link);
+        assertNotNull("should have found twos links", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "gabuzo", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
@@ -159,7 +159,7 @@ public class AntProjectTest extends AbstractAntTester {
         // Test without target different file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
         final AntLink link = (AntLink) node.getLinks().iterator().next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "['default']", endNode.getName());
         assertEquals("Build file", new File("/gruik/gruik.xml").getAbsolutePath(), endNode
@@ -174,7 +174,7 @@ public class AntProjectTest extends AbstractAntTester {
         // Test without target same file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
         final AntLink link = (AntLink) node.getLinks().iterator().next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Should be the default target", "init", endNode.getName());
         assertNull("Build file should be the currentFile", endNode.getBuildFile());
@@ -192,7 +192,7 @@ public class AntProjectTest extends AbstractAntTester {
         final Iterator<Link> iterator = links.iterator();
 
         AntLink link = (AntLink) iterator.next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gruik]", endNode.getName());
         String buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
@@ -200,7 +200,7 @@ public class AntProjectTest extends AbstractAntTester {
                 .getBuildFile());
 
         link = (AntLink) iterator.next();
-        assertNotNull("shoud have found two links", link);
+        assertNotNull("should have found two links", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gabuzo (2)]", endNode.getName());
         buildFile = new File(project.getBaseDir(), "build.xml").getAbsolutePath();
@@ -263,7 +263,7 @@ public class AntProjectTest extends AbstractAntTester {
         Collection<Link> links = node.getLinks();
         assertEquals("Should have found 1 link", 1, links.size());
         AntLink link = (AntLink) links.iterator().next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "subant-generic-target", endNode.getName());
         assertNull("Build file should be the currentFile", endNode.getBuildFile());
@@ -274,7 +274,7 @@ public class AntProjectTest extends AbstractAntTester {
         assertEquals("Should have found 2 links", 2, links.size());
         final Iterator<Link> iterator = links.iterator();
         link = (AntLink) iterator.next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[init]", endNode.getName());
         String buildFile = new File(project.getBaseDir(), "subant-1/build.xml").getAbsolutePath();
@@ -282,7 +282,7 @@ public class AntProjectTest extends AbstractAntTester {
                 .getBuildFile());
 
         link = (AntLink) iterator.next();
-        assertNotNull("shoud have found a link", link);
+        assertNotNull("should have found a link", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[target]", endNode.getName());
         buildFile = new File(project.getBaseDir(), "subant-2/build.xml").getAbsolutePath();
