@@ -107,8 +107,8 @@ public class ToNodeFilterTest extends AbstractAntTester {
                     NODES_AFTER_FILTERING.contains(nodeName));
         }
 
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
+        assertEquals("Filtered graph does not have the right node count",
+                NODES_AFTER_FILTERING.size(), numNodes);
 
         assertNull("Start node 'usage' should have been filtered out", graph.getStartNode());
     }

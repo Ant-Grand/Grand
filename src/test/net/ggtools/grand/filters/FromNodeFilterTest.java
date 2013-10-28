@@ -109,14 +109,15 @@ public class FromNodeFilterTest extends AbstractAntTester {
                     NODES_AFTER_FILTERING.contains(nodeName));
         }
 
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
+        assertEquals("Filtered graph does not have the right node count",
+                NODES_AFTER_FILTERING.size(), numNodes);
 
-        assertNull("Start node 'usage' should have been filtered out", graph.getStartNode());
+        assertNull("Start node 'usage' should have been filtered out",
+                graph.getStartNode());
     }
 
     /**
-     * Process a modified version oflog4j 1.2.8 build.xml featuring the "build"
+     * Process a modified version of log4j 1.2.8 build.xml featuring the "build"
      * target as default. Check if the project start node has not been filtered out.
      *
      * @throws GrandException
@@ -137,11 +138,11 @@ public class FromNodeFilterTest extends AbstractAntTester {
                     NODES_AFTER_FILTERING.contains(nodeName));
         }
 
-        assertEquals("Filtered graph does not have the right node count", NODES_AFTER_FILTERING
-                .size(), numNodes);
+        assertEquals("Filtered graph does not have the right node count",
+                NODES_AFTER_FILTERING.size(), numNodes);
 
-        assertNotNull("Start node 'build' should not have been filtered out", graph
-                .getStartNode());
+        assertNotNull("Start node 'build' should not have been filtered out",
+                graph.getStartNode());
     }
 
     /**

@@ -88,8 +88,8 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         final int numNode = countNodes(graph);
         graph = filter.getGraph();
         final int numNodeAfterFiltering = countNodes(graph);
-        assertEquals("Graph should have the same node count before and after filtering", numNode,
-                numNodeAfterFiltering);
+        assertEquals("Graph should have the same node count before and after filtering",
+                numNode, numNodeAfterFiltering);
     }
 
     /**
@@ -106,8 +106,8 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         final int numNode = countNodes(graph);
         graph = filter.getGraph();
         final int numNodeAfterFiltering = countNodes(graph);
-        assertEquals("Graph should have the same node count before and after filtering", numNode,
-                numNodeAfterFiltering);
+        assertEquals("Graph should have the same node count before and after filtering",
+                numNode, numNodeAfterFiltering);
     }
 
     /**
@@ -126,8 +126,8 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             final String nodeName = iter.next().getName();
 
-            assertFalse("Node " + nodeName + " should have been filtered out", toRemove
-                    .contains(nodeName));
+            assertFalse("Node " + nodeName + " should have been filtered out",
+                    toRemove.contains(nodeName));
         }
     }
 
@@ -150,8 +150,8 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             final String nodeName = iter.next().getName();
 
-            assertFalse("Node " + nodeName + " should have been filtered out", toRemove
-                    .contains(nodeName));
+            assertFalse("Node " + nodeName + " should have been filtered out",
+                    toRemove.contains(nodeName));
         }
     }
 

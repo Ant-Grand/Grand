@@ -34,7 +34,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.BuildFileTest;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
@@ -72,12 +71,12 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * Field watchman.
      */
     @Rule
-    public TestWatcher watchman = new TestWatcher() {
+    public final TestWatcher watchman = new TestWatcher() {
         @Override
         protected void failed(Throwable t, Description d) {
             StringBuffer sb = new StringBuffer("Ooops test failed: " + d);
             if (project.getProperty(TEMP_FILE_PROP) != null) {
-                sb.append(" ").append(project.getProperty(TEMP_FILE_PROP));
+                sb.append(' ').append(project.getProperty(TEMP_FILE_PROP));
             }
             if (!"".equals(getLog())) {
                 String ls = System.getProperty("line.separator");
