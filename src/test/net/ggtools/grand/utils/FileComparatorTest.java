@@ -31,15 +31,14 @@ package net.ggtools.grand.utils;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Test case for the FileComparator class.
  *
  * @author Christophe Labouisse
  */
-public class FileComparatorTest extends TestCase {
+public class FileComparatorTest {
 
     /**
      * Field BUILD_SIMPLE.
@@ -60,64 +59,65 @@ public class FileComparatorTest extends TestCase {
             new File("src/etc/testcases/override.dot");
 
     /**
-     * Constructor for FileComparatorTest.
-     *
-     * @param name String
+     * Method testAssertSelfSizesMatch.
      */
-    public FileComparatorTest(final String name) {
-        super(name);
-    }
-
-    /**
-     * Method testAssertSizesMatch.
-     */
-    public final void testAssertSizesMatch() {
-        FileComparator comparator;
-
+    @Test
+    public final void testAssertSelfSizesMatch() {
         // Same file
-        comparator = new FileComparator(BUILD_SIMPLE, BUILD_SIMPLE);
+        FileComparator comparator = new FileComparator(BUILD_SIMPLE, BUILD_SIMPLE);
         comparator.assertSizesMatch();
-
-        // Different file, same size.
-        comparator = new FileComparator(BUILD_SIMPLE, OVERRIDE);
-        comparator.assertSizesMatch();
-
-        // Different files.
-        comparator = new FileComparator(BUILD_SIMPLE, BUILD_IMPORT);
-        try {
-            comparator.assertSizesMatch();
-            fail("build-simple and build-import do not have the same size");
-        } catch (final AssertionFailedError e) {
-        }
     }
 
     /**
-     * Method testAssertLinesMatch.
+     * Method testAssertOverrideSizesMatch.
+     */
+    @Test
+    public final void testAssertOverrideSizesMatch() {
+        // Different file, same size.
+        FileComparator comparator = new FileComparator(BUILD_SIMPLE, OVERRIDE);
+        comparator.assertSizesMatch();
+    }
+
+    /**
+     * Method testAssertDifferentSizesMatch.
+     */
+    @Test(expected = AssertionError.class)
+    public final void testAssertDifferentSizesMatch() {
+        // Different files.
+        FileComparator comparator = new FileComparator(BUILD_SIMPLE, BUILD_IMPORT);
+        comparator.assertSizesMatch();
+    }
+
+    /**
+     * Method testAssertSelfLinesMatch.
      * @throws IOException
      */
-    public final void testAssertLinesMatch() throws IOException {
-        FileComparator comparator;
-
+    @Test
+    public final void testAssertSelfLinesMatch() throws IOException {
         // Same file.
-        comparator = new FileComparator(BUILD_SIMPLE, BUILD_SIMPLE);
+        FileComparator comparator = new FileComparator(BUILD_SIMPLE, BUILD_SIMPLE);
         comparator.assertLinesMatch();
+    }
 
+    /**
+     * Method testAssertOverrideLinesMatch.
+     * @throws IOException
+     */
+    @Test(expected = AssertionError.class)
+    public final void testAssertOverrideLinesMatch() throws IOException {
         // Different files, same size.
-        comparator = new FileComparator(BUILD_SIMPLE, OVERRIDE);
-        try {
-            comparator.assertLinesMatch();
-            fail("build-simple and override should differ");
-        } catch (final AssertionFailedError e) {
-        }
+        FileComparator comparator = new FileComparator(BUILD_SIMPLE, OVERRIDE);
+        comparator.assertLinesMatch();
+    }
 
+    /**
+     * Method testAssertDifferentLinesMatch.
+     * @throws IOException
+     */
+    @Test(expected = AssertionError.class)
+    public final void testAssertDifferentLinesMatch() throws IOException {
         // Different files.
-        comparator = new FileComparator(BUILD_SIMPLE, BUILD_IMPORT);
-        try {
-            comparator.assertLinesMatch();
-            fail("build-simple and build-import should differ");
-        } catch (final AssertionFailedError e) {
-            assertTrue("build-simple and build-import do not have the same size",
-                    e.getMessage().indexOf("Sizes do not match") >= 0);
-        }
+        FileComparator comparator = new FileComparator(BUILD_SIMPLE, BUILD_IMPORT);
+        comparator.assertLinesMatch();
     }
 }

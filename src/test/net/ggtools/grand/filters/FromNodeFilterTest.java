@@ -31,10 +31,15 @@
 
 package net.ggtools.grand.filters;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -66,30 +71,20 @@ public class FromNodeFilterTest extends AbstractAntTester {
                     "build.jmx", "jmx", "jmxCheck"}));
 
     /**
-     * Constructor for FromNodeFilterTest.
-     * @param name String
-     */
-    public FromNodeFilterTest(final String name) {
-        super(name);
-    }
-
-    /**
      * Method setUp.
-     * @see junit.framework.TestCase#setUp()
      */
-    @Override
-    protected final void setUp() {
-        super.setUp();
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
         producer = new AntProject(project);
     }
 
     /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
-    @Override
-    protected final String getTestBuildFileName() {
+    private String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
@@ -99,6 +94,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
@@ -125,6 +121,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testNotFilteredStartNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("build");
         filter.setProducer(producer);
@@ -152,6 +149,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new FromNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);

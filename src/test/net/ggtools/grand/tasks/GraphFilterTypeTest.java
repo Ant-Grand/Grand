@@ -28,6 +28,9 @@
 
 package net.ggtools.grand.tasks;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
@@ -37,26 +40,26 @@ import net.ggtools.grand.utils.AbstractAntTester;
 public class GraphFilterTypeTest extends AbstractAntTester {
 
     /**
-     * Constructor for GraphFilterTypeTest.
-     * @param name String
+     * Method setUp.
      */
-    public GraphFilterTypeTest(final String name) {
-        super(name);
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
     }
 
     /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
-    @Override
-    protected final String getTestBuildFileName() {
+    private String getTestBuildFileName() {
         return TESTCASES_DIR + "graph-filter.xml";
     }
 
     /**
      * Method testIsolatedNode.
      */
+    @Test
     public final void testIsolatedNode() {
         expectLogContaining("test", "Node parameter useless for isolatednode");
         assertLogContaining("Loaded 1 filter");
@@ -65,6 +68,7 @@ public class GraphFilterTypeTest extends AbstractAntTester {
     /**
      * Method testNamelessFilter.
      */
+    @Test
     public final void testNamelessFilter() {
         expectBuildException("noname", "required attribute missing");
     }

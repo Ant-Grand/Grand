@@ -28,16 +28,20 @@
 
 package net.ggtools.grand.filters;
 
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.GraphImpl;
 import net.ggtools.grand.graph.GraphProducer;
-import junit.framework.TestCase;
 
 /**
  * @author Christophe Labouisse
  */
-public class FilterChainTest extends TestCase {
+public class FilterChainTest {
 
     /**
      * A dummy graph producer returning always the same empty graph.
@@ -160,6 +164,7 @@ public class FilterChainTest extends TestCase {
      * Method testUnitializedChain.
      * @throws GrandException
      */
+    @Test
     public final void testUnitializedChain() throws GrandException {
         assertNull(filterChain.getGraph());
     }
@@ -168,6 +173,7 @@ public class FilterChainTest extends TestCase {
      * Method testEmptyChain.
      * @throws GrandException
      */
+    @Test
     public final void testEmptyChain() throws GrandException {
         filterChain.setProducer(producer);
         assertSame("Both graphs should be the same",
@@ -178,6 +184,7 @@ public class FilterChainTest extends TestCase {
      * Method testOneFilter.
      * @throws GrandException
      */
+    @Test
     public final void testOneFilter() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
@@ -191,6 +198,7 @@ public class FilterChainTest extends TestCase {
      * Method testAddFilterFirst.
      * @throws GrandException
      */
+    @Test
     public final void testAddFilterFirst() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
@@ -208,6 +216,7 @@ public class FilterChainTest extends TestCase {
      * Method testAddFilterLast.
      * @throws GrandException
      */
+    @Test
     public final void testAddFilterLast() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterLast(filter1);
@@ -225,6 +234,7 @@ public class FilterChainTest extends TestCase {
      * Method testClearFilters.
      * @throws GrandException
      */
+    @Test
     public final void testClearFilters() throws GrandException {
         filterChain.setProducer(producer);
         filterChain.addFilterFirst(filter1);
@@ -242,10 +252,9 @@ public class FilterChainTest extends TestCase {
 
     /**
      * Method setUp.
-     * @see TestCase#setUp()
      */
-    @Override
-    protected final void setUp() {
+    @Before
+    public final void setUp() {
         filter1 = new DummyFilter("1");
         filter2 = new DummyFilter("2");
         filter3 = new DummyFilter("3");

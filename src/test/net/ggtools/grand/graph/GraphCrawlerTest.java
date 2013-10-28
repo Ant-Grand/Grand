@@ -31,10 +31,15 @@
 
 package net.ggtools.grand.graph;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -62,46 +67,28 @@ public class GraphCrawlerTest extends AbstractAntTester {
                     "jndiCheck", "build.jmx", "jmx", "jmxCheck"}));
 
     /**
-     * Constructor for GraphCrawlerTest.
-     * @param arg0 String
-     */
-    public GraphCrawlerTest(final String arg0) {
-        super(arg0);
-    }
-
-    /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
-    @Override
-    protected final String getTestBuildFileName() {
+    private String getTestBuildFileName() {
         return TESTCASES_DIR + "log4j-build.xml";
     }
 
     /**
      * Method setUp.
-     * @see AbstractTaskTester#setUp()
      */
-    @Override
-    protected final void setUp() {
-        super.setUp();
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
         producer = new AntProject(project);
-    }
-
-    /**
-     * Method tearDown.
-     * @see AbstractTaskTester#tearDown()
-     */
-    @Override
-    protected final void tearDown() {
-        super.tearDown();
     }
 
     /**
      * Method testCrawl.
      * @throws GrandException
      */
+    @Test
     public final void testCrawl() throws GrandException {
         final Graph graph = producer.getGraph();
         final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());

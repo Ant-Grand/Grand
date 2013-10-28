@@ -28,10 +28,15 @@
 
 package net.ggtools.grand.ant;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -55,18 +60,10 @@ public class AntProjectTest extends AbstractAntTester {
     protected Graph graph;
 
     /**
-     * Constructor for AntProjectTest.
-     *
-     * @param arg0 String
-     */
-    public AntProjectTest(final String arg0) {
-        super(arg0);
-    }
-
-    /**
      * Method testAnt.
      * @throws GrandException
      */
+    @Test
     public final void testAnt() throws GrandException {
         // Test without antfile nor dir
         AntTargetNode node = (AntTargetNode) graph.getNode("ant-test");
@@ -94,6 +91,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testAntCall.
      * @throws GrandException
      */
+    @Test
     public final void testAntCall() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-test");
         AntLink link = null;
@@ -113,6 +111,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testAntCallWithTargetElements.
      * @throws GrandException
      */
+    @Test
     public final void testAntCallWithTargetElements() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-with-target-elements-test");
         final Collection<Link> links = node.getLinks();
@@ -127,7 +126,7 @@ public class AntProjectTest extends AbstractAntTester {
         assertNull("Build file", endNode.getBuildFile());
 
         link = (AntLink) iterator.next();
-        assertNotNull("should have found twos links", link);
+        assertNotNull("should have found two links", link);
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "gabuzo", endNode.getName());
         assertNull("Build file", endNode.getBuildFile());
@@ -139,6 +138,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Run a graph on a file including an antcall whose target is based on a
      * property.
      */
+    @Test
     public final void testAntCallWithUndefinedProperty() {
         expectLogContaining("ant-call-with-property", "Outputing to ");
         assertLogContaining("Target antcall-props-1 has dependency to non existent target ${antcall.target}, creating a dummy node");
@@ -148,6 +148,7 @@ public class AntProjectTest extends AbstractAntTester {
     /**
      * Run a graph on a file including an undefined task.
      */
+    @Test
     public final void testAntCallWithUndefinedTask() {
         // TODO check if this test is useful.
         expectLogContaining("undefined-task", "Outputing to ");
@@ -157,6 +158,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testAntNoTargetDifferentFile.
      * @throws GrandException
      */
+    @Test
     public final void testAntNoTargetDifferentFile() throws GrandException {
         // Test without target different file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
@@ -174,6 +176,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testAntNoTargetSameFile.
      * @throws GrandException
      */
+    @Test
     public final void testAntNoTargetSameFile() throws GrandException {
         // Test without target same file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
@@ -188,6 +191,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testAntWithTargetElements.
      * @throws GrandException
      */
+    @Test
     public final void testAntWithTargetElements() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-with-target-elements-test");
         final Collection<Link> links = node.getLinks();
@@ -218,6 +222,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testIfCondition.
      * @throws GrandException
      */
+    @Test
     public final void testIfCondition() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("if-cond-test");
         assertNotNull("if-cond-test Node", node);
@@ -230,6 +235,7 @@ public class AntProjectTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testNestedAnt() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("[nested-missing-node]");
         assertNotNull("nested-missing-node not found", node);
@@ -241,6 +247,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testRunTarget.
      * @throws GrandException
      */
+    @Test
     public final void testRunTarget() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("runtarget-test");
         AntLink link = null;
@@ -261,6 +268,7 @@ public class AntProjectTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testSubant() throws GrandException {
         // Test for genericantfile.
         AntTargetNode node = (AntTargetNode) graph.getNode("subant-generic");
@@ -308,6 +316,7 @@ public class AntProjectTest extends AbstractAntTester {
      * Method testUnlessCondition.
      * @throws GrandException
      */
+    @Test
     public final void testUnlessCondition() throws GrandException {
         final AntTargetNode node = (AntTargetNode) graph.getNode("unless-cond-test");
         assertNotNull("unless-cond-test Node", node);
@@ -318,7 +327,6 @@ public class AntProjectTest extends AbstractAntTester {
     /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.utils.AbstractAntTester#getTestBuildFileName()
      */
     protected final String getTestBuildFileName() {
         return TESTCASES_DIR + "ant-project-test.xml";
@@ -327,8 +335,10 @@ public class AntProjectTest extends AbstractAntTester {
     /**
      * Method setUp.
      */
-    protected final void setUp() {
-        super.setUp();
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
         createGraph();
     }
 

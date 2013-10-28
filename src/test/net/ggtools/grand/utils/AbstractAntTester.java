@@ -28,10 +28,16 @@
 
 package net.ggtools.grand.utils;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.tools.ant.BuildFileTest;
+import org.junit.After;
+import org.junit.Rule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 
 /**
  * An abstract class for Ant test featuring a standard project setup and a
@@ -63,51 +69,33 @@ public abstract class AbstractAntTester extends BuildFileTest {
     protected static final String TESTCASES_DIR = "src/etc/testcases/";
 
     /**
-     * Field testOk.
+     * Field watchman.
      */
-    private boolean testOk = true;
+    @Rule
+    public TestWatcher watchman = new TestWatcher() {
+        @Override
+        protected void failed(Throwable t, Description d) {
+            StringBuffer sb = new StringBuffer("Ooops test failed: " + d);
+            if (project.getProperty(TEMP_FILE_PROP) != null) {
+                sb.append(" ").append(project.getProperty(TEMP_FILE_PROP));
+            }
+            if (!"".equals(getLog())) {
+                String ls = System.getProperty("line.separator");
+                sb.append(ls).append("Log was:").append(ls).append(getLog());
+            }
+            System.err.println(sb.toString());
+        }
+        @Override
+        protected void succeeded(Description d) {
+            final String tempFile = project.getProperty(TEMP_FILE_PROP);
 
-    /**
-     * Constructor for AbstractAntTester.
-     * @param name String
-     */
-    public AbstractAntTester(final String name) {
-        super(name);
-    }
-
-    /**
-     * Method setUp.
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() {
-        configureProject(getTestBuildFileName());
-        project.setBasedir(TESTCASES_DIR);
-        project.setProperty(JUNIT_TEST_NAME, getName());
-    }
-
-    /**
-     * Method tearDown.
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-    protected void tearDown() {
-        final String tempFile = project.getProperty(TEMP_FILE_PROP);
-
-        if (tempFile != null) {
-            if (testOk || Boolean.parseBoolean(System.getProperty("CleanupOnError", "false"))) {
+            if (tempFile != null
+                    && !Boolean.parseBoolean(System.getProperty("CleanupOnError", "false"))) {
                 final File file = new File(tempFile);
                 file.delete();
             }
         }
-    }
-
-    /**
-     * Returns this test case's ant build file.
-     *
-     * @return the full or relative path to the build file.
-     */
-    protected abstract String getTestBuildFileName();
+    };
 
     /**
      * Compares the temporary file with a reference file.
@@ -147,21 +135,4 @@ public abstract class AbstractAntTester extends BuildFileTest {
         assertFullLogContaining(log);
     }
 
-    /**
-     * Method runTest.
-     * @throws Throwable
-     * @see junit.framework.TestCase#runTest()
-     */
-    @Override
-    protected final void runTest() throws Throwable {
-        try {
-            super.runTest();
-        } catch (final Throwable t) {
-            System.err.println("Ooops test failed: " + getName() + " "
-                    + project.getProperty(TEMP_FILE_PROP));
-            System.err.println("Log was: " + getLog());
-            testOk = false;
-            throw t;
-        }
-    }
 }

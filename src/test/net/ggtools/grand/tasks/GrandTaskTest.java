@@ -26,11 +26,15 @@
 
 package net.ggtools.grand.tasks;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 
-import net.ggtools.grand.utils.AbstractAntTester;
-
 import org.apache.tools.ant.BuildException;
+import org.junit.Before;
+import org.junit.Test;
+
+import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
  * Tests for GrandTask.
@@ -40,26 +44,26 @@ import org.apache.tools.ant.BuildException;
 public class GrandTaskTest extends AbstractAntTester {
 
     /**
-     * Constructor for GrandTaskTest.
-     * @param name String
+     * Method setUp.
      */
-    public GrandTaskTest(final String name) {
-        super(name);
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
     }
 
     /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.tasks.AbstractTaskTester#getTestBuildFileName()
      */
-    @Override
-    protected final String getTestBuildFileName() {
+    private String getTestBuildFileName() {
         return TESTCASES_DIR + "grand-task.xml";
     }
 
     /**
      * Method testSuitability.
      */
+    @Test
     public final void testSuitability() {
         boolean suitable;
 
@@ -77,6 +81,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Tests if the task.properties resource file creates the grand test.
      *
      */
+    @Test
     public final void testTaskDefinitionFile() {
         executeTarget("init-old");
         final Class<?> graphTaskClass = project.getTaskDefinitions().get("grand");
@@ -89,6 +94,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * types.
      *
      */
+    @Test
     public final void testAntLib() {
         executeTarget("init");
         final Class<?> graphTaskClass = project.getTaskDefinitions().get("grand");
@@ -99,6 +105,7 @@ public class GrandTaskTest extends AbstractAntTester {
     /**
      * Method testNoParam.
      */
+    @Test
     public final void testNoParam() {
         expectBuildException("test-no-param", "required attribute missing");
     }
@@ -106,6 +113,7 @@ public class GrandTaskTest extends AbstractAntTester {
     /**
      * Method testCurrentProject.
      */
+    @Test
     public final void testCurrentProject() {
         expectLogContaining("test-current-project", "Using current project");
         assertLogContaining("Writing output to ");
@@ -116,6 +124,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Method testOverride.
      * @throws IOException
      */
+    @Test
     public final void testOverride() throws IOException {
         expectLogContaining("output-config-file", "Overriding default properties from ");
         assertLogContaining("build-simple.xml");
@@ -127,6 +136,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Method testSimpleBuild.
      * @throws IOException
      */
+    @Test
     public final void testSimpleBuild() throws IOException {
         expectLogContaining("simple-build", "Loading project ");
         assertLogContaining("build-simple.xml");
@@ -138,6 +148,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Method testSimpleBuildWithGraphName.
      * @throws IOException
      */
+    @Test
     public final void testSimpleBuildWithGraphName() throws IOException {
         expectLogContaining("simple-build-with-graph-name", "Loading project ");
         assertLogContaining("build-simple.xml");
@@ -149,6 +160,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Method testImport.
      * @throws IOException
      */
+    @Test
     public final void testImport() throws IOException {
         expectLogContaining("import", "Loading project ");
         assertLogContaining("build-import.xml");
@@ -160,6 +172,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Method testAntCall.
      * @throws IOException
      */
+    @Test
     public final void testAntCall() throws IOException {
         expectLogContaining("antcall", "Loading project ");
         assertLogContaining("build-complex.xml");
@@ -171,6 +184,7 @@ public class GrandTaskTest extends AbstractAntTester {
      * Method testSubant.
      * @throws IOException
      */
+    @Test
     public final void testSubant() throws IOException {
         expectLogContaining("subant", "Loading project ");
         assertLogContaining("subant.xml");
@@ -186,6 +200,7 @@ public class GrandTaskTest extends AbstractAntTester {
     /**
      * Method testNonExistentDefaultTarget.
      */
+    @Test
     public final void testNonExistentDefaultTarget() {
         expectLogContaining("non-existent-default-target", "Loading project ");
         assertLogContaining("non-existent-default-target.xml");

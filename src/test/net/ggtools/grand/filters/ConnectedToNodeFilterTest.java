@@ -31,10 +31,15 @@
 
 package net.ggtools.grand.filters;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
@@ -65,30 +70,20 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
                     "process-one-config-file"}));
 
     /**
-     * Constructor for ConnectedToNodeFilterTest.
-     * @param name String
-     */
-    public ConnectedToNodeFilterTest(final String name) {
-        super(name);
-    }
-
-    /**
      * Method setUp.
-     * @see junit.framework.TestCase#setUp()
      */
-    @Override
-    protected final void setUp() {
-        super.setUp();
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
         producer = new AntProject(project);
     }
 
     /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
-     */
-    @Override
-    protected final String getTestBuildFileName() {
+      */
+    private String getTestBuildFileName() {
         return TESTCASES_DIR + "build-complex.xml";
     }
 
@@ -96,6 +91,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * Process build-complex.xml to find the nodes connected to jar.
      * @throws GrandException
      */
+    @Test
     public final void testConnectedStartNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("jar");
         filter.setProducer(producer);
@@ -122,6 +118,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);

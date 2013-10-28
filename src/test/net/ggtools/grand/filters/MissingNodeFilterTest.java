@@ -31,6 +31,11 @@
 
 package net.ggtools.grand.filters;
 
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
@@ -49,30 +54,20 @@ public class MissingNodeFilterTest extends AbstractAntTester {
     private GraphProducer producer;
 
     /**
-     * Constructor for IsolatedNodeFilterTest.
-     * @param name String
-     */
-    public MissingNodeFilterTest(final String name) {
-        super(name);
-    }
-
-    /**
      * Method setUp.
-     * @see TestCase#setUp()
      */
-    @Override
-    protected final void setUp() {
-        super.setUp();
+    @Before
+    public final void setUp() {
+        configureProject(getTestBuildFileName());
+        project.setBasedir(TESTCASES_DIR);
         producer = new AntProject(project);
     }
 
     /**
      * Method getTestBuildFileName.
      * @return String
-     * @see net.ggtools.grand.utils.AbstractTaskTester#getTestBuildFileName()
      */
-    @Override
-    protected final String getTestBuildFileName() {
+    private String getTestBuildFileName() {
         return TESTCASES_DIR + "missing-node-filter.xml";
     }
 
@@ -81,6 +76,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException
      */
+    @Test
     public final void testFullGraph() throws GrandException {
         final Graph graph = producer.getGraph();
 
@@ -91,13 +87,13 @@ public class MissingNodeFilterTest extends AbstractAntTester {
         assertNotNull("Target not found", graph.getNode("missing"));
     }
 
-
     /**
      * Process the full graph through an MissingNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
      *
      * @throws GrandException
      */
+    @Test
     public final void testFilter() throws GrandException {
         final GraphFilter filter = new MissingNodeFilter();
         filter.setProducer(producer);

@@ -31,31 +31,18 @@
 
 package net.ggtools.grand.graph;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  *
  *
  * @author Christophe Labouisse
  */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+    GraphCrawlerTest.class,
+    SubGraphImplTest.class
+    })
 public final class AllTests {
-    /**
-     * Constructor for AllTests.
-     */
-    private AllTests() {
-    }
-
-    /**
-     * Method suite.
-     * @return Test
-     */
-    public static Test suite() {
-        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.graph");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(GraphCrawlerTest.class);
-        suite.addTestSuite(SubGraphImplTest.class);
-        //$JUnit-END$
-        return suite;
-    }
 }

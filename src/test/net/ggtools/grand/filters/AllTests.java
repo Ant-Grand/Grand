@@ -31,37 +31,23 @@
 
 package net.ggtools.grand.filters;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  *
  *
  * @author Christophe Labouisse
  */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+    ToNodeFilterTest.class,
+    FilterChainTest.class,
+    ConnectedToNodeFilterTest.class,
+    FromNodeFilterTest.class,
+    IsolatedNodeFilterTest.class,
+    MissingNodeFilterTest.class,
+    NodeRemoverFilterTest.class
+    })
 public final class AllTests {
-    /**
-     * Constructor for AllTests.
-     */
-    private AllTests() {
-    }
-
-    /**
-     * Method suite.
-     * @return Test
-     */
-    public static Test suite() {
-        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.filters");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(ToNodeFilterTest.class);
-        suite.addTestSuite(FilterChainTest.class);
-        suite.addTestSuite(ConnectedToNodeFilterTest.class);
-        suite.addTestSuite(FromNodeFilterTest.class);
-        suite.addTestSuite(IsolatedNodeFilterTest.class);
-        suite.addTestSuite(MissingNodeFilterTest.class);
-        suite.addTestSuite(AbstractGraphFilterTest.class);
-        suite.addTestSuite(NodeRemoverFilterTest.class);
-        //$JUnit-END$
-        return suite;
-    }
 }

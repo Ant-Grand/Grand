@@ -31,19 +31,19 @@
 
 package net.ggtools.grand.utils;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
-import junit.framework.Assert;
 
 /**
  * Utility class to compare two files.
  *
  * @author Christophe Labouisse
  */
-public class FileComparator extends Assert {
+public class FileComparator {
     /**
      * Field source.
      */
