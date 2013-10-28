@@ -47,7 +47,8 @@ import org.junit.runners.Suite;
     FromNodeFilterTest.class,
     IsolatedNodeFilterTest.class,
     MissingNodeFilterTest.class,
-    NodeRemoverFilterTest.class
+    NodeRemoverFilterTest.class,
+    PrefixedNodeFilterTest.class
     })
 public final class AllTests {
 }
