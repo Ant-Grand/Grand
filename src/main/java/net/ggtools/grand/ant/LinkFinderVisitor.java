@@ -233,6 +233,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 targetBuildFile = new File(parentDirectory, antFile);
             }
         }
+        if (!(targetBuildFile.exists() && targetBuildFile.isFile())) {
+            LOG.error("Ant file " + targetBuildFile + " is missing");
+        }
 
         final List<Object> targetElements = getTargetElementNames(wrapper);
 
