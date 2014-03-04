@@ -67,7 +67,7 @@ abstract class AttributeManager implements GraphObject {
      * @see net.ggtools.grand.graph.GraphObject#clearAttributes(int)
      */
     public void clearAttributes(final int attributeMask) {
-        attributes &= -1 ^ attributeMask;
+        attributes &= ~attributeMask;
     }
 
     /**
