@@ -145,8 +145,8 @@ public class GrandTask extends Task {
         }
 
         if (numFilters > 0) {
-            log("Loaded " + numFilters + ((numFilters > 1) ?
-                    " filters" : " filter"));
+            log("Loaded " + numFilters + " filter"
+                    + ((numFilters > 1) ? "s" : ""));
         }
 
         try {
