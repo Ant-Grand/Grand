@@ -144,9 +144,9 @@
     </javadoc>
   </target>
   <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/ant-1.9.2.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant/1.9.2/ant-1.9.2.jar">
+    <get dest="${libdir}/ant-1.9.4.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant/1.9.4/ant-1.9.4.jar">
     </get>
-    <get dest="${libdir}/ant-launcher-1.9.2.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant-launcher/1.9.2/ant-launcher-1.9.2.jar">
+    <get dest="${libdir}/ant-launcher-1.9.4.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant-launcher/1.9.4/ant-launcher-1.9.4.jar">
     </get>
     <get dest="${libdir}/junit-4.11.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/junit/junit/4.11/junit-4.11.jar">
     </get>
