@@ -1,6 +1,7 @@
-.idea
 target/
 dist/docs/
 tmp*.dot
 *.old
+.settings/
+.idea/
 *.iml
