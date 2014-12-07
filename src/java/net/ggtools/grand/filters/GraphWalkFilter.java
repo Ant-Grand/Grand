@@ -58,7 +58,7 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter
      * Creates a new filter.
      * @param nodeName node to search from.
      */
-    public GraphWalkFilter(final String nodeName) {
+    protected GraphWalkFilter(final String nodeName) {
         startNodeName = nodeName;
     }
 

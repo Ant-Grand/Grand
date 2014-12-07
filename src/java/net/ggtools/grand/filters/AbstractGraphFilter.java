@@ -68,7 +68,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * Creates an anonymous filter.
      *
      */
-    public AbstractGraphFilter() {
+    protected AbstractGraphFilter() {
         this("Anonymous");
     }
 
@@ -77,7 +77,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      *
      * @param name String
      */
-    public AbstractGraphFilter(final String name) {
+    protected AbstractGraphFilter(final String name) {
         this.name = name;
     }
 
