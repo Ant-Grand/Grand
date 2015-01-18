@@ -82,8 +82,9 @@ public class AntProjectTest extends AbstractAntTester {
         endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "[gabuzo]", endNode.getName());
         // TODO is this a misfeature of Windows or Ant?
-        File referenceFile = System.getProperty("os.version").startsWith("Windows") ?
-                new File(project.getBaseDir(), "/gruik/gruik.xml") : new File("/gruik/gruik.xml");
+       File referenceFile = System.getProperty("os.version").startsWith("Windows")
+               || System.getProperty("os.name").startsWith("Windows") ?
+                       new File(project.getBaseDir(), "/gruik/gruik.xml") : new File("/gruik/gruik.xml");
         assertEquals("Build file", referenceFile.getAbsolutePath(),
                 endNode.getBuildFile());
     }
@@ -168,8 +169,9 @@ public class AntProjectTest extends AbstractAntTester {
         final AntTargetNode endNode = (AntTargetNode) link.getEndNode();
         assertEquals("Target", "['default']", endNode.getName());
         // TODO is this a misfeature of Windows or Ant?
-        File referenceFile = System.getProperty("os.version").startsWith("Windows") ?
-                new File(project.getBaseDir(), "/gruik/gruik.xml") : new File("/gruik/gruik.xml");
+        File referenceFile = System.getProperty("os.version").startsWith("Windows")
+                || System.getProperty("os.name").startsWith("Windows") ?
+                        new File(project.getBaseDir(), "/gruik/gruik.xml") : new File("/gruik/gruik.xml");
         assertEquals("Build file", referenceFile.getAbsolutePath(),
                 endNode.getBuildFile());
     }
