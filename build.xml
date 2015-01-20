@@ -31,9 +31,9 @@
   </target>
   <target name="get-deps" description="o Retrieve dependencies" depends="init">
     <ivy:retrieve pattern="${libdir}/[artifact]-[revision].[ext]" sync="true" type="jar"/>
-  	<path id="project.classpath">
-        <fileset dir="${libdir}" includes="*.jar"/>
-  	</path>
+    <path id="project.classpath">
+      <fileset dir="${libdir}" includes="*.jar"/>
+    </path>
   </target>
   <target name="compile" description="o Compile the code" depends="get-deps">
     <mkdir dir="${classesdir}">
