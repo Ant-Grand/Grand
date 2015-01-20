@@ -39,11 +39,11 @@ import org.apache.tools.ant.RuntimeConfigurable;
 interface TaskVisitor {
 
     /**
-     * Visits a wrapper doing what ever is necessary. This will include recursively explore
-     * the children.
+     * Visits a wrapper doing whatever is necessary. This will include
+     * recursively exploring the children.
      *
      * @param wrapper RuntimeConfigurable
-     * @throws GrandException
+     * @throws GrandException if something goes wrong
      */
     void visit(RuntimeConfigurable wrapper) throws GrandException;
 }

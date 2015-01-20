@@ -97,10 +97,8 @@ public class FilterType {
 
     /**
      * Checks if the filter parameters are correct.
-     *
-     * @throws BuildException if the parameters are not ok
      */
-    final void checkParameters() throws BuildException {
+    final void checkParameters() {
         if (filterName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);

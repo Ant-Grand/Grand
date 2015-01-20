@@ -82,7 +82,6 @@ class SubGraphImpl implements SubGraph {
      */
     SubGraphImpl(final String name) {
         this(name, new NodeIteratorFactory() {
-
             public final Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return iterator;
             }
@@ -106,6 +105,7 @@ class SubGraphImpl implements SubGraph {
      * Method addNode.
      * @param node Node
      * @throws DuplicateElementException
+     *             if there is already a node with the same name.
      * @see net.ggtools.grand.graph.SubGraph#addNode(Node)
      */
     public void addNode(final Node node) throws DuplicateElementException {

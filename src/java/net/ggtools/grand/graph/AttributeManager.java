@@ -33,7 +33,7 @@ package net.ggtools.grand.graph;
 
 
 /**
- * Abstract class to manage GraphObjet's attributes.
+ * Abstract class to manage {@link net.ggtools.grand.graph.GraphObject}'s attributes.
  *
  * @author Christophe Labouisse
  */
@@ -67,7 +67,7 @@ abstract class AttributeManager implements GraphObject {
      * @see net.ggtools.grand.graph.GraphObject#clearAttributes(int)
      */
     public void clearAttributes(final int attributeMask) {
-        attributes &= -1 ^ attributeMask;
+        attributes &= ~attributeMask;
     }
 
     /**

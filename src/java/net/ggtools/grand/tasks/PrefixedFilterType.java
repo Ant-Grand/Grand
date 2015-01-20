@@ -29,20 +29,58 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.graph;
+package net.ggtools.grand.tasks;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import net.ggtools.grand.filters.GraphFilter;
+import net.ggtools.grand.filters.PrefixedNodeFilter;
+
+import org.apache.tools.ant.Project;
 
 /**
- *
+ * Ant frontend to {@link net.ggtools.grand.filters.PrefixedNodeFilter}.
  *
  * @author Christophe Labouisse
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-    GraphCrawlerTest.class,
-    SubGraphImplTest.class
-    })
-public final class AllTests {
+class PrefixedFilterType implements GraphFilterType {
+
+    /**
+     * Field project.
+     */
+    private final Project project;
+
+    /**
+     * Creates a new object.
+     *
+     * @param antProject project within which the filter will run.
+     */
+    public PrefixedFilterType(final Project antProject) {
+        project = antProject;
+    }
+
+    /**
+     * Method checkParameters.
+     * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
+     */
+    public void checkParameters() {
+        // Do nothing.
+    }
+
+    /**
+     * Method getFilter.
+     * @return GraphFilter
+     * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
+     */
+    public GraphFilter getFilter() {
+        return new PrefixedNodeFilter();
+    }
+
+    /**
+     * Method setNodeName.
+     * @param name String
+     * @see net.ggtools.grand.tasks.GraphFilterType#setNodeName(java.lang.String)
+     */
+    public void setNodeName(final String name) {
+        project.log("Node parameter useless for prefixed", Project.MSG_WARN);
+    }
+
 }

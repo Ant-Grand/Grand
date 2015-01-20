@@ -38,7 +38,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * Ant's front end for the FromFilter.
+ * Ant frontend to {@link net.ggtools.grand.filters.FromNodeFilter}.
  *
  * @author Christophe Labouisse
  */
@@ -64,10 +64,9 @@ public class FromNodeFilterType implements GraphFilterType {
 
     /**
      * Method checkParameters.
-     * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
-    public final void checkParameters() throws BuildException {
+    public final void checkParameters() {
         if (nodeName == null) {
             final String message = "required attribute missing";
             project.log(message, Project.MSG_ERR);

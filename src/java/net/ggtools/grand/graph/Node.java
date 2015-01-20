@@ -61,11 +61,19 @@ public interface Node extends GraphObject {
     int ATTR_CONDITIONAL_NODE = 1 << 2;
 
     /**
-     * Attribute bit to be set on the start node(s). The definition of a start
-     * node depends of the graph's source. For Ant a the start node is the default
-     * target.
+     * Attribute bit to be set on the start node(s). The definition of a
+     * start node depends of the graph's source. For Ant, the start node is
+     * the default target.
      */
     int ATTR_START_NODE = 1 << 3;
+
+    /**
+     * Attribute bit to be set on the prefixed node(s). A node is prefixed
+     * if there exists a node with a shorter name corresponding to a target
+     * with the same location. Ant creates these for <code>import</code>ed
+     * project files.
+     */
+    int ATTR_PREFIXED_NODE = 1 << 4;
 
     /**
      * Returns links originating from the node. The implementing class should

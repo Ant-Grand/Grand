@@ -33,8 +33,6 @@ package net.ggtools.grand.tasks;
 
 import net.ggtools.grand.filters.GraphFilter;
 
-import org.apache.tools.ant.BuildException;
-
 /**
  * Interface implemented by actual GraphFilterType.
  *
@@ -43,10 +41,8 @@ import org.apache.tools.ant.BuildException;
 interface GraphFilterType {
     /**
      * Checks if the filter is properly configured.
-     *
-     * @throws BuildException if the filter is not properly configured.
      */
-    void checkParameters() throws BuildException;
+    void checkParameters();
 
     /**
      * Returns the actual GraphFilter underlying the ant filter.

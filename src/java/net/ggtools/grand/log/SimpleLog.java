@@ -276,7 +276,8 @@ class SimpleLog implements Log {
      * @param t Throwable
      * @param level int
      */
-    protected void log(final Object message, final Throwable t, final int level) {
+    protected void log(final Object message, final Throwable t,
+            final int level) {
         if (level <= LOG_LEVEL) {
             System.out.println("[" + LEVEL_NAMES[level] + "] " + message);
             if (t != null) {

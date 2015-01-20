@@ -31,30 +31,17 @@
 
 package net.ggtools.grand.utils;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  *
  *
  * @author Christophe Labouisse
  */
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+    FileComparatorTest.class
+    })
 public final class AllTests {
-    /**
-     * Constructor for AllTests.
-     */
-    private AllTests() {
-    }
-
-    /**
-     * Method suite.
-     * @return Test
-     */
-    public static Test suite() {
-        final TestSuite suite = new TestSuite("Test for net.ggtools.grand.utils");
-        //$JUnit-BEGIN$
-        suite.addTestSuite(FileComparatorTest.class);
-        //$JUnit-END$
-        return suite;
-    }
 }

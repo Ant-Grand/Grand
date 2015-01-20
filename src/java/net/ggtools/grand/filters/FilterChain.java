@@ -135,7 +135,7 @@ public class FilterChain implements GraphFilter {
     /**
      * Method getGraph.
      * @return Graph
-     * @throws GrandException
+     * @throws GrandException if error occurs in GraphProducer#getGraph()
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
     public final Graph getGraph() throws GrandException {

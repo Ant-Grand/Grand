@@ -31,7 +31,9 @@ import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
@@ -70,17 +72,18 @@ public class AntProject implements GraphProducer {
     private static final Log LOG = LoggerManager.getLog(AntProject.class);
 
     /**
-     * A condition helper using the {@link Target#getIf()}&
+     * A condition helper using the {@link Target#getIf()} &
      * {@link Target#getUnless()} methods introduced in Ant 1.6.2.
      * @author Christophe Labouisse
      */
-    private static class GetterConditionHelper implements TargetConditionHelper {
+    private static class GetterConditionHelper
+        implements TargetConditionHelper {
 
         /**
          * Build a new GetterConditionHelper. Since the need methods are only
          * available in the last versions of Ant, we check if those method can
          * be loaded.
-         * @throws NoSuchMethodException
+         * @throws NoSuchMethodException when methods are not found
          */
         public GetterConditionHelper() throws NoSuchMethodException {
             final Class<?>[] parameters = new Class[]{};
@@ -141,8 +144,8 @@ public class AntProject implements GraphProducer {
     }
 
     /**
-     * A dirty hack using {@link Field}methods in order to gain access to the
-     * private {@link Target#ifCondition}and {@link Target#unlessCondition}
+     * A dirty hack using {@link Field} methods in order to gain access to the
+     * private {@link Target#ifCondition} and {@link Target#unlessCondition}
      * attributes.
      *
      * @author Christophe Labouisse
@@ -160,7 +163,7 @@ public class AntProject implements GraphProducer {
 
         /**
          * Constructor for ReflectHelper.
-         * @throws NoSuchFieldException
+         * @throws NoSuchFieldException when fields are not found
          */
         public ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
@@ -255,7 +258,7 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = new GetterConditionHelper();
-                LOG.debug("Using ant 1.6.2 getter");
+                LOG.debug("Using Ant getter");
             } catch (final Exception e) {
                 LOG.debug("Cannot create GetterConditionHelper, trying next one");
                 result = null;
@@ -288,18 +291,19 @@ public class AntProject implements GraphProducer {
     /**
      * Field antProject.
      */
-    private org.apache.tools.ant.Project antProject;
+    private Project antProject;
 
     /**
      * Field targetConditionHelper.
      */
-    private final TargetConditionHelper targetConditionHelper = TargetConditionHelperFactory
-            .getTargetConditionHelper();
+    private final TargetConditionHelper targetConditionHelper =
+            TargetConditionHelperFactory.getTargetConditionHelper();
 
     /**
      * Field targetExplorer.
      */
-    private final TargetTasksExplorer targetExplorer = new TargetTasksExplorer(this);
+    private final TargetTasksExplorer targetExplorer =
+            new TargetTasksExplorer(this);
 
     /**
      * Field taskLinkFinder.
@@ -337,12 +341,14 @@ public class AntProject implements GraphProducer {
      * @throws GrandException
      *             if the project cannot be loaded.
      */
-    public AntProject(final File source, final Properties properties) throws GrandException {
+    public AntProject(final File source, final Properties properties)
+            throws GrandException {
         LOG.info("Parsing from " + source);
         antProject = new Project();
         if (properties != null) {
-            for (final Map.Entry<Object, Object> element : properties.entrySet()) {
-                antProject.setProperty((String) element.getKey(), (String) element.getValue());
+            for (final Entry<Object, Object> element : properties.entrySet()) {
+                antProject.setProperty((String) element.getKey(),
+                        (String) element.getValue());
             }
         }
         antProject.setSystemProperties();
@@ -439,6 +445,7 @@ public class AntProject implements GraphProducer {
         LOG.debug("Triggering AntProject");
 
         final AntGraph graph = new AntGraph(antProject);
+        final Map<String, String> targetMap = new HashMap<String, String>();
 
         // First pass, create the nodes.
         for (final Target target : antProject.getTargets().values()) {
@@ -447,7 +454,15 @@ public class AntProject implements GraphProducer {
             }
 
             final String targetName = target.getName();
-            final AntTargetNode node = (AntTargetNode) graph.createNode(targetName);
+            final AntTargetNode node =
+                    (AntTargetNode) graph.createNode(targetName);
+
+            // Prefixed nodes have the same location as non-prefixed; skip them.
+            String location = target.getLocation().toString();
+            if (!targetMap.containsKey(location)
+                    || targetMap.get(location).length() > targetName.length()) {
+                targetMap.put(location, targetName);
+            }
 
             // Mark nodes with a description as MAIN.
             final String targetDescription = target.getDescription();
@@ -479,7 +494,11 @@ public class AntProject implements GraphProducer {
 
             final Enumeration<String> deps = target.getDependencies();
             final String startNodeName = target.getName();
-            final AntTargetNode startNode = (AntTargetNode) graph.getNode(startNodeName);
+            final AntTargetNode startNode =
+                    (AntTargetNode) graph.getNode(startNodeName);
+            if (!targetMap.containsValue(startNodeName)) {
+                startNode.setAttributes(Node.ATTR_PREFIXED_NODE);
+            }
 
             while (deps.hasMoreElements()) {
                 createLink(graph, null, startNode, deps.nextElement());

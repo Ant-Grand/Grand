@@ -131,7 +131,8 @@ public class GraphImpl implements Graph {
     /**
      * Field subGraphList.
      */
-    private final Map<String, SubGraph> subGraphList = new LinkedHashMap<String, SubGraph>();
+    private final Map<String, SubGraph> subGraphList =
+            new LinkedHashMap<String, SubGraph>();
 
     /**
      * Creates a new named graph.
@@ -142,7 +143,6 @@ public class GraphImpl implements Graph {
     public GraphImpl(final String graphName) {
         name = graphName;
         mainSubGraph = new SubGraphImpl(graphName, new SubGraphImpl.NodeIteratorFactory() {
-
             public final Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
                 return new NodeIterator(iterator);
             }
@@ -193,6 +193,7 @@ public class GraphImpl implements Graph {
      * @param nodeName String
      * @return Node
      * @throws DuplicateElementException
+     *             if there is already a node with the same name.
      * @see net.ggtools.grand.graph.Graph#createNode(net.ggtools.grand.graph.SubGraph,
      *      java.lang.String)
      */
@@ -212,6 +213,7 @@ public class GraphImpl implements Graph {
      * @param subGraphName String
      * @return SubGraph
      * @throws DuplicateElementException
+     *             if there is already a subgraph with the same name.
      * @see net.ggtools.grand.graph.Graph#createSubGraph(java.lang.String)
      */
     public final SubGraph createSubGraph(final String subGraphName)
@@ -219,8 +221,8 @@ public class GraphImpl implements Graph {
         if (subGraphList.containsKey(subGraphName)) {
             LOG.error("createSubGraph(subGraphName = " + subGraphName
                     + ") - Cannot create two subgraphs with the same name", null);
-            throw new DuplicateElementException("A subgraph called " + subGraphName
-                    + " already exists");
+            throw new DuplicateElementException("A subgraph called "
+                    + subGraphName + " already exists");
         }
         final SubGraph newSubGraph = new SubGraphImpl(subGraphName);
         subGraphList.put(subGraphName, newSubGraph);

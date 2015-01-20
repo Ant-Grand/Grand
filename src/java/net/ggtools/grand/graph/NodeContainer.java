@@ -46,8 +46,8 @@ interface NodeContainer {
 
     /**
      * Get the nodes contained in the graph. The implementing class should
-     * guarantee that the Iterator will only returns object implementing the Node
-     * interface. The returned iterator should implement the optional
+     * guarantee that the Iterator will only returns object implementing the
+     * Node interface. The returned iterator should implement the optional
      * {@link Iterator#remove()}method in order to allow the filters to remove
      * nodes.
      *

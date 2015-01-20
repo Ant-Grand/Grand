@@ -51,7 +51,8 @@ class TargetTasksExplorer {
     /**
      * Field log.
      */
-    private static final Log LOG = LoggerManager.getLog(TargetTasksExplorer.class);
+    private static final Log LOG =
+            LoggerManager.getLog(TargetTasksExplorer.class);
 
     /**
      * Field textElements.

@@ -53,7 +53,8 @@ public class AntTaskLink extends AntLink {
     /**
      * Field parameterMap.
      */
-    private final Map<String, String> parameterMap = new HashMap<String, String>();
+    private final Map<String, String> parameterMap =
+            new HashMap<String, String>();
 
     /**
      * Field propertyFileList.

@@ -28,10 +28,13 @@
 
 package net.ggtools.grand.filters;
 
+import static org.junit.Assert.*;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
 import net.ggtools.grand.exceptions.GrandException;
 import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.Node;
@@ -39,16 +42,7 @@ import net.ggtools.grand.graph.Node;
 /**
  * @author Christophe Labouisse
  */
-public class AbstractGraphFilterTest extends TestCase {
-
-    /**
-     * Constructor for AbstractGraphFilterTest.
-     *
-     * @param name String
-     */
-    public AbstractGraphFilterTest(final String name) {
-        super(name);
-    }
+public class AbstractGraphFilterTest {
 
     /**
      * Test if AbstractGraphFilter does not meet an NPE when getting graph
@@ -56,6 +50,7 @@ public class AbstractGraphFilterTest extends TestCase {
      *
      * @throws GrandException
      */
+    @Test
     public final void testGetGraphBeforeSet() throws GrandException {
         final GraphFilter filter = new AbstractGraphFilter() {
 

@@ -43,7 +43,7 @@ import net.ggtools.grand.log.LoggerManager;
 import org.apache.commons.logging.Log;
 
 /**
- * Visitor class creating a Dot graph description.
+ * Visitor class creating a graph description in dot format.
  *
  * @author Christophe Labouisse
  */
@@ -125,7 +125,8 @@ class DotWriterVisitor implements NodeVisitor {
          * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.SubantTaskLink)
          */
         public void visitLink(final SubantTaskLink link) {
-            outputOneLink(link, subantLinkAttributes, link.getDirectories().size());
+            outputOneLink(link, subantLinkAttributes,
+                    link.getDirectories().size());
         }
 
         /**
@@ -179,49 +180,57 @@ class DotWriterVisitor implements NodeVisitor {
      * Field DOT_GRAPH_ATTRIBUTES.
      * (value is ""dot.graph.attributes"")
      */
-    private static final String DOT_GRAPH_ATTRIBUTES = "dot.graph.attributes";
+    private static final String DOT_GRAPH_ATTRIBUTES =
+            "dot.graph.attributes";
 
     /**
      * Field DOT_LINK_ATTRIBUTES.
      * (value is ""dot.link.attributes"")
      */
-    private static final String DOT_LINK_ATTRIBUTES = "dot.link.attributes";
+    private static final String DOT_LINK_ATTRIBUTES =
+            "dot.link.attributes";
 
     /**
      * Field DOT_MAINNODE_ATTRIBUTES.
      * (value is ""dot.mainnode.attributes"")
      */
-    private static final String DOT_MAINNODE_ATTRIBUTES = "dot.mainnode.attributes";
+    private static final String DOT_MAINNODE_ATTRIBUTES =
+            "dot.mainnode.attributes";
 
     /**
      * Field DOT_MISSINGNODE_ATTRIBUTES.
      * (value is ""dot.missingnode.attributes"")
      */
-    private static final String DOT_MISSINGNODE_ATTRIBUTES = "dot.missingnode.attributes";
+    private static final String DOT_MISSINGNODE_ATTRIBUTES =
+            "dot.missingnode.attributes";
 
     /**
      * Field DOT_NODE_ATTRIBUTES.
      * (value is ""dot.node.attributes"")
      */
-    private static final String DOT_NODE_ATTRIBUTES = "dot.node.attributes";
+    private static final String DOT_NODE_ATTRIBUTES =
+            "dot.node.attributes";
 
     /**
      * Field DOT_STARTNODE_ATTRIBUTES.
      * (value is ""dot.startnode.attributes"")
      */
-    private static final String DOT_STARTNODE_ATTRIBUTES = "dot.startnode.attributes";
+    private static final String DOT_STARTNODE_ATTRIBUTES =
+            "dot.startnode.attributes";
 
     /**
      * Field DOT_SUBANTLINK_ATTRIBUTES.
      * (value is ""dot.subantlink.attributes"")
      */
-    private static final String DOT_SUBANTLINK_ATTRIBUTES = "dot.subantlink.attributes";
+    private static final String DOT_SUBANTLINK_ATTRIBUTES =
+            "dot.subantlink.attributes";
 
     /**
      * Field DOT_WEAK_LINK_ATTRIBUTES.
      * (value is ""dot.weaklink.attributes"")
      */
-    private static final String DOT_WEAK_LINK_ATTRIBUTES = "dot.weaklink.attributes";
+    private static final String DOT_WEAK_LINK_ATTRIBUTES =
+            "dot.weaklink.attributes";
 
     /**
      * Field log.

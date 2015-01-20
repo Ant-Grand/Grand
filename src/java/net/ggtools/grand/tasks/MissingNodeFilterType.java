@@ -34,7 +34,6 @@ package net.ggtools.grand.tasks;
 import net.ggtools.grand.filters.GraphFilter;
 import net.ggtools.grand.filters.MissingNodeFilter;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
@@ -60,10 +59,9 @@ class MissingNodeFilterType implements GraphFilterType {
 
     /**
      * Method checkParameters.
-     * @throws BuildException
      * @see net.ggtools.grand.tasks.GraphFilterType#checkParameters()
      */
-    public void checkParameters() throws BuildException {
+    public void checkParameters() {
         // Do nothing.
     }
 

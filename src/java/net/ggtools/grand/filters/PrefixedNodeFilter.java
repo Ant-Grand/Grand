@@ -29,20 +29,46 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.graph;
+package net.ggtools.grand.filters;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.Node;
 
 /**
- *
+ * A filter removing the <i>prefixed</i> nodes, that is nodes with
+ * {@link net.ggtools.grand.graph.Node#ATTR_PREFIXED_NODE} set.
  *
  * @author Christophe Labouisse
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-    GraphCrawlerTest.class,
-    SubGraphImplTest.class
-    })
-public final class AllTests {
+public class PrefixedNodeFilter extends AbstractGraphFilter
+    implements GraphFilter {
+
+    /**
+     * Method getFilteredNodes.
+     * @return Collection<Node>
+     * @throws GrandException if an error occurs in getProducersGraph()
+     * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
+     */
+    @Override
+    protected final Collection<Node> getFilteredNodes() throws GrandException {
+        final Graph graph = getProducersGraph();
+        final Set<Node> result = new LinkedHashSet<Node>();
+
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            final Node node = iter.next();
+
+            if (!node.hasAttributes(Node.ATTR_PREFIXED_NODE)) {
+                result.add(node);
+            }
+        }
+
+        return result;
+    }
+
 }

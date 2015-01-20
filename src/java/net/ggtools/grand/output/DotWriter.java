@@ -55,7 +55,8 @@ import org.apache.commons.logging.Log;
  * The rendering can be customized either by properties at object creation or
  * at runtime using various setters.
  *
- * The property names use the following scheme: <code>dot.<i>objecttype</i>.attributes</code>.
+ * The property names use the following scheme:
+ * <code>dot.<i>objecttype</i>.attributes</code>.
  * Where <i>objectype</i> can be:
  * <ul>
  * <li><code>node</code> for "common" nodes,</li>
@@ -234,11 +235,12 @@ public class DotWriter implements GraphWriter {
     /**
      * Method write.
      * @param output File
-     * @throws IOException
-     * @throws GrandException
+     * @throws IOException when output cannot be created/written to
+     * @throws GrandException if an error occurs in getGraph()
      * @see net.ggtools.grand.graph.GraphWriter#write(java.io.File)
      */
-    public final void write(final File output) throws IOException, GrandException {
+    public final void write(final File output)
+            throws IOException, GrandException {
         LOG.info("Outputing to " + output);
         final FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
@@ -249,7 +251,7 @@ public class DotWriter implements GraphWriter {
     /**
      * Method write.
      * @param stream OutputStream
-     * @throws GrandException
+     * @throws GrandException if an error occurs in getGraph()
      * @see net.ggtools.grand.graph.GraphWriter#write(java.io.OutputStream)
      */
     public final void write(final OutputStream stream) throws GrandException {
@@ -257,8 +259,8 @@ public class DotWriter implements GraphWriter {
 
         final Graph graph = graphProducer.getGraph();
 
-        output.append("digraph \"").appendEscaped(graph.getName()).append("\" {")
-                .newLine();
+        output.append("digraph \"").appendEscaped(graph.getName())
+                .append("\" {").newLine();
         output.append("graph [").append(graphAttributes);
         if (showGraphName) {
             output.append(",label=\"").append(graph.getName()).append("\"");

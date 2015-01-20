@@ -45,7 +45,8 @@ public class Configuration {
      * Field ANT_VERSION_TXT.
      * (value is ""/org/apache/tools/ant/version.txt"")
      */
-    private static final String ANT_VERSION_TXT = "/org/apache/tools/ant/version.txt";
+    private static final String ANT_VERSION_TXT =
+            "/org/apache/tools/ant/version.txt";
 
     /**
      * Field defaultConfiguration.
@@ -143,7 +144,7 @@ public class Configuration {
      *
      * @param override
      *            properties to override in the default configuration.
-     * @throws IOException
+     * @throws IOException if an error occurs in load()
      */
     protected Configuration(final Properties override) throws IOException {
         if (override != null) {
@@ -154,12 +155,13 @@ public class Configuration {
         }
         buildProperties = new Properties();
         buildProperties.load(getClass().getResourceAsStream("buildnum.properties"));
-        versionString = "v" + buildProperties.getProperty("build.version.string") + " (build "
-                + buildProperties.getProperty("build.number") + " "
+        versionString = "v" + buildProperties.getProperty("build.version.string")
+                + " (build " + buildProperties.getProperty("build.number") + " "
                 + buildProperties.getProperty("build.date") + ")";
 
         final Properties antProperties = new Properties();
-        final InputStream antVersionStream = getClass().getResourceAsStream(ANT_VERSION_TXT);
+        final InputStream antVersionStream =
+                getClass().getResourceAsStream(ANT_VERSION_TXT);
 
         if (antVersionStream != null) {
             antProperties.load(antVersionStream);

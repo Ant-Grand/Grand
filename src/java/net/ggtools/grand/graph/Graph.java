@@ -56,7 +56,8 @@ public interface Graph extends NodeContainer {
      *            end node
      * @return new link
      */
-    Link createLink(final String linkName, final Node startNode, final Node endNode);
+    Link createLink(final String linkName,
+            final Node startNode, final Node endNode);
 
     /**
      * Creates a new Node in the top level graph. The object's name must not be
@@ -96,7 +97,8 @@ public interface Graph extends NodeContainer {
      *             if a sub graph with the same name already exists in the
      *             graph.
      */
-    SubGraph createSubGraph(final String subGraphName) throws DuplicateElementException;
+    SubGraph createSubGraph(final String subGraphName)
+            throws DuplicateElementException;
 
     /**
      * Returns the graph's name.
@@ -124,8 +126,8 @@ public interface Graph extends NodeContainer {
 
     /**
      * Get the nodes contained in the graph. The implementing class should
-     * guarantee that the Iterator will only returns object implementing the Node
-     * interface. The returned iterator should implement the optional
+     * guarantee that the Iterator will only returns object implementing the
+     * Node interface. The returned iterator should implement the optional
      * {@link Iterator#remove()}method in order to allow the filters to remove
      * nodes.
      *

@@ -28,6 +28,8 @@
 
 package net.ggtools.grand.ant;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
 import net.ggtools.grand.exceptions.GrandException;
@@ -36,15 +38,6 @@ import net.ggtools.grand.exceptions.GrandException;
  * @author Christophe Labouisse
  */
 public class AntProjectFromFileTest extends AntProjectTest {
-
-    /**
-     * Constructor for AntProjectTest.
-     *
-     * @param arg0 String
-     */
-    public AntProjectFromFileTest(final String arg0) {
-        super(arg0);
-    }
 
     /**
      * Method createGraph.

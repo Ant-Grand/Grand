@@ -46,12 +46,13 @@ import net.ggtools.grand.graph.Node;
  *
  * @author Christophe Labouisse
  */
-public class MissingNodeFilter extends AbstractGraphFilter implements GraphFilter {
+public class MissingNodeFilter extends AbstractGraphFilter
+    implements GraphFilter {
 
     /**
      * Method getFilteredNodes.
      * @return Collection<Node>
-     * @throws GrandException
+     * @throws GrandException if an error occurs in getProducersGraph()
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */
     @Override

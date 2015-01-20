@@ -27,16 +27,19 @@
  */
 package net.ggtools.grand.graph;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 
-import net.ggtools.grand.exceptions.DuplicateElementException;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import net.ggtools.grand.exceptions.DuplicateElementException;
 
 /**
  * @author Christophe Labouisse
  */
-public class SubGraphImplTest extends TestCase {
+public class SubGraphImplTest {
 
     /**
      * Field NODE_NAME_2.
@@ -57,6 +60,7 @@ public class SubGraphImplTest extends TestCase {
     private static final String UNKNOWN_NODE_NAME = "Node3";
 
     /**
+     * @author Christophe Labouisse
      */
     private static final class TestIterator implements Iterator<Node> {
         /**
@@ -112,11 +116,10 @@ public class SubGraphImplTest extends TestCase {
 
     /**
      * Method setUp.
-     * @throws Exception
-     * @see junit.framework.TestCase#setUp()
+     * @throws DuplicateElementException
      */
-    @Override
-    protected final void setUp() throws Exception {
+    @Before
+    public final void setUp() throws DuplicateElementException {
         sgi = new SubGraphImpl(SUBGRAPH_NAME, new SubGraphImpl.NodeIteratorFactory() {
 
             public Iterator<Node> createNodeIterator(final Iterator<Node> iterator) {
@@ -130,6 +133,7 @@ public class SubGraphImplTest extends TestCase {
     /**
      * Method testGetName.
      */
+    @Test
     public final void testGetName() {
         assertEquals(SUBGRAPH_NAME, sgi.getName());
     }
@@ -138,6 +142,7 @@ public class SubGraphImplTest extends TestCase {
      * Method testGetNode.
      * @throws DuplicateElementException
      */
+    @Test
     public final void testGetNode() throws DuplicateElementException {
         assertTrue(sgi.hasNode(NODE_NAME_1));
         assertTrue(sgi.hasNode(NODE_NAME_2));
@@ -147,6 +152,7 @@ public class SubGraphImplTest extends TestCase {
     /**
      * Method testGetNodes.
      */
+    @Test
     public final void testGetNodes() {
         final Iterator<Node> nodes = sgi.getNodes();
         assertEquals("Checking if getNodes return an iterator from the supplied factory.",
@@ -157,6 +163,7 @@ public class SubGraphImplTest extends TestCase {
      * Method testHasNode.
      * @throws DuplicateElementException
      */
+    @Test
     public final void testHasNode() throws DuplicateElementException {
         assertEquals(sgi.getNode(NODE_NAME_1),
                 new NodeImpl(NODE_NAME_1, null));
@@ -169,6 +176,7 @@ public class SubGraphImplTest extends TestCase {
      * Method testAddNode.
      * @throws DuplicateElementException
      */
+    @Test
     public final void testAddNode() throws DuplicateElementException {
         final Iterator<Node> nodes = sgi.getNodes();
         int nodeCount = 0;

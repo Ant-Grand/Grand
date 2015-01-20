@@ -41,7 +41,8 @@ import net.ggtools.grand.graph.LinkFinder;
  *
  * @author Christophe Labouisse
  */
-public class ConnectedToNodeFilter extends GraphWalkFilter implements GraphFilter {
+public class ConnectedToNodeFilter extends GraphWalkFilter
+    implements GraphFilter {
 
     /**
      * Field linkFinder.

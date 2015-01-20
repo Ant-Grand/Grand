@@ -29,13 +29,13 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.ggtools.grand.graph;
+package net.ggtools.grand.filters;
 
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Before;
@@ -43,6 +43,9 @@ import org.junit.Test;
 
 import net.ggtools.grand.ant.AntProject;
 import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.utils.AbstractAntTester;
 
 /**
@@ -50,7 +53,7 @@ import net.ggtools.grand.utils.AbstractAntTester;
  *
  * @author Christophe Labouisse
  */
-public class GraphCrawlerTest extends AbstractAntTester {
+public class PrefixedNodeFilterTest extends AbstractAntTester {
     /**
      * Field producer.
      */
@@ -60,19 +63,10 @@ public class GraphCrawlerTest extends AbstractAntTester {
      * Field NODES_AFTER_FILTERING.
      */
     private static final Set<String> NODES_AFTER_FILTERING =
-            new HashSet<String>(Arrays.asList(new String[]{"build", "init",
-                    "build.core", "build.examples", "build.xml", "jaxp",
-                    "jaxpCheck", "build.javamail", "javamail",
-                    "javamailCheck", "build.jms", "jms", "jmsCheck", "jndi",
-                    "jndiCheck", "build.jmx", "jmx", "jmxCheck"}));
-
-    /**
-     * Method getTestBuildFileName.
-     * @return String
-     */
-    private String getTestBuildFileName() {
-        return TESTCASES_DIR + "log4j-build.xml";
-    }
+            new HashSet<String>(Arrays.asList(new String[]{"jar", "grand.jar",
+                    "install-maven", "compile-tests", "compile", "javadoc", "test",
+                    "clean", "dist", "get-deps", "init", "internal-test"
+            }));
 
     /**
      * Method setUp.
@@ -85,23 +79,41 @@ public class GraphCrawlerTest extends AbstractAntTester {
     }
 
     /**
-     * Method testCrawl.
+     * Method getTestBuildFileName.
+     * @return String
+     */
+    private String getTestBuildFileName() {
+        return TESTCASES_DIR + "build-import.xml";
+    }
+
+    /**
+     * Process build-import.xml and from the "build" node and check
+     * if we get what we want.
+     *
      * @throws GrandException
      */
     @Test
-    public final void testCrawl() throws GrandException {
-        final Graph graph = producer.getGraph();
-        final GraphCrawler crawler = new GraphCrawler(graph, new ForwardLinkFinder());
-        final Collection<Node> result = crawler.crawl(graph.getNode("build"));
+    public final void testConnectedStartNode() throws GrandException {
+        final GraphFilter filter = new PrefixedNodeFilter();
+        filter.setProducer(producer);
+        final Graph graph = filter.getGraph();
 
-        assertEquals("Result and reference do not have the same size",
-                NODES_AFTER_FILTERING.size(), result.size());
+        int numNodes = 0;
+        for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
+            numNodes++;
+            final String nodeName = iter.next().getName();
+            final String prefixedNodeName = "grand." + nodeName;
 
-        for (Node node : result) {
-            final String nodeName = node.getName();
             assertTrue("Node " + nodeName + " should have been filtered out",
                     NODES_AFTER_FILTERING.contains(nodeName));
+            if (!"grand.jar".equals(nodeName) && !"grand.jar".equals(prefixedNodeName)) {
+                assertFalse("Node " + prefixedNodeName + " should have been filtered out",
+                        NODES_AFTER_FILTERING.contains(prefixedNodeName));
+            }
         }
 
+        assertEquals("Filtered graph does not have the right node count",
+		     NODES_AFTER_FILTERING.size(), numNodes);
     }
+
 }

@@ -46,7 +46,8 @@ public abstract class AbstractGraphFilter implements GraphFilter {
     /**
      * Field log.
      */
-    private static final Log LOG = LoggerManager.getLog(AbstractGraphFilter.class);
+    private static final Log LOG =
+            LoggerManager.getLog(AbstractGraphFilter.class);
 
     /**
      * Field graphProducer.
@@ -67,7 +68,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * Creates an anonymous filter.
      *
      */
-    public AbstractGraphFilter() {
+    protected AbstractGraphFilter() {
         this("Anonymous");
     }
 
@@ -76,14 +77,14 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      *
      * @param name String
      */
-    public AbstractGraphFilter(final String name) {
+    protected AbstractGraphFilter(final String name) {
         this.name = name;
     }
 
     /**
      * Method getGraph.
      * @return Graph
-     * @throws GrandException
+     * @throws GrandException if an error occurs in getNodes()/getFilteredNodes()
      * @see net.ggtools.grand.graph.GraphProducer#getGraph()
      */
     public final Graph getGraph() throws GrandException {
@@ -137,7 +138,8 @@ public abstract class AbstractGraphFilter implements GraphFilter {
      * @throws GrandException
      *             if the filtering cannot be done
      */
-    protected abstract Collection<Node> getFilteredNodes() throws GrandException;
+    protected abstract Collection<Node> getFilteredNodes()
+            throws GrandException;
 
     /**
      * Returns the current graph producer.
