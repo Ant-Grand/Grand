@@ -43,7 +43,7 @@ import net.ggtools.grand.log.LoggerManager;
 import org.apache.commons.logging.Log;
 
 /**
- * Visitor class creating a Dot graph description.
+ * Visitor class creating a graph description in dot format.
  *
  * @author Christophe Labouisse
  */

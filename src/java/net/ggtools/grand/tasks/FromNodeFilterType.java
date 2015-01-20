@@ -38,7 +38,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * Ant's front end for the FromFilter.
+ * Ant frontend to {@link net.ggtools.grand.filters.FromNodeFilter}.
  *
  * @author Christophe Labouisse
  */

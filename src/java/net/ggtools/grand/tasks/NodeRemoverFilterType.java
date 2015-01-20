@@ -36,8 +36,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * Front end to the {@link net.ggtools.grand.filters.NodeRemoverFilter} class
- * for filtering from the grand ant task.
+ * Ant frontend to {@link net.ggtools.grand.filters.NodeRemoverFilter}.
  *
  * @author Christophe Labouisse
  */

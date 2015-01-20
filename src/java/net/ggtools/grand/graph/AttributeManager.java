@@ -33,7 +33,7 @@ package net.ggtools.grand.graph;
 
 
 /**
- * Abstract class to manage GraphObjet's attributes.
+ * Abstract class to manage {@link net.ggtools.grand.graph.GraphObject}'s attributes.
  *
  * @author Christophe Labouisse
  */

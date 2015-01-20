@@ -145,7 +145,7 @@ public class AntProject implements GraphProducer {
 
     /**
      * A dirty hack using {@link Field} methods in order to gain access to the
-     * private {@link Target#ifCondition}and {@link Target#unlessCondition}
+     * private {@link Target#ifCondition} and {@link Target#unlessCondition}
      * attributes.
      *
      * @author Christophe Labouisse

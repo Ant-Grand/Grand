@@ -41,8 +41,8 @@ import net.ggtools.grand.graph.Graph;
 import net.ggtools.grand.graph.Node;
 
 /**
- * A filter removing the <i>missing</i> nodes, that is nodes with
- * {@link net.ggtools.grand.graph.Node#ATTR_MISSING_NODE} set.
+ * A filter removing the <i>prefixed</i> nodes, that is nodes with
+ * {@link net.ggtools.grand.graph.Node#ATTR_PREFIXED_NODE} set.
  *
  * @author Christophe Labouisse
  */
