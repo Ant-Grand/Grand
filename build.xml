@@ -1,162 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project default="jar" name="grand" basedir=".">
-  <property name="defaulttargetdir" value="target">
-  </property>
-  <property name="libdir" value="target/lib">
-  </property>
-  <property name="classesdir" value="target/classes">
-  </property>
-  <property name="testclassesdir" value="target/test-classes">
-  </property>
-  <property name="testreportdir" value="target/test-reports">
-  </property>
-  <property name="distdir" value="dist">
-  </property>
-  <property name="javadocdir" value="dist/docs/api">
-  </property>
-  <property name="final.name" value="grand-1.5">
-  </property>
-  <target name="init" description="o Initializes some properties">
-    <mkdir dir="${libdir}">
-    </mkdir>
-    <condition property="noget">
-      <equals arg2="only" arg1="${build.sysclasspath}">
-      </equals>
-    </condition>
+<project default="jar" name="grand" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+  <property name="defaulttargetdir" value="target"/>
+  <property name="libdir" value="target/lib"/>
+  <property name="classesdir" value="target/classes"/>
+  <property name="testclassesdir" value="target/test-classes"/>
+  <property name="testreportdir" value="target/test-reports"/>
+  <property name="distdir" value="dist"/>
+  <property name="javadocdir" value="dist/docs/api"/>
+  <property name="java.target" value="1.6"/>
+  <!-- version and product -->
+  <property name="project.version" value="1.9"/>
+  <property name="project.vendor" value="ggTools"/>
+  <property name="product.name" value="${ant.project.name}-${project.version}.jar"/>
+  <!-- Ivy -->
+  <property name="central.repo" value="http://repo1.maven.org/maven2"/>
+  <property name="ivy.version" value="2.4.0"/>
+  <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
+  <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
+  <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
+  <target name="get.ivy" description="o Get Ivy jar unless already cached" unless="has.ivy">
+    <mkdir dir="${ivy.dir}"/>
+    <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
+         skipexisting="true"
+         dest="${ivy.dir}/${ivy.jar.name}"/>
+  </target>
+  <target name="init" description="o Initialize Ivy" depends="get.ivy">
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivy.dir}/${ivy.jar.name}"/>
+    <ivy:settings file="${basedir}/ivy.settings.xml"/>
+  </target>
+  <target name="get-deps" description="o Retrieve dependencies" depends="init">
+    <ivy:retrieve pattern="${libdir}/[artifact]-[revision].[ext]" sync="true" type="jar"/>
+  	<path id="project.classpath">
+        <fileset dir="${libdir}" includes="*.jar"/>
+  	</path>
   </target>
   <target name="compile" description="o Compile the code" depends="get-deps">
     <mkdir dir="${classesdir}">
     </mkdir>
-    <javac source="1.5" target="1.5" includeantruntime="false" destdir="${classesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
-      <src>
-        <pathelement location="src/java">
-        </pathelement>
-      </src>
-      <classpath>
-        <fileset dir="${libdir}">
-          <include name="*.jar">
-          </include>
-        </fileset>
-      </classpath>
-    </javac>
+    <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
+           srcdir="src/java" destdir="${classesdir}" excludes="**/package.html" classpathref="project.classpath"/>
+    <propertyfile file="src/conf/net/ggtools/grand/buildnum.properties">
+      <entry key="build.time" type="date" value="now" pattern="HH:mm:ss"/>
+      <entry key="build.number" type="int" default="0" operation="+"/>
+      <entry key="build.version.string" value="${project.version}"/>
+      <entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
+    </propertyfile>
     <copy todir="${classesdir}">
       <fileset dir="src/conf">
-        <include name="**/*.properties">
-        </include>
-        <include name="**/*.xml">
-        </include>
+        <include name="**/*.properties"/>
+        <include name="**/*.xml"/>
       </fileset>
     </copy>
   </target>
   <target name="jar" description="o Create the jar" depends="compile,test">
-    <jar jarfile="target/${final.name}.jar" excludes="**/package.html" basedir="${classesdir}">
+    <jar jarfile="target/${product.name}" excludes="**/package.html" basedir="${classesdir}">
+      <manifest>
+        <section name="net/ggtools/grand">
+          <attribute name="Specification-Title" value="${ant.project.name}"/>
+          <attribute name="Specification-Version" value="${project.version}"/>
+          <attribute name="Specification-Vendor" value="${project.vendor}"/>
+          <attribute name="Implementation-Title" value="${ant.project.name}"/>
+          <attribute name="Implementation-Version" value="${project.version}"/>
+          <attribute name="Implementation-Vendor" value="${project.vendor}"/>
+        </section>
+      </manifest>
     </jar>
   </target>
   <target name="clean" description="o Clean up the generated directories">
-    <delete dir="${defaulttargetdir}">
-    </delete>
-    <delete dir="${distdir}">
-    </delete>
+    <delete dir="${defaulttargetdir}"/>
+    <delete dir="${distdir}"/>
   </target>
   <target name="dist" description="o Create a distribution" depends="jar,javadoc">
-    <mkdir dir="dist">
-    </mkdir>
+    <mkdir dir="dist"/>
     <copy todir="dist">
-      <fileset dir="${defaulttargetdir}" includes="*.jar">
-      </fileset>
-      <fileset dir="${basedir}" includes="LICENSE*,README*">
-      </fileset>
+      <fileset dir="${defaulttargetdir}" includes="*.jar"/>
+      <fileset dir="${basedir}" includes="LICENSE*,README*"/>
     </copy>
   </target>
   <target name="test" description="o Run the test cases" if="test.failure" depends="internal-test">
-    <fail message="There were test failures.">
-    </fail>
+    <fail message="There were test failures."/>
   </target>
   <target name="internal-test" depends="compile-tests">
-    <mkdir dir="${testreportdir}">
-    </mkdir>
-    <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
-      <sysproperty key="basedir" value=".">
-      </sysproperty>
-      <formatter type="xml">
-      </formatter>
-      <formatter usefile="false" type="plain">
-      </formatter>
+    <mkdir dir="${testreportdir}"/>
+    <junit dir="." failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
+      <sysproperty key="basedir" value="."/>
+      <formatter type="xml"/>
+      <formatter usefile="false" type="plain"/>
       <classpath>
-        <fileset dir="${libdir}">
-          <include name="*.jar">
-          </include>
-        </fileset>
-        <pathelement path="${testclassesdir}">
-        </pathelement>
-        <pathelement path="${classesdir}">
-        </pathelement>
+        <path refid="project.classpath"/>
+        <pathelement path="${testclassesdir}"/>
+        <pathelement path="${classesdir}"/>
       </classpath>
       <batchtest todir="${testreportdir}">
         <fileset dir="src/test">
-          <include name="**/AllTests.java">
-          </include>
-          <exclude name="org/apache/**">
-          </exclude>
+          <include name="**/AllTests.java"/>
+          <exclude name="org/apache/**"/>
         </fileset>
       </batchtest>
     </junit>
   </target>
   <target name="compile-tests" depends="compile">
-    <mkdir dir="${testclassesdir}">
-    </mkdir>
-    <javac source="1.5" target="1.5" includeantruntime="false" destdir="${testclassesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
-      <src>
-        <pathelement location="src/test">
-        </pathelement>
-      </src>
+    <mkdir dir="${testclassesdir}"/>
+    <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
+           srcdir="src/test" destdir="${testclassesdir}" excludes="**/package.html">
       <classpath>
-        <fileset dir="${libdir}">
-          <include name="*.jar">
-          </include>
-        </fileset>
-        <pathelement path="${classesdir}">
-        </pathelement>
+        <path refid="project.classpath"/>
+        <pathelement path="${classesdir}"/>
       </classpath>
     </javac>
   </target>
   <target name="javadoc" description="o Generate javadoc" depends="jar">
-    <mkdir dir="${javadocdir}">
-    </mkdir>
+    <mkdir dir="${javadocdir}"/>
     <tstamp>
-      <format pattern="2004-yyyy" property="year">
-      </format>
+      <format pattern="2004-yyyy" property="years"/>
     </tstamp>
-    <property name="copyright" value="Copyright &amp;copy;  ggTools. All Rights Reserved.">
-    </property>
-    <property name="title" value="Grand: Graphical Representation of ANt Dependencies 1.5 API">
-    </property>
-    <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" sourcepath="src/java" packagenames="net.ggtools.grand.*">
+    <property name="copyright" value="Copyright &amp;copy;${years} ${project.vendor}. All Rights Reserved."/>
+    <property name="title" value="Grand: Graphical Representation of ANt Dependencies ${project.version} API"/>
+    <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" windowtitle="Grand" doctitle="${title}" bottom="${copyright}"
+             sourcepath="src/java" packagenames="net.ggtools.grand.*">
       <classpath>
-        <fileset dir="${libdir}">
-          <include name="*.jar">
-          </include>
-        </fileset>
-        <pathelement location="target/${final.name}.jar">
-        </pathelement>
+        <path refid="project.classpath"/>
+        <pathelement location="target/${product.name}"/>
       </classpath>
     </javadoc>
   </target>
-  <target name="get-deps" unless="noget" depends="init">
-    <get dest="${libdir}/ant-1.9.4.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant/1.9.4/ant-1.9.4.jar">
-    </get>
-    <get dest="${libdir}/ant-launcher-1.9.4.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/apache/ant/ant-launcher/1.9.4/ant-launcher-1.9.4.jar">
-    </get>
-    <get dest="${libdir}/junit-4.12.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar">
-    </get>
-    <get dest="${libdir}/hamcrest-1.3.jar" usetimestamp="true" ignoreerrors="true" src="http://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar">
-    </get>
-  </target>
   <target name="install-maven">
-    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${repo}/maven/maven-install-latest.jar">
-    </get>
-    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar">
-    </unjar>
+    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${repo}/maven/maven-install-latest.jar"/>
+    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar"/>
   </target>
 </project>

@@ -5,9 +5,6 @@
 	<classpathentry excluding=".svn" kind="src" output="target/test-classes" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="target/lib/ant-1.9.4.jar"/>
-	<classpathentry kind="lib" path="target/lib/ant-launcher-1.9.4.jar"/>
-	<classpathentry kind="lib" path="target/lib/hamcrest-1.3.jar"/>
-	<classpathentry kind="lib" path="target/lib/junit-4.12.jar"/>
+	<classpathentry kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=Grand&amp;ivyXmlPath=ivy.xml&amp;confs=*&amp;ivySettingsPath=ivy.settings.xml&amp;loadSettingsOnDemand=false&amp;ivyUserDir=&amp;propertyFiles="/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
