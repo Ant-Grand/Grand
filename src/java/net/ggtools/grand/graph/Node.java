@@ -32,7 +32,7 @@ import java.util.Collection;
 import net.ggtools.grand.graph.visit.NodeVisitor;
 
 /**
- * Interface implementated by nodes populating the graph.
+ * Interface implemented by nodes populating the graph.
  *
  * @author Christophe Labouisse
  */

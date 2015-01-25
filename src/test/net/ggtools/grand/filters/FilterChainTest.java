@@ -161,11 +161,11 @@ public class FilterChainTest {
     private FilterChain filterChain;
 
     /**
-     * Method testUnitializedChain.
+     * Method testUninitializedChain.
      * @throws GrandException
      */
     @Test
-    public final void testUnitializedChain() throws GrandException {
+    public final void testUninitializedChain() throws GrandException {
         assertNull(filterChain.getGraph());
     }
 

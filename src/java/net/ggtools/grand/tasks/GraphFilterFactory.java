@@ -43,7 +43,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * A class to instanciante the right filter type classes based
+ * A class to instantiate the right filter type classes based
  * on the name parameter.
  *
  * @author Christophe Labouisse
@@ -96,7 +96,7 @@ final class GraphFilterFactory {
 
         final Constructor<?> constructor;
         try {
-            constructor = filterClass.getConstructor(new Class<?>[]{Project.class});
+            constructor = filterClass.getConstructor(Project.class);
         } catch (final SecurityException e) {
             final String message = "Cannot access constructor for class " + filterClassName;
             project.log(message, Project.MSG_ERR);
@@ -109,15 +109,15 @@ final class GraphFilterFactory {
 
         final GraphFilterType filter;
         try {
-            filter = (GraphFilterType) constructor.newInstance(new Object[]{project});
+            filter = (GraphFilterType) constructor.newInstance(project);
         } catch (final IllegalArgumentException e) {
-            throw new BuildException("Cannot instanciate filter", e);
+            throw new BuildException("Cannot instantiate filter", e);
         } catch (final InstantiationException e) {
-            throw new BuildException("Cannot instanciate filter", e);
+            throw new BuildException("Cannot instantiate filter", e);
         } catch (final IllegalAccessException e) {
-            throw new BuildException("Cannot instanciate filter", e);
+            throw new BuildException("Cannot instantiate filter", e);
         } catch (final InvocationTargetException e) {
-            throw new BuildException("Cannot instanciate filter", e);
+            throw new BuildException("Cannot instantiate filter", e);
         }
 
         return filter;

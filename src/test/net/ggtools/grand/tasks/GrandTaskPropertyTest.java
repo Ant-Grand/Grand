@@ -63,7 +63,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     @Test
     public final void testUndefinedProperty() {
         project.setProperty("antcall.target", "init");
-        expectLogContaining("test-noprops", "Outputing to ");
+        expectLogContaining("test-noprops", "Outputting to ");
         assertFullLogContaining("Creating link from antcall-props-1 to ${antcall.target}");
         assertFullLogContaining("Creating link from antcall-props-2 to do-${antcall.target}");
     }
@@ -74,7 +74,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     @Test
     public final void testInheritAll() {
         project.setProperty("antcall.target", "init");
-        expectLogContaining("test-inheritall", "Outputing to ");
+        expectLogContaining("test-inheritall", "Outputting to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
     }
@@ -84,7 +84,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
      */
     @Test
     public final void testPropertyElement() {
-        expectLogContaining("test-property", "Outputing to ");
+        expectLogContaining("test-property", "Outputting to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
     }
@@ -95,7 +95,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     @Test
     public final void testPropertySet() {
         project.setProperty("antcall.target", "init");
-        expectLogContaining("test-propertyset", "Outputing to ");
+        expectLogContaining("test-propertyset", "Outputting to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
     }
@@ -109,7 +109,7 @@ public class GrandTaskPropertyTest extends AbstractAntTester {
     @Test
     public final void testInheritPrevailsOverProperty() {
         project.setProperty("antcall.target", "init");
-        expectLogContaining("test-property", "Outputing to ");
+        expectLogContaining("test-property", "Outputting to ");
         assertFullLogContaining("Creating link from antcall-props-1 to init");
         assertFullLogContaining("Creating link from antcall-props-2 to do-init");
     }

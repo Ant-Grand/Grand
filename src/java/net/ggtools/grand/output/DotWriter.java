@@ -57,7 +57,7 @@ import org.apache.commons.logging.Log;
  *
  * The property names use the following scheme:
  * <code>dot.<i>objecttype</i>.attributes</code>.
- * Where <i>objectype</i> can be:
+ * Where <i>objecttype</i> can be:
  * <ul>
  * <li><code>node</code> for "common" nodes,</li>
  * <li><code>link</code> for dependency links,</li>
@@ -241,7 +241,7 @@ public class DotWriter implements GraphWriter {
      */
     public final void write(final File output)
             throws IOException, GrandException {
-        LOG.info("Outputing to " + output);
+        LOG.info("Outputting to " + output);
         final FileOutputStream oStream = new FileOutputStream(output);
         write(oStream);
         oStream.flush();

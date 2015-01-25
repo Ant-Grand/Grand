@@ -37,7 +37,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 
 /**
- * A meta class for graph filters. This class will be instanciated
+ * A meta class for graph filters. This class will be instantiated
  * and configure by Ant and passed to graph task. On execution, the
  * enclosing task need to call the {@link #checkParameters()} method
  * to check if the filter is properly configured and {@link #getFilter()}

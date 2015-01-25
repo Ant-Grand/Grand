@@ -95,7 +95,7 @@ public class AntProject implements GraphProducer {
          * Method getIfCondition.
          * @param target Target
          * @return String
-         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
         public String getIfCondition(final Target target) {
             return target.getIf();
@@ -105,7 +105,7 @@ public class AntProject implements GraphProducer {
          * Method getUnlessCondition.
          * @param target Target
          * @return String
-         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
         public String getUnlessCondition(final Target target) {
             return target.getUnless();
@@ -125,7 +125,7 @@ public class AntProject implements GraphProducer {
          * Method getIfCondition.
          * @param target Target
          * @return String
-         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
         public String getIfCondition(final Target target) {
             return null;
@@ -135,7 +135,7 @@ public class AntProject implements GraphProducer {
          * Method getUnlessCondition.
          * @param target Target
          * @return String
-         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
         public String getUnlessCondition(final Target target) {
             return null;
@@ -175,7 +175,7 @@ public class AntProject implements GraphProducer {
          * Method getIfCondition.
          * @param target Target
          * @return String
-         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
          */
         public String getIfCondition(final Target target) {
             String result = null;
@@ -186,7 +186,7 @@ public class AntProject implements GraphProducer {
                     result = null;
                 }
             } catch (final Exception e) {
-                LOG.error("Caugh exception, ignoring if condition", e);
+                LOG.error("Caught exception, ignoring if condition", e);
             }
 
             return result;
@@ -196,7 +196,7 @@ public class AntProject implements GraphProducer {
          * Method getUnlessCondition.
          * @param target Target
          * @return String
-         * @see net.ggtools.grand.ant.AntProject$TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
          */
         public String getUnlessCondition(final Target target) {
             String result = null;
@@ -207,7 +207,7 @@ public class AntProject implements GraphProducer {
                     result = null;
                 }
             } catch (final Exception e) {
-                LOG.error("Caugh exception, ignoring unless condition", e);
+                LOG.error("Caught exception, ignoring unless condition", e);
             }
 
             return result;
@@ -376,10 +376,9 @@ public class AntProject implements GraphProducer {
     private void postInit() {
         taskLinkFinder = new LinkFinderVisitor(this);
 
-        // Change the component helper to instanciate SubAntHelper for subant
+        // Change the component helper to instantiate SubAntHelper for subant
         // task.
-        final ComponentHelper helper = (ComponentHelper) antProject
-                .getReference("ant.ComponentHelper");
+        final ComponentHelper helper = antProject.getReference("ant.ComponentHelper");
         if (helper != null) {
             final AntTypeDefinition subAntDef = helper.getDefinition("subant");
             if (subAntDef == null) {

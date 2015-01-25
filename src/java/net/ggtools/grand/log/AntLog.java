@@ -63,7 +63,7 @@ public class AntLog extends SimpleLog implements Log {
     }
 
     /**
-     * Package only instanciation.
+     * Package only instantiation.
      */
     AntLog() {
     }

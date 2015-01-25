@@ -53,7 +53,7 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
 
     /**
      * Method setUp.
-     * @see TestCase#setUp()
+     * @see junit.framework.TestCase#setUp()
      */
     @Before
     public final void setUp() {
@@ -131,10 +131,10 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
     }
 
    /**
-    * Method testNotConfigurated.
+    * Method testNotConfigured.
     */
     @Test
-   public final void testNotConfigurated() {
+   public final void testNotConfigured() {
         try {
             factory.getFilterType(project, "notconfigured");
         } catch (final BuildException e) {

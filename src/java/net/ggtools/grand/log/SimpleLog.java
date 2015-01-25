@@ -88,7 +88,7 @@ class SimpleLog implements Log {
     private static final int LOG_LEVEL = LEVEL_WARN;
 
     /**
-     * Package only instanciation.
+     * Package only instantiation.
      */
     SimpleLog() {
     }

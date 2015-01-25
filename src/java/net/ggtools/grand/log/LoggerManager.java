@@ -87,7 +87,7 @@ public final class LoggerManager {
     }
 
     /**
-     * No instanciation allowed.
+     * No instantiation allowed.
      */
     private LoggerManager() {
     }

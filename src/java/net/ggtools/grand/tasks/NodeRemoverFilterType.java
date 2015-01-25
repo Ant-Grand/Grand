@@ -78,7 +78,7 @@ class NodeRemoverFilterType implements GraphFilterType {
      * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
      */
     public GraphFilter getFilter() {
-        return new NodeRemoverFilter(Arrays.asList(new String [] {nodeName}));
+        return new NodeRemoverFilter(Arrays.asList(nodeName));
     }
 
     /**

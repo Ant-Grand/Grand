@@ -373,9 +373,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
             final String[] filenames = buildPath.list();
 
             for (final String currentFileName : filenames) {
-                File file = null;
                 File directory = null;
-                file = new File(currentFileName);
+                File file = new File(currentFileName);
                 if (file.isDirectory()) {
                     if (genericantfile != null) {
                         directory = file;

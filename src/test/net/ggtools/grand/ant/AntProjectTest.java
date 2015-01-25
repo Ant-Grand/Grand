@@ -142,7 +142,7 @@ public class AntProjectTest extends AbstractAntTester {
      */
     @Test
     public final void testAntCallWithUndefinedProperty() {
-        expectLogContaining("ant-call-with-property", "Outputing to ");
+        expectLogContaining("ant-call-with-property", "Outputting to ");
         assertLogContaining("Target antcall-props-1 has dependency to non existent target ${antcall.target}, creating a dummy node");
         assertLogContaining("Target antcall-props-2 has dependency to non existent target do-${antcall.target}, creating a dummy node");
     }
@@ -153,7 +153,7 @@ public class AntProjectTest extends AbstractAntTester {
     @Test
     public final void testAntCallWithUndefinedTask() {
         // TODO check if this test is useful.
-        expectLogContaining("undefined-task", "Outputing to ");
+        expectLogContaining("undefined-task", "Outputting to ");
     }
 
     /**

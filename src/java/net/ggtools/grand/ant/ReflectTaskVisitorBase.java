@@ -101,17 +101,17 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
             }
         }
 
-        boolean invokationOk = false;
+        boolean invocationOk = false;
 
         if (visitMethod != null) {
             try {
-                visitMethod.invoke(this, new Object[]{wrapper});
-                invokationOk = true;
+                visitMethod.invoke(this, wrapper);
+                invocationOk = true;
             } catch (final IllegalAccessException e) {
                 LOG.warn("Caught IllegalAccessException invoking "
                         + visitMethod, e);
             } catch (final InvocationTargetException e) {
-                // Process the exception raised by the method invokation.
+                // Process the exception raised by the method invocation.
                 // GrandException & RuntimeException are propagated.
                 final Throwable cause = e.getCause();
                 if (cause instanceof GrandException) {
@@ -120,7 +120,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
                     throw (RuntimeException) cause;
                 } else {
                     // FIXME that's a real exception what to do with it?
-                    LOG.error("Caught unexepected exception " + cause + " on "
+                    LOG.error("Caught unexpected exception " + cause + " on "
                             + visitMethod, e);
                 }
             }
@@ -128,7 +128,7 @@ abstract class ReflectTaskVisitorBase implements TaskVisitor {
 
         // If the reflective invocation hasn't taken place, use the default
         // method.
-        if (!invokationOk) {
+        if (!invocationOk) {
             defaultVisit(wrapper);
         }
     }
