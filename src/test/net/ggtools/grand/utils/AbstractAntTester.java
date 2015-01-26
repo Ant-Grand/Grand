@@ -74,7 +74,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
     public final TestWatcher watchman = new TestWatcher() {
         @Override
         protected void failed(Throwable t, Description d) {
-            StringBuffer sb = new StringBuffer("Ooops test failed: " + d);
+            StringBuilder sb = new StringBuilder("Ooops test failed: " + d);
             if (project.getProperty(TEMP_FILE_PROP) != null) {
                 sb.append(' ').append(project.getProperty(TEMP_FILE_PROP));
             }
@@ -120,7 +120,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
     protected final void assertFullLogContaining(final String substring) {
         final String realLog = getFullLog();
         assertTrue("expecting full log to contain \"" + substring + "\" full log was \"" + realLog
-                + "\"", realLog.indexOf(substring) >= 0);
+                + "\"", realLog.contains(substring));
     }
 
     /**

@@ -17,11 +17,11 @@
  *    distribution.
  *
  * 3. The end-user documentation included with the redistribution, if
- *    any, must include the following acknowlegement:
+ *    any, must include the following acknowledgement:
  *       "This product includes software developed by the
  *        Apache Software Foundation (http://www.apache.org/)."
- *    Alternately, this acknowlegement may appear in the software itself,
- *    if and wherever such third-party acknowlegements normally appear.
+ *    Alternately, this acknowledgement may appear in the software itself,
+ *    if and wherever such third-party acknowledgements normally appear.
  *
  * 4. The names "Ant" and "Apache Software
  *    Foundation" must not be used to endorse or promote products derived
@@ -132,7 +132,7 @@ public abstract class BuildFileTest {
     protected final void assertLogContaining(final String substring) {
         final String realLog = getLog();
         assertTrue("expecting log to contain \"" + substring + "\" log was \""
-                   + realLog + "\"", realLog.indexOf(substring) >= 0);
+                   + realLog + "\"", realLog.contains(substring));
     }
 
     /**
@@ -238,7 +238,7 @@ public abstract class BuildFileTest {
      * @return String
      */
     private String cleanBuffer(final StringBuffer buffer) {
-        final StringBuffer cleanedBuffer = new StringBuffer();
+        final StringBuilder cleanedBuffer = new StringBuilder();
         for (int i = 0; i < buffer.length(); i++) {
             final char ch = buffer.charAt(i);
             if (ch == '\r') {
@@ -360,7 +360,7 @@ public abstract class BuildFileTest {
             executeTarget(target);
         } catch (final BuildException ex) {
             buildException = ex;
-            if ((null != contains) && (ex.getMessage().indexOf(contains) == -1)) {
+            if ((null != contains) && (!ex.getMessage().contains(contains))) {
                 fail("Should throw BuildException because '" + cause
                         + "' with message containing '" + contains
                         + "' (actual message '" + ex.getMessage() + "' instead)");

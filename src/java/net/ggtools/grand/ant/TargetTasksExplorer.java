@@ -147,7 +147,7 @@ class TargetTasksExplorer {
         }
         node.setRichSource(textElements.toArray(new SourceElement[0]));
 
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         for (SourceElement element : textElements) {
             buffer.append(element.getText());
         }
@@ -221,7 +221,7 @@ class TargetTasksExplorer {
      * @param level int
      */
     private void indent(final int level) {
-        final StringBuffer buffer = new StringBuffer(level * 4);
+        final StringBuilder buffer = new StringBuilder(level * 4);
         for (int i = 0; i < level; i++) {
             buffer.append("   ");
         }
