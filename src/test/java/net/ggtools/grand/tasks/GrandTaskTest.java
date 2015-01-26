@@ -129,7 +129,7 @@ public class GrandTaskTest extends AbstractAntTester {
         expectLogContaining("output-config-file", "Overriding default properties from ");
         assertLogContaining("build-simple.xml");
 
-        assertTempFileMatchExpected("src/etc/testcases/override.dot");
+        assertTempFileMatchExpected(TESTCASES_DIR + "override.dot");
     }
 
     /**
@@ -141,7 +141,7 @@ public class GrandTaskTest extends AbstractAntTester {
         expectLogContaining("simple-build", "Loading project ");
         assertLogContaining("build-simple.xml");
 
-        assertTempFileMatchExpected("src/etc/testcases/build-simple.dot");
+        assertTempFileMatchExpected(TESTCASES_DIR + "build-simple.dot");
     }
 
     /**
@@ -153,7 +153,7 @@ public class GrandTaskTest extends AbstractAntTester {
         expectLogContaining("simple-build-with-graph-name", "Loading project ");
         assertLogContaining("build-simple.xml");
 
-        assertTempFileMatchExpected("src/etc/testcases/build-simple-with-graph-name.dot");
+        assertTempFileMatchExpected(TESTCASES_DIR + "build-simple-with-graph-name.dot");
     }
 
     /**
@@ -165,7 +165,7 @@ public class GrandTaskTest extends AbstractAntTester {
         expectLogContaining("import", "Loading project ");
         assertLogContaining("build-import.xml");
 
-        assertTempFileMatchExpected("src/etc/testcases/build-import.dot");
+        assertTempFileMatchExpected(TESTCASES_DIR + "build-import.dot");
     }
 
     /**
@@ -177,7 +177,7 @@ public class GrandTaskTest extends AbstractAntTester {
         expectLogContaining("antcall", "Loading project ");
         assertLogContaining("build-complex.xml");
 
-        assertTempFileMatchExpected("src/etc/testcases/build-complex.dot");
+        assertTempFileMatchExpected(TESTCASES_DIR + "build-complex.dot");
     }
 
     /**
@@ -191,7 +191,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
         // This part of the test does not work from Maven so I disable it by default.
         if (Boolean.parseBoolean(System.getProperty("PerformSubantTest", "false"))) {
-            assertTempFileMatchExpected("src/etc/testcases/subant.dot");
+            assertTempFileMatchExpected(TESTCASES_DIR + "subant.dot");
         } else {
             System.err.println("Subant test disabled by default, run with -DPerformSubantTest=true to enable it");
         }

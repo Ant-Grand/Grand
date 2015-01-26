@@ -63,9 +63,9 @@ public abstract class AbstractAntTester extends BuildFileTest {
 
     /**
      * Field TESTCASES_DIR.
-     * (value is ""src/etc/testcases/"")
+     * (value is ""src/test/resources/testcases/"")
      */
-    protected static final String TESTCASES_DIR = "src/etc/testcases/";
+    protected static final String TESTCASES_DIR = "src/test/resources/testcases/";
 
     /**
      * Field watchman.

@@ -28,6 +28,8 @@
 
 package net.ggtools.grand.utils;
 
+import static net.ggtools.grand.utils.AbstractAntTester.TESTCASES_DIR;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -44,19 +46,19 @@ public class FileComparatorTest {
      * Field BUILD_SIMPLE.
      */
     private static final File BUILD_SIMPLE =
-            new File("src/etc/testcases/build-simple.dot");
+	    new File(TESTCASES_DIR, "build-simple.dot");
 
     /**
      * Field BUILD_IMPORT.
      */
     private static final File BUILD_IMPORT =
-            new File("src/etc/testcases/build-import.dot");
+            new File(TESTCASES_DIR, "build-import.dot");
 
     /**
      * Field OVERRIDE.
      */
     private static final File OVERRIDE =
-            new File("src/etc/testcases/override.dot");
+            new File(TESTCASES_DIR, "override.dot");
 
     /**
      * Method testAssertSelfSizesMatch.
