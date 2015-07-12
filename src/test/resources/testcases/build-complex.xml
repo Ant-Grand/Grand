@@ -14,7 +14,7 @@
 	<target name="compile.cpp" depends="prepare"/>
 	
 	<target name="compile.jni" depends="prepare">
-		<antcall target="compile.cpp"></antcall>
+		<antcall target="compile.cpp"/>
 	</target>
 	
 	<target name="process-config-files" depends="prepare,compile">

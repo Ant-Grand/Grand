@@ -10,7 +10,7 @@
 <project name="log4j" default="usage" basedir="." >
 
   
-  <!-- The build.properties file defines the parth to local jar files -->
+  <!-- The build.properties file defines the path to local jar files -->
   <property file="build.properties"/>               
 
   <!-- Read the system environment variables and stores them in properties, -->

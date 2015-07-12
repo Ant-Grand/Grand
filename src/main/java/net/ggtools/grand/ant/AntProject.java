@@ -58,7 +58,7 @@ import org.apache.tools.ant.Task;
  * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
  * objects. The nodes will be the project's target and the links will be the
  * dependencies between targets. Beside <i>hard</i> dependencies, this producer
- * is also able to create weaks links from dependencies introduced by the use of
+ * is also able to create weak links from dependencies introduced by the use of
  * the <code>antcall</code> or <code>foreach</code> tasks.
  *
  * @author Christophe Labouisse
