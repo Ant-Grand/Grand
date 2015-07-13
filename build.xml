@@ -10,7 +10,7 @@
   <property name="javadocdir" value="dist/docs/api"/>
   <property name="java.target" value="1.6"/>
   <!-- version and product -->
-  <property name="project.version" value="1.9"/>
+  <property name="project.version" value="1.9.1"/>
   <property name="project.vendor" value="ggTools"/>
   <property name="product.name" value="${ant.project.name}-${project.version}.jar"/>
   <!-- Ivy -->
@@ -124,9 +124,5 @@
         <pathelement location="target/${product.name}"/>
       </classpath>
     </javadoc>
-  </target>
-  <target name="install-maven">
-    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${repo}/maven/maven-install-latest.jar"/>
-    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar"/>
   </target>
 </project>
