@@ -10,7 +10,7 @@
   <property name="javadocdir" value="dist/docs/api"/>
   <property name="java.target" value="1.6"/>
   <!-- version and product -->
-  <property name="project.version" value="1.9"/>
+  <property name="project.version" value="1.9.1"/>
   <property name="project.vendor" value="ggTools"/>
   <property name="product.name" value="${ant.project.name}-${project.version}.jar"/>
   <!-- Ivy -->
@@ -31,23 +31,23 @@
   </target>
   <target name="get-deps" description="o Retrieve dependencies" depends="init">
     <ivy:retrieve pattern="${libdir}/[artifact]-[revision].[ext]" sync="true" type="jar"/>
-  	<path id="project.classpath">
-        <fileset dir="${libdir}" includes="*.jar"/>
-  	</path>
+    <path id="project.classpath">
+      <fileset dir="${libdir}" includes="*.jar"/>
+    </path>
   </target>
   <target name="compile" description="o Compile the code" depends="get-deps">
     <mkdir dir="${classesdir}">
     </mkdir>
     <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
-           srcdir="src/java" destdir="${classesdir}" excludes="**/package.html" classpathref="project.classpath"/>
-    <propertyfile file="src/conf/net/ggtools/grand/buildnum.properties">
+           srcdir="src/main/java" destdir="${classesdir}" excludes="**/package.html" classpathref="project.classpath"/>
+    <propertyfile file="src/main/resources/net/ggtools/grand/buildnum.properties">
       <entry key="build.time" type="date" value="now" pattern="HH:mm:ss"/>
       <entry key="build.number" type="int" default="0" operation="+"/>
       <entry key="build.version.string" value="${project.version}"/>
       <entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
     </propertyfile>
     <copy todir="${classesdir}">
-      <fileset dir="src/conf">
+      <fileset dir="src/main/resources">
         <include name="**/*.properties"/>
         <include name="**/*.xml"/>
       </fileset>
@@ -93,7 +93,7 @@
         <pathelement path="${classesdir}"/>
       </classpath>
       <batchtest todir="${testreportdir}">
-        <fileset dir="src/test">
+        <fileset dir="src/test/java">
           <include name="**/AllTests.java"/>
           <exclude name="org/apache/**"/>
         </fileset>
@@ -103,7 +103,7 @@
   <target name="compile-tests" depends="compile">
     <mkdir dir="${testclassesdir}"/>
     <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
-           srcdir="src/test" destdir="${testclassesdir}" excludes="**/package.html">
+           srcdir="src/test/java" destdir="${testclassesdir}" excludes="**/package.html">
       <classpath>
         <path refid="project.classpath"/>
         <pathelement path="${classesdir}"/>
@@ -118,15 +118,11 @@
     <property name="copyright" value="Copyright &amp;copy;${years} ${project.vendor}. All Rights Reserved."/>
     <property name="title" value="Grand: Graphical Representation of ANt Dependencies ${project.version} API"/>
     <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" windowtitle="Grand" doctitle="${title}" bottom="${copyright}"
-             sourcepath="src/java" packagenames="net.ggtools.grand.*">
+             sourcepath="src/main/java" packagenames="net.ggtools.grand.*">
       <classpath>
         <path refid="project.classpath"/>
         <pathelement location="target/${product.name}"/>
       </classpath>
     </javadoc>
-  </target>
-  <target name="install-maven">
-    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${repo}/maven/maven-install-latest.jar"/>
-    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar"/>
   </target>
 </project>
