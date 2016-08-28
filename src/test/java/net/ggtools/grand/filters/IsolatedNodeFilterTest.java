@@ -74,7 +74,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
     /**
      * Check the full graph completeness.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} fails
      */
     @Test
     public final void testFullGraph() throws GrandException {
@@ -91,7 +91,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * Process the full graph through an IsolatedNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testFilter() throws GrandException {
@@ -115,7 +115,7 @@ public class IsolatedNodeFilterTest extends AbstractAntTester {
      * Process the full graph through an IsolatedNodeFilter and check that
      * a connected node as start node is not removed.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testConnectedStartNode() throws GrandException {

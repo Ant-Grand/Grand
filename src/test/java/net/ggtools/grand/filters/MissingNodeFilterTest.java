@@ -74,7 +74,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
     /**
      * Check the full graph completeness.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} fails
      */
     @Test
     public final void testFullGraph() throws GrandException {
@@ -91,7 +91,7 @@ public class MissingNodeFilterTest extends AbstractAntTester {
      * Process the full graph through an MissingNodeFilter and check the
      * remaining nodes. This test includes removing the project's start node.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testFilter() throws GrandException {

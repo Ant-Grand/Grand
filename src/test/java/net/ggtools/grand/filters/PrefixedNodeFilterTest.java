@@ -90,7 +90,7 @@ public class PrefixedNodeFilterTest extends AbstractAntTester {
      * Process build-import.xml and from the "build" node and check
      * if we get what we want.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testConnectedStartNode() throws GrandException {

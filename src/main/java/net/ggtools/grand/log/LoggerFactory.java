@@ -41,7 +41,7 @@ public interface LoggerFactory {
     /**
      * Get a logger named from a specific class.
      *
-     * @param clazz Class<?>
+     * @param clazz Class
      * @return Log
      */
     Log getLog(Class<?> clazz);

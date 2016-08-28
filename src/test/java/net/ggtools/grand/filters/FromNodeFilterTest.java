@@ -92,7 +92,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process log4j 1.2.8 build.xml and from the "build" node and check
      * if we get what we want.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testConnectedStartNode() throws GrandException {
@@ -120,7 +120,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
      * Process a modified version of log4j 1.2.8 build.xml featuring the "build"
      * target as default. Check if the project start node has not been filtered out.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testNotFilteredStartNode() throws GrandException {
@@ -148,7 +148,7 @@ public class FromNodeFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to filter from an non existent node.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testNonExistentNode() throws GrandException {

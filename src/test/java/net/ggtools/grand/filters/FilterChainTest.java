@@ -66,7 +66,7 @@ public class FilterChainTest {
         /**
          * Method getGraph.
          * @return Graph
-         * @throws GrandException
+         * @throws GrandException because of interface specification
          * @see net.ggtools.grand.graph.GraphProducer#getGraph()
          */
         public Graph getGraph() throws GrandException {
@@ -103,7 +103,7 @@ public class FilterChainTest {
         /**
          * Method getGraph.
          * @return Graph
-         * @throws GrandException
+         * @throws GrandException if {@link GraphProducer#getGraph()} fails
          * @see net.ggtools.grand.graph.GraphProducer#getGraph()
          */
         public Graph getGraph() throws GrandException {
@@ -162,7 +162,7 @@ public class FilterChainTest {
 
     /**
      * Method testUninitializedChain.
-     * @throws GrandException
+     * @throws GrandException if {@link FilterChain#getGraph()} fails
      */
     @Test
     public final void testUninitializedChain() throws GrandException {
@@ -171,7 +171,7 @@ public class FilterChainTest {
 
     /**
      * Method testEmptyChain.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} or {@link FilterChain#getGraph()} fails
      */
     @Test
     public final void testEmptyChain() throws GrandException {
@@ -182,7 +182,7 @@ public class FilterChainTest {
 
     /**
      * Method testOneFilter.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} or {@link FilterChain#getGraph()} fails
      */
     @Test
     public final void testOneFilter() throws GrandException {
@@ -196,7 +196,7 @@ public class FilterChainTest {
 
     /**
      * Method testAddFilterFirst.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} or {@link FilterChain#getGraph()} fails
      */
     @Test
     public final void testAddFilterFirst() throws GrandException {
@@ -214,7 +214,7 @@ public class FilterChainTest {
 
     /**
      * Method testAddFilterLast.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} or {@link FilterChain#getGraph()} fails
      */
     @Test
     public final void testAddFilterLast() throws GrandException {
@@ -232,7 +232,7 @@ public class FilterChainTest {
 
     /**
      * Method testClearFilters.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} or {@link FilterChain#getGraph()} fails
      */
     @Test
     public final void testClearFilters() throws GrandException {

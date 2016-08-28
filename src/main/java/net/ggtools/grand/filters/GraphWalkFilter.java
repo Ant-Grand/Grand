@@ -64,7 +64,7 @@ public abstract class GraphWalkFilter extends AbstractGraphFilter
 
     /**
      * Method getFilteredNodes.
-     * @return Collection<Node>
+     * @return Collection of <code>Node</code>
      * @throws GrandException if an error occurs in getProducersGraph()
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */

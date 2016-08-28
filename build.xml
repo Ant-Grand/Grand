@@ -123,6 +123,8 @@
         <path refid="project.classpath"/>
         <pathelement location="target/${product.name}"/>
       </classpath>
+      <arg value="-tag"/>
+      <arg value="todo:a:To do:"/>
     </javadoc>
   </target>
 </project>

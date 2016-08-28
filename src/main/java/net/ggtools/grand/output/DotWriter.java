@@ -70,11 +70,11 @@ import org.apache.commons.logging.Log;
  * The property values are sets of valid dot attributes without the surrounding
  * bracket.
  *
- * @todo The current configuration scheme sucks create something more generic.
+ * @todo The current configuration scheme sucks, create something more generic.
  *
  * @author Christophe Labouisse
- * @see <a href="http://www.research.att.com/sw/tools/graphviz/">Graphviz home page</a>
- * @see <a href="http://www.research.att.com/~erg/graphviz/info/attrs.html">Dot attributes</a>
+ * @see <a href="http://www.graphviz.org/">Graphviz home page</a>
+ * @see <a href="http://www.graphviz.org/doc/info/attrs.html">Dot attributes</a>
  */
 public class DotWriter implements GraphWriter {
     /**

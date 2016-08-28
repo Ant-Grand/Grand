@@ -251,7 +251,7 @@ public class GraphImpl implements Graph {
 
     /**
      * Method getNodes.
-     * @return Iterator<Node>
+     * @return Iterator of <code>Node</code>
      * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
     public final Iterator<Node> getNodes() {
@@ -281,7 +281,7 @@ public class GraphImpl implements Graph {
 
     /**
      * Method getSubgraphs.
-     * @return Iterator<SubGraph>
+     * @return Iterator of <code>SubGraph</code>
      * @see net.ggtools.grand.graph.Graph#getSubgraphs()
      */
     public final Iterator<SubGraph> getSubgraphs() {

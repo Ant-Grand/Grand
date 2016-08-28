@@ -116,7 +116,7 @@ public class SubGraphImplTest {
 
     /**
      * Method setUp.
-     * @throws DuplicateElementException
+     * @throws DuplicateElementException if any of test nodes is present
      */
     @Before
     public final void setUp() throws DuplicateElementException {
@@ -140,10 +140,9 @@ public class SubGraphImplTest {
 
     /**
      * Method testGetNode.
-     * @throws DuplicateElementException
      */
     @Test
-    public final void testGetNode() throws DuplicateElementException {
+    public final void testGetNode() {
         assertTrue(sgi.hasNode(NODE_NAME_1));
         assertTrue(sgi.hasNode(NODE_NAME_2));
         assertFalse(sgi.hasNode(UNKNOWN_NODE_NAME));
@@ -161,10 +160,9 @@ public class SubGraphImplTest {
 
     /**
      * Method testHasNode.
-     * @throws DuplicateElementException
      */
     @Test
-    public final void testHasNode() throws DuplicateElementException {
+    public final void testHasNode() {
         assertEquals(sgi.getNode(NODE_NAME_1),
                 new NodeImpl(NODE_NAME_1, null));
         assertEquals(sgi.getNode(NODE_NAME_2),
@@ -174,10 +172,9 @@ public class SubGraphImplTest {
 
     /**
      * Method testAddNode.
-     * @throws DuplicateElementException
      */
     @Test
-    public final void testAddNode() throws DuplicateElementException {
+    public final void testAddNode() {
         final Iterator<Node> nodes = sgi.getNodes();
         int nodeCount = 0;
         while (nodes.hasNext()) {

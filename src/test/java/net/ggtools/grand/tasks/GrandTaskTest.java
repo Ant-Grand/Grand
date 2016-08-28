@@ -122,7 +122,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testOverride.
-     * @throws IOException
+     * @throws IOException if file comparator fails
      */
     @Test
     public final void testOverride() throws IOException {
@@ -134,7 +134,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testSimpleBuild.
-     * @throws IOException
+     * @throws IOException if file comparator fails
      */
     @Test
     public final void testSimpleBuild() throws IOException {
@@ -146,7 +146,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testSimpleBuildWithGraphName.
-     * @throws IOException
+     * @throws IOException if file comparator fails
      */
     @Test
     public final void testSimpleBuildWithGraphName() throws IOException {
@@ -158,7 +158,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testImport.
-     * @throws IOException
+     * @throws IOException if file comparator fails
      */
     @Test
     public final void testImport() throws IOException {
@@ -170,7 +170,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testAntCall.
-     * @throws IOException
+     * @throws IOException if file comparator fails
      */
     @Test
     public final void testAntCall() throws IOException {
@@ -182,7 +182,7 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testSubant.
-     * @throws IOException
+     * @throws IOException if file comparator fails
      */
     @Test
     public final void testSubant() throws IOException {

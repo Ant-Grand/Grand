@@ -89,7 +89,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
 
     /**
      * Process build-complex.xml to find the nodes connected to jar.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testConnectedStartNode() throws GrandException {
@@ -116,7 +116,7 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to filter from an non existent node.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testNonExistentNode() throws GrandException {

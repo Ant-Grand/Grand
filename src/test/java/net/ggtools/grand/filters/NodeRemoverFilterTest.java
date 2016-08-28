@@ -76,7 +76,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to removed a non existent node.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} or {@link GraphProducer#getGraph()} fails
      */
     @Test
     public final void testNonExistentNode() throws GrandException {
@@ -95,7 +95,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process the build file, trying to removed with an empty list.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} or {@link GraphProducer#getGraph()} fails
      */
     @Test
     public final void testNonNode() throws GrandException {
@@ -113,7 +113,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
     /**
      * Process log4j 1.2.8 build.xml and remove the "init" node.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testOneNode() throws GrandException {
@@ -135,7 +135,7 @@ public class NodeRemoverFilterTest extends AbstractAntTester {
      * Process log4j 1.2.8 build.xml and remove the "init", "build" and jar
      * nodes.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testSeveralNodes() throws GrandException {

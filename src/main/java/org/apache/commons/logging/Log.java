@@ -64,11 +64,11 @@ package org.apache.commons.logging;
 
 /**
  * <p>A simple logging interface abstracting logging APIs.  In order to be
- * instantiated successfully by {@link LogFactory}, classes that implement
+ * instantiated successfully by <code>LogFactory</code>, classes that implement
  * this interface must have a constructor that takes a single String
  * parameter representing the "name" of this Log.</p>
  *
- * <p>The six logging levels used by <code>Log</code> are (in order):
+ * <p>The six logging levels used by <code>Log</code> are (in order):</p>
  * <ol>
  * <li>trace (the least serious)</li>
  * <li>debug</li>
@@ -77,7 +77,7 @@ package org.apache.commons.logging;
  * <li>error</li>
  * <li>fatal (the most serious)</li>
  * </ol>
- * The mapping of these log levels to the concepts used by the underlying
+ * <p>The mapping of these log levels to the concepts used by the underlying
  * logging system is implementation dependent.
  * The implementation should ensure, though, that this ordering behaves
  * as expected.</p>
@@ -87,13 +87,13 @@ package org.apache.commons.logging;
  * a component can avoid expensive operations (producing information
  * to be logged).</p>
  *
- * <p>For example,
- * <code><pre>
+ * <p>For example,</p>
+ * <pre>
  *    if (log.isDebugEnabled()) {
  *        ... do something expensive ...
  *        log.debug(theResult);
  *    }
- * </pre></code></p>
+ * </pre>
  *
  * <p>Configuration of the underlying logging system will generally be done
  * external to the Logging APIs, through whatever mechanism is supported by
