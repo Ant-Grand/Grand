@@ -1,10 +1,17 @@
 $Id$
+Release 1.9.2 (build number 161):
+
+* Compiled against Ant 1.9.7.
+* Converted old Maven configuration to pom.xml.
+* Added missing Ant 1.7+ API in SubAntHelper.
+
+
 Release 1.9.1 (build number 149):
 
 * Compiled against Ant 1.9.6.
 * Uses Java 6 syntax.
 * Uses Maven SDL.
-* Fixed colour name bug (graphviz uses x11 names); thanks to pendor
+* Fixed colour name bug (graphviz uses x11 names); thanks to pendor.
 
 
 Release 1.9 (build number 139):
