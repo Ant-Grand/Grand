@@ -188,8 +188,7 @@ public class GrandTaskTest extends AbstractAntTester {
     public final void testSubant() throws IOException {
         expectLogContaining("subant", "Loading project ");
         assertLogContaining("subant.xml");
-
-        // This part of the test does not work from Maven so I disable it by default.
+        // This part of the test does not work from test suite so I disable it by default.
         if (Boolean.parseBoolean(System.getProperty("PerformSubantTest", "false"))) {
             assertTempFileMatchExpected(TESTCASES_DIR + "subant.dot");
         } else {

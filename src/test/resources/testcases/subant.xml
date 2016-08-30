@@ -18,4 +18,12 @@
         </subant>
     </target>
 
+    <target name="multitarget">
+        <subant>
+          <dirset dir="." includes="subant-*" />
+	  <target name="init" />
+	  <target name="target" />
+        </subant>
+    </target>
+
 </project>

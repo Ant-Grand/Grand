@@ -359,7 +359,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
             final Path buildPath = helper.getBuildpath();
             final String antfile = helper.getAntfile();
-            final File genericantfile = helper.getGenericantfile();
+            final File genericantfile = helper.getGenericAntfile();
             final Collection<Property> properties = helper.getProperties();
             final String target = helper.getTarget();
 
