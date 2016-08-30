@@ -72,7 +72,7 @@ public class AntProject implements GraphProducer {
     private static final Log LOG = LoggerManager.getLog(AntProject.class);
 
     /**
-     * A condition helper using the {@link Target#getIf()} &
+     * A condition helper using the {@link Target#getIf()} &amp;
      * {@link Target#getUnless()} methods introduced in Ant 1.6.2.
      * @author Christophe Labouisse
      */

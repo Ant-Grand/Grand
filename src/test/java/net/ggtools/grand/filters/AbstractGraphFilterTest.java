@@ -48,7 +48,7 @@ public class AbstractGraphFilterTest {
      * Test if AbstractGraphFilter does not meet an NPE when getting graph
      * before setting the producer.
      *
-     * @throws GrandException
+     * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
     @Test
     public final void testGetGraphBeforeSet() throws GrandException {

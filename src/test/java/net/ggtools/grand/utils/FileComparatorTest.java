@@ -92,7 +92,7 @@ public class FileComparatorTest {
 
     /**
      * Method testAssertSelfLinesMatch.
-     * @throws IOException
+     * @throws IOException if comparator fails
      */
     @Test
     public final void testAssertSelfLinesMatch() throws IOException {
@@ -103,7 +103,7 @@ public class FileComparatorTest {
 
     /**
      * Method testAssertOverrideLinesMatch.
-     * @throws IOException
+     * @throws IOException if comparator fails
      */
     @Test(expected = AssertionError.class)
     public final void testAssertOverrideLinesMatch() throws IOException {
@@ -114,7 +114,7 @@ public class FileComparatorTest {
 
     /**
      * Method testAssertDifferentLinesMatch.
-     * @throws IOException
+     * @throws IOException if comparator fails
      */
     @Test(expected = AssertionError.class)
     public final void testAssertDifferentLinesMatch() throws IOException {

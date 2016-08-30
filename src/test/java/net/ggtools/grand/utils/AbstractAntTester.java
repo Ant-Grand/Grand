@@ -100,7 +100,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
      * Compares the temporary file with a reference file.
      *
      * @param reference String
-     * @throws IOException
+     * @throws IOException if comparator fails
      */
     protected final void assertTempFileMatchExpected(final String reference) throws IOException {
         final String tempFileProp = project.getProperty(TEMP_FILE_PROP);

@@ -86,7 +86,7 @@ public class GraphCrawlerTest extends AbstractAntTester {
 
     /**
      * Method testCrawl.
-     * @throws GrandException
+     * @throws GrandException if {@link GraphProducer#getGraph()} fails
      */
     @Test
     public final void testCrawl() throws GrandException {

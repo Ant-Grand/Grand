@@ -258,7 +258,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /**
      * @param wrapper RuntimeConfigurable
-     * @return List<Object>
+     * @return List of <code>Object</code>
      */
     private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
         final List<Object> targetElements = new ArrayList<Object>();
@@ -359,7 +359,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
             final Path buildPath = helper.getBuildpath();
             final String antfile = helper.getAntfile();
-            final File genericantfile = helper.getGenericantfile();
+            final File genericantfile = helper.getGenericAntfile();
             final Collection<Property> properties = helper.getProperties();
             final String target = helper.getTarget();
 

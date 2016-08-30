@@ -76,7 +76,7 @@ public class FileComparator {
      * Asserts that both files match line for line. This method also assert
      * the both files have the same length.
      *
-     * @throws IOException
+     * @throws IOException if FileReader fails
      */
     public final void assertLinesMatch() throws IOException {
         assertSizesMatch();

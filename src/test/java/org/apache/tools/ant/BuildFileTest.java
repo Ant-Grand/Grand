@@ -68,7 +68,7 @@ import java.net.URL;
  * This class provides a number of utility methods for particular build file
  * tests which extend this class.
  *
- * @author Nico Seessle <nico@seessle.de>
+ * @author <a href="mailto:nico@seessle.de">Nico Seessle</a>
  * @author Conor MacNeill
  */
 public abstract class BuildFileTest {
@@ -253,7 +253,7 @@ public abstract class BuildFileTest {
      * Set up to run the named project.
      *
      * @param  filename name of project file to run
-     * @throws BuildException
+     * @throws BuildException if project setup fails
      */
     protected final void configureProject(final String filename)
             throws BuildException {
@@ -264,7 +264,7 @@ public abstract class BuildFileTest {
      * Set up to run the named project.
      * @param  filename name of project file to run
      * @param  logLevel int
-     * @throws BuildException
+     * @throws BuildException if project setup fails
      */
     protected final void configureProject(final String filename,
             final int logLevel) throws BuildException {
@@ -436,7 +436,6 @@ public abstract class BuildFileTest {
      * relative to the package name or absolute from the root path.
      * @param resource the resource to retrieve its url.
      * @return URL
-     * @throws AssertionFailureException if resource is not found.
      */
     protected final URL getResource(final String resource) {
         final URL url = getClass().getResource(resource);

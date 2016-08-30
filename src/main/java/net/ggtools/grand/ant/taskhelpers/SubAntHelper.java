@@ -31,20 +31,23 @@ import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Ant;
 import org.apache.tools.ant.taskdefs.Property;
 import org.apache.tools.ant.taskdefs.SubAnt;
-import org.apache.tools.ant.taskdefs.Ant.Reference;
 import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.PropertySet;
 import org.apache.tools.ant.types.Path.PathElement;
+import org.apache.tools.ant.types.Reference;
+import org.apache.tools.ant.types.ResourceCollection;
 
 /**
  * A Proxy for the {@link org.apache.tools.ant.taskdefs.SubAnt}class allowing
@@ -81,7 +84,7 @@ public class SubAntHelper extends Task {
     /**
      * Field references.
      */
-    private final Vector<Reference> references = new Vector<Reference>();
+    private final Vector<Ant.Reference> references = new Vector<Ant.Reference>();
 
     /**
      * Field subAntTarget.
@@ -148,9 +151,16 @@ public class SubAntHelper extends Task {
     /**
      * @param r Reference
      */
-    public final void addReference(final Reference r) {
+    public final void addReference(final Ant.Reference r) {
         references.addElement(r);
         underlying.addReference(r);
+    }
+
+    /**
+     * @param t Ant.TargetElement
+     */
+    public void addConfiguredTarget(Ant.TargetElement t) {
+        underlying.addConfiguredTarget(t);
     }
 
     /**
@@ -220,7 +230,7 @@ public class SubAntHelper extends Task {
     /**
      * @return Returns the genericantfile.
      */
-    public final File getGenericantfile() {
+    public final File getGenericAntfile() {
         return genericantfile;
     }
 
@@ -271,7 +281,7 @@ public class SubAntHelper extends Task {
     /**
      * @return Returns the references.
      */
-    public final List<Reference> getReferences() {
+    public final List<Ant.Reference> getReferences() {
         return references;
     }
 
@@ -369,6 +379,13 @@ public class SubAntHelper extends Task {
     public final void setAntfile(final String antfile) {
         this.antfile = antfile;
         underlying.setAntfile(antfile);
+    }
+
+    /**
+     * @param rc ResourceCollection
+     */
+    public void add(ResourceCollection rc) {
+        getBuildpath().add(rc);
     }
 
     /**

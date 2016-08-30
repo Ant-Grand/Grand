@@ -54,7 +54,7 @@ public final class LoggerManager {
 
     /**
      * Method getLog.
-     * @param clazz Class<?>
+     * @param clazz Class
      * @return Log
      */
     public static Log getLog(final Class<?> clazz) {

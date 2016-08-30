@@ -61,10 +61,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testAnt.
-     * @throws GrandException
      */
     @Test
-    public final void testAnt() throws GrandException {
+    public final void testAnt() {
         // Test without antfile nor dir
         AntTargetNode node = (AntTargetNode) graph.getNode("ant-test");
         AntLink link = (AntLink) node.getLinks().iterator().next();
@@ -91,10 +90,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testAntCall.
-     * @throws GrandException
      */
     @Test
-    public final void testAntCall() throws GrandException {
+    public final void testAntCall() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-test");
         AntLink link = null;
         try {
@@ -111,10 +109,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testAntCallWithTargetElements.
-     * @throws GrandException
      */
     @Test
-    public final void testAntCallWithTargetElements() throws GrandException {
+    public final void testAntCallWithTargetElements() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("antcall-with-target-elements-test");
         final Collection<Link> links = node.getLinks();
         assertNotNull("Links should not be null", links);
@@ -158,10 +155,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testAntNoTargetDifferentFile.
-     * @throws GrandException
      */
     @Test
-    public final void testAntNoTargetDifferentFile() throws GrandException {
+    public final void testAntNoTargetDifferentFile() {
         // Test without target different file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-with-file-test");
         final AntLink link = (AntLink) node.getLinks().iterator().next();
@@ -178,10 +174,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testAntNoTargetSameFile.
-     * @throws GrandException
      */
     @Test
-    public final void testAntNoTargetSameFile() throws GrandException {
+    public final void testAntNoTargetSameFile() {
         // Test without target same file
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-without-target-test");
         final AntLink link = (AntLink) node.getLinks().iterator().next();
@@ -193,10 +188,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testAntWithTargetElements.
-     * @throws GrandException
      */
     @Test
-    public final void testAntWithTargetElements() throws GrandException {
+    public final void testAntWithTargetElements() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("ant-with-target-elements-test");
         final Collection<Link> links = node.getLinks();
         assertNotNull("Links should not be null", links);
@@ -224,10 +218,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testIfCondition.
-     * @throws GrandException
      */
     @Test
-    public final void testIfCondition() throws GrandException {
+    public final void testIfCondition() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("if-cond-test");
         assertNotNull("if-cond-test Node", node);
         assertEquals("If condition for target if-cond-test", "test-if-condition", node
@@ -236,11 +229,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Test if the nested tasks are found (ticket #29).
-     *
-     * @throws GrandException
      */
     @Test
-    public final void testNestedAnt() throws GrandException {
+    public final void testNestedAnt() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("[nested-missing-node]");
         assertNotNull("nested-missing-node not found", node);
         assertTrue("nested-missing-node has MISSING_NODE_ATTR set", node
@@ -249,10 +240,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testRunTarget.
-     * @throws GrandException
      */
     @Test
-    public final void testRunTarget() throws GrandException {
+    public final void testRunTarget() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("runtarget-test");
         AntLink link = null;
         try {
@@ -269,11 +259,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Test the subant task.
-     *
-     * @throws GrandException
      */
     @Test
-    public final void testSubant() throws GrandException {
+    public final void testSubant() {
         // Test for genericantfile.
         AntTargetNode node = (AntTargetNode) graph.getNode("subant-generic");
         Collection<Link> links = node.getLinks();
@@ -318,10 +306,9 @@ public class AntProjectTest extends AbstractAntTester {
 
     /**
      * Method testUnlessCondition.
-     * @throws GrandException
      */
     @Test
-    public final void testUnlessCondition() throws GrandException {
+    public final void testUnlessCondition() {
         final AntTargetNode node = (AntTargetNode) graph.getNode("unless-cond-test");
         assertNotNull("unless-cond-test Node", node);
         assertEquals("Unless condition for target unless-cond-test",

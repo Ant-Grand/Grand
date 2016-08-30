@@ -33,7 +33,7 @@ package net.ggtools.grand.graph;
 
 /**
  * A basic implementation of {@link net.ggtools.grand.graph.GraphElementFactory}
- * creating {@link net.ggtools.grand.graph.NodeImpl} &
+ * creating {@link net.ggtools.grand.graph.NodeImpl} &amp;
  * {@link net.ggtools.grand.graph.LinkImpl}. Instances of this class are linked
  * to a specific graph.
  *
