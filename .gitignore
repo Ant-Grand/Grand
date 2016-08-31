@@ -5,3 +5,4 @@ tmp*.dot
 .settings/
 .idea/
 *.iml
+.DS_Store
