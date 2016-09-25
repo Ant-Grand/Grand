@@ -31,7 +31,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.RuntimeConfigurable;
