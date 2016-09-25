@@ -18,12 +18,11 @@
 		<grand output="${temp.file}">
 			<filter name="isolatednode" node="gruik"/>
 		</grand>
-	</target>	
+	</target>
 
 	<target name="noname" depends="init">
 		<grand output="${temp.file}">
 			<filter/>
 		</grand>
-	</target>	
-
+	</target>
 </project>

@@ -10,8 +10,8 @@
 	</target>
 
 	<target name="depend-1" depends="init"/>
-	
+
 	<target name="depend-2" depends="depend-1,init"/>
-	
+
 	<target name="isolated"/>
 </project>

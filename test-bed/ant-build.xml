@@ -17,7 +17,6 @@
   <property file="${user.home}/.ant.properties"/>
   <property environment="env"/>
 
-
   <!--
        ===================================================================
          Set the properties that control names and versions
@@ -52,7 +51,7 @@
   <property name="junit.fork" value="false"/>
   <property name="junit.filtertrace" value="off"/>
   <property name="junit.summary" value="no"/>
-  <property name="test.haltonfailure" value="yes" />
+  <property name="test.haltonfailure" value="yes"/>
   <property name="unfiltered.files" value="**/*.gif,**/*.jpg,**/*.ico,**/*.pdf"/>
 
   <!--
@@ -89,8 +88,7 @@
          Set the paths used in the build
        ===================================================================
   -->
-  <path id="classpath">
-  </path>
+  <path id="classpath"/>
 
   <path id="tests-classpath">
     <pathelement location="${build.classes}"/>
@@ -389,7 +387,7 @@
                classpathref="classpath"/>
     <available property="apache.resolver.present"
                classname="org.apache.xml.resolver.tools.CatalogResolver"
-               classpathref="classpath" />
+               classpathref="classpath"/>
     <available property="xalan.present"
                classname="org.apache.xalan.xslt.XSLTProcessorFactory"
                classpathref="classpath"/>
@@ -562,7 +560,6 @@
                classname="com.jcraft.jsch.Session"
                classpathref="classpath"/>
   </target>
-
 
   <!--
        ===================================================================
@@ -858,7 +855,7 @@
          manifest="${manifest.tmp}">
       <or>
         <selector refid="needs.weblogic.ejbc"/>
-        <selector refid="needs.weblogic.ddcreator" />
+        <selector refid="needs.weblogic.ddcreator"/>
         <selector refid="needs.weblogic.server"/>
       </or>
     </jar>
@@ -946,7 +943,6 @@
     </copy>
   </target>
 
-
   <target name="internal_dist" depends="dist-lite,dist_javadocs">
     <mkdir dir="${dist.docs}"/>
     <mkdir dir="${dist.etc}"/>
@@ -1015,7 +1011,6 @@
 
   </target>
 
-
   <!--
        ===================================================================
          Target to create bootstrap build
@@ -1026,7 +1021,6 @@
       <param name="dist.dir" value="${bootstrap.dir}"/>
     </antcall>
   </target>
-
 
   <!--
        ===================================================================
@@ -1209,7 +1203,6 @@
           description="--> creates the full Apache Ant distribution">
   </target>
 
-
   <!--
        ===================================================================
          Cleans up build and distribution directories
@@ -1342,7 +1335,7 @@
 
       <selector refid="conditional-patterns"/>
     </javac>
-    
+
     <!-- Used by AntlibTest.testAntlibResource: -->
     <jar jarfile="${build.tests}/org/apache/tools/ant/taskdefs/test2-antlib.jar">
         <zipfileset dir="${tests.etc.dir}" fullpath="taskdefs/test.antlib.xml">
@@ -1557,7 +1550,6 @@
 
   <target name="run-single-test-only"
     description="--> runs the single unit test defined in the testcase property">
-
 
     <junit printsummary="${junit.summary}"
           haltonfailure="${test.haltonfailure}"

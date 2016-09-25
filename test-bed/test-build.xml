@@ -5,68 +5,49 @@
 		A test project
 	</description>
 
-  <target name="installImage" depends="targetAntSegment">
+	<target name="installImage" depends="targetAntSegment">
+		<if>
+			<or>
+				<equals arg1="${target.os.choice}" arg2="all"/>
+				<equals arg1="${target.os.choice}" arg2="unix"/>
+			</or>
+			<then>
 
-   <if>
-     <or>
+				<echo>Building UNIX COE Bundle </echo>
+				<antcall target="coebundle">
+					<param name="target.os" value="unix"/>
+				</antcall>
+			</then>
+		</if>
 
-     <equals arg1="${target.os.choice}" arg2="all" />
-     <equals arg1="${target.os.choice}" arg2="unix" />
+		<if>
+			<or>
+				<equals arg1="${target.os.choice}" arg2="all"/>
+				<equals arg1="${target.os.choice}" arg2="windows"/>
+			</or>
+			<then>
+				<foreach target="targetAntSegment" param="AntSegment.location" inheritall="true">
+					<path refid="BuildNetopsSegments.path"/>
+					<param name="AntSegment.target" value="segment"/>
+					<param name="target.os" value="windows"/>
+				</foreach>
 
-     </or>
-   <then>
+				<echo>Building WINDOWS COE Bundle, needs to be made with PC COE MakeInstall</echo>
 
-   <echo>Building UNIX COE Bundle </echo>
-   <antcall target="coebundle">
-     <param name="target.os" value="unix" />
-   </antcall>
+				<antcall target="coebundle">
+					<param name="target.os" value="windows"/>
+				</antcall>
+			</then>
+		</if>
 
-   </then>
-   </if>
+		<!-- delete temp directory when finished with build -->
+		<!--delete dir="${tmpDirBase}" /-->
+	</target>
 
-
-   <if>
-     <or>
-
-     <equals arg1="${target.os.choice}" arg2="all" />
-     <equals arg1="${target.os.choice}" arg2="windows" />
-
-     </or>
-   <then>
-
-   <foreach target="targetAntSegment" param="AntSegment.location"
-inheritall="true">
-     <path refid="BuildNetopsSegments.path" />
-     <param name="AntSegment.target" value="segment" />
-     <param name="target.os" value="windows" />
-   </foreach>
-
-   <echo>Building WINDOWS COE Bundle, needs to be made with PC COE
-MakeInstall</echo>
-
-   <antcall target="coebundle">
-     <param name="target.os" value="windows" />
-   </antcall>
-
-   </then>
-   </if>
-
-    <!-- delete temp directory when finished with build -->
-    <!--delete dir="${tmpDirBase}" /-->
-
-  </target>
-
-<!-- calls specified ant target -->
-  <target name="targetAntSegment">
-
-    <echo>>>>>>------Starting ${AntSegment.target} at ${AntSegment.location}
-------</echo>
-    <ant antfile="build.xml" dir="${AntSegment.location}"
-target="${AntSegment.target}"/>
-
-    <echo>>>>>>------Finished ${AntSegment.target} at
-${AntSegment.location}------</echo>
-
-  </target>
- </project>
-
+	<!-- calls specified ant target -->
+	<target name="targetAntSegment">
+		<echo>>>>>>------Starting ${AntSegment.target} at ${AntSegment.location} ------</echo>
+		<ant antfile="build.xml" dir="${AntSegment.location}" target="${AntSegment.target}"/>
+		<echo>>>>>>------Finished ${AntSegment.target} at ${AntSegment.location}------</echo>
+	</target>
+</project>

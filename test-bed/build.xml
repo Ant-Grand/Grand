@@ -5,6 +5,7 @@
 		My little test bed for distribs.
 	</description>
 	<property name="antcall.target" value="init"/>
+
 	<target name="init">
 		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes:../src/conf"/>
 		<macrodef name="mkgraph">
@@ -12,7 +13,7 @@
 			<sequential>
 				<grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot"/>
 				<exec executable="dot" >
-				    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o @{name}.ps @{name}.dot"/>
+					<arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o @{name}.ps @{name}.dot"/>
 				</exec>
 			</sequential>
 		</macrodef>
@@ -21,7 +22,7 @@
 	<target name="antcalltarget">
 		<antcall target="${antcall.target}"/>
 	</target>
-	
+
 	<target name="clean">
 		<delete dir=".">
 			<fileset>
@@ -34,30 +35,28 @@
 	<target name="current-project" depends="init">
 		<grand output="current.dot"/>
 		<exec executable="dot" >
-		    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o current.ps current.dot"/>
+			<arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o current.ps current.dot"/>
 		</exec>
-	</target>	
+	</target>
 
 	<target name="ant-build" depends="init">
 		<mkgraph name="ant-build"/>
 	</target>
-	
+
 
 	<target name="subant" depends="init">
 		<mkgraph name="subant"/>
 	</target>
-	
 
-    <target name="import" depends="init">
-        <mkgraph name="import"/>
-    </target>
-    
+
+	<target name="import" depends="init">
+		<mkgraph name="import"/>
+	</target>
+
 
 	<target name="test-build" depends="init">
 		<mkgraph name="test-build"/>
 	</target>
-	
+
 	<target name="graph" depends="current-project, ant-build, test-build, subant"/>
-
 </project>
-

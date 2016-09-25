@@ -2,9 +2,9 @@
 <!-- $Id$ -->
 <project name="AntCallWithProperties" default="init">
 	<target name="init"/>
-	
+
 	<target name="do-init" depends="init"/>
-	
+
 	<target name="antcall-props-1">
 		<antcall target="${antcall.target}"/>
 	</target>
