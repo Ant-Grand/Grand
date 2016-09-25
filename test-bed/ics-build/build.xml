@@ -1,57 +1,57 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./ant2html.xsl"?>
 <project name="ics" default="icsBuild" basedir=".">
-    <!-- The following targets are the driver targets for the build process.  One 
+    <!-- The following targets are the driver targets for the build process.  One
         of these must be executed in order for the build to run correctly -->
     <!-- This target will build for the dev environment only    -->
     <target name="icsBuild" depends="init, clean, preparedirs">
-        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}" />
-        <antcall target="buildCVS" />
+        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}"/>
+        <antcall target="buildCVS"/>
         <antcall target="unitTest"/>
         <antcall target="tagProjects"/>
-        <antcall target="bundle" />
-        <antcall target="deploy" />
-        <antcall target="syncHarvest" />
+        <antcall target="bundle"/>
+        <antcall target="deploy"/>
+        <antcall target="syncHarvest"/>
         <antcall target="purge-logs"/>
         <antcall target="create.wsad.files"/>
-        <antcall target="analyze" />
+        <antcall target="analyze"/>
     </target>
-    
+
     <!-- Target for a regular test build -->
     <target name="compileTestBuild" depends="init, clean, preparedirs">
-        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}" />
-        <antcall target="buildCVS" />
+        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}"/>
+        <antcall target="buildCVS"/>
         <antcall target="unitTest">
         </antcall>
     </target>
-    
+
     <!-- Target for an incremental test build (skip the "clean" task) -->
     <target name="compileTestQuickBuild" depends="init, preparedirs">
-        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}" />
-        <antcall target="buildCVS" />
+        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}"/>
+        <antcall target="buildCVS"/>
         <antcall target="unitTest">
             <param name="test.suite" value="com.amfam.ics.test.AllDomainTests"/>
         </antcall>
     </target>
-    
+
     <target name="intBuild" depends="init, preparedirs">
-        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}" />
-        
+        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}"/>
+
         <ant antfile="deploy.xml" target="promoteToInt"/>
     </target>
 
     <target name="intDeploy" depends="init, preparedirs">
-        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}" />
-        
+        <record name="${build_logs.dir}/icsBuild.log" action="start" append="no" loglevel="${loglevel}"/>
+
         <ant antfile="deploy.xml" target="deployInt"/>
     </target>
 
     <!-- Perform any initialization that is needed, such as reading property files and setting up timestamps  -->
     <target name="init">
-        <taskdef resource="net/sf/antcontrib/antlib.xml" />
+        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
         <property name="build_home.dir" value="${basedir}"/>
-        <property file="project_versions.properties" />
+        <property file="project_versions.properties"/>
 
         <if>
             <os family="windows"/>
@@ -68,16 +68,16 @@
             </elseif>
             <else>
                 <fail message="Build platform not supported: ${os.name}"/>
-            </else>            
+            </else>
         </if>
 
-        <property file="${environment.properties}" />
-        
+        <property file="${environment.properties}"/>
+
         <!-- Define the project list file, allowing it to be overridden. This was done for icscat.
              A more consistent approach would be to use ${harvest_project}_project_list.txt.
         -->
         <property name="project_list" value="project_list.txt"/>
-        
+
         <loadfile property="projects" srcFile="${project_list}">
           <filterchain>
             <prefixlines prefix=","/>
@@ -85,12 +85,12 @@
           </filterchain>
         </loadfile>
 
-        <property file="${id_file.dir}/com/amfam/ics/properties/ics_access.properties" />
-        <property file="${id_file.dir}/com/amfam/cvs/access.properties" />
+        <property file="${id_file.dir}/com/amfam/ics/properties/ics_access.properties"/>
+        <property file="${id_file.dir}/com/amfam/cvs/access.properties"/>
         <tstamp>
-            <format property="DSTAMP" pattern="yyyyMMdd" />
-            <format property="TSTAMP" pattern="yyyyMMdd_hhmmaa" />
-            <format property="TSTAMP_FORMATED" pattern="yyyy-MM-dd HH:mm" />
+            <format property="DSTAMP" pattern="yyyyMMdd"/>
+            <format property="TSTAMP" pattern="yyyyMMdd_hhmmaa"/>
+            <format property="TSTAMP_FORMATED" pattern="yyyy-MM-dd HH:mm"/>
         </tstamp>
         <condition property="windowsBuild">
             <os family="windows"/>
@@ -98,17 +98,17 @@
         <condition property="unixBuild">
             <os family="unix"/>
         </condition>
-        
+
         <property name="cvs_label_properties" value="${basedir}/${harvest_project}_cvs_label.properties"/>
         <property name="build_reports.name" value="${harvest_project}buildreports"/>
         <property name="build_reports.war" value="${build_reports.name}.war"/>
-        
+
         <property name="test.suite" value="com.amfam.ics.test.AllDomainTests"/>
     </target>
-    
+
     <target name="setBuildLabel" unless="label" description="Sets the build label if we are not run by CruiseControl">
         <if>
-            <not><equals arg1="${cvs_build_from_versions}" arg2="true" /></not>
+            <not><equals arg1="${cvs_build_from_versions}" arg2="true"/></not>
             <then>
                 <property name="cvs_label" value="manualBuild_${TSTAMP}"/>
             </then>
@@ -117,31 +117,31 @@
 
     <!--  Cleans up the build directories -->
     <target name="clean" description="Cleans up the build directories">
-        <delete dir="${build.dir}" />
-        <delete dir="${bundle_home.dir}" />
+        <delete dir="${build.dir}"/>
+        <delete dir="${bundle_home.dir}"/>
         <delete dir="${junit.reports}"/>
     </target>
 
     <!-- Creates any directories that might be needed by the build process  -->
     <target name="preparedirs" depends="init" description="Creates any directories that might be needed by the build process">
-        <mkdir dir="${build_home.dir}" />
-        <mkdir dir="${build.dir}" />
-        <mkdir dir="${bundle_home.dir}" />
+        <mkdir dir="${build_home.dir}"/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${bundle_home.dir}"/>
         <mkdir dir="${bundle_dev.dir}"/>
-        <mkdir dir="${build_logs.dir}" />
-        <mkdir dir="${junit.reports}" />
+        <mkdir dir="${build_logs.dir}"/>
+        <mkdir dir="${junit.reports}"/>
     </target>
 
     <!-- Run a build script to perform the CVS tasks -->
     <target name="buildCVS" depends="init">
-        <ant antfile="cvs_checkout_compile.xml" target="CVSBuild" output="${build_logs.dir}/icsCompile.log" />
-        <fixcrlf srcdir="${cvs_source.dir}/ICSEAR" eol="lf" eof="remove" includes="**/*.ksh" />
+        <ant antfile="cvs_checkout_compile.xml" target="CVSBuild" output="${build_logs.dir}/icsCompile.log"/>
+        <fixcrlf srcdir="${cvs_source.dir}/ICSEAR" eol="lf" eof="remove" includes="**/*.ksh"/>
     </target>
 
     <target name="bundle" depends="init, setBuildLabel">
         <!-- Create the project versions file for deployment -->
         <property file="${cvs_label_properties}"/>
-        <copy file="project_versions.properties" tofile="${build.dir}/eBillProjectVersions.properties" />
+        <copy file="project_versions.properties" tofile="${build.dir}/eBillProjectVersions.properties"/>
 
         <echo file="${build.dir}/eBillProjectVersions.properties" append="yes">build.timestamp=${TSTAMP_FORMATED}${line.separator}</echo>
         <echo file="${build.dir}/eBillProjectVersions.properties" append="yes">build.label=${cvs_label}${line.separator}</echo>
@@ -149,58 +149,58 @@
         <!-- Copy all the default properties to the classes dir -->
         <copy todir="${bundle_dev.dir}/ICSWebApp/webApplication/WEB-INF/classes" overwrite="true" includeEmptyDirs="false">
             <fileset dir="${cvs_source.dir}/ICSWebApp/source">
-                <exclude name="**/*.java" />
+                <exclude name="**/*.java"/>
             </fileset>
-            <fileset dir="${build.dir}" includes="eBillProjectVersions.properties" />
+            <fileset dir="${build.dir}" includes="eBillProjectVersions.properties"/>
         </copy>
         <!-- Over lay the configuration and properties files with the config/dev files-->
         <copy todir="${bundle_dev.dir}/ICSWebApp/webApplication/WEB-INF/classes" overwrite="true" includeEmptyDirs="false">
             <fileset dir="${cvs_source.dir}/ICSConfig/dev/${harvest_project}/ICSWebApp/source">
-                <include name="**/*.*" />
+                <include name="**/*.*"/>
             </fileset>
         </copy>
         <copy todir="${bundle_dev.dir}/ICSWebApp/webApplication" overwrite="true" includeEmptyDirs="false">
             <fileset dir="${cvs_source.dir}/ICSConfig/dev/${harvest_project}/ICSWebApp/webApplication">
-                <include name="**/*.*" />
+                <include name="**/*.*"/>
             </fileset>
         </copy>
 
         <!-- Include the JSP web resources so that their timestamps get updated -->
         <copy todir="${bundle_dev.dir}/ICSWebApp/webApplication" overwrite="true" includeEmptyDirs="false">
             <fileset dir="${cvs_source.dir}/ICSWebApp/webApplication">
-                <include name="**/*.jsp" />
-            </fileset>            
+                <include name="**/*.jsp"/>
+            </fileset>
         </copy>
         <!-- Create the war file for ICS webapp -->
-        <war warfile="${bundle_dev.dir}/ICSWebApp.war" 
-             webxml="${cvs_source.dir}/ICSWebApp/webApplication/WEB-INF/web.xml" 
-             manifest="${cvs_source.dir}/ICSWebApp/webApplication/META-INF/MANIFEST.MF" 
+        <war warfile="${bundle_dev.dir}/ICSWebApp.war"
+             webxml="${cvs_source.dir}/ICSWebApp/webApplication/WEB-INF/web.xml"
+             manifest="${cvs_source.dir}/ICSWebApp/webApplication/META-INF/MANIFEST.MF"
              basedir="${bundle_dev.dir}/ICSWebApp/webApplication">
 
             <!-- Include the webapp class files -->
             <classes dir="${cvs_compile.dir}/ICSWebApp">
-                <include name="**/*.class" />
+                <include name="**/*.class"/>
             </classes>
             <!-- Include the dependent jars -->
             <lib dir="${cvs_source.dir}/ICSWebApp/webApplication/WEB-INF/lib">
-                <include name="*.jar" />
-                <exclude name="*src*.jar" />
-                <exclude name="*src*.zip" />
-                <exclude name="*source*.zip" />
-                <exclude name="*source*.jar" />
+                <include name="*.jar"/>
+                <exclude name="*src*.jar"/>
+                <exclude name="*src*.zip"/>
+                <exclude name="*source*.zip"/>
+                <exclude name="*source*.jar"/>
             </lib>
             <!-- Include the application jars -->
             <lib dir="${cvs_build.dir}/jars">
-                <include name="**/*.jar" />
-                <exclude name="**/*test*.jar" />
+                <include name="**/*.jar"/>
+                <exclude name="**/*test*.jar"/>
             </lib>
             <!-- Include the html and other settings files -->
             <fileset dir="${cvs_source.dir}/ICSWebApp/webApplication">
-                <exclude name="**/*.jar" />
-                <exclude name="**/.*" />
-                <exclude name="**/web.xml" />
+                <exclude name="**/*.jar"/>
+                <exclude name="**/.*"/>
+                <exclude name="**/web.xml"/>
                 <!-- Exclude the jsps, there were copied to the bundle dir to update the timestamps -->
-                <exclude name="**/*.jsp" />
+                <exclude name="**/*.jsp"/>
             </fileset>
         </war>
 
@@ -208,21 +208,21 @@
         <!-- Copy all the default properties and batch scripts to the EAR, exclude the jars since these are rebuilt during the compile -->
         <copy todir="${bundle_dev.dir}/ICSEAR" overwrite="true" includeEmptyDirs="false">
             <fileset dir="${cvs_source.dir}/ICSEAR">
-                <exclude name="**/.*" />
-                <exclude name="**/*.jar" />
+                <exclude name="**/.*"/>
+                <exclude name="**/*.jar"/>
             </fileset>
         </copy>
         <!-- Over lay any EAR configuration and properties files with the config/dev files-->
         <copy todir="${bundle_dev.dir}/ICSEAR" overwrite="true" includeEmptyDirs="false" failonerror="false">
             <fileset dir="${cvs_source.dir}/ICSConfig/dev/${harvest_project}/ICSEAR">
-                <include name="**/*.*" />
+                <include name="**/*.*"/>
             </fileset>
         </copy>
-        
+
         <ear earfile="${bundle_dev.dir}/${harvest_project}.ear" appxml="${bundle_dev.dir}/ICSEAR/META-INF/application.xml" basedir="${bundle_dev.dir}/ICSEAR">
             <!-- Include the WARs and EJBs -->
             <fileset dir="${bundle_dev.dir}">
-                <include name="*.war" />
+                <include name="*.war"/>
                 <include name="*.jar"/>
             </fileset>
         </ear>
@@ -235,8 +235,8 @@
     </target>
 
     <target name="functionTest" depends="init" unless="doNotRunJUnit">
-        <antcall target="clean" />
-        <antcall target="preparedirs" />
+        <antcall target="clean"/>
+        <antcall target="preparedirs"/>
 
         <ant antfile="functionTest.xml" target="runJWebUnit" output="${build_logs.dir}/icsFunctionTests.log" >
 <!--            <property name="function.test.suite" value="${function.test.suite}"/> -->
@@ -250,62 +250,62 @@
     <target name="syncHarvest" depends="init" unless="doNotSyncHarvest" description="Sync CVS code with Harvest">
         <ant antfile="deploy.xml" target="syncHarvest"/>
     </target>
-    
+
     <!-- Run any analysis modules in subdirectories -->
     <target name="analyze" unless="doNotAnalyze" depends="init, preparedirs" description="Run sets of analysis tools over the source code">
-        <record name="${build_logs.dir}/icsReports.log" action="start" append="no" loglevel="${loglevel}" />
+        <record name="${build_logs.dir}/icsReports.log" action="start" append="no" loglevel="${loglevel}"/>
 
-        <antcall target="clean-analysis" />
-        <subant target="" failonerror="false" inheritall="false">           
+        <antcall target="clean-analysis"/>
+        <subant target="" failonerror="false" inheritall="false">
             <property name="build_home.dir" value="${basedir}"/>
-            <property file="project_versions.properties" />
-            <property file="${environment.properties}" />
-            <property file="win32_environment.properties" />
+            <property file="project_versions.properties"/>
+            <property file="${environment.properties}"/>
+            <property file="win32_environment.properties"/>
             <property name="projects" value="${projects}"/>
             <property name="test.suite" value="${test.suite}"/>
 
-            <property name="cvs_userid" value="${cvs_userid}" />
-            <property name="cvs_password" value="${cvs_password}" />            
+            <property name="cvs_userid" value="${cvs_userid}"/>
+            <property name="cvs_password" value="${cvs_password}"/>
 
-            <dirset dir="." includes="process-*" />
+            <dirset dir="." includes="process-*"/>
         </subant>
         <!-- Create the analysis webapp -->
-        <antcall target="bundle-analysis" />
+        <antcall target="bundle-analysis"/>
 
-        <antcall target="deploy-analysis" />
+        <antcall target="deploy-analysis"/>
 
         <record name="${build_logs.dir}/icsReports.log" action="stop"/>
     </target>
 
     <target name="clean-analysis">
-        <delete dir="${build_analysis.dir}" />
-        <mkdir dir="${build_analysis.dir}" />
+        <delete dir="${build_analysis.dir}"/>
+        <mkdir dir="${build_analysis.dir}"/>
     </target>
 
     <target name="bundle-analysis" description="Create a webapp of the build reports">
-        <mkdir dir="${bundle_dev.dir}" />
-        
+        <mkdir dir="${bundle_dev.dir}"/>
+
         <echo file="${build_webapp.dir}/eBillProjectVersions.properties" append="no">build.timestamp=${TSTAMP_FORMATED}${line.separator}</echo>
         <echo file="${build_webapp.dir}/eBillProjectVersions.properties" append="yes">build.label=${cvs_label}${line.separator}</echo>
         <echo file="${build_webapp.dir}/eBillProjectVersions.properties" append="yes">build.stream=${cvs_stream}${line.separator}</echo>
         <copy file="${build_webapp.dir}/eBillProjectVersions.properties" todir="${build_webapp.dir}"/>
-        
-        <war warfile="${bundle_dev.dir}/${build_reports.war}" 
-             webxml="${build_webapp.dir}/WEB-INF/web.xml" 
-             manifest="${build_webapp.dir}/META-INF/MANIFEST.MF" 
+
+        <war warfile="${bundle_dev.dir}/${build_reports.war}"
+             webxml="${build_webapp.dir}/WEB-INF/web.xml"
+             manifest="${build_webapp.dir}/META-INF/MANIFEST.MF"
              basedir="${build_analysis.dir}">
             <fileset dir="${build_webapp.dir}">
-                <exclude name="**/MANIFEST.MF" />
-                <exclude name="**/.*" />
-                <exclude name="**/web.xml" />
-                <exclude name="**/report-index.jsp" />
+                <exclude name="**/MANIFEST.MF"/>
+                <exclude name="**/.*"/>
+                <exclude name="**/web.xml"/>
+                <exclude name="**/report-index.jsp"/>
             </fileset>
             <classes dir="${build_webapp.dir}">
                 <include name="eBillProjectVersions.properties"/>
             </classes>
         </war>
     </target>
-    
+
     <target name="deploy-analysis" description="Deploy the build reports to a server">
         <copy todir="${build_reports_deploy.dir}" file="${bundle_dev.dir}\${build_reports.war}" failonerror="false"/>
     </target>
@@ -315,7 +315,7 @@
             <format property="log.purge.cutoff" pattern="MM/dd/yyyy"
                 offset="-60" unit="day"/>
         </tstamp>
-        
+
         <delete>
             <fileset dir="${build_logs.dir}" includes="**/*.log, **/*.xml">
                 <date datetime="${log.purge.cutoff}" pattern="MM/dd/yyyy" when="before"/>
@@ -326,10 +326,10 @@
     <!-- Target will tag all the projects as of the date they were checked out -->
     <target name="tagProjects" if="label" unless="cvs_build_from_versions" description="Tag all projects as of the date they were checked out">
         <property name="tag_label" value="${harvest_project}-${label}"/>
-        
-        <echo message="Tagging all ICS projects with label ${tag_label}, stream [${cvs_stream}]" level="info" />
+
+        <echo message="Tagging all ICS projects with label ${tag_label}, stream [${cvs_stream}]" level="info"/>
         <for list="${projects}" param="projectName">
-            <sequential>                                                                         
+            <sequential>
                 <echo message="Tagging @{projectName}" level="info"/>
                 <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" command="tag ${tag_label}" dest="${cvs_source.dir}/@{projectName}" quiet="${cvs_checkout_quiet_output}" failonerror="true"/>
             </sequential>
@@ -337,11 +337,11 @@
 
         <!-- Write out the label name so that later processes can use it -->
         <echo file="${cvs_label_properties}" append="no">cvs_label=${tag_label}${line.separator}</echo>
-        
+
     </target>
-    
+
     <target name="removeTags" depends="init" description="Remove a set of tags from the projects">
-        <record name="${build_logs.dir}/icsTagging.log" action="start" append="yes" loglevel="${loglevel}" />
+        <record name="${build_logs.dir}/icsTagging.log" action="start" append="yes" loglevel="${loglevel}"/>
 
         <property name="tagFile" value="del_tag_list.txt"/>
         <loadfile property="tag_list" srcFile="${tagFile}">
@@ -350,7 +350,7 @@
             <striplinebreaks/>
           </filterchain>
         </loadfile>
-        
+
         <echo message="Removing tags from the projects: ${tag_list}"/>
         <for list="${tag_list}" param="tagName">
             <sequential>
@@ -362,24 +362,23 @@
 
         <record name="${build_logs.dir}/icsTagging.log" action="stop"/>
     </target>
-    
+
     <target name="removeTag" if="remove_tag" depends="init" description="Remove a tag from the set of projects">
         <for list="${projects}" param="projectName">
-            <sequential>                                                                         
-                <echo message="Removing label ${remove_tag} from @{projectName}" level="info" />
-                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -d ${remove_tag}" quiet="${cvs_checkout_quiet_output}" />
+            <sequential>
+                <echo message="Removing label ${remove_tag} from @{projectName}" level="info"/>
+                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -d ${remove_tag}" quiet="${cvs_checkout_quiet_output}"/>
             </sequential>
-        </for>        
+        </for>
     </target>
 
     <target name="branch" if="branch.name" depends="init" description="Create a new branch">
         <ant antfile="branch.xml" target="createBranch" output="${build_logs.dir}/icsBranch.log"/>
     </target>
-    
+
     <target name="deleteBranch" if="branch.name" depends="init" description="Remove an existing branch">
         <ant antfile="branch.xml" target="deleteBranch" output="${build_logs.dir}/icsBranch.log"/>
     </target>
-    
-    <import file="wsad.xml"/>
 
+    <import file="wsad.xml"/>
 </project>

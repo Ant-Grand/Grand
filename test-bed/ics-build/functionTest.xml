@@ -2,10 +2,10 @@
 <?xml-stylesheet type="text/xsl" href="./ant2html.xsl"?>
 <project name="functionTest" default="runJWebUnit" basedir=".">
     <target name="init">
-        <property file="${environment.properties}" />
+        <property file="${environment.properties}"/>
 
         <property name="build_home.dir" value="${basedir}"/>
-        <property file="project_versions.properties" />
+        <property file="project_versions.properties"/>
         
         <property name="function.test.suite" value="com.amfam.ebill.webapp.home.test.TestHomePage"/>
     </target>
@@ -13,20 +13,20 @@
     <path id="jwebunit.classpath">
         <!-- Junit classes -->
         <fileset dir="${junit_jar.dir}">
-            <include name="junit.jar" />
+            <include name="junit.jar"/>
         </fileset>
         <!-- include all the utility jars -->
         <fileset dir="${cvs_source.dir}/ICSFunctionTest/lib">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <pathelement path="${cvs_compile.dir}/ICSFunctionTest"/>
         <!-- access.properties -->
-        <pathelement path="${id_file.dir}" />
+        <pathelement path="${id_file.dir}"/>
         <!-- JWebUnit properties-->
         <pathelement path="${cvs_source.dir}/ICSFunctionTest"/>
         
         <!-- Include the JUnit directory to pick up the test properties -->
-        <pathelement path="${junit.dir}" />
+        <pathelement path="${junit.dir}"/>
     </path>
     
     <target name="prepare" depends="init">
@@ -38,27 +38,26 @@
     </target>
 
     <target name="runJWebUnit" unless="doNotRunJUnit" depends="init, prepare">
-        <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+        <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
 
         <!-- Make sure the junit directory is there -->
         <delete dir="${junit.reports}" quiet="true"/>
-        <mkdir dir="${junit.reports}" />
+        <mkdir dir="${junit.reports}"/>
 
         <junit fork="true" printsummary="on" 
             haltonerror="no" haltonfailure="no"
             errorproperty="junitFailure" failureproperty="junitFailure"
             maxmemory="128M">
-            <jvmarg value="-Dcom.amfam.tier=DEV" />
-<!--            <jvmarg value="-Djwebunit.baseUrl=${jwebunit.baseUrl}" />  -->
-<!--            <jvmarg value="-Dics.build.label=${cvs_label}" /> -->
+            <jvmarg value="-Dcom.amfam.tier=DEV"/>
+<!--            <jvmarg value="-Djwebunit.baseUrl=${jwebunit.baseUrl}"/>  -->
+<!--            <jvmarg value="-Dics.build.label=${cvs_label}"/> -->
             <classpath refid="jwebunit.classpath"/>
-            <formatter type="plain" usefile="false" />
+            <formatter type="plain" usefile="false"/>
             <formatter type="xml"/>
-            <test name="${function.test.suite}" todir="${junit.reports}" />
+            <test name="${function.test.suite}" todir="${junit.reports}"/>
         </junit>
 
         <fail if="junitFailure" message="Functional tests failed"/>
 
     </target>
-
 </project>
