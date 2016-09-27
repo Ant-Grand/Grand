@@ -10,8 +10,11 @@
         <typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes"/>
         <macrodef name="mkgraph">
             <attribute name="name"/>
+            <element name="apply-filter" optional="true"/>
             <sequential>
-                <grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot"/>
+                <grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot">
+                    <apply-filter/>
+                </grand>
                 <exec executable="dot" >
                     <arg line="-Tsvg -o @{name}.svg @{name}.dot"/>
                 </exec>
@@ -48,7 +51,21 @@
     </target>
 
     <target name="import" depends="init">
-        <mkgraph name="import"/>
+        <mkgraph name="import">
+            <apply-filter>
+                <filter name="prefixed"/>
+            </apply-filter>
+        </mkgraph>
+    </target>
+
+    <target name="ics-build" depends="init">
+        <mkgraph name="ics-build/build"/>
+	<move todir=".">
+            <fileset dir="ics-build">
+                <include name="*.dot"/>
+                <include name="*.svg"/>
+            </fileset>
+	</move>
     </target>
 
     <target name="test-build" depends="init">
