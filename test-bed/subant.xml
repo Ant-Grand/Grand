@@ -23,10 +23,10 @@
                  classpath="../target/classes"/>
         <grand output="/tmp/current.dot"/>
         <exec executable="dot">
-            <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o /tmp/current.ps /tmp/current.dot"/>
+            <arg line="-Tsvg -o /tmp/current.svg /tmp/current.dot"/>
         </exec>
     </target>
-    
+
     <target name="prepare">
         <echo>I'm ready</echo>
     </target>
