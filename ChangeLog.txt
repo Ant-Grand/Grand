@@ -1,4 +1,9 @@
 $Id$
+Release 1.9.3 (build number 170):
+* Added consistency checks for common properties in build.xml and pom.xml.
+* Fixed test-bed tests.
+
+
 Release 1.9.2 (build number 161):
 
 * Compiled against Ant 1.9.7.
