@@ -1,60 +1,56 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
 <project name="GrandTask" default="test-no-param">
-    <description>
+	<description>
 		Ant build file for running the GrandTaskTest JUnit tests.
 	</description>
-    
-    <target name="init-old">
-        <taskdef resource="task.properties" />
-        <tempfile property="temp.file" prefix="tmp-grand-task-" suffix=".dot" />
-    </target>
 
-    <target name="init">
-        <typedef resource="net/ggtools/grand/antlib.xml" />
-        <property name="junit.test.name" value="none" />
-        <tempfile property="temp.file"
-                  prefix="tmp-grand-task-${junit.test.name}-"
-                  suffix=".dot" />
-    </target>
+	<target name="init-old">
+		<taskdef resource="task.properties"/>
+		<tempfile property="temp.file" prefix="tmp-grand-task-" suffix=".dot"/>
+	</target>
 
-    <target name="test-no-param" depends="init">
-        <grand />
-    </target>
+	<target name="init">
+		<typedef resource="net/ggtools/grand/antlib.xml"/>
+		<property name="junit.test.name" value="none"/>
+		<tempfile property="temp.file" prefix="tmp-grand-task-${junit.test.name}-" suffix=".dot"/>
+	</target>
 
-    <target name="test-current-project" depends="init">
-        <grand output="${temp.file}" />
-    </target>
+	<target name="test-no-param" depends="init">
+		<grand/>
+	</target>
 
-    <target name="output-config-file" depends="init">
-        <grand output="${temp.file}"
-               buildfile="build-simple.xml"
-               outputconfigfile="override.properties" />
-    </target>
+	<target name="test-current-project" depends="init">
+		<grand output="${temp.file}"/>
+	</target>
 
-    <target name="non-existent-default-target" depends="init">
-        <grand buildfile="non-existent-default-target.xml" output="${temp.file}" />
-    </target>
+	<target name="output-config-file" depends="init">
+		<grand output="${temp.file}" buildfile="build-simple.xml" outputconfigfile="override.properties"/>
+	</target>
 
-    <target name="simple-build" depends="init">
-        <grand buildfile="build-simple.xml" output="${temp.file}" />
-    </target>
+	<target name="non-existent-default-target" depends="init">
+		<grand buildfile="non-existent-default-target.xml" output="${temp.file}"/>
+	</target>
 
-    <target name="simple-build-with-graph-name" depends="init">
-        <grand showgraphname="yes" buildfile="build-simple.xml" output="${temp.file}" />
-    </target>
+	<target name="simple-build" depends="init">
+		<grand buildfile="build-simple.xml" output="${temp.file}"/>
+	</target>
 
-    <target name="import" depends="init">
-        <grand buildfile="build-import.xml" output="${temp.file}" />
-    </target>
+	<target name="simple-build-with-graph-name" depends="init">
+		<grand showgraphname="yes" buildfile="build-simple.xml" output="${temp.file}"/>
+	</target>
 
-    <target name="antcall" depends="init">
-        <grand buildfile="build-complex.xml" output="${temp.file}" />
-    </target>
+	<target name="import" depends="init">
+		<grand buildfile="build-import.xml" output="${temp.file}"/>
+	</target>
 
-    <target name="subant" depends="init">
-        <grand buildfile="subant.xml" output="${temp.file}">
-            <property name="basedir" value="${basedir}" />
-        </grand>
-    </target>
+	<target name="antcall" depends="init">
+		<grand buildfile="build-complex.xml" output="${temp.file}"/>
+	</target>
+
+	<target name="subant" depends="init">
+		<grand buildfile="subant.xml" output="${temp.file}">
+			<property name="basedir" value="${basedir}"/>
+		</grand>
+	</target>
 </project>

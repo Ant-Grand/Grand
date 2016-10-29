@@ -1,63 +1,76 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
 <project name="GrandTask" default="graph">
-	<description>
-		My little test bed for distribs.
-	</description>
-	<property name="antcall.target" value="init"/>
-	<target name="init">
-		<typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes:../src/conf"/>
-		<macrodef name="mkgraph">
-			<attribute name="name"/>
-			<sequential>
-				<grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot"/>
-				<exec executable="dot" >
-				    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o @{name}.ps @{name}.dot"/>
-				</exec>
-			</sequential>
-		</macrodef>
-	</target>
+    <description>
+        My little test bed for distribs.
+    </description>
+    <property name="antcall.target" value="init"/>
 
-	<target name="antcalltarget">
-		<antcall target="${antcall.target}"/>
-	</target>
-	
-	<target name="clean">
-		<delete dir=".">
-			<fileset>
-				<include name="*.dot"/>
-				<include name="*.ps"/>
-			</fileset>
-		</delete>
-	</target>
+    <target name="init">
+        <typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes"/>
+        <macrodef name="mkgraph">
+            <attribute name="name"/>
+            <element name="apply-filter" optional="true"/>
+            <sequential>
+                <grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot">
+                    <apply-filter/>
+                </grand>
+                <exec executable="dot" >
+                    <arg line="-Tsvg -o @{name}.svg @{name}.dot"/>
+                </exec>
+            </sequential>
+        </macrodef>
+    </target>
 
-	<target name="current-project" depends="init">
-		<grand output="current.dot"/>
-		<exec executable="dot" >
-		    <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o current.ps current.dot"/>
-		</exec>
-	</target>	
+    <target name="antcalltarget">
+        <antcall target="${antcall.target}"/>
+    </target>
 
-	<target name="ant-build" depends="init">
-		<mkgraph name="ant-build"/>
-	</target>
-	
+    <target name="clean">
+        <delete>
+            <fileset dir=".">
+                <include name="*.dot"/>
+                <include name="*.svg"/>
+            </fileset>
+        </delete>
+    </target>
 
-	<target name="subant" depends="init">
-		<mkgraph name="subant"/>
-	</target>
-	
+    <target name="current-project" depends="init">
+        <grand output="current.dot"/>
+        <exec executable="dot">
+            <arg line="-Tsvg -o current.svg current.dot"/>
+        </exec>
+    </target>
+
+    <target name="ant-build" depends="init">
+        <mkgraph name="ant-build"/>
+    </target>
+
+    <target name="subant" depends="init">
+        <mkgraph name="subant"/>
+    </target>
 
     <target name="import" depends="init">
-        <mkgraph name="import"/>
+        <mkgraph name="import">
+            <apply-filter>
+                <filter name="prefixed"/>
+            </apply-filter>
+        </mkgraph>
     </target>
-    
 
-	<target name="test-build" depends="init">
-		<mkgraph name="test-build"/>
-	</target>
-	
-	<target name="graph" depends="current-project, ant-build, test-build, subant"/>
+    <target name="ics-build" depends="init">
+        <mkgraph name="ics-build/build"/>
+	<move todir=".">
+            <fileset dir="ics-build">
+                <include name="*.dot"/>
+                <include name="*.svg"/>
+            </fileset>
+	</move>
+    </target>
 
+    <target name="test-build" depends="init">
+        <mkgraph name="test-build"/>
+    </target>
+
+    <target name="graph" depends="current-project, ant-build, test-build, subant"/>
 </project>
-

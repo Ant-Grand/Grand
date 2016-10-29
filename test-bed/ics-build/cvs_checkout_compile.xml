@@ -1,63 +1,63 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="./ant2html.xsl"?>
 <project name="CVS Compile" default="CVSBuild" basedir=".">
-    
-    <taskdef resource="net/sf/antcontrib/antlib.xml" />
-    
-    <!-- Defining a couple of directories as properties so they can be overridden 
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    <!-- Defining a couple of directories as properties so they can be overridden
          to support builds of smaller subsets of the entire app -->
     <property name="utility.jar.dir" value="${cvs_source.dir}/ICSWebApp/webApplication/WEB-INF/lib"/>
     <property name="test.jar.dir" value="${cvs_source.dir}/ICSTestUtil/lib"/>
-    
+
     <path id="build.classpath">
         <fileset dir="${utility.jar.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${ibm_resource_adaptors.dir}">
-            <include name="ctg*.jar" />
+            <include name="ctg*.jar"/>
         </fileset>
         <fileset dir="${was_lib.dir}">
-            <include name="*.jar" />
+            <include name="*.jar"/>
         </fileset>
         <fileset dir="${junit_jar.dir}">
-            <include name="junit.jar" />
+            <include name="junit.jar"/>
         </fileset>
         <fileset dir="${mq_jar.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${cvs_build.dir}/jars">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${bundle_dev.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${src.dir}">
-            <include name="lib/*.jar" />
+            <include name="lib/*.jar"/>
         </fileset>
         <fileset dir="${test.jar.dir}">
-            <include name="*.jar" />
+            <include name="*.jar"/>
         </fileset>
         <!-- Include the webapp classes, since we don't JAR them up -->
-        <pathelement path="${cvs_build.dir}/bin/ICSWebApp"/>    
+        <pathelement path="${cvs_build.dir}/bin/ICSWebApp"/>
     </path>
-    
+
     <!-- Main controlling target, calls all others -->
     <target name="CVSBuild">
-        <mkdir dir="${cvs_build.dir}" />
-        <antcall target="CVSCheckout" />
-        <antcall target="compileJar" />
+        <mkdir dir="${cvs_build.dir}"/>
+        <antcall target="CVSCheckout"/>
+        <antcall target="compileJar"/>
     </target>
+
     <!-- Calls the build script to checkout all the eBill projects -->
     <target name="CVSCheckout">
         <tstamp>
-            <format property="checkout.started" pattern="HH:mm:ss" />
+            <format property="checkout.started" pattern="HH:mm:ss"/>
         </tstamp>
         <echo message="CVS checkout step started at ${checkout.started}" level="info"/>
 
         <ant antfile="cvs_checkout.xml" target="CVSCheckout"/>
 
         <tstamp>
-            <format property="checkout.ended" pattern="HH:mm:ss" />
+            <format property="checkout.ended" pattern="HH:mm:ss"/>
         </tstamp>
         <echo message="CVS checkout step ended at ${checkout.ended}" level="info"/>
     </target>
@@ -65,17 +65,17 @@
     <!-- Compiles and JARs all the source files -->
     <target name="compileJar" unless="noCompile">
         <tstamp>
-            <format property="compile.started" pattern="HH:mm:ss" />
+            <format property="compile.started" pattern="HH:mm:ss"/>
         </tstamp>
         <echo message="Compile step started at ${compile.started}"  level="info"/>
-    
+
         <!-- Define the version tag to put in the JAR file by the CC build number -->
         <property name="jar_version" value="${label}"/>
-        
+
         <for list="${projects}" param="projectName">
             <sequential>
                 <antcall target="compile">
-                    <param name="projectName" value="@{projectName}" />
+                    <param name="projectName" value="@{projectName}"/>
                     <param name="src.dir" value="${cvs_source.dir}/@{projectName}"/>
                 </antcall>
 
@@ -94,7 +94,7 @@
                     <available file="${cvs_source.dir}/@{projectName}/ejbModule" type="dir"/>
                 <then>
                     <antcall target="ejb-jar">
-                        <param name="projectName" value="@{projectName}" />
+                        <param name="projectName" value="@{projectName}"/>
                         <param name="src.dir" value="${cvs_source.dir}/@{projectName}/ejbModule"/>
                         <param name="jarfile" value="${bundle_dev.dir}/@{projectName}.jar"/>
                     </antcall>
@@ -104,60 +104,60 @@
                         <not><equals arg1="@{projectName}" arg2="ICSWebApp"></equals></not>
                         <or>
                             <available file="${cvs_source.dir}/@{projectName}/source" type="dir"/>
-                            <available file="${cvs_source.dir}/@{projectName}/com" type="dir"/>                     
+                            <available file="${cvs_source.dir}/@{projectName}/com" type="dir"/>
                         </or>
                     </and>
                 <then>
                     <antcall target="jar">
-                        <param name="projectName" value="@{projectName}" />
+                        <param name="projectName" value="@{projectName}"/>
                         <param name="src.dir" value="${cvs_source.dir}/@{projectName}"/>
                         <param name="jarfile" value="${cvs_build.dir}/jars/${projectNameLowerCase}.jar"/>
                     </antcall>
                 </then>
                 </elseif>
                 </if>
-            
+
             </sequential>
         </for>
 
         <tstamp>
-            <format property="compile.ended" pattern="HH:mm:ss" />
+            <format property="compile.ended" pattern="HH:mm:ss"/>
         </tstamp>
         <echo message="Compile step ended at ${compile.ended}" level="info"/>
     </target>
 
     <target name="compile">
-        <javac fork="yes" destdir="${cvs_compile.dir}/${projectName}" 
-                includes="**/*.java" 
-                memoryInitialSize="256m" memoryMaximumSize="512m" 
+        <javac fork="yes" destdir="${cvs_compile.dir}/${projectName}"
+                includes="**/*.java"
+                memoryInitialSize="256m" memoryMaximumSize="512m"
                 verbose="${cvs_compile_verbose_output}"
                 deprecation="off"
                 compiler="jikes"
                 executable="c:/tools/jikes/bin/jikes.exe"
                 debug="true">
-            <src path="${src.dir}" />
+            <src path="${src.dir}"/>
             <classpath refid="build.classpath"/>
         </javac>
     </target>
 
-    <target name="jar" description="Create a JAR from a project's source"> 
+    <target name="jar" description="Create a JAR from a project's source">
         <!-- Copy tier-specific config info first -->
         <copy todir="${cvs_source.dir}/${projectName}" overwrite="true" includeEmptyDirs="false" failonerror="false">
             <fileset dir="${cvs_source.dir}/ICSConfig/dev/${harvest_project}/${projectName}">
-                <include name="**/*.*" />
+                <include name="**/*.*"/>
             </fileset>
-        </copy>        
-        
+        </copy>
+
         <jar jarfile="${jarfile}" compress="false">
             <fileset dir="${cvs_compile.dir}/${projectName}">
-                <include name="**/*.class" />
+                <include name="**/*.class"/>
             </fileset>
             <!-- Include the Hibernate mapping files, also include and xml files for configuration
                  xml files included are assumed to be tier safe.  Any non-tier safe configuration
                  will need to be included in the webApplication/classes -->
             <fileset dir="${src.dir}">
-                <include name="**/*.hbm.xml" />
-                <include name="**/*.xml" />
+                <include name="**/*.hbm.xml"/>
+                <include name="**/*.xml"/>
                 <include name="**/*.properties"/>
                 <exclude name="log*.properties"/>
                 <exclude name="**/ejb-jar.xml"/>
@@ -167,13 +167,12 @@
             </manifest>
         </jar>
     </target>
-    
-    <target name="ejb-jar" depends="jar" description="Add in additional EJB meta info"> 
+
+    <target name="ejb-jar" depends="jar" description="Add in additional EJB meta info">
         <jar jarfile="${jarfile}" compress="false" update="true">
             <metainf dir="${src.dir}/META-INF">
                 <exclude name="**/MANIFEST.MF"/>
             </metainf>
         </jar>
     </target>
-    
 </project>

@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
-<!-- $Id: subant.xml 498 2004-12-23 06:43:20Z moi $ -->
+<!-- $Id$ -->
 <project name="Subant" default="init">
     <target name="init" description="Perform some initialization tasks" unless="skip-init">
         <echo>Init from dir ${basedir}</echo>
     </target>
 
     <target name="foo">
-        <ant dir="bar" target="deploy" />
-        <ant dir="baz" target="deploy" />
+        <ant dir="bar" target="deploy"/>
+        <ant dir="baz" target="deploy"/>
     </target>
-    
 </project>

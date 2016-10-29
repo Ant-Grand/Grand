@@ -7,29 +7,27 @@
 
     <target name="generic" description="Do the same operation in several directories." depends="prepare">
         <subant genericantfile="${ant.file}">
-            <dirset dir="." includes="subant-*" />
-            <fileset dir="." includes="subant-1/build.xml" />
+            <dirset dir="." includes="subant-*"/>
+            <fileset dir="." includes="subant-1/build.xml"/>
         </subant>
     </target>
 
     <target name="antfile" description="Call all the ant files in subant-*" depends="prepare">
         <subant>
-            <dirset dir="." includes="subant-*" />
+            <dirset dir="." includes="subant-*"/>
         </subant>
     </target>
 
     <target name="grand" depends="init" description="Builds a graph for the current build file.">
         <typedef resource="net/ggtools/grand/antlib.xml"
-                 classpath="../target/classes" />
-        <grand output="/tmp/current.dot" />
+                 classpath="../target/classes"/>
+        <grand output="/tmp/current.dot"/>
         <exec executable="dot">
-            <arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o /tmp/current.ps /tmp/current.dot" />
+            <arg line="-Tsvg -o /tmp/current.svg /tmp/current.dot"/>
         </exec>
     </target>
-    
+
     <target name="prepare">
         <echo>I'm ready</echo>
     </target>
-
-
 </project>

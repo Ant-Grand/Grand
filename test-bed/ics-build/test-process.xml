@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
 <project name="ics-test-report" default="analyze" basedir=".">
-
     <!-- Perform any initialization that is needed, such as reading property files and setting up timestamps  -->
     <target name="init">
-        <taskdef resource="net/sf/antcontrib/antlib.xml" />
+        <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
         <if>
             <os family="windows"/>
@@ -20,12 +19,12 @@
             </elseif>
             <else>
                 <fail message="Build platform not supported: ${os.name}"/>
-            </else>            
+            </else>
         </if>
 
-        <property file="${environment.properties}" />
-        <property file="${id_file.dir}/com/amfam/ics/properties/ics_access.properties" />
-        <property file="${id_file.dir}/com/amfam/cvs/access.properties" />
+        <property file="${environment.properties}"/>
+        <property file="${id_file.dir}/com/amfam/ics/properties/ics_access.properties"/>
+        <property file="${id_file.dir}/com/amfam/cvs/access.properties"/>
 
         <loadfile property="projects" srcFile="project_list.txt">
           <filterchain>
@@ -35,26 +34,25 @@
         </loadfile>
 
         <tstamp>
-            <format property="DSTAMP" pattern="yyyyMMdd" />
-            <format property="TSTAMP" pattern="yyyyMMdd_hhmmaa" />
-            <format property="TSTAMP_FORMATED" pattern="yyyy-MM-dd HH:mm" />
+            <format property="DSTAMP" pattern="yyyyMMdd"/>
+            <format property="TSTAMP" pattern="yyyyMMdd_hhmmaa"/>
+            <format property="TSTAMP_FORMATED" pattern="yyyy-MM-dd HH:mm"/>
         </tstamp>
     </target>
 
     <target name="analyze" depends="init" description="Run the given analysis tool over the source code">
-        <record name="${basedir}/testprocess-${toolName}.log" action="start" append="no" loglevel="${loglevel}" />
+        <record name="${basedir}/testprocess-${toolName}.log" action="start" append="no" loglevel="${loglevel}"/>
 
         <echo message="Build started at ${TSTAMP_FORMATED}"/>
-        
+
         <ant antfile="process-${toolName}/build.xml" inheritall="false">
             <property name="build_home.dir" value="${basedir}"/>
-            <property file="project_versions.properties" />
-            <property file="${environment.properties}" />
-            <property name="projects" value="${projects}" />
+            <property file="project_versions.properties"/>
+            <property file="${environment.properties}"/>
+            <property name="projects" value="${projects}"/>
 
-            <property name="cvs_userid" value="${cvs_userid}" />
-            <property name="cvs_password" value="${cvs_password}" />            
+            <property name="cvs_userid" value="${cvs_userid}"/>
+            <property name="cvs_password" value="${cvs_password}"/>
         </ant>
-
     </target>
 </project>

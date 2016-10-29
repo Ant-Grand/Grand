@@ -1,29 +1,28 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
 <project name="Subant" default="init">
-    <target name="init">
-        <echo>Init from dir ${basedir}</echo>
-    </target>
+	<target name="init">
+		<echo>Init from dir ${basedir}</echo>
+	</target>
 
-    <target name="generic">
-        <subant genericantfile="${ant.file}">
-            <dirset dir="." includes="subant-*" />
-            <fileset dir="." includes="subant-1/build.xml" />
-        </subant>
-    </target>
+	<target name="generic">
+		<subant genericantfile="${ant.file}">
+			<dirset dir="." includes="subant-*"/>
+			<fileset dir="." includes="subant-1/build.xml"/>
+		</subant>
+	</target>
 
-    <target name="antfile">
-        <subant>
-            <dirset dir="." includes="subant-*" />
-        </subant>
-    </target>
+	<target name="antfile">
+		<subant>
+			<dirset dir="." includes="subant-*"/>
+		</subant>
+	</target>
 
-    <target name="multitarget">
-        <subant>
-          <dirset dir="." includes="subant-*" />
-	  <target name="init" />
-	  <target name="target" />
-        </subant>
-    </target>
-
+	<target name="multitarget">
+		<subant>
+			<dirset dir="." includes="subant-*"/>
+			<target name="init"/>
+			<target name="target"/>
+		</subant>
+	</target>
 </project>

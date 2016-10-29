@@ -7,27 +7,26 @@
         <antcall target="wsad.buildorder"/>
         <antcall target="wsad.projectlist"/>
     </target>
-    
+
     <target name="wsad.buildorder" depends="init" description="Creates WSAD workspace files">
         <property name="shared.wsad.dir"            value="///Nhq1accofp04vs1/ALL_IS/ClaimsRoadmap/WSAD"/>
         <property name="wsad.preferences.template"  value="wsad/ICSPreferences_jab043_template.epf"/>
         <property name="wsad.preferences"           value="${shared.wsad.dir}/ICSPreferences_jab043.epf"/>
         <property name="build.order.ini.template"   value="wsad/pref_store_template.ini"/>
         <property name="build.order.ini"            value="${shared.wsad.dir}/pref_store.ini"/>
-        
+
         <loadfile property="build.order" srcFile="${project_list}">
           <filterchain>
             <prefixlines prefix="\:"/>
             <striplinebreaks/>
           </filterchain>
         </loadfile>
-        
+
         <copy file="${wsad.preferences.template}" tofile="${wsad.preferences}" overwrite="true" verbose="true"/>
-        <replace file="${wsad.preferences}" token="@@BUILD_ORDER@@" value="${build.order}" />
+        <replace file="${wsad.preferences}" token="@@BUILD_ORDER@@" value="${build.order}"/>
 
         <copy file="${build.order.ini.template}" tofile="${build.order.ini}" overwrite="true" verbose="true"/>
-        <replace file="${build.order.ini}" token="@@BUILD_ORDER@@" value="${build.order}" />
-        
+        <replace file="${build.order.ini}" token="@@BUILD_ORDER@@" value="${build.order}"/>
     </target>
 
     <target name="wsad.projectlist" depends="init" description="Creates WSAD project list file">
@@ -40,9 +39,9 @@
         <!-- Include projects built regularly, and others just part of the workspace -->
         <property name="all.projects" value="${projects},EventsDefaultServer,ICSFunctionTest"/>
 
-        <!-- Sandwich the individual project lines between boilerplate header and footer elements -->        
+        <!-- Sandwich the individual project lines between boilerplate header and footer elements -->
         <copy file="${wsad.projectlist.header}" tofile="${wsad.projectlist}" overwrite="true" verbose="true"/>
-        
+
         <for list="${all.projects}" param="projectName">
             <sequential>
                 <copy file="${wsad.projectlist.line}" tofile="${wsad.projectlist.line}.temp" overwrite="true"/>
@@ -50,18 +49,18 @@
                 <replace file="${wsad.projectlist.line}.temp" token="MASTER_PROJECT" value="${cvs_master_project}"/>
                 <replace file="${wsad.projectlist.line}.temp" token="PROJECT" value="@{projectName}"/>
                 <replace file="${wsad.projectlist.line}.temp" token="STREAM" value="${cvs_stream}"/>
-        
+
                 <concat destfile="${wsad.projectlist}" append="true">
                     <filelist dir="." files="${wsad.projectlist.line}.temp"/>
                 </concat>
             </sequential>
         </for>
-        
+
         <concat destfile="${wsad.projectlist}" append="true">
             <filelist dir="." files="${wsad.projectlist.footer}"/>
         </concat>
-        
+
         <echo message="Created ${wsad.projectlist} file for WSAD in ${shared.wsad.dir}" level="info"/>
     </target>
-    
+
 </project>

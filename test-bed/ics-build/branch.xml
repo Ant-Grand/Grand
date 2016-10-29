@@ -1,5 +1,4 @@
 <project name="branch" default="" basedir=".">
-
     <target name="createBranch" if="branch.tag">
         <!-- Include special projects that don't get tagged each release -->
         <property name="extra.projects" value="EventsDefaultServer,ICSFunctionTest"/>
@@ -7,30 +6,28 @@
         <for list="${extra.projects}" param="projectName">
             <sequential>
                 <echo message="Ensuring @{projectName} has ${branch.tag} tag"/>
-                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -D'${TSTAMP_FORMATED}' ${branch.tag}" quiet="${cvs_checkout_quiet_output}" />
+                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -D'${TSTAMP_FORMATED}' ${branch.tag}" quiet="${cvs_checkout_quiet_output}"/>
             </sequential>
         </for>
-        
+
         <property name="all.projects" value="${projects},${extra.projects}"/>
 
-        <echo message="Creating branch named ${branch.name} starting at ${branch.tag} on these projects: ${all.projects}" level="info" />
+        <echo message="Creating branch named ${branch.name} starting at ${branch.tag} on these projects: ${all.projects}" level="info"/>
         <for list="${all.projects}" param="projectName">
             <sequential>
                 <echo message="Branching @{projectName}"/>
-                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -b -r${branch.tag} ${branch.name}" quiet="${cvs_checkout_quiet_output}" />
+                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -b -r${branch.tag} ${branch.name}" quiet="${cvs_checkout_quiet_output}"/>
             </sequential>
-        </for>        
-        
-    </target>
-  
-    <target name="deleteBranch" if="branch.name">
-        <echo message="Deleting branch named ${branch.name} from all ICS projects" level="info" />
-        <for list="${projects}" param="projectName">
-            <sequential>                                                                         
-                <echo message="Deleting branch on @{projectName}"/>
-                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -d -B ${branch.name}" quiet="${cvs_checkout_quiet_output}" />
-            </sequential>
-        </for>        
+        </for>
     </target>
 
+    <target name="deleteBranch" if="branch.name">
+        <echo message="Deleting branch named ${branch.name} from all ICS projects" level="info"/>
+        <for list="${projects}" param="projectName">
+            <sequential>
+                <echo message="Deleting branch on @{projectName}"/>
+                <cvs cvsRoot=":pserver:${cvs_userid}:${cvs_password}@${cvs_repository}" package="${cvs_master_project}/@{projectName}" command="rtag -d -B ${branch.name}" quiet="${cvs_checkout_quiet_output}"/>
+            </sequential>
+        </for>
+    </target>
 </project>
