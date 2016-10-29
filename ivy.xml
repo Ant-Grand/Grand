@@ -11,5 +11,6 @@
     <dependency org="org.apache.ant" name="ant-launcher" rev="1.9.7"/>
     <dependency org="junit" name="junit" rev="4.12" conf="test->default"/>
     <dependency org="org.hamcrest" name="hamcrest-core" rev="1.3" conf="test->default"/>
+    <dependency org="org.apache.maven" name="maven-ant-tasks" rev="2.1.3" conf="test->default"/>
   </dependencies>
 </ivy-module>
