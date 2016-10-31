@@ -110,7 +110,7 @@
           </reportSet>
         </reportSets>
         <configuration>
-          <xmlPath>${basedir}/xdocs/changes.xml</xmlPath>
+          <xmlPath>${basedir}/src/site/changes.xml</xmlPath>
         </configuration>
       </plugin>
       <plugin>
