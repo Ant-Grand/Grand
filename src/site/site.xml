@@ -14,6 +14,9 @@
     <links>
       <item name="Grand: Graphical Representation of ANt Dependencies" href="/"/>
     </links>
+    <menu name="Grand">
+      <item name="Introduction" href="grand.html"/>
+    </menu>
     <menu ref="parent"/>
     <menu ref="reports"/>
   </body>
