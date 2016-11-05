@@ -10,13 +10,15 @@
         <typedef resource="net/ggtools/grand/antlib.xml" classpath="../target/classes"/>
         <macrodef name="mkgraph">
             <attribute name="name"/>
+            <attribute name="showname" default="true"/>
+            <attribute name="suffix" default=""/>
             <element name="apply-filter" optional="true"/>
             <sequential>
-                <grand showgraphname="true" buildfile="@{name}.xml" output="@{name}.dot">
+                <grand showgraphname="@{showname}" buildfile="@{name}.xml" output="@{name}@{suffix}.dot">
                     <apply-filter/>
                 </grand>
-                <exec executable="dot" >
-                    <arg line="-Tsvg -o @{name}.svg @{name}.dot"/>
+                <exec executable="dot">
+                    <arg line="-Tsvg -o @{name}@{suffix}.svg @{name}@{suffix}.dot"/>
                 </exec>
             </sequential>
         </macrodef>
@@ -43,7 +45,24 @@
     </target>
 
     <target name="ant-build" depends="init">
-        <mkgraph name="ant-build"/>
+        <mkgraph name="ant-build" showname="false"/>
+    </target>
+
+    <target name="ant-build-from-main" depends="init">
+        <mkgraph name="ant-build" showname="false" suffix="-from-main">
+            <apply-filter>
+                <filter name="fromnode" node="main"/>
+            </apply-filter>
+        </mkgraph>
+    </target>
+
+    <target name="ant-build-from-dist-to-prepare" depends="init">
+        <mkgraph name="ant-build" showname="false" suffix="-from-dist-to-prepare">
+            <apply-filter>
+                <filter name="fromnode" node="dist"/>
+                <filter name="tonode" node="prepare"/>
+            </apply-filter>
+        </mkgraph>
     </target>
 
     <target name="subant" depends="init">
@@ -60,17 +79,17 @@
 
     <target name="ics-build" depends="init">
         <mkgraph name="ics-build/build"/>
-	<move todir=".">
+        <move todir=".">
             <fileset dir="ics-build">
                 <include name="*.dot"/>
                 <include name="*.svg"/>
             </fileset>
-	</move>
+        </move>
     </target>
 
     <target name="test-build" depends="init">
         <mkgraph name="test-build"/>
     </target>
 
-    <target name="graph" depends="current-project, ant-build, test-build, subant"/>
+    <target name="graph" depends="current-project, ant-build, ant-build-from-main, ant-build-from-dist-to-prepare, test-build, subant"/>
 </project>
