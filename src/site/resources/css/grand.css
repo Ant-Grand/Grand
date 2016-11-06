@@ -1,0 +1,228 @@
+/*
+ * Stylesheet for ggTools.
+ * (C) Christophe Labouisse 2003.
+ */
+
+dt {
+    font-weight: bold;
+}
+
+code {
+    color: #000066;
+}
+
+/* Tema styles */
+span.contact-name {
+    font-style: italic;
+}
+
+span.duration {
+    font-weight: bold;
+}
+
+#form {
+    text-align: right;
+}
+
+#email {
+    background-color: white;
+    color: #000066;
+    margin-left: 2em;
+    margin-right: 2em;
+    border: 2px solid black;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    text-align: center;
+}
+
+#email a.email {
+    font-family: "Andale mono", "Monotype.com", "Courier New", Courier, monospace;
+}
+
+div.sample-image {
+    text-align: center;
+    margin: 10px;
+}
+
+div.sample-image img {
+    background-color: #ffffff;
+    color: #000066;
+    border: 2px solid #000022;
+    padding: 10px;
+}
+
+div.floating-sample-image {
+    text-align: center;
+    margin: 0px 0px 10px 10px;
+    float: right;
+}
+
+div.floating-sample-image img {
+    background-color: #ffffff;
+    color: #000066;
+    border: 2px solid #000022;
+    padding: 10px;
+}
+
+body { 
+    padding: 0px 12em 0px 6em;  
+    margin: 0px; 
+}
+
+#menu {
+    background-color: white;
+    border: solid 2px black;
+    width: 10em;
+    right: 10px;
+    top: 10px;
+    position: absolute;
+}
+
+@media screen {
+    #menu {
+	position: fixed
+    }
+}
+
+
+#menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border: none
+}
+
+#menu li {
+    margin: 0;
+    padding: 0.25em 0.5em 0.25em 1em;
+    border-top: 1px solid gray;
+    /*width: 100%;*/
+    width: auto;
+    font-size: 80%;
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    font-family: verdana,sansserif;
+}
+
+#menu a {
+    text-decoration: none;
+}
+
+#menu li:first-child {
+    border: none
+}
+
+div.filter-definitions {
+    margin-left: 2em;
+    margin-right: 2em;
+    padding: 0px 10px 0px 10px;
+}
+
+div.task-parameters {
+    margin-left: 2em;
+    margin-right: 2em;
+    padding: 0px 10px 0px 10px;
+}
+
+div.task-parameters table {
+    border-collapse: collapse;
+    background-color: white;
+    border: 2px solid black;
+}
+
+div.task-parameters th {
+    font-size: 90%;
+}
+
+div.task-parameters td,th {
+    border: 1px solid gray;
+    padding: 5px;
+}
+
+div.task-parameters td.param {
+    font-weight: bold;
+}
+
+div.task-parameters td.mandatory {
+    text-align: center;
+}
+
+.modal-image {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modal-image:hover {
+    opacity: 0.7;
+}
+
+/* The Modal (background) */
+.grandmodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.grandcontent {
+    margin: auto;
+    display: block;
+    width: 85%;
+    max-width: 960px;
+}
+
+/* Caption of Modal Image */
+.grandcaption {
+    margin: auto;
+    display: block;
+    width: 85%;
+    max-width: 960px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 100px;
+}
+
+/* Add Animation */
+.grandcontent, .grandcaption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+.grandclose {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.grandclose:hover, .grandclose:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 1024px) {
+    .grandcontent {
+        width: 100%;
+    }
+}
