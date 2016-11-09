@@ -78,7 +78,7 @@
           <ul>
             <li>Upgrade to latest Draw2d (GEF 3 legacy in GEF 4.0) and Eclipse 4.6,</li>
             <li>Upgrade to Grand core 1.9 (prefixed filter); core downloads from GitHub,</li>
-            <li>Add native Cocoa support as well as support for 32- and 64-bit Windows and Linux.</li>
+            <li>Use native SWT Cocoa support as well as support for 32- and 64-bit Windows and Linux/GTK.</li>
           </ul>
         </dd>
         <dt>Version 1.9.2 (30 Aug. 2016)</dt>
@@ -86,7 +86,7 @@
           <ul>
             <li>Upgrade to Ant 1.9.7,</li>
             <li>Working Maven configuration (pom.xml),</li>
-            <li>Implemented subant task API for Ant 1.7+ in SubAntHelper.</li>
+            <li>Complemented subant task API for Ant 1.7+ in SubAntHelper.</li>
           </ul>
         </dd>
         <dt>Version 1.9.1 (13 Jul. 2015)</dt>
@@ -94,7 +94,7 @@
           <ul>
             <li>Upgrade to Ant 1.9.6,</li>
             <li>Use Maven SDL,</li>
-            <li>Corrected colour name (lime is known by svg, but not x11)</li>
+            <li>Corrected colour name (lime is known by svg, but not x11).</li>
           </ul>
         </dd>
         <dt>Version 1.9 (25 Jan. 2015)</dt>
