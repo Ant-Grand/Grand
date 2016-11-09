@@ -9,10 +9,10 @@
   <description>
     Grand is a tool to create a visual representation of Ant target
     dependencies. It works by taking an Ant build file and creating a
-    "dot" file.  It differs from the existing tools by relying on the
+    "dot" file. It differs from the existing tools by relying on the
     Ant API rather than XML parsing to get the dependencies.
   </description>
-  <url>http://www.ggtools.net/grand/</url>
+  <url>https://ant-grand.github.io/Grand/grand.html</url>
   <inceptionYear>2004</inceptionYear>
   <organization>
     <name>ggTools</name>
@@ -28,6 +28,12 @@
     <url>https://github.com/Ant-Grand/Grand</url>
     <connection>scm:git:https://github.com/Ant-Grand/Grand.git</connection>
   </scm>
+  <distributionManagement>
+    <site>
+      <id>${project.artifactId}</id>
+      <url>${project.scm.connection}</url>
+    </site>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>org.apache.ant</groupId>
@@ -67,6 +73,15 @@
           <moduleExcludes>
             <xdoc>navigation.xml</xdoc>
           </moduleExcludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-scm-publish-plugin</artifactId>
+        <version>1.1</version>
+        <configuration>
+          <content>${project.build.directory}/site</content>
+          <checkinComment>Publishing documentation for ${project.artifactId}:${project.version}</checkinComment>
+          <scmBranch>gh-pages</scmBranch>
         </configuration>
       </plugin>
       <plugin>
