@@ -1,8 +1,0 @@
-target/
-dist/
-tmp*.dot
-*.old
-.settings/
-.idea/
-*.iml
-.DS_Store
