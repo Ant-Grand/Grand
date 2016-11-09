@@ -57,7 +57,7 @@
     </subsection>
     <subsection name="News">
       <dl>
-        <dt>Current situation (21 Jan 2012)</dt>
+        <dt>Move to GitHub (21 Jan. 2012)</dt>
         <dd>
           <p>
             It has been quite a long time since I worked on Grand. The last commits date from July 2006 (almost 6 years). I have to admit it, Grand is no longer on the of my todo list especially since I no longer use Ant in my day job.
@@ -244,7 +244,7 @@
         </p>
         <h4>GUI</h4>
         <p>
-          The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.1/grand-ui-0.8.1.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.
+          The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.2/grand-ui-0.8.1.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.
         </p>
       </subsection>
       <subsection name="Compilation, installation">
@@ -434,7 +434,7 @@ dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
       </subsection>
       <subsection name="License">
         <p>
-          Grand is distributed under the term of the <a href="../files/grand/LICENSE">BSD License</a>.
+          Grand is distributed under the term of the <a href="https://github.com/Ant-Grand/Grand/blob/master/LICENSE">BSD License</a>.
         </p>
       </subsection>
       <subsection name="Contact">
