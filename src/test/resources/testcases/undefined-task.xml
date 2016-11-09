@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<!-- $Id$ -->
-<project name="AntCallWithProperties" default="isolated">
-	<target name="target-with-undef-task">
-		<idontexist/>
-	</target>
-</project>
