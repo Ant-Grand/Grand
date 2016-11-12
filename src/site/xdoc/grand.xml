@@ -42,7 +42,7 @@
       <div class="floating-sample-image">
         <img title="Grand UI screenshot" class="modal-image" src="images/grand-ui-screenshot.svg" width="400" height="312" alt="Grand UI screenshot"/>
       </div>
-      <p>On the right is a screenshot of the GUI displaying a very simple Ant file. The left pane displays a sorted list of the targets, the lower pane the source code of the last selected node and the main one the dependency graph. In this graph, the default target is pictured in a yellow octagon, the targets with a description (main targets) in a limegreen box while ovals are targets without description. The gray target is an external target located in another file but referenced by a task (<code>subant</code> in this specific case).</p>
+      <p>On the right is a screenshot of the GUI displaying a very simple Ant file. The left pane displays a sorted list of the targets, the lower pane the source code of the last selected node and the main one the dependency graph. In this graph, the default target is pictured in a yellow octagon, the targets with a description (main targets) in limegreen boxes while ovals are targets without description. The gray target is an external target located in another file but referenced by a task (<code>subant</code> in this specific case).</p>
       <p>On the link side, the black ones are static dependencies (from the <code>depends</code> attribute) while the gray ones are the dependencies created by tasks.</p>
       <p>Images produced using the Ant task can be found in the <a href="#Examples">examples</a> section.</p>
     </subsection>
@@ -94,7 +94,7 @@
           <ul>
             <li>Upgrade to Ant 1.9.6,</li>
             <li>Use Maven SDL,</li>
-            <li>Corrected colour name (lime is known by svg, but not x11).</li>
+            <li>Corrected colour name (lime is known to svg, but not x11, whereas limegreen is known to both).</li>
           </ul>
         </dd>
         <dt>Version 1.9 (25 Jan. 2015)</dt>
@@ -107,12 +107,8 @@
         </dd>
         <dt>Move to GitHub (21 Jan. 2012)</dt>
         <dd>
-          <p>
-            It has been quite a long time since I worked on Grand. The last commits date from July 2006 (almost 6 years). I have to admit it, Grand is no longer on the of my todo list especially since I no longer use Ant in my day job.
-          </p>
-          <p>
-            In order not to let the project die, I decided to move it to <a href="http://www.github.com/">GitHub</a>: <a href="http://xlct.it/wDe2N0">Grand</a> and <a href="http://xlct.it/A0yZsE">GrandUI</a>.
-          </p>
+          <p>It has been quite a long time since I worked on Grand. The last commits date from July 2006 (almost 6 years). I have to admit it, Grand is no longer on the of my todo list especially since I no longer use Ant in my day job.</p>
+          <p>In order not to let the project die, I decided to move it to <a href="http://www.github.com/">GitHub</a>: <a href="http://xlct.it/wDe2N0">Grand</a> and <a href="http://xlct.it/A0yZsE">GrandUI</a>.</p>
         </dd>
         <dt>Mac OS X version available with JNLP (30 May. 2005)</dt>
         <dd>
@@ -128,7 +124,7 @@
         <dt>GUI version 0.7.1 (3 May. 2005)</dt>
         <dd>
           <ul>
-            <li>Fixed a bug on Windows platforms with JDK 1.4 which prevent the display of any graph.</li>
+            <li>Fixed a bug on Windows platforms with JDK 1.4 which hindered displaying of any graph.</li>
           </ul>
         </dd>
         <dt>GUI version 0.7 (14 Apr. 2005)</dt>
@@ -143,15 +139,15 @@
         <dd>
           <ul>
             <li>Support for the new <code>target</code> element in <code>ant</code> and <code>antcall</code>,</li>
-            <li>Improved behaviour when targets with the same names exists in several files.</li>
+            <li>Improved behaviour when targets with the same names exist in several files.</li>
           </ul>
         </dd>
         <dt>GUI version 0.6 (17 Mar. 2005)</dt>
         <dd>
           <ul>
-            <li>Upgraded to Grand core 1.7 &amp; and Eclipse 3.1M5a,</li>
+            <li>Upgraded to Grand core 1.7 and Eclipse 3.1M5a,</li>
             <li>Added support for mouse wheel,</li>
-            <li>Improved Synchronization between the outline and the other panels,</li>
+            <li>Improved synchronization between the outline and the other panels,</li>
             <li>Fixed an exception when parsing a file with a <code>&lt;taskdef&gt;</code> outside of a target,</li>
             <li>Added a log window,</li>
             <li>It is now possible to specify a set of properties when opening a graph,</li>
@@ -160,257 +156,245 @@
         </dd>
         <dt>Version 1.7 (15 Mar. 2005)</dt>
         <dd>
-            <ul>
-              <li>Fixed an exception when parsing a file with a <code>&lt;taskdef&gt;</code> outside of a target,</li>
-              <li>Added a new filter type: removenode.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.6 (23 Dec. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Rewrite of the dot generator,</li>
-              <li><code>subant</code> generic links now have a specific display style.</li>
-            </ul>
-          </dd>
-          <dt>GUI version 0.5 (16 Oct. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Upgraded to Grand core 1.5 &amp; and Eclipse 3.0.1,</li>
-              <li>Added special tooltip for <code>subant</code> <code>genericantfile</code> mode,</li>
-              <li>Added an outline panel,</li>
-              <li>Both outline &amp; source panels are now maskable,</li>
-              <li>When double clicking on an external node, the corresponding build file now opens centered on that node,</li>
-              <li>Minor bugfixes.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.5 (5 Oct. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Support for the <code>subant</code> task,</li>
-              <li>Relative paths in the <code>dir</code> attribute of the <code>ant</code> task are now handled correctly,</li>
-              <li>The <code>ant</code> task no longer crashes when no target is supplied,</li>
-              <li>Minor bugfixes.</li>
-            </ul>
-          </dd>
-          <dt>GUI version 0.4 (21 Jul. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Fix a NPE when toggling bus routing,</li>
-              <li>Added source display of the selected target,</li>
-              <li>Added a preference dialog and allow customization of the graph rendering,</li>
-              <li>Upgraded to Ant 1.6.2.</li>
-            </ul>
-          </dd>
-          <dt>GUI version 0.3.1 (29 Jun. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Replace buggy 0.3 release.</li>
-            </ul>
-          </dd>
-          <dt>GUI version 0.3 (27 Jun. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Double clicking on a external target now opens this target's build file,</li>
-              <li>Page-Up &amp; Page-Down zoom in &amp; out on the graph,</li>
-              <li>Added a minimal page setup dialog,</li>
-              <li>Upgrade to Eclipse to 3.0 &amp; GEF to 20040619,</li>
-              <li>Code cleanup &amp; better error processing.</li>
-            </ul>
-          </dd>
-          <dt>GUI version 0.2 (16 Jun. 2004)</dt>
-          <dd>
-            <ul>
-              <li>The UI can now open several graphs in several tabs,</li>
-              <li>Rewritten tooltips for both Node &amp; Links,</li>
-              <li>The <code>antcall</code>/<code>ant</code> parameters are now displayed on the link's tooltip,</li>
-              <li>Upgrade to Eclipse RCP 3.0RC2, Draw2d 20040610 and Grand (core) 1.4,</li>
-              <li>The graph can use the bus routing capability of JzGraph.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.4 (15 Jun. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Small bugfix release needed by forthcoming Ui release.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.3 (11 Jun. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Major rework in the way the Ant file tasks are processed,</li>
-              <li>The nested <code>ant</code>, <code>antcall</code> &amp; similar tasks are now correctly displayed,</li>
-              <li>Support for the <code>runtarget</code> task.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.2 (04 Jun. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Internal changes allowing to gather more information on targets,</li>
-              <li>First release of a GUI based on Grand.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.1 (25 May 2004)</dt>
-          <dd>
-            <ul>
-              <li>Grand is now compiled against Ant 1.6.1, although it probably still work with 1.6,</li>
-              <li>Add the FilterChain class to handle a set of filters as one filter,</li>
-              <li>Implements a preliminary support for <code>ant</code> task,</li>
-              <li>Some code cleanup.</li>
-            </ul>
-          </dd>
-          <dt>Version 1.0 (28 Feb. 2004)</dt>
-          <dd>Nothing much (again), more code cleanup (removed jikes warning when compiling the test cases), tests on Ant 1.6.1 and Java 1.5.0 beta.</dd>
-          <dt>Version 0.9 (18 Feb. 2004)</dt>
-          <dd>Nothing much except some code cleanup to be more checkstyle compliant. The obsolete <code>net.ggtools.grand.App</code> class is no longer there.</dd>
-          <dt>Version 0.4 (12 Feb. 2004)</dt>
-          <dd>
-            <ul>
-              <li>Grand supports the <code>foreach</code> task,</li>
-              <li>When a target depends on a non existing one, Grand used to discard the link, starting from this release, when a target depends on a non existing target, a dummy node will be created; this node will be marked as a <em>missing</em> node, those nodes can be filtered out using the new <code>missingnode</code> filter,</li>
-              <li>Grand has now a mechanism to set and use properties when processing dependencies,</li>
-              <li>The <code>propertyfile</code> attribute from the <code>grand</code> task had been superseded by <code>outputconfigfile</code> in order to avoid confusion.</li>
-            </ul>
-          </dd>
-          <dt>Version 0.3.1 (6 Feb. 2004)</dt>
-          <dd>Corrects <code>NullPointerException</code> issue on some build files.</dd>
-          <dt>Version 0.3 (5 Feb. 2004)</dt>
-          <dd>
-            This version implements filters and can display <code>antcall</code> task as <em>weak links</em>.
-          </dd>
-          <dt>Version 0.2 (29 Jan. 2004)</dt>
-          <dd>
-            No new features but some code rewrite to ease the implementation of filters in a (hopefully) near future.
-          </dd>
-        </dl>
-      </subsection>
-      <subsection name="Download">
-        <h4>Core/Ant task</h4>
-        <p>
-          The latest version of Grand is available as <a href="https://github.com/Ant-Grand/Grand/releases/download/1.9.3/grand-1.9.3.jar">grand.jar</a>. Source distributions and old versions should be fetched from the <a href="https://github.com/Ant-Grand/Grand/releases">download directory</a>.
-        </p>
-        <p>
-          You'll also need to grab <a href="http://ant.apache.org">Ant</a>. The recommended version is 1.8.0 or later.
-        </p>
-        <h4>GUI</h4>
-        <p>
-          The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.2/grand-ui-0.8.2.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.
-        </p>
-      </subsection>
-      <subsection name="Compilation, installation">
-        <p>
-          If you want to recompile Grand, you'll first need to install <a href="http://www.maven.org/">Maven</a>. After that the compilation process should be straightforward: untar or unzip, cd to the Grand directory, and type <code>maven jar</code>. Maven will download the required libraries, compile the classes, run the (few) unit tests and create a jar.
-        </p>
-        <p>
-          As an alternative to Maven, the source archive also provides a <code>build.xml</code> file to be used with <a href="http://ant.apache.org">Ant</a>. This file had been generated by Maven so it tries to mimic its behaviour. By default, this file will make Ant download the dependencies. You can prevent this by running Ant with <code>-Dnoget=yes</code>. In this case you'll have to put the following jars in the classpath or in the <code>target/lib</code> directory:
-        </p>
-        <ul>
-          <li><code>ant.jar</code> and <code>ant-launcher.jar</code> from Ant 1.9.7 (any version down to 1.8.0 should still work),</li>
-          <li><code>junit.jar</code> from <a href="http://www.junit.org">JUnit</a> 4.12 and its dependency <code>hamcrest-core.jar</code>.</li>
-        </ul>
-      </subsection>
-      <subsection name="Using the Ant task">
-        <p>To use the Ant task you should first define the
-        <code>grand</code> task:</p>
-        <source>&lt;typedef resource="net/ggtools/grand/antlib.xml" classpath="grand-0.4.jar"/&gt;</source>
-        <h4>Note on property defined dependencies</h4>
-        <p>
-          Starting with release 0.4, Grand can work with dependencies defined from properties like <code>&lt;target name="target" depends="${my.target}"&gt;</code>. Keep in mind that the <em>graphed</em> file is only parsed, not executed. So no runtime defined (anything defined with the property task for instance) property will be available to Grand. The only exception is when Grand is graphing the current build file because it uses the project already loaded by Ant rather than parsing it from scratch.
-        </p>
-        <p>The task takes the following parameters:</p>
-        <div class="task-parameters">
-          <table>
-            <tbody>
-              <tr>
-                <th>Attribute</th>
-                <th>Definition</th>
-                <th>Mandatory</th>
-              </tr>
-              <tr>
-                <td class="param">output</td>
-                <td class="def">name of the output file.</td>
-                <td class="mandatory">Yes</td>
-              </tr>
-              <tr>
-                <td class="param">buildfile</td>
-                <td class="def">name of the build file to graph. If omitted, the current build file will be used.</td>
-                <td class="mandatory">No</td>
-              </tr>
-              <tr>
-                <td class="param">propertyfile</td>
-                <td class="def">Deprecated, use <code>outputconfigfile</code> instead.</td>
-                <td class="mandatory">No</td>
-              </tr>
-              <tr>
-                <td class="param">outputconfigfile</td>
-                <td class="def">a property file to configure the output.</td>
-                <td class="mandatory">No</td>
-              </tr>
-              <tr>
-                <td class="param">showgraphname</td>
-                <td class="def">If <code>true</code>, the generated graph will have the Ant project's <code>name</code> displayed a the graph label.</td>
-                <td class="mandatory">No</td>
-              </tr>
-              <tr>
-                <td class="param">inheritall</td>
-                <td class="def">If <code>true</code>, the properties of the current build file will be passed to the <em>graphed</em> build file. The default is not to pass the properties to the <em>graphed</em> project.</td>
-                <td class="mandatory">No</td>
-              </tr>
-            </tbody>
-          </table>
+          <ul>
+            <li>Fixed an exception when parsing a file with a <code>&lt;taskdef&gt;</code> outside of a target,</li>
+            <li>Added a new filter type: removenode.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.6 (23 Dec. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Rewrite of the dot generator,</li>
+            <li><code>subant</code> generic links now have a specific display style.</li>
+          </ul>
+        </dd>
+        <dt>GUI version 0.5 (16 Oct. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Upgraded to Grand core 1.5 and Eclipse 3.0.1,</li>
+            <li>Added special tooltip for <code>subant</code> <code>genericantfile</code> mode,</li>
+            <li>Added an outline panel,</li>
+            <li>Both outline &amp; source panels are now maskable,</li>
+            <li>When double clicking on an external node, the corresponding build file now opens centered on that node,</li>
+            <li>Minor bugfixes.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.5 (5 Oct. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Support for the <code>subant</code> task,</li>
+            <li>Relative paths in the <code>dir</code> attribute of the <code>ant</code> task are now handled correctly,</li>
+            <li>The <code>ant</code> task no longer crashes when no target is supplied,</li>
+            <li>Minor bugfixes.</li>
+          </ul>
+        </dd>
+        <dt>GUI version 0.4 (21 Jul. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Fix a NPE when toggling bus routing,</li>
+            <li>Added source display of the selected target,</li>
+            <li>Added a preference dialog and allow customization of the graph rendering,</li>
+            <li>Upgraded to Ant 1.6.2.</li>
+          </ul>
+        </dd>
+        <dt>GUI version 0.3.1 (29 Jun. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Replace buggy 0.3 release.</li>
+          </ul>
+        </dd>
+        <dt>GUI version 0.3 (27 Jun. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Double clicking on a external target now opens this target's build file,</li>
+            <li>Page-Up &amp; Page-Down zoom in &amp; out on the graph,</li>
+            <li>Added a minimal page setup dialog,</li>
+            <li>Upgrade to Eclipse to 3.0 &amp; GEF to 20040619,</li>
+            <li>Code cleanup &amp; better error processing.</li>
+          </ul>
+        </dd>
+        <dt>GUI version 0.2 (16 Jun. 2004)</dt>
+        <dd>
+          <ul>
+            <li>The UI can now open several graphs in several tabs,</li>
+            <li>Rewritten tooltips for both Node &amp; Links,</li>
+            <li>The <code>antcall</code>/<code>ant</code> parameters are now displayed on the link's tooltip,</li>
+            <li>Upgrade to Eclipse RCP 3.0RC2, Draw2d 20040610 and Grand (core) 1.4,</li>
+            <li>The graph can use the bus routing capability of JzGraph.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.4 (15 Jun. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Small bugfix release needed by forthcoming Ui release.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.3 (11 Jun. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Major rework in the way the Ant file tasks are processed,</li>
+            <li>The nested <code>ant</code>, <code>antcall</code> &amp; similar tasks are now correctly displayed,</li>
+            <li>Support for the <code>runtarget</code> task.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.2 (04 Jun. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Internal changes allowing to gather more information on targets,</li>
+            <li>First release of a GUI based on Grand.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.1 (25 May 2004)</dt>
+        <dd>
+          <ul>
+            <li>Grand is now compiled against Ant 1.6.1, although it probably still work with 1.6,</li>
+            <li>Add the FilterChain class to handle a set of filters as one filter,</li>
+            <li>Implements a preliminary support for <code>ant</code> task,</li>
+            <li>Some code cleanup.</li>
+          </ul>
+        </dd>
+        <dt>Version 1.0 (28 Feb. 2004)</dt>
+        <dd>
+          <p>Nothing much (again), more code cleanup (removed jikes warning when compiling the test cases), tests on Ant 1.6.1 and Java 1.5.0 beta.</p>
+        </dd>
+        <dt>Version 0.9 (18 Feb. 2004)</dt>
+        <dd>
+          <p>Nothing much except some code cleanup to be more checkstyle compliant. The obsolete <code>net.ggtools.grand.App</code> class is no longer there.</p>
+        </dd>
+        <dt>Version 0.4 (12 Feb. 2004)</dt>
+        <dd>
+          <ul>
+            <li>Grand supports the <code>foreach</code> task,</li>
+            <li>When a target depends on a non existing one, Grand used to discard the link. Starting from this release, when a target depends on a non existing target, a dummy node will be created; this node will be marked as a <em>missing</em> node, those nodes can be filtered out using the new <code>missingnode</code> filter,</li>
+            <li>Grand has now a mechanism to set and use properties when processing dependencies,</li>
+            <li>The <code>propertyfile</code> attribute from the <code>grand</code> task had been superseded by <code>outputconfigfile</code> in order to avoid confusion.</li>
+          </ul>
+        </dd>
+        <dt>Version 0.3.1 (6 Feb. 2004)</dt>
+        <dd>
+          <p>Corrects <code>NullPointerException</code> issue on some build files.</p>
+        </dd>
+        <dt>Version 0.3 (5 Feb. 2004)</dt>
+        <dd>
+          <p>This version implements filters and can display <code>antcall</code> task as <em>weak links</em>.</p>
+        </dd>
+        <dt>Version 0.2 (29 Jan. 2004)</dt>
+        <dd>
+          <p>No new features but some code rewrite to ease the implementation of filters in a (hopefully) near future.</p>
+        </dd>
+      </dl>
+    </subsection>
+    <subsection name="Download">
+      <h4>Core/Ant task</h4>
+      <p>The latest version of Grand is available as <a href="https://github.com/Ant-Grand/Grand/releases/download/1.9.3/grand-1.9.3.jar">grand.jar</a>. Source distributions and old versions should be fetched from the <a href="https://github.com/Ant-Grand/Grand/releases">download directory</a>.</p>
+      <p>You'll also need to grab <a href="http://ant.apache.org">Ant</a>. The recommended version is 1.8.0 or later.</p>
+      <h4>GUI</h4>
+      <p>The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.2/grand-ui-0.8.2.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.</p>
+    </subsection>
+    <subsection name="Compilation, installation">
+      <p>If you want to recompile Grand, you'll first need to install <a href="http://www.maven.org/">Maven</a>. After that the compilation process should be straightforward: untar or unzip, cd to the Grand directory, and type <code>maven jar</code>. Maven will download the required libraries, compile the classes, run the (few) unit tests and create a jar.</p>
+      <p>As an alternative to Maven, the source archive also provides a <code>build.xml</code> file to be used with <a href="http://ant.apache.org">Ant</a>. This file had been generated by Maven so it tries to mimic its behaviour. By default, this file will make Ant download the dependencies. You can prevent this by running Ant with <code>-Dnoget=yes</code>. In this case you'll have to put the following jars in the classpath or in the <code>target/lib</code> directory:</p>
+      <ul>
+        <li><code>ant.jar</code> and <code>ant-launcher.jar</code> from Ant 1.9.7 (any version down to 1.8.0 should still work),</li>
+        <li><code>junit.jar</code> from <a href="http://www.junit.org">JUnit</a> 4.12 and its dependency <code>hamcrest-core.jar</code>.</li>
+      </ul>
+    </subsection>
+    <subsection name="Using the Ant task">
+      <p>To use the Ant task you should first define the
+      <code>grand</code> task:</p>
+      <source>&lt;typedef resource="net/ggtools/grand/antlib.xml" classpath="grand-0.4.jar"/&gt;</source>
+      <h4>Note on property defined dependencies</h4>
+      <p>Starting with release 0.4, Grand can work with dependencies defined from properties like <code>&lt;target name="target" depends="${my.target}"&gt;</code>. Keep in mind that the <em>graphed</em> file is only parsed, not executed. So no runtime defined (anything defined with the property task for instance) property will be available to Grand. The only exception is when Grand is graphing the current build file because it uses the project already loaded by Ant rather than parsing it from scratch.</p>
+      <p>The task takes the following parameters:</p>
+      <div class="task-parameters">
+        <table>
+          <tbody>
+            <tr>
+              <th>Attribute</th>
+              <th>Definition</th>
+              <th>Mandatory</th>
+            </tr>
+            <tr>
+              <td class="param">output</td>
+              <td class="def">name of the output file.</td>
+              <td class="mandatory">Yes</td>
+            </tr>
+            <tr>
+              <td class="param">buildfile</td>
+              <td class="def">name of the build file to graph. If omitted, the current build file will be used.</td>
+              <td class="mandatory">No</td>
+            </tr>
+            <tr>
+              <td class="param">propertyfile</td>
+              <td class="def">Deprecated, use <code>outputconfigfile</code> instead.</td>
+              <td class="mandatory">No</td>
+            </tr>
+            <tr>
+              <td class="param">outputconfigfile</td>
+              <td class="def">a property file to configure the output.</td>
+              <td class="mandatory">No</td>
+            </tr>
+            <tr>
+              <td class="param">showgraphname</td>
+              <td class="def">If <code>true</code>, the generated graph will have the Ant project's <code>name</code> displayed as the graph label.</td>
+              <td class="mandatory">No</td>
+            </tr>
+            <tr>
+              <td class="param">inheritall</td>
+              <td class="def">If <code>true</code>, the properties of the current build file will be passed to the <em>graphed</em> build file. The default is not to pass the properties to the <em>graphed</em> project.</td>
+              <td class="mandatory">No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The <code>grand</code> task accepts nested <code>property</code> and <code>propertyset</code> elements. Those properties will be set in the processed project. Keep in mind that if <code>buildfile</code> is not set, those properties will be actually set in the current project.</p>
+      <p>The <code>grand</code> task can also have nested <code>filter</code> elements. The filters will be applied to the graph in specified order resulting in something similar to an <em>and</em> between filters. The <code>filter</code> can take the following parameters:</p>
+      <div class="task-parameters">
+        <table>
+          <tbody>
+            <tr>
+              <th>Attribute</th>
+              <th>Definition</th>
+              <th>Mandatory</th>
+            </tr>
+            <tr>
+              <td class="param">name</td>
+              <td class="def">filter's name. Can be one of <code>isolatednode</code>, <code>missingnode</code>, <code>prefixed</code>, <code>fromnode</code>, <code>tonode</code>, <code>connected</code> or <code>removenode</code>.</td>
+              <td class="mandatory">Yes</td>
+            </tr>
+            <tr>
+              <td class="param">node</td>
+              <td class="def">a node's name. Depending of the selected filter, this attribute can have different meanings and may or may not be mandatory.</td>
+              <td class="mandatory">No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="filters">
+        <h4>Filters</h4>
+        <div class="filter-definitions">
+          <dl>
+            <dt>Isolated node</dt>
+            <dd>Removes isolated nodes (<em>i.e.</em>: nodes with no links) from the graph. The <code>node</code> attribute is not used by this filter.</dd>
+            <dt>Missing node</dt>
+            <dd>Removes nodes created when a link makes a reference to a non existing one. The <code>node</code> attribute is not used by this filter.</dd>
+            <dt>Prefixed</dt>
+            <dd>Removes nodes with prefixed names created by Ant 1.8+ for targets in build files included by <code>&lt;import /&gt;</code> statement. The <code>node</code> attribute is not used by this filter.</dd>
+            <dt>From node</dt>
+            <dd>Keeps only a selected node and the nodes it depends upon. The <code>node</code> parameter is the name of the node to start from.</dd>
+            <dt>To node</dt>
+            <dd>Keeps only a selected node and the nodes depending upon it. The <code>node</code> parameter is the name of the node to start from.</dd>
+            <dt>Connected</dt>
+            <dd>Keeps only a selected node and the nodes connected to it. The <code>node</code> parameter is the name of the node to start from.</dd>
+            <dt>Remove node</dt>
+            <dd>Removes a named node (and the attached links) from the graph.</dd>
+          </dl>
         </div>
-        <p>
-          The <code>grand</code> task accept as child the standard <code>property</code> and <code>propertyset</code> elements. Those properties will be set on the process project. Keep in mind that if <code>buildfile</code> is not set, those properties will be actually set in the current project.
-        </p>
-        <p>
-          The <code>grand</code> task can also include one more <code>filter</code> element. The filters will be applied in order to the graph resulting to something similar to a <em>and</em> between filters. The <code>filter</code> can take the following parameters:
-        </p>
-        <div class="task-parameters">
-          <table>
-            <tbody>
-              <tr>
-                <th>Attribute</th>
-                <th>Definition</th>
-                <th>Mandatory</th>
-              </tr>
-              <tr>
-                <td class="param">name</td>
-                <td class="def">filter's name. Can be one of <code>isolatednode</code>, <code>missingnode</code>,  <code>prefixednode</code>, <code>fromnode</code>, <code>tonode</code>,  <code>connected</code> or <code>removenode</code>.</td>
-                <td class="mandatory">Yes</td>
-              </tr>
-              <tr>
-                <td class="param">node</td>
-                <td class="def">a node's name. Depending of the selected filter, this attribute can have different meanings and can or cannot be mandatory.</td>
-                <td class="mandatory">No</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="filters">
-          <h4>Filters</h4>
-          <div class="filter-definitions">
-            <dl>
-              <dt>Isolated node</dt>
-              <dd>Removes isolated nodes (<em>i.e.</em>: nodes with no links) from the graph. The <code>node</code> attribute is not used by this filter.</dd>
-              <dt>Missing node</dt>
-              <dd>Removes nodes created when a link make reference to a non existing one. The <code>node</code> attribute is not used by this filter.</dd>
-              <dt>Prefixed node</dt>
-              <dd>Removes prefixed nodes created by Ant 1.8+ parser for targets in build files included by <code>&lt;import /&gt;</code> statement. The <code>node</code> attribute is not used by this filter.</dd>
-              <dt>From node</dt>
-              <dd>Keeps only a selected node a the nodes it depends upon. The <code>node</code> parameter is the name of the node to start from.</dd>
-              <dt>To node</dt>
-              <dd>Keeps only a selected node a the nodes depending upon it. The <code>node</code> parameter is the name of the node to start from.</dd>
-              <dt>Connect</dt>
-              <dd>Keeps only a selected node all the nodes connected to it. The <code>node</code> parameter is the name of the node to start from.</dd>
-              <dt>Node remover</dt>
-              <dd>Removes a named node (and the attached links) from the graph.</dd>
-            </dl>
-          </div>
-        </div>
-        <div id="output-configuration">
-          <h4>Output configuration</h4>
-          <p>
-            Currently the only way to configure the output is to use a property file to override the default configuration of the dot file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:
-          </p>
-          <source># Attributes for the graph
+      </div>
+      <div id="output-configuration">
+        <h4>Output configuration</h4>
+        <p>Currently the only way to configure the output is to use a property file to override the default configuration of the dot file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
+        <source># Attributes for the graph
 dot.graph.attributes=rankdir="LR"
 
 # Default Attributes for node.
@@ -433,67 +417,51 @@ dot.startnode.attributes=shape=octagon,fillcolor="yellow",style="filled,bold",fo
 
 # Missing nodes
 dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
-        </div>
-      </subsection>
-      <subsection name="Examples">
-        <source>&lt;grand output="build.dot" buildfile="ant-build.xml"/&gt;</source>
-        <p>
-          The above Ant snippet, will create a dot file named <code>build.dot</code> from <code>ant-build.xml</code>. To view the graph you need to transform the dot file into <em>something else</em> using the <code>dot</code> command. The following Ant snippet converts the previously generated file into a PostScript file resized to fit on A4 paper in landscape mode:
-        </p>
-        <source>&lt;exec executable="dot"&gt;
+      </div>
+    </subsection>
+    <subsection name="Examples">
+      <source>&lt;grand output="build.dot" buildfile="ant-build.xml"/&gt;</source>
+      <p>The above Ant snippet will create a dot file named <code>build.dot</code> from <code>ant-build.xml</code>. To view the graph you need to transform the dot file into <em>something else</em> using the <code>dot</code> command. The following Ant snippet converts the previously generated file into a PostScript file resized to fit on A4 paper in landscape mode:</p>
+      <source>&lt;exec executable="dot"&gt;
     &lt;arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o build.ps build.dot"/&gt;
 &lt;/exec&gt;</source>
-        <div class="sample-image">
-          <img title="Ant full dependency graph" class="modal-image" width="640" height="271" src="images/ant-build.svg" alt="Ant full dependency graph"/>
-        </div>
-        <p>
-          From the full graph, we use a <code>fromnode</code> filter to keep only targets be executed from the default <code>main</code> target:
-        </p>
-        <source>&lt;grand output="build.dot" buildfile="ant-build.xml"&gt;
+      <div class="sample-image">
+        <img title="Ant full dependency graph" class="modal-image" width="640" height="271" src="images/ant-build.svg" alt="Ant full dependency graph"/>
+      </div>
+      <p>From the full graph, we use a <code>fromnode</code> filter to keep only targets be executed from the default <code>main</code> target:</p>
+      <source>&lt;grand output="build.dot" buildfile="ant-build.xml"&gt;
     &lt;filter name="fromnode" node="main"/&gt;
 &lt;/grand&gt;</source>
-        <div class="sample-image">
-          <img title="Ant dependencies from main target" class="modal-image" width="640" height="99" src="images/ant-build-from-main.svg" alt="Ant dependencies from main"/>
-        </div>
-        <p>
-          Below is a more complex example using two filters to only keep a small part of the graph:
-        </p>
-        <source>&lt;grand output="build.dot" buildfile="ant-build.xml"&gt;
+      <div class="sample-image">
+        <img title="Ant dependencies from main target" class="modal-image" width="640" height="99" src="images/ant-build-from-main.svg" alt="Ant dependencies from main"/>
+      </div>
+      <p>Below is a more complex example using two filters to only keep a small part of the graph:</p>
+      <source>&lt;grand output="build.dot" buildfile="ant-build.xml"&gt;
     &lt;filter name="fromnode" node="dist"/&gt;
     &lt;filter name="tonode" node="prepare"/&gt;
 &lt;/grand&gt;</source>
-        <div class="sample-image">
-          <img title="Filtered Ant dependencies" class="modal-image" width="640" height="84" src="images/ant-build-from-dist-to-prepare.svg" alt="Filtered Ant dependencies"/>
-        </div>
-      </subsection>
-      <subsection name="To do">
-        <ul>
-          <li>The current grapher configuration sucks: too close to <code>dot</code>, switch to generic parameters.</li>
-          <li>Improve the processing of <code>ant</code>, <code>antcall</code>, etc.</li>
-          <li>Many improvements to the GUI: open multiple files, better visualization, customization, etc.</li>
-          <li>Add source visualization in the GUI.</li>
-          <li>Create a <em>visual execution</em> mode in the GUI.</li>
-        </ul>
-      </subsection>
-      <subsection name="Javadoc">
-        <p>
-          The Javadoc API documentation is available <a href="apidocs/">online</a>. The source archive includes a few JUnit tests including some Ant examples.
-        </p>
-      </subsection>
-      <subsection name="License">
-        <p>
-          Grand is distributed under the term of the <a href="https://github.com/Ant-Grand/Grand/blob/master/LICENSE">BSD License</a>.
-        </p>
-      </subsection>
-      <subsection name="Contact">
-        <p>
-          Don't hesitate to <a href="mailto:grand@ggtools.net">contact me</a> for anything relative to Grand (bug, suggestion, etc.).
-        </p>
-        <h4>Announcement Mailing List</h4>
-        <p>
-        I currently do not have an announcement mailing list so if you like to be warned of new available versions I suggest you to use the <a href="http://freshmeat.net/">Freshmeat</a> <cite>subscribe to new releases</cite> service.
-        </p>
-      </subsection>
+      <div class="sample-image">
+        <img title="Filtered Ant dependencies" class="modal-image" width="640" height="84" src="images/ant-build-from-dist-to-prepare.svg" alt="Filtered Ant dependencies"/>
+      </div>
+    </subsection>
+    <subsection name="To do">
+      <ul>
+        <li>The current grapher configuration sucks: too close to <code>dot</code>, switch to generic parameters.</li>
+        <li>Improve the processing of <code>ant</code>, <code>antcall</code>, etc.</li>
+        <li>Many improvements to the GUI: open multiple files, better visualization, customization, etc.</li>
+        <li>Add source visualization in the GUI.</li>
+        <li>Create a <em>visual execution</em> mode in the GUI.</li>
+      </ul>
+    </subsection>
+    <subsection name="Javadoc">
+      <p>The Javadoc API documentation is available <a href="apidocs/">online</a>. The source archive includes a few JUnit tests including some Ant examples.</p>
+    </subsection>
+    <subsection name="License">
+      <p>Grand is distributed under the terms of the <a href="https://github.com/Ant-Grand/Grand/blob/master/LICENSE">BSD License</a>.</p>
+    </subsection>
+    <subsection name="Contact">
+      <p>Don't hesitate to <a href="mailto:grand@ggtools.net">contact me</a> for anything relative to Grand (bug, suggestion, etc.).</p>
+    </subsection>
   </body>
 
 </document>
