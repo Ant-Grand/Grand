@@ -11,6 +11,9 @@
   <publishDate/>
   <version/>
   <body>
+    <head>
+      <![CDATA[<link rel="icon" href="images/icon.png" type="image/png"/>]]>
+    </head>
     <links>
       <item name="Grand: Graphical Representation of ANt Dependencies" href="/"/>
     </links>
