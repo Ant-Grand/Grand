@@ -1,15 +1,15 @@
 Description
 -----------
 
-Grand is a tool to create visual representation of ant target dependencies.
-It works by taking a ant build file and creating a "dot" file. This file
+Grand is a tool to create visual representation of Ant target dependencies.
+It works by taking a Ant build file and creating a "dot" file. This file
 need to be post-processed with Graphviz to produce the actual graph.
 
 
 Usage
 -----
 
-Grand's front end is an ant task that must be defined with the following line:
+Grand's front end is an Ant task that must be defined with the following line:
 
    <typedef resource="net/ggtools/grand/antlib.xml"/>
 
@@ -25,7 +25,7 @@ The grand task takes the following attributes:
 
   outputconfigfile  a property file to configure the output.
 
-  showgraphname     if true, the generated graph will have the ant project's
+  showgraphname     if true, the generated graph will have the Ant project's
                     name displayed a the graph label.
 
   inheritall        If true, the properties of the current build file will be
@@ -82,7 +82,7 @@ attribute to process another file:
 
 	<grand output="build.dot" buildfile="ant-build.xml"/>
 
-A two filters example:
+A two filter example:
 
 	<grand output="build.dot" buildfile="ant-build.xml">
 	    <filter name="fromnode" node="dist"/>
@@ -117,8 +117,8 @@ dependencies at all.
 More information
 ----------------
 
-The grand web site (http://www.ggtools.net/grand) contains the full
-documentation for Grand with some illustrated examples and the last version.
+The Grand web site (https://ant-grand.github.io/Grand/grand.html) contains the full
+documentation for Grand with some illustrated examples and the latest version.
 
 You can contact me at grand@ggtools.net.
 

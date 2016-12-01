@@ -11,7 +11,7 @@
   <head>
     <!-- Copyright 2005 Christophe Labouisse -->
     <meta name="description" content="Graphical Representation of ANt Dependencies"/>
-    <meta name="keywords" content="Java, tools, programming, free software, Ant, dependency, depend, target, graph, Graphviz, dot, graphical, jface, SWT, jzgraph"/>
+    <meta name="keywords" content="Java, tools, programming, free software, Ant, dependency, depend, target, graph, Graphviz, dot, graphical, jface, SWT, JzGraph"/>
     <link href="css/grand.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="js/grand.js"></script>
   </head>
