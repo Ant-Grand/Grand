@@ -11,7 +11,7 @@
   <head>
     <!-- Copyright 2005 Christophe Labouisse -->
     <meta name="description" content="Graphical Representation of ANt Dependencies"/>
-    <meta name="keywords" content="Java, tools, programming, free software, Ant, dependency, depend, target, graph, Graphviz, dot, graphical, jface, SWT, JzGraph"/>
+    <meta name="keywords" content="Java, tools, programming, free software, Ant, dependency, depend, target, graph, Graphviz, DOT, graphical, jface, SWT, JzGraph"/>
     <link href="css/grand.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="js/grand.js"></script>
   </head>
@@ -38,7 +38,7 @@
     </div>
     <subsection name="What/Why?">
       <p>Grand is a tool to create visual representation of Ant target dependencies. It differs from tools like <a href="http://vizant.sourceforge.net/">Vizant</a> or <a href="https://web.archive.org/web/20050416013130/http://www.ericburke.com/downloads/antgraph/">AntGraph</a> or <a href="http://ant2dot.sourceforge.net/">Ant2Dot</a> by a totally different approach, relying on the Ant API rather than parsing the XML files directly. This enables Grand to provide some nifty features such as the support of the Ant 1.6+ tasks like <a href="http://ant.apache.org/manual/Tasks/import.html">import</a> or <a href="http://ant.apache.org/manual/Tasks/subant.html">subant</a>.</p>
-      <p>From a user point of view, Grand can be used either as a standalone application with a nice GUI or as an Ant task generating a dot file. In this latter case a post processing using <a href="http://www.graphviz.org">Graphviz</a> is required to get the actual graph.</p>
+      <p>From a user point of view, Grand can be used either as a standalone application with a nice GUI or as an Ant task generating a <a href="http://www.graphviz.org/content/dot-language">DOT language</a> file. In this latter case a post processing using <a href="http://www.graphviz.org">Graphviz</a> is required to get the actual graph.</p>
       <div class="floating-sample-image">
         <img title="Grand UI screenshot" class="modal-image" src="images/grand-ui-screenshot.svg" width="400" height="312" alt="Grand UI screenshot"/>
       </div>
@@ -164,7 +164,7 @@
         <dt>Version 1.6 (23 Dec. 2004)</dt>
         <dd>
           <ul>
-            <li>Rewrite of the dot generator,</li>
+            <li>Rewrite of the DOT generator,</li>
             <li><code>subant</code> generic links now have a specific display style.</li>
           </ul>
         </dd>
@@ -393,7 +393,7 @@
       </div>
       <div id="output-configuration">
         <h4>Output configuration</h4>
-        <p>Currently the only way to configure the output is to use a property file to override the default configuration of the dot file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
+        <p>Currently the only way to configure the output is to use a property file to override the default configuration of the DOT file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
         <source># Attributes for the graph
 dot.graph.attributes=rankdir="LR"
 
@@ -421,7 +421,7 @@ dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
     </subsection>
     <subsection name="Examples">
       <source>&lt;grand output="build.dot" buildfile="ant-build.xml"/&gt;</source>
-      <p>The above Ant snippet will create a dot file named <code>build.dot</code> from <code>ant-build.xml</code>. To view the graph you need to transform the dot file into <em>something else</em> using the <code>dot</code> command. The following Ant snippet converts the previously generated file into a PostScript file resized to fit on A4 paper in landscape mode:</p>
+      <p>The above Ant snippet will create a DOT file named <code>build.dot</code> from <code>ant-build.xml</code>. To view the graph you need to transform the DOT file into <em>something else</em> using the <code>dot</code> command. The following Ant snippet converts the previously generated file into a PostScript file resized to fit on A4 paper in landscape mode:</p>
       <source>&lt;exec executable="dot"&gt;
     &lt;arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o build.ps build.dot"/&gt;
 &lt;/exec&gt;</source>
