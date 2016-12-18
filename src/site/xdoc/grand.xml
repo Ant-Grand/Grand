@@ -457,7 +457,7 @@ dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
       <p>The Javadoc API documentation is available <a href="apidocs/">online</a>. The source archive includes a few JUnit tests including some Ant examples.</p>
     </subsection>
     <subsection name="License">
-      <p>Grand is distributed under the terms of the <a href="https://github.com/Ant-Grand/Grand/blob/master/LICENSE">BSD License</a>.</p>
+      <p>Grand is distributed under the terms of the <a href="../../LICENSE.txt">Simplified BSD License</a>.</p>
     </subsection>
     <subsection name="Contact">
       <p>Don't hesitate to <a href="mailto:grand@ggtools.net">contact me</a> for anything relative to Grand (bug, suggestion, etc.).</p>
