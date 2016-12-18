@@ -34,7 +34,7 @@
   </developers>
   <scm>
     <url>https://github.com/Ant-Grand/Grand</url>
-    <connection>scm:git:${project.scm.url}/Grand.git</connection>
+    <connection>scm:git:${project.scm.url}.git</connection>
   </scm>
   <distributionManagement>
     <site>
