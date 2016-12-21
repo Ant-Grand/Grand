@@ -2,8 +2,8 @@ Description
 -----------
 
 Grand is a tool to create visual representation of Ant target dependencies.
-It works by taking a Ant build file and creating a "dot" file. This file
-need to be post-processed with Graphviz to produce the actual graph.
+It works by taking a Ant build file and creating a DOT language file. This
+file needs to be post-processed with Graphviz to produce the actual graph.
 
 
 Usage

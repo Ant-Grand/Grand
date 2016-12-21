@@ -3,7 +3,7 @@
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
-    <version>1.5</version>
+    <version>1.6</version>
   </skin>
   <bannerLeft>
     <name>Grand: Graphical Representation of ANt Dependencies</name>
@@ -15,7 +15,7 @@
       <![CDATA[<link rel="icon" href="images/icon.png" type="image/png"/>]]>
     </head>
     <links>
-      <item name="Grand: Graphical Representation of ANt Dependencies" href="/"/>
+      <item name="Grand: Graphical Representation of ANt Dependencies" href="../.."/>
     </links>
     <menu name="Grand">
       <item name="Introduction" href="grand.html"/>

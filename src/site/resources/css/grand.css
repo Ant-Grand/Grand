@@ -36,7 +36,7 @@ span.duration {
 }
 
 #email a.email {
-    font-family: "Andale mono", "Monotype.com", "Courier New", Courier, monospace;
+    font-family: "Andale Mono", Monaco, "Courier New", Courier, monospace;
 }
 
 div.sample-image {
@@ -64,12 +64,15 @@ div.floating-sample-image img {
     padding: 10px;
 }
 
-body { 
-    padding: 0px 12em 0px 6em;  
-    margin: 0px; 
+/* Shortcut menu */
+@media screen and (min-width: 790px) {
+    body {
+        padding: 0px 12em 0px 6em;
+        margin: 0px;
+    }
 }
 
-#menu {
+.grandmenu {
     background-color: white;
     border: solid 2px black;
     width: 10em;
@@ -79,20 +82,19 @@ body {
 }
 
 @media screen {
-    #menu {
-	position: fixed
+    .grandmenu {
+        position: fixed
     }
 }
 
-
-#menu ul {
+.grandmenu ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     border: none
 }
 
-#menu li {
+.grandmenu li {
     margin: 0;
     padding: 0.25em 0.5em 0.25em 1em;
     border-top: 1px solid gray;
@@ -105,12 +107,46 @@ body {
     font-family: verdana,sansserif;
 }
 
-#menu a {
+.grandmenu a {
     text-decoration: none;
 }
 
-#menu li:first-child {
+.grandmenu li:first-child {
     border: none
+}
+
+.grandmenu li.icon {
+    display: none;
+}
+
+@media screen and (max-width:790px) {
+    .grandmenu li {
+         display: none;
+    }
+
+    .grandmenu li.icon {
+        display: block;
+    }
+
+    .grandmenu li.icon a {
+        float: right;
+    }
+}
+
+@media screen and (max-width:790px) {
+    .grandmenu.responsive li {
+        display: block;
+    }
+
+    .grandmenu.responsive li.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .grandmenu.responsive span {
+        display: none;
+    }
 }
 
 div.filter-definitions {
@@ -172,7 +208,7 @@ div.task-parameters td.mandatory {
     background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
-/* Modal Content (image) */
+/* Modal content (image) */
 .grandcontent {
     margin: auto;
     display: block;
@@ -180,7 +216,7 @@ div.task-parameters td.mandatory {
     max-width: 960px;
 }
 
-/* Caption of Modal Image */
+/* Caption of Modal content */
 .grandcaption {
     margin: auto;
     display: block;
@@ -192,7 +228,7 @@ div.task-parameters td.mandatory {
     height: 100px;
 }
 
-/* Add Animation */
+/* Animation of Modal content */
 .grandcontent, .grandcaption {
     animation-name: zoom;
     animation-duration: 0.6s;
@@ -203,7 +239,7 @@ div.task-parameters td.mandatory {
     to {transform:scale(1)}
 }
 
-/* The Close Button */
+/* The Close button */
 .grandclose {
     position: absolute;
     top: 15px;

@@ -17,3 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	grandModal.style.display = "none";
     });
 }, false);
+
+function grandmenuresponsive() {
+    var x = document.getElementById("grandMenu");
+    if (x.className === "grandmenu") {
+        x.className += " responsive";
+    } else {
+        x.className = "grandmenu";
+    }
+}

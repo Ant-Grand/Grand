@@ -9,11 +9,19 @@
   <description>
     Grand is a tool to create a visual representation of Ant target
     dependencies. It works by taking an Ant build file and creating a
-    "dot" file. It differs from the existing tools by relying on the
-    Ant API rather than XML parsing to get the dependencies.
+    DOT language file. It differs from the existing tools by relying
+    on the Ant API rather than XML parsing to get the dependencies.
   </description>
-  <url>https://ant-grand.github.io/Grand/grand.html</url>
+  <url>https://ant-grand.github.io</url>
   <inceptionYear>2004</inceptionYear>
+  <licenses>
+    <license>
+      <name>Simplified BSD License</name>
+      <url>${project.url}/LICENSE.txt</url>
+      <distribution>repo</distribution>
+      <comments>A permissive OSS license</comments>
+    </license>
+  </licenses>
   <organization>
     <name>ggTools</name>
     <url>http://www.ggtools.net/</url>
@@ -26,7 +34,7 @@
   </developers>
   <scm>
     <url>https://github.com/Ant-Grand/Grand</url>
-    <connection>scm:git:https://github.com/Ant-Grand/Grand.git</connection>
+    <connection>scm:git:${project.scm.url}.git</connection>
   </scm>
   <distributionManagement>
     <site>

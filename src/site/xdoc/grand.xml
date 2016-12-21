@@ -11,13 +11,13 @@
   <head>
     <!-- Copyright 2005 Christophe Labouisse -->
     <meta name="description" content="Graphical Representation of ANt Dependencies"/>
-    <meta name="keywords" content="Java, tools, programming, free software, Ant, dependency, depend, target, graph, Graphviz, dot, graphical, jface, SWT, JzGraph"/>
+    <meta name="keywords" content="Java, tools, programming, free software, Ant, dependency, depend, target, graph, Graphviz, DOT, graphical, jface, SWT, JzGraph"/>
     <link href="css/grand.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="js/grand.js"></script>
   </head>
 
   <body>
-    <div id="menu">
+    <div class="grandmenu" id="grandMenu">
       <ul>
         <li><a href="#WhatWhy">What/Why?</a></li>
         <li><a href="#Features">Features</a></li>
@@ -31,14 +31,18 @@
         <li><a href="#Javadoc">Javadoc</a></li>
         <li><a href="#License">License</a></li>
         <li><a href="#Contact">Contact</a></li>
+        <li class="icon">
+          <span>Shortcuts</span>
+          <a href="javascript:grandmenuresponsive();">&#9776;</a>
+        </li>
       </ul>
     </div>
     <div class="grandmodal" id="grandModal">
       <span class="grandclose" id="grandClose">&times;</span>
     </div>
     <subsection name="What/Why?">
-      <p>Grand is a tool to create visual representation of Ant target dependencies. It differs from tools like <a href="http://vizant.sourceforge.net/">Vizant</a> or <a href="http://www.ericburke.com/downloads/antgraph/index.html">AntGraph</a> by a totally different approach, relying on the Ant API rather than parsing the XML files directly. This enables Grand to provide some nifty features such as the support of the Ant 1.6+ tasks like <a href="http://ant.apache.org/manual/Tasks/import.html">import</a> or <a href="http://ant.apache.org/manual/Tasks/subant.html">subant</a>.</p>
-      <p>From a user point of view, Grand can be used either as a standalone application with a nice GUI or as an Ant task generating a dot file. In this latter case a post processing using <a href="http://www.graphviz.org">Graphviz</a> is required to get the actual graph.</p>
+      <p>Grand is a tool to create visual representation of <a href="https://ant.apache.org">Ant</a> target dependencies. It differs from tools like <a href="http://vizant.sourceforge.net/">Vizant</a> or <a href="https://web.archive.org/web/20050416013130/http://www.ericburke.com/downloads/antgraph/">AntGraph</a> or <a href="http://ant2dot.sourceforge.net/">ant2dot</a> by a totally different approach, relying on the Ant API rather than parsing the XML files directly. This enables Grand to provide some nifty features such as the support of the Ant 1.6+ tasks like <a href="http://ant.apache.org/manual/Tasks/import.html">import</a> or <a href="http://ant.apache.org/manual/Tasks/subant.html">subant</a>.</p>
+      <p>From a user point of view, Grand can be used either as a standalone application with a nice GUI or as an Ant task generating a <a href="http://www.graphviz.org/content/dot-language">DOT language</a> file. In this latter case a post processing using <a href="http://www.graphviz.org">Graphviz</a> is required to get the actual graph.</p>
       <div class="floating-sample-image">
         <img title="Grand UI screenshot" class="modal-image" src="images/grand-ui-screenshot.svg" width="400" height="312" alt="Grand UI screenshot"/>
       </div>
@@ -108,7 +112,7 @@
         <dt>Move to GitHub (21 Jan. 2012)</dt>
         <dd>
           <p>It has been quite a long time since I worked on Grand. The last commits date from July 2006 (almost 6 years). I have to admit it, Grand is no longer on the of my todo list especially since I no longer use Ant in my day job.</p>
-          <p>In order not to let the project die, I decided to move it to <a href="http://www.github.com/">GitHub</a>: <a href="http://xlct.it/wDe2N0">Grand</a> and <a href="http://xlct.it/A0yZsE">GrandUI</a>.</p>
+          <p>In order not to let the project die, I decided to move it to <a href="http://www.github.com/">GitHub</a>: <a href="https://github.com/Ant-Grand/Grand">Grand</a> and <a href="https://github.com/Ant-Grand/GrandUI">GrandUI</a>.</p>
         </dd>
         <dt>Mac OS X version available with JNLP (30 May. 2005)</dt>
         <dd>
@@ -164,7 +168,7 @@
         <dt>Version 1.6 (23 Dec. 2004)</dt>
         <dd>
           <ul>
-            <li>Rewrite of the dot generator,</li>
+            <li>Rewrite of the DOT generator,</li>
             <li><code>subant</code> generic links now have a specific display style.</li>
           </ul>
         </dd>
@@ -292,7 +296,7 @@
       <p>The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.2/grand-ui-0.8.2.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.</p>
     </subsection>
     <subsection name="Compilation, installation">
-      <p>If you want to recompile Grand, you'll first need to install <a href="http://www.maven.org/">Maven</a>. After that the compilation process should be straightforward: untar or unzip, cd to the Grand directory, and type <code>maven jar</code>. Maven will download the required libraries, compile the classes, run the (few) unit tests and create a jar.</p>
+      <p>If you want to recompile Grand, you'll first need to install <a href="http://maven.apache.org/">Maven</a>. After that the compilation process should be straightforward: untar or unzip, cd to the Grand directory, and type <code>mvn package</code>. Maven will download the required libraries, compile the classes, run the (few) unit tests and create a jar.</p>
       <p>As an alternative to Maven, the source archive also provides a <code>build.xml</code> file to be used with <a href="http://ant.apache.org">Ant</a>. This file had been generated by Maven so it tries to mimic its behaviour. By default, this file will make Ant download the dependencies. You can prevent this by running Ant with <code>-Dnoget=yes</code>. In this case you'll have to put the following jars in the classpath or in the <code>target/lib</code> directory:</p>
       <ul>
         <li><code>ant.jar</code> and <code>ant-launcher.jar</code> from Ant 1.9.7 (any version down to 1.8.0 should still work),</li>
@@ -393,7 +397,7 @@
       </div>
       <div id="output-configuration">
         <h4>Output configuration</h4>
-        <p>Currently the only way to configure the output is to use a property file to override the default configuration of the dot file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
+        <p>Currently the only way to configure the output is to use a property file to override the default configuration of the DOT file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
         <source># Attributes for the graph
 dot.graph.attributes=rankdir="LR"
 
@@ -421,7 +425,7 @@ dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
     </subsection>
     <subsection name="Examples">
       <source>&lt;grand output="build.dot" buildfile="ant-build.xml"/&gt;</source>
-      <p>The above Ant snippet will create a dot file named <code>build.dot</code> from <code>ant-build.xml</code>. To view the graph you need to transform the dot file into <em>something else</em> using the <code>dot</code> command. The following Ant snippet converts the previously generated file into a PostScript file resized to fit on A4 paper in landscape mode:</p>
+      <p>The above Ant snippet will create a DOT file named <code>build.dot</code> from <code>ant-build.xml</code>. To view the graph you need to transform the DOT file into <em>something else</em> using the <code>dot</code> command. The following Ant snippet converts the previously generated file into a PostScript file resized to fit on A4 paper in landscape mode:</p>
       <source>&lt;exec executable="dot"&gt;
     &lt;arg line="-Tps -Gsize=11.69,8.27 -Grotate=90 -o build.ps build.dot"/&gt;
 &lt;/exec&gt;</source>
@@ -457,7 +461,7 @@ dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
       <p>The Javadoc API documentation is available <a href="apidocs/">online</a>. The source archive includes a few JUnit tests including some Ant examples.</p>
     </subsection>
     <subsection name="License">
-      <p>Grand is distributed under the terms of the <a href="https://github.com/Ant-Grand/Grand/blob/master/LICENSE">BSD License</a>.</p>
+      <p>Grand is distributed under the terms of the <a href="../../LICENSE.txt">Simplified BSD License</a>.</p>
     </subsection>
     <subsection name="Contact">
       <p>Don't hesitate to <a href="mailto:grand@ggtools.net">contact me</a> for anything relative to Grand (bug, suggestion, etc.).</p>
