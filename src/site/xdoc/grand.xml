@@ -17,7 +17,7 @@
   </head>
 
   <body>
-    <div id="menu">
+    <div class="grandmenu" id="grandMenu">
       <ul>
         <li><a href="#WhatWhy">What/Why?</a></li>
         <li><a href="#Features">Features</a></li>
@@ -31,6 +31,10 @@
         <li><a href="#Javadoc">Javadoc</a></li>
         <li><a href="#License">License</a></li>
         <li><a href="#Contact">Contact</a></li>
+        <li class="icon">
+          <span>Shortcuts</span>
+          <a href="javascript:grandmenuresponsive();">&#9776;</a>
+        </li>
       </ul>
     </div>
     <div class="grandmodal" id="grandModal">
