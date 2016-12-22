@@ -70,7 +70,7 @@ import org.apache.commons.logging.Log;
  * The property values are sets of valid dot attributes without the surrounding
  * bracket.
  *
- * @todo The current configuration scheme sucks, create something more generic.
+ * @to.do The current configuration scheme sucks, create something more generic.
  *
  * @author Christophe Labouisse
  * @see <a href="http://www.graphviz.org/">Graphviz home page</a>

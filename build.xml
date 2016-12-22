@@ -148,7 +148,7 @@
         <pathelement location="target/${product.name}"/>
       </classpath>
       <arg value="-tag"/>
-      <arg value="todo:a:To do:"/>
+      <arg value="to.do:a:To do:"/>
     </javadoc>
   </target>
 </project>

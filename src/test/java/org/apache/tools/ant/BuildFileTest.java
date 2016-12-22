@@ -150,7 +150,7 @@ public abstract class BuildFileTest {
     /**
      * Gets the log the BuildFileTest object.
      * Only valid if configureProject() has been called.
-     * @pre logBuffer!=null
+     * @pre.req logBuffer!=null
      * @return    The log value
      */
     protected final String getLog() {
@@ -173,7 +173,7 @@ public abstract class BuildFileTest {
     /**
      * Gets the log the BuildFileTest object.
      * Only valid if configureProject() has been called.
-     * @pre fullLogBuffer!=null
+     * @pre.req fullLogBuffer!=null
      * @return    The log value
      */
     protected final String getFullLog() {
@@ -282,7 +282,7 @@ public abstract class BuildFileTest {
 
     /**
      * Execute a target we have set up.
-     * @pre configureProject has been called
+     * @pre.req configureProject has been called
      * @param  targetName  target to run
      */
     protected final void executeTarget(final String targetName) {

@@ -111,7 +111,7 @@
           <show>private</show>
             <tags>
               <tag>
-                <name>todo</name>
+                <name>to.do</name>
                 <placement>a</placement>
                 <head>To do:</head>
               </tag>
@@ -142,12 +142,12 @@
         <configuration>
           <tags>
             <tag>
-              <name>todo</name>
+              <name>to.do</name>
               <placement>a</placement>
               <head>To do:</head>
             </tag>
             <tag>
-              <name>pre</name>
+              <name>pre.req</name>
               <placement>a</placement>
               <head>Precondition:</head>
             </tag>
