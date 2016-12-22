@@ -140,7 +140,7 @@ public class NodeImpl extends AttributeManager implements Node {
 
     /**
      * Method getLinks.
-     * @return Collection of <code>Link</code>
+     * @return Collection&lt;Link&gt;
      * @see net.ggtools.grand.graph.Node#getLinks()
      */
     public final Collection<Link> getLinks() {
@@ -149,7 +149,7 @@ public class NodeImpl extends AttributeManager implements Node {
 
     /**
      * Method getBackLinks.
-     * @return Collection of <code>Link</code>
+     * @return Collection&lt;Link&gt;
      * @see net.ggtools.grand.graph.Node#getBackLinks()
      */
     public final Collection<Link> getBackLinks() {

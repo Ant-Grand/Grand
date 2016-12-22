@@ -258,7 +258,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /**
      * @param wrapper RuntimeConfigurable
-     * @return List of <code>Object</code>
+     * @return List&lt;Object&gt;
      */
     private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
         final List<Object> targetElements = new ArrayList<Object>();

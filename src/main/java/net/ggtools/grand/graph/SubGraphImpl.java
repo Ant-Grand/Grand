@@ -48,8 +48,8 @@ class SubGraphImpl implements SubGraph {
          * Create a new iterator from an existing one. A trivial implementation
          * may merely return <code>iterator</code>.
          *
-         * @param iterator Iterator of <code>Node</code>
-         * @return Iterator of <code>Node</code>
+         * @param iterator Iterator&lt;Node&gt;
+         * @return Iterator&lt;Node&gt;
          */
         Iterator<Node> createNodeIterator(final Iterator<Node> iterator);
     }
@@ -139,7 +139,7 @@ class SubGraphImpl implements SubGraph {
 
     /**
      * Method getNodes.
-     * @return Iterator of <code>Node</code>
+     * @return Iterator&lt;Node&gt;
      * @see net.ggtools.grand.graph.NodeContainer#getNodes()
      */
     public Iterator<Node> getNodes() {
