@@ -113,7 +113,7 @@ public class PrefixedNodeFilterTest extends AbstractAntTester {
         }
 
         assertEquals("Filtered graph does not have the right node count",
-		     NODES_AFTER_FILTERING.size(), numNodes);
+                     NODES_AFTER_FILTERING.size(), numNodes);
     }
 
 }
