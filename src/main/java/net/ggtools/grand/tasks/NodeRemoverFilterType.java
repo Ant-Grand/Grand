@@ -28,6 +28,7 @@
 package net.ggtools.grand.tasks;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import net.ggtools.grand.filters.GraphFilter;
 import net.ggtools.grand.filters.NodeRemoverFilter;
@@ -78,7 +79,7 @@ class NodeRemoverFilterType implements GraphFilterType {
      * @see net.ggtools.grand.tasks.GraphFilterType#getFilter()
      */
     public GraphFilter getFilter() {
-        return new NodeRemoverFilter(Arrays.asList(nodeName));
+        return new NodeRemoverFilter(Collections.singletonList(nodeName));
     }
 
     /**
