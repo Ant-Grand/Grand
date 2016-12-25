@@ -93,7 +93,7 @@ public class SubAntHelper extends Task {
     /**
      * Field underlying.
      */
-    final SubAnt underlying;
+    private final SubAnt underlying;
 
     /**
      * Constructor for SubAntHelper.
@@ -158,7 +158,7 @@ public class SubAntHelper extends Task {
     /**
      * @param t Ant.TargetElement
      */
-    public void addConfiguredTarget(Ant.TargetElement t) {
+    public void addConfiguredTarget(final Ant.TargetElement t) {
         underlying.addConfiguredTarget(t);
     }
 
@@ -383,7 +383,7 @@ public class SubAntHelper extends Task {
     /**
      * @param rc ResourceCollection
      */
-    public void add(ResourceCollection rc) {
+    public void add(final ResourceCollection rc) {
         getBuildpath().add(rc);
     }
 

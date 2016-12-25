@@ -62,7 +62,7 @@ public abstract class AbstractGraphFilter implements GraphFilter {
     /**
      * Field name.
      */
-    protected String name;
+    protected final String name;
 
     /**
      * Creates an anonymous filter.

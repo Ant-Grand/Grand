@@ -168,7 +168,7 @@ public class AntProject implements GraphProducer {
         public ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
             unlessCondition = Target.class.getDeclaredField("unlessCondition");
-            AccessibleObject.setAccessible(new AccessibleObject[]{ifCondition, unlessCondition}, true);
+            AccessibleObject.setAccessible(new AccessibleObject[]{ ifCondition, unlessCondition }, true);
         }
 
         /**
@@ -291,7 +291,7 @@ public class AntProject implements GraphProducer {
     /**
      * Field antProject.
      */
-    private Project antProject;
+    private final Project antProject;
 
     /**
      * Field targetConditionHelper.

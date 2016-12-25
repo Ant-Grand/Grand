@@ -58,7 +58,7 @@ public class FilterChain implements GraphFilter {
     /**
      * Field name.
      */
-    private String name;
+    private final String name;
 
     /**
      * Field producer.
