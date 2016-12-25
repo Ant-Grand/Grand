@@ -1,0 +1,37 @@
+digraph "grand" {
+graph [rankdir="TB"];
+node [fontsize="12"];
+edge [fontsize="10"];
+"jar" [shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold",comment="o Create the jar"];
+"jar" -> "compile" [label="1"];
+"jar" -> "test" [label="2"];
+
+"install-maven"
+
+"compile-tests"
+"compile-tests" -> "compile";
+
+"javadoc" [shape=box,fillcolor="limegreen",style="filled,bold",fontname="Times-Bold",comment="o Generate javadoc"];
+"javadoc" -> "jar";
+
+"test" [shape=box,fillcolor="limegreen",style="filled,bold",fontname="Times-Bold",comment="o Run the test cases"];
+"test" -> "internal-test";
+
+"clean" [shape=box,fillcolor="limegreen",style="filled,bold",fontname="Times-Bold",comment="o Clean up the generated directories"];
+
+"dist" [shape=box,fillcolor="limegreen",style="filled,bold",fontname="Times-Bold",comment="o Create a distribution"];
+"dist" -> "jar" [label="1"];
+"dist" -> "javadoc" [label="2"];
+
+"get-deps"
+"get-deps" -> "init";
+
+"init" [shape=box,fillcolor="limegreen",style="filled,bold",fontname="Times-Bold",comment="o Initializes some properties"];
+
+"internal-test"
+"internal-test" -> "compile-tests";
+
+"compile" [shape=box,fillcolor="limegreen",style="filled,bold",fontname="Times-Bold",comment="o Compile the code"];
+"compile" -> "get-deps";
+
+}

@@ -121,15 +121,36 @@ public class GrandTaskTest extends AbstractAntTester {
     }
 
     /**
-     * Method testOverride.
+     * Method testFileOverride.
      * @throws IOException if file comparator fails
      */
     @Test
-    public final void testOverride() throws IOException {
-        expectLogContaining("output-config-file", "Overriding default properties from ");
+    public final void testFileOverride() throws IOException {
+        expectLogContaining("output-config-file", "Overriding default output configuration from ");
         assertLogContaining("build-simple.xml");
 
         assertTempFileMatchExpected(TESTCASES_DIR + "override.dot");
+    }
+
+    /**
+     * Method testImpossibleOverride.
+     * @throws IOException if file comparator fails
+     */
+    @Test
+    public final void testImpossibleOverride() throws IOException {
+        expectBuildException("output-config-file-and-prefix", "cannot specify both outputconfigfile and outputconfigprefix");
+   }
+
+    /**
+     * Method testPrefixOverride.
+     * @throws IOException if file comparator fails
+     */
+    @Test
+    public final void testPrefixOverride() throws IOException {
+        expectLogContaining("output-config-prefix", "Overriding default output configuration from project properties grand");
+        assertLogContaining("build-simple.xml");
+
+        assertTempFileMatchExpected(TESTCASES_DIR + "override-prefix.dot");
     }
 
     /**
