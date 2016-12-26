@@ -27,7 +27,6 @@
  */
 package net.ggtools.grand.tasks;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import net.ggtools.grand.filters.GraphFilter;
