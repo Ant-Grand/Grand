@@ -5,6 +5,34 @@
         <author email="grand@ggtools.net">Christophe Labouisse</author>
     </properties>
     <body>
+        <release version="GUI 0.8.4" date="2016-12-31" description="Upgrade to Eclipse 4.6.2 and Ant 1.10.0; remove dot fallback for GTK in PrintAction">
+            <action dev="twogee" type="remove" system="grand" date="2016-12-31">
+                Remove dot fallback for GTK from PrintAction.
+            </action>
+            <action dev="twogee" type="fix" system="grand" date="2016-12-31">
+                Download JzGraph from GitHub.
+            </action>
+            <action dev="twogee" type="update" system="grand-ui" date="2016-12-31">
+                Use Grand core 1.9.4.
+            </action>
+            <action dev="twogee" type="update" system="grand" date="2016-12-31">
+                Upgrade to Ant 1.10.0.
+            </action>
+            <action dev="twogee" type="update" system="grand" date="2016-12-24">
+                Upgrade to Eclipse 4.6.2.
+            </action>
+        </release>
+        <release version="1.9.4" date="2016-12-31" description="Use project properties to configure graph rendering; upgrade to Ant 1.9.8">
+            <action dev="twogee" type="update" system="grand" date="2016-12-31">
+                Upgrade to Ant 1.9.8.
+            </action>
+            <action dev="twogee" type="add" system="grand-ui" date="2016-12-25">
+                Use project properties to configure graph rendering (outputconfigprefix).
+            </action>
+            <action dev="twogee" type="add" system="grand-ui" date="2016-11-09">
+                Generate site with Maven and publish to GitHub Pages.
+            </action>
+        </release>
         <release version="GUI 0.8.2" date="2016-11-09" description="Repackaged GUI 0.8.1 release because of incorrect file permissions in distribution">
             <action dev="twogee" type="fix" system="grand-ui" date="2016-11-09">
                 Correct file execute permissions in distribution archives.

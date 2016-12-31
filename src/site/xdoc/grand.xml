@@ -60,7 +60,24 @@
       </ul>
     </subsection>
     <subsection name="News">
+      <dt>GUI version 0.8.3 (31 Dec. 2016)</dt>
+      <dd>
+        <ul>
+          <li>Upgrade to Eclipse 4.6.2,</li>
+          <li>Upgrade to Ant 1.10.0,</li>
+          <li>Download JzGraph fom GitHub,</li>
+          <li>Remove dot fallback for GTK in PrintAction.</li>
+        </ul>
+      </dd>
       <dl>
+        <dt>Version 1.9.4 (31 Dec. 2016)</dt>
+        <dd>
+          <ul>
+            <li>Upgrade to Ant 1.9.8,</li>
+            <li>New feature: use project properties to configure graph rendering (<code>outputconfigprefix</code>),</li>
+            <li>Generate site with Maven and publish to GitHub Pages.</li>
+          </ul>
+        </dd>
         <dt>GUI version 0.8.2 (9 Nov. 2016)</dt>
         <dd>
           <p>Re-released 0.8.1 with Grand core 1.9.3 and correct execute permissions in distribution archives.</p>
