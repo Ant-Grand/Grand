@@ -5,7 +5,7 @@
         <author email="grand@ggtools.net">Christophe Labouisse</author>
     </properties>
     <body>
-        <release version="GUI 0.8.4" date="2016-12-31" description="Upgrade to Eclipse 4.6.2 and Ant 1.10.0; remove dot fallback for GTK in PrintAction">
+        <release version="GUI 0.8.3" date="2016-12-31" description="Upgrade to Eclipse 4.6.2 and Ant 1.10.0; remove dot fallback for GTK in PrintAction">
             <action dev="twogee" type="remove" system="grand" date="2016-12-31">
                 Remove dot fallback for GTK from PrintAction.
             </action>

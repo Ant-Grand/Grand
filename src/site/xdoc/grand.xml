@@ -307,10 +307,10 @@
     </subsection>
     <subsection name="Download">
       <h4>Core/Ant task</h4>
-      <p>The latest version of Grand is available as <a href="https://github.com/Ant-Grand/Grand/releases/download/1.9.3/grand-1.9.3.jar">grand.jar</a>. Source distributions and old versions should be fetched from the <a href="https://github.com/Ant-Grand/Grand/releases">download directory</a>.</p>
+      <p>The latest version of Grand is available as <a href="https://github.com/Ant-Grand/Grand/releases/download/1.9.4/grand-1.9.4.jar">grand.jar</a>. Source distributions and old versions should be fetched from the <a href="https://github.com/Ant-Grand/Grand/releases">download directory</a>.</p>
       <p>You'll also need to grab <a href="http://ant.apache.org">Ant</a>. The recommended version is 1.8.0 or later.</p>
       <h4>GUI</h4>
-      <p>The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.2/grand-ui-0.8.2.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.</p>
+      <p>The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.3/grand-ui-0.8.3.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.</p>
     </subsection>
     <subsection name="Compilation, installation">
       <p>If you want to recompile Grand, you'll first need to install <a href="http://maven.apache.org/">Maven</a>. After that the compilation process should be straightforward: untar or unzip, cd to the Grand directory, and type <code>mvn package</code>. Maven will download the required libraries, compile the classes, run the (few) unit tests and create a jar.</p>
