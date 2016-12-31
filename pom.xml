@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.ggtools</groupId>
   <artifactId>grand</artifactId>
-  <version>1.9.3</version>
+  <version>1.9.4</version>
   <name>Grand: Graphical Representation of ANt Dependencies</name>
   <description>
     Grand is a tool to create a visual representation of Ant target
@@ -36,6 +36,10 @@
     <url>https://github.com/Ant-Grand/Grand</url>
     <connection>scm:git:${project.scm.url}.git</connection>
   </scm>
+  <issueManagement>
+      <system>GitHub</system>
+      <url>${project.scm.url}/issues</url>
+   </issueManagement>
   <distributionManagement>
     <site>
       <id>${project.artifactId}</id>
@@ -46,7 +50,7 @@
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.9.7</version>
+      <version>1.9.8</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -59,7 +63,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.6.0</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -76,7 +80,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.6</version>
         <configuration>
           <moduleExcludes>
             <xdoc>navigation.xml</xdoc>
@@ -111,7 +115,7 @@
           <show>private</show>
             <tags>
               <tag>
-                <name>todo</name>
+                <name>to.do</name>
                 <placement>a</placement>
                 <head>To do:</head>
               </tag>
@@ -122,6 +126,26 @@
   </build>
   <reporting>
     <plugins>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>dependency-info</report>
+              <report>dependencies</report>
+              <report>license</report>
+              <report>project-team</report>
+              <report>scm</report>
+              <report>issue-tracking</report>
+              <report>plugins</report>
+              <report>plugin-management</report>
+              <report>summary</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
       <plugin>
         <artifactId>maven-changes-plugin</artifactId>
         <version>2.12</version>
@@ -142,12 +166,12 @@
         <configuration>
           <tags>
             <tag>
-              <name>todo</name>
+              <name>to.do</name>
               <placement>a</placement>
               <head>To do:</head>
             </tag>
             <tag>
-              <name>pre</name>
+              <name>pre.req</name>
               <placement>a</placement>
               <head>Precondition:</head>
             </tag>

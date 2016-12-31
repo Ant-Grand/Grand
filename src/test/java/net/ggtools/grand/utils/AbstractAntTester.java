@@ -73,7 +73,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
     @Rule
     public final TestWatcher watchman = new TestWatcher() {
         @Override
-        protected void failed(Throwable t, Description d) {
+        protected void failed(final Throwable t, final Description d) {
             StringBuilder sb = new StringBuilder("Ooops test failed: " + d);
             if (project.getProperty(TEMP_FILE_PROP) != null) {
                 sb.append(' ').append(project.getProperty(TEMP_FILE_PROP));
@@ -85,7 +85,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
             System.err.println(sb.toString());
         }
         @Override
-        protected void succeeded(Description d) {
+        protected void succeeded(final Description d) {
             final String tempFile = project.getProperty(TEMP_FILE_PROP);
 
             if (tempFile != null

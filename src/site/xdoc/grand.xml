@@ -60,7 +60,24 @@
       </ul>
     </subsection>
     <subsection name="News">
+      <dt>GUI version 0.8.3 (31 Dec. 2016)</dt>
+      <dd>
+        <ul>
+          <li>Upgrade to Eclipse 4.6.2,</li>
+          <li>Upgrade to Ant 1.10.0,</li>
+          <li>Download JzGraph fom GitHub,</li>
+          <li>Remove dot fallback for GTK in PrintAction.</li>
+        </ul>
+      </dd>
       <dl>
+        <dt>Version 1.9.4 (31 Dec. 2016)</dt>
+        <dd>
+          <ul>
+            <li>Upgrade to Ant 1.9.8,</li>
+            <li>New feature: use project properties to configure graph rendering (<code>outputconfigprefix</code>),</li>
+            <li>Generate site with Maven and publish to GitHub Pages.</li>
+          </ul>
+        </dd>
         <dt>GUI version 0.8.2 (9 Nov. 2016)</dt>
         <dd>
           <p>Re-released 0.8.1 with Grand core 1.9.3 and correct execute permissions in distribution archives.</p>
@@ -220,7 +237,7 @@
         <dt>GUI version 0.2 (16 Jun. 2004)</dt>
         <dd>
           <ul>
-            <li>The UI can now open several graphs in several tabs,</li>
+            <li>The UI can now open several graphs in different tabs,</li>
             <li>Rewritten tooltips for both Node &amp; Links,</li>
             <li>The <code>antcall</code>/<code>ant</code> parameters are now displayed on the link's tooltip,</li>
             <li>Upgrade to Eclipse RCP 3.0RC2, Draw2d 20040610 and Grand (core) 1.4,</li>
@@ -304,8 +321,7 @@
       </ul>
     </subsection>
     <subsection name="Using the Ant task">
-      <p>To use the Ant task you should first define the
-      <code>grand</code> task:</p>
+      <p>To use the Ant task you should first define the <code>grand</code> task:</p>
       <source>&lt;typedef resource="net/ggtools/grand/antlib.xml" classpath="grand-0.4.jar"/&gt;</source>
       <h4>Note on property defined dependencies</h4>
       <p>Starting with release 0.4, Grand can work with dependencies defined from properties like <code>&lt;target name="target" depends="${my.target}"&gt;</code>. Keep in mind that the <em>graphed</em> file is only parsed, not executed. So no runtime defined (anything defined with the property task for instance) property will be available to Grand. The only exception is when Grand is graphing the current build file because it uses the project already loaded by Ant rather than parsing it from scratch.</p>
@@ -335,7 +351,12 @@
             </tr>
             <tr>
               <td class="param">outputconfigfile</td>
-              <td class="def">a property file to configure the output.</td>
+              <td class="def">a property file to configure the output. Mutually exclusive with <code>outputconfigprefix</code>.</td>
+              <td class="mandatory">No</td>
+            </tr>
+            <tr>
+              <td class="param">outputconfigprefix</td>
+              <td class="def">a prefix of project properties used to configure the output. Mutually exclusive with <code>outputconfigfile</code>.</td>
               <td class="mandatory">No</td>
             </tr>
             <tr>
@@ -397,7 +418,7 @@
       </div>
       <div id="output-configuration">
         <h4>Output configuration</h4>
-        <p>Currently the only way to configure the output is to use a property file to override the default configuration of the DOT file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
+        <p>Currently, there are two ways to configure the output. One is to use a property file to override the default configuration of the DOT file writer. When overriding an attribute, the property value should be a valid Graphviz attribute set. The default configuration is:</p>
         <source># Attributes for the graph
 dot.graph.attributes=rankdir="LR"
 
@@ -420,8 +441,12 @@ dot.mainnode.attributes=shape=box,fillcolor="limegreen",style="filled,bold",font
 dot.startnode.attributes=shape=octagon,fillcolor="yellow",style="filled,bold",fontname="Helvetica-Bold"
 
 # Missing nodes
-dot.missingnode.attributes=color="gray70",fontcolor="gray70"</source>
+dot.missingnode.attributes=color="gray",fontcolor="gray"</source>
       </div>
+      <p>Alternatively, properties configuring the output can be set up directly in the build file. The grand task is made aware of them by <code>outputconfigprefix</code> attribute of the task. It works similarly to Ant's <code>&lt;propertyref prefix="..."/&gt;</code>, except that prefix value is replaced by <code>dot</code>, as well. The following Ant snippet hopefully explains the concept:</p>
+      <source>&lt;property name="grand.graph.attributes" value="rankdir='LR'"&gt;
+&lt;grand output="build.dot" outputconfigprefix="grand"/&gt;</source>
+      <p>The Graphviz attribute values can be enclosed in apostrophes (<code>&apos;</code>, as in the above) or corresponding XML entities (<code>&amp;quot;</code> or <code>&amp;apos;</code>).</p>
     </subsection>
     <subsection name="Examples">
       <source>&lt;grand output="build.dot" buildfile="ant-build.xml"/&gt;</source>

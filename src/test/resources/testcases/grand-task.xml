@@ -5,6 +5,8 @@
 		Ant build file for running the GrandTaskTest JUnit tests.
 	</description>
 
+	<property name="grand.graph.attributes" value="rankdir='TB'"/>
+
 	<target name="init-old">
 		<taskdef resource="task.properties"/>
 		<tempfile property="temp.file" prefix="tmp-grand-task-" suffix=".dot"/>
@@ -26,6 +28,14 @@
 
 	<target name="output-config-file" depends="init">
 		<grand output="${temp.file}" buildfile="build-simple.xml" outputconfigfile="override.properties"/>
+	</target>
+
+	<target name="output-config-file-and-prefix" depends="init">
+		<grand output="${temp.file}" buildfile="build-simple.xml" outputconfigfile="override.properties" outputconfigprefix="dot"/>
+	</target>
+
+	<target name="output-config-prefix" depends="init">
+		<grand output="${temp.file}" buildfile="build-simple.xml" outputconfigprefix="grand"/>
 	</target>
 
 	<target name="non-existent-default-target" depends="init">

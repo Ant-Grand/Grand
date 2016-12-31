@@ -65,6 +65,11 @@ import org.apache.tools.ant.types.PropertySet;
 public class GrandTask extends Task {
 
     /**
+     * Field DEFAULT_OUTCONFIG_PREFIX.
+     */
+    private static final String DEFAULT_OUTCONFIG_PREFIX = "dot";
+
+    /**
      * Field buildFile.
      */
     private File buildFile;
@@ -78,6 +83,11 @@ public class GrandTask extends Task {
      * Field outputConfigurationFile.
      */
     private File outputConfigurationFile;
+
+    /**
+     * Field outputConfigurationPrefix.
+     */
+    private String outputConfigurationPrefix;
 
     /**
      * The sets of properties to pass to the graphed project.
@@ -111,6 +121,12 @@ public class GrandTask extends Task {
     private void checkParams() {
         if (output == null) {
             final String message = "required attribute missing";
+            log(message, Project.MSG_ERR);
+            throw new BuildException(message);
+        }
+
+        if (outputConfigurationFile != null && outputConfigurationPrefix != null) {
+            final String message = "cannot specify both outputconfigfile and outputconfigprefix";
             log(message, Project.MSG_ERR);
             throw new BuildException(message);
         }
@@ -152,9 +168,21 @@ public class GrandTask extends Task {
         try {
             Properties override = null;
             if (outputConfigurationFile != null) {
-                log("Overriding default properties from " + outputConfigurationFile);
+                log("Overriding default output configuration from " + outputConfigurationFile);
                 override = new Properties();
                 override.load(new FileInputStream(outputConfigurationFile));
+            }
+            if (outputConfigurationPrefix != null) {
+                log("Overriding default output configuration from project properties "
+                        + outputConfigurationPrefix + ".*");
+                override = new Properties();
+                for (String property : getProject().getProperties().keySet()) {
+                    if (property.startsWith(outputConfigurationPrefix)) {
+                        // one may use &quot; or &apos; or just ' in project properties
+                        override.put(property.replace(outputConfigurationPrefix, DEFAULT_OUTCONFIG_PREFIX),
+                                getProject().getProperty(property).replaceAll("'", "\""));
+                    }
+                }
             }
 
             final GraphWriter writer = new DotWriter(override);
@@ -297,6 +325,21 @@ public class GrandTask extends Task {
      */
     public final void setOutputConfigFile(final File propertyFile) {
         outputConfigurationFile = propertyFile;
+    }
+
+    /**
+     * Set a property prefix to override the output default configuration.
+     * @param propertyPrefix String
+     */
+    public final void setOutputConfigPrefix(final String propertyPrefix) {
+        if (propertyPrefix == null) {
+            return;
+        }
+        if ("".equals(propertyPrefix)) {
+            outputConfigurationPrefix = DEFAULT_OUTCONFIG_PREFIX;
+            return;
+        }
+        outputConfigurationPrefix = propertyPrefix;
     }
 
     /**

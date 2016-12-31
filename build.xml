@@ -12,7 +12,7 @@
   <property name="javadocdir" value="dist/docs/api"/>
   <property name="java.target" value="1.6"/>
   <!-- version and product -->
-  <property name="project.version" value="1.9.3"/>
+  <property name="project.version" value="1.9.4"/>
   <property name="project.vendor" value="ggTools"/>
   <property name="product.name" value="${ant.project.name}-${project.version}.jar"/>
   <!-- Ivy -->
@@ -148,7 +148,7 @@
         <pathelement location="target/${product.name}"/>
       </classpath>
       <arg value="-tag"/>
-      <arg value="todo:a:To do:"/>
+      <arg value="to.do:a:To do:"/>
     </javadoc>
   </target>
 </project>

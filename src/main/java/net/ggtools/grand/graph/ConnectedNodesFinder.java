@@ -45,7 +45,7 @@ public class ConnectedNodesFinder implements LinkFinder {
     /**
      * Method getLinks.
      * @param node Node
-     * @return Collection of <code>Node</code>
+     * @return Collection&lt;Node&gt;
      * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
      */
     public final Collection<Node> getLinks(final Node node) {

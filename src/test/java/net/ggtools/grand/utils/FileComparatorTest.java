@@ -46,7 +46,7 @@ public class FileComparatorTest {
      * Field BUILD_SIMPLE.
      */
     private static final File BUILD_SIMPLE =
-	    new File(TESTCASES_DIR, "build-simple.dot");
+            new File(TESTCASES_DIR, "build-simple.dot");
 
     /**
      * Field BUILD_IMPORT.

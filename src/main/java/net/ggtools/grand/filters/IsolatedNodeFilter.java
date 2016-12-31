@@ -50,7 +50,7 @@ public class IsolatedNodeFilter extends AbstractGraphFilter
 
     /**
      * Method getFilteredNodes.
-     * @return Collection of <code>Node</code>
+     * @return Collection&lt;Node&gt;
      * @throws GrandException if an error occurs in getProducersGraph()
      * @see net.ggtools.grand.filters.AbstractGraphFilter#getFilteredNodes()
      */

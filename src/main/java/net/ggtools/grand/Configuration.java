@@ -56,7 +56,7 @@ public class Configuration {
     /**
      * Field defaultProperties.
      */
-    private static Properties defaultProperties;
+    private static volatile Properties defaultProperties;
 
     /**
      * Field defaultPropertiesMonitor.
@@ -72,8 +72,10 @@ public class Configuration {
      *             if the default properties were not loadable.
      */
     public static Configuration getConfiguration() throws IOException {
-        if (defaultConfiguration == null) {
-            defaultConfiguration = getConfiguration((Properties) null);
+        synchronized (Configuration.class) {
+            if (defaultConfiguration == null) {
+                defaultConfiguration = getConfiguration((Properties) null);
+            }
         }
 
         return defaultConfiguration;

@@ -1,4 +1,10 @@
 $Id$
+Release 1.9.4 (build number 183):
+* Compiled against Ant 1.9.8 and 1.10.0.
+* New feature: use project properties to configure graph rendering (outputconfigprefix).
+* Generate site with Maven and publish to GitHub Pages.
+
+
 Release 1.9.3 (build number 170):
 * Added consistency checks for common properties in build.xml and pom.xml.
 * Fixed test-bed tests.
