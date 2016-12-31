@@ -220,7 +220,7 @@
         <dt>GUI version 0.2 (16 Jun. 2004)</dt>
         <dd>
           <ul>
-            <li>The UI can now open several graphs in several tabs,</li>
+            <li>The UI can now open several graphs in different tabs,</li>
             <li>Rewritten tooltips for both Node &amp; Links,</li>
             <li>The <code>antcall</code>/<code>ant</code> parameters are now displayed on the link's tooltip,</li>
             <li>Upgrade to Eclipse RCP 3.0RC2, Draw2d 20040610 and Grand (core) 1.4,</li>
