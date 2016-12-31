@@ -170,7 +170,7 @@
                 Use setAccelerator in constructor rather than overriding getAccelerator.
             </action>
         </release>
-        <release version="GUI 0.7" date="2005-04-14" description="Export graph as image; sort properties in editor; sort outline pane; autorefresh in log viewer">
+        <release version="GUI 0.7" date="2005-04-14" description="Export graph as image; sort properties in editor; sort outline panel; autorefresh in log viewer">
             <action dev="ggtools" type="update" system="grand-ui" date="2005-04-13">
                 Use Grand core 1.8.
             </action>
@@ -181,7 +181,7 @@
                 Ticket #93: add a small "T" on the trace icon.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2005-04-11">
-                Implement sorting of outline pane.
+                Implement sorting of outline panel.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2005-04-02">
                 Ticket #100: implement export of graph as an image.
@@ -266,7 +266,7 @@
                 Ticket #79: add a test for taskdef.
             </action>
             <action dev="ggtools" type="fix" system="grand-ui" date="2005-01-16">
-                Ticket #72: improved sync between outline and other panes.
+                Ticket #72: improved sync between outline and other panels.
             </action>
             <action dev="ggtools" type="update" system="grand-ui" date="2005-01-16">
                 Use Grand core 1.6.
@@ -321,7 +321,7 @@
                 Ticket #4: add the ability to use common logging with UI.
             </action>
         </release>
-        <release version="GUI 0.5" date="2004-10-16" description="Outline pane; maskable outline and source code panes; line style preferences for subant generic ant file links">
+        <release version="GUI 0.5" date="2004-10-16" description="Outline panel; maskable outline and source code panels; line style preferences for subant generic ant file links">
             <action dev="ggtools" type="add" system="grand-ui" date="2004-10-15">
                 Ticket #56: add decorator to the outline view.
             </action>
@@ -338,7 +338,7 @@
                 When opening a graph by double-clicking on a link node, focus on the linked target.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
-                Ticket #70: Add Show Source Pane toggle to the View menu.
+                Ticket #70: Add Show Source Panel toggle to the View menu.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
                 Create View menu.
@@ -391,7 +391,7 @@
                 When processing an ant task with the dir attribute set, prepend attribute value with the project base dir if it is not an absolute path.
             </action>
         </release>
-        <release version="GUI 0.4" date="2004-07-21" description="Preferences dialog; recent files menu; target source code pane">
+        <release version="GUI 0.4" date="2004-07-21" description="Preferences dialog; recent files menu; target source code panel">
             <action dev="ggtools" type="add" system="grand-ui" date="2004-07-21">
                 Ticket #63: removed NPE on dead graphs when changing preferences.
             </action>
@@ -426,7 +426,7 @@
                 Ticket #54: use an empty string to represent a node with no source.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-06-30">
-                Ticket #38: add a target source code pane.
+                Ticket #38: add a target source code panel.
             </action>
         </release>
         <release version="GUI 0.3.1" date="2004-06-29" description="Repackaged 0.3 release because of corrupted jar files">
