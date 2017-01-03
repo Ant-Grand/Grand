@@ -165,13 +165,45 @@
         <artifactId>taglist-maven-plugin</artifactId>
         <version>2.4</version>
         <configuration>
-          <tags>
-            <tag>TODO</tag>
-            <tag>FIXME</tag>
-            <tag>@to.do</tag>
-            <tag>@deprecated</tag>
-          </tags>
+          <linkXRef>false</linkXRef>
+          <encoding>UTF-8</encoding>
+          <emptyComments>true</emptyComments>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Code Review</displayName>
+                <tags>
+                  <tag>
+                    <matchString>todo</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>@to.do</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>fixme</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>Deprecated Code</displayName>
+                <tags>
+                  <tag>
+                    <matchString>@deprecated</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
