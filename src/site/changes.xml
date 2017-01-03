@@ -52,7 +52,7 @@
                 Fix test-bed tests (wrong clean target).
             </action>
         </release>
-        <release version="GUI 0.8.1" date="2016-10-19" description="Upgrade to Eclipse 4.6.1; macOS-friendly menus and accelerators; release an updated equivalent of 0.7.2">
+        <release version="GUI 0.8.1" date="2016-10-19" description="Upgrade to Eclipse 4.6.1; macOS-friendly menus and accelerators; an updated equivalent of 0.7.2">
             <action dev="twogee" type="update" system="grand-ui" date="2016-10-19">
                 Upgrade to Eclipse 4.6.1.
             </action>
@@ -119,7 +119,7 @@
                 Change platform information logging level from debug to info.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2005-05-20">
-                Adding Ant version information to Application (logging) and AboutDialog.
+                Add Ant version information to Application (logging) and AboutDialog.
             </action>
         </release>
         <release version="1.9.2" date="2016-08-30" description="Support additions to subant task in Ant 1.7+; re-enable Maven builds; upgrade to Ant 1.9.7">
@@ -181,7 +181,7 @@
         </release>
         <release version="GUI 0.7.2" date="2005-05-19" description="Fix problem with missing libraries in builds">
             <action dev="ggtools" type="fix" system="grand-ui" date="2005-05-18">
-                Fix problem with missing SWT dll/so in builds.
+                Fix the problem with missing SWT shared libraries in builds.
             </action>
             <action dev="ggtools" type="update" system="grand-ui" date="2005-05-18">
                 Upgrade to Ant 1.6.3.
@@ -326,7 +326,7 @@
                 Ticket #16/28: support for subgraphs.
             </action>
         </release>
-        <release version="1.6" date="2004-12-23" description="Logging API; specific style for subant generic ant file links; DOT generator rewritten">
+        <release version="1.6" date="2004-12-23" description="Logging API; specific style for subant generic ant file links; DOT generator uses visitor API">
             <action dev="ggtools" type="add" system="grand" date="2004-12-15">
                 Ticket #68: implement a specific style for subant generic ant file links.
             </action>
@@ -337,7 +337,7 @@
                 Start nodes lack the comment set.
             </action>
             <action dev="ggtools" type="update" system="grand" date="2004-12-13">
-                Ticket #36: rewrite DotWriter to use the new Visitor API.
+                Ticket #36: rewrite DotWriter to use the new visitor API.
             </action>
             <action dev="ggtools" type="remove" system="grand" date="2004-11-14">
                 Ticket #73: remove references to the old logging API.
@@ -354,7 +354,7 @@
                 Ticket #56: add decorator to the outline view.
             </action>
             <action dev="ggtools" type="fix" system="grand-ui" date="2004-10-15">
-                Ticket #71: Fix scrolling to target with a zoom other than 1:1.
+                Ticket #71: fix scrolling to target with a zoom other than 1:1.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-10-15">
                 Implement preliminary support for outline window.
@@ -366,7 +366,7 @@
                 When opening a graph by double-clicking on a link node, focus on the linked target.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
-                Ticket #70: Add Show Source Panel toggle to the View menu.
+                Ticket #70: add Show Source Panel toggle to the View menu.
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
                 Create View menu.
@@ -387,12 +387,12 @@
                 Create a JNLP launcher.
             </action>
         </release>
-        <release version="1.5" date="2004-10-06" description="Support for subant task; improved handling of ant task; use new Ant 1.6.2 API for target execution conditions">
+        <release version="1.5" date="2004-10-05" description="Support for subant task; improved handling of ant task; use Ant 1.6.2 API for target execution conditions">
             <action dev="ggtools" type="add" system="grand" date="2004-10-05">
                 Ticket #58: support for subant task.
             </action>
             <action dev="ggtools" type="fix" system="grand" date="2004-10-04">
-                Ticket #67: used getAbsolutePath() in tests to be OS-neutral.
+                Ticket #67: use getAbsolutePath() to make tests independent of OS.
             </action>
             <action dev="ggtools" type="fix" system="grand" date="2004-10-03">
                 Automatically increment build numbers when releasing.
@@ -404,7 +404,7 @@
                 Upgrade to Ant 1.6.2.
             </action>
             <action dev="ggtools" type="add" system="grand" date="2004-07-21">
-                Ticket #53: Add build info to Configuration.
+                Ticket #53: add build info to Configuration.
             </action>
             <action dev="ggtools" type="fix" system="grand" date="2004-07-06">
                 Ticket #59: correctly process ant task with no target specified.
@@ -491,7 +491,7 @@
                 Add Ant build file name as a tab tooltip.
             </action>
             <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-22">
-                Ticket #9: Compute the actual bounding box since getBounds() return values are incorrect.
+                Ticket #9: compute the actual bounding box since getBounds() return values are incorrect.
             </action>
             <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-22">
                 Ticket #49: GraphControler must not send events if the selection hasn't changed.
@@ -679,7 +679,7 @@
                 Make handling of antcall task more robust: do not crash when a target is defined by property or when getTaskType returns null.
             </action>
         </release>
-        <release version="0.3" date="2004-02-05" description="Filters; weak links to support antcall task">
+        <release version="0.3" date="2004-02-04" description="Filters; weak links to support antcall task">
             <action dev="ggtools" type="add" system="grand" date="2004-02-03">
                 Implement weak links to support antcall task.
             </action>
