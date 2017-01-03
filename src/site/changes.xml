@@ -574,16 +574,8 @@
             <action dev="ggtools" type="add" system="grand" date="2004-06-09">
                 AntProject must find out whether ant task calls an internal or an external target.
             </action>
-        </release>
-        <release version="1.2" date="2004-06-05" description="More information on targets">
             <action dev="ggtools" type="add" system="grand" date="2004-06-05">
                 Add conditional attribute on links and nodes.
-            </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-06-03">
-                Ticket #24: add GraphElementFactory interface and specialized classes for Ant graph.
-            </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-06-02">
-                ReflectConditionHelper must send null when no if/unless conditions are defined.
             </action>
         </release>
         <release version="GUI 0.1" date="2004-06-04" description="Initial release">
@@ -619,6 +611,14 @@
             </action>
             <action dev="ggtools" type="add" system="grand-ui" date="2004-05-11">
                 Use JzGraph.
+            </action>
+        </release>
+        <release version="1.2" date="2004-06-03" description="More information on targets">
+            <action dev="ggtools" type="add" system="grand" date="2004-06-03">
+                Ticket #24: add GraphElementFactory interface and specialized classes for Ant graph.
+            </action>
+            <action dev="ggtools" type="fix" system="grand" date="2004-06-02">
+                ReflectConditionHelper must send null when no if/unless conditions are defined.
             </action>
         </release>
         <release version="1.1" date="2004-05-25" description="Filter chains; preliminary support for ant task">
