@@ -17,6 +17,7 @@
   </head>
 
   <body>
+    <section name="Grand: Ant build visualisation tool">
     <div class="grandmenu" id="grandMenu">
       <ul>
         <li><a href="#WhatWhy">What/Why?</a></li>
@@ -60,265 +61,18 @@
       </ul>
     </subsection>
     <subsection name="News">
-      <dt>GUI version 0.8.3 (31 Dec. 2016)</dt>
-      <dd>
-        <ul>
-          <li>Upgrade to Eclipse 4.6.2,</li>
-          <li>Upgrade to Ant 1.10.0,</li>
-          <li>Download JzGraph fom GitHub,</li>
-          <li>Remove dot fallback for GTK in PrintAction.</li>
-        </ul>
-      </dd>
-      <dl>
-        <dt>Version 1.9.4 (31 Dec. 2016)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to Ant 1.9.8,</li>
-            <li>New feature: use project properties to configure graph rendering (<code>outputconfigprefix</code>),</li>
-            <li>Generate site with Maven and publish to GitHub Pages.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.8.2 (9 Nov. 2016)</dt>
-        <dd>
-          <p>Re-released 0.8.1 with Grand core 1.9.3 and correct execute permissions in distribution archives.</p>
-        </dd>
-        <dt>Version 1.9.3 (29 Oct. 2016)</dt>
-        <dd>
-          <p>Re-released 1.9.2 with correct version in pom.xml and fixed test bed.</p>
-        </dd>
-        <dt>GUI version 0.8.1 (19 Oct. 2016)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to Eclipse 4.6.1,</li>
-            <li>Use Maven SDL; JNLP and Ant-assisted startup removed,</li>
-            <li>Completely Macified menus and accelerators; spinner fields for numeric values in preferences.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.8 (28 Sep. 2016)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to latest Draw2d (GEF 3 legacy in GEF 4.0) and Eclipse 4.6,</li>
-            <li>Upgrade to Grand core 1.9 (prefixed filter); core downloads from GitHub,</li>
-            <li>Use native SWT Cocoa support as well as support for 32- and 64-bit Windows and Linux/GTK.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.9.2 (30 Aug. 2016)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to Ant 1.9.7,</li>
-            <li>Working Maven configuration (pom.xml),</li>
-            <li>Complemented subant task API for Ant 1.7+ in SubAntHelper.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.9.1 (13 Jul. 2015)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to Ant 1.9.6,</li>
-            <li>Use Maven SDL,</li>
-            <li>Corrected colour name (lime is known to svg, but not x11, whereas limegreen is known to both).</li>
-          </ul>
-        </dd>
-        <dt>Version 1.9 (25 Jan. 2015)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to Ant 1.9.4; added prefixed filter because of API changes in Ant 1.8+,</li>
-            <li>Upgrade to JUnit 4.12; converted unit tests,</li>
-            <li>Use Ivy dependency manager.</li>
-          </ul>
-        </dd>
-        <dt>Move to GitHub (21 Jan. 2012)</dt>
-        <dd>
-          <p>It has been quite a long time since I worked on Grand. The last commits date from July 2006 (almost 6 years). I have to admit it, Grand is no longer on the of my todo list especially since I no longer use Ant in my day job.</p>
-          <p>In order not to let the project die, I decided to move it to <a href="http://www.github.com/">GitHub</a>: <a href="https://github.com/Ant-Grand/Grand">Grand</a> and <a href="https://github.com/Ant-Grand/GrandUI">GrandUI</a>.</p>
-        </dd>
-        <dt>Mac OS X version available with JNLP (30 May. 2005)</dt>
-        <dd>
-          <p>A pre-release of version 0.8 (or 0.7.3) has been uploaded, beside an upgrade to the latest versions of Ant, SWT, etc. this release supports Mac OS X. Since I don't have access to any machine running Mac OS X, this wasn't tested at all so don't hesitate to <a href="#Contact">contact me</a> is something goes wrong.</p>
-        </dd>
-        <dt>GUI version 0.7.2 (19 May. 2005)</dt>
-        <dd>
-          <ul>
-            <li>Upgrade to Ant 1.6.3,</li>
-            <li>Fixed build process.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.7.1 (3 May. 2005)</dt>
-        <dd>
-          <ul>
-            <li>Fixed a bug on Windows platforms with JDK 1.4 which hindered displaying of any graph.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.7 (14 Apr. 2005)</dt>
-        <dd>
-          <ul>
-            <li>Upgraded to Grand core 1.8,</li>
-            <li>Added a new export as image feature,</li>
-            <li>Minor improvements and bug fixes.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.8 (11 Apr. 2005)</dt>
-        <dd>
-          <ul>
-            <li>Support for the new <code>target</code> element in <code>ant</code> and <code>antcall</code>,</li>
-            <li>Improved behaviour when targets with the same names exist in several files.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.6 (17 Mar. 2005)</dt>
-        <dd>
-          <ul>
-            <li>Upgraded to Grand core 1.7 and Eclipse 3.1M5a,</li>
-            <li>Added support for mouse wheel,</li>
-            <li>Improved synchronization between the outline and the other panels,</li>
-            <li>Fixed an exception when parsing a file with a <code>&lt;taskdef&gt;</code> outside of a target,</li>
-            <li>Added a log window,</li>
-            <li>It is now possible to specify a set of properties when opening a graph,</li>
-            <li>Minor bugfixes.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.7 (15 Mar. 2005)</dt>
-        <dd>
-          <ul>
-            <li>Fixed an exception when parsing a file with a <code>&lt;taskdef&gt;</code> outside of a target,</li>
-            <li>Added a new filter type: removenode.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.6 (23 Dec. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Rewrite of the DOT generator,</li>
-            <li><code>subant</code> generic links now have a specific display style.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.5 (16 Oct. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Upgraded to Grand core 1.5 and Eclipse 3.0.1,</li>
-            <li>Added special tooltip for <code>subant</code> <code>genericantfile</code> mode,</li>
-            <li>Added an outline panel,</li>
-            <li>Both outline &amp; source panels are now maskable,</li>
-            <li>When double clicking on an external node, the corresponding build file now opens centered on that node,</li>
-            <li>Minor bugfixes.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.5 (5 Oct. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Support for the <code>subant</code> task,</li>
-            <li>Relative paths in the <code>dir</code> attribute of the <code>ant</code> task are now handled correctly,</li>
-            <li>The <code>ant</code> task no longer crashes when no target is supplied,</li>
-            <li>Minor bugfixes.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.4 (21 Jul. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Fix a NPE when toggling bus routing,</li>
-            <li>Added source display of the selected target,</li>
-            <li>Added a preference dialog and allow customization of the graph rendering,</li>
-            <li>Upgraded to Ant 1.6.2.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.3.1 (29 Jun. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Replace buggy 0.3 release.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.3 (27 Jun. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Double clicking on a external target now opens this target's build file,</li>
-            <li>Page-Up &amp; Page-Down zoom in &amp; out on the graph,</li>
-            <li>Added a minimal page setup dialog,</li>
-            <li>Upgrade to Eclipse to 3.0 &amp; GEF to 20040619,</li>
-            <li>Code cleanup &amp; better error processing.</li>
-          </ul>
-        </dd>
-        <dt>GUI version 0.2 (16 Jun. 2004)</dt>
-        <dd>
-          <ul>
-            <li>The UI can now open several graphs in different tabs,</li>
-            <li>Rewritten tooltips for both Node &amp; Links,</li>
-            <li>The <code>antcall</code>/<code>ant</code> parameters are now displayed on the link's tooltip,</li>
-            <li>Upgrade to Eclipse RCP 3.0RC2, Draw2d 20040610 and Grand (core) 1.4,</li>
-            <li>The graph can use the bus routing capability of JzGraph.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.4 (15 Jun. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Small bugfix release needed by forthcoming Ui release.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.3 (11 Jun. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Major rework in the way the Ant file tasks are processed,</li>
-            <li>The nested <code>ant</code>, <code>antcall</code> &amp; similar tasks are now correctly displayed,</li>
-            <li>Support for the <code>runtarget</code> task.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.2 (04 Jun. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Internal changes allowing to gather more information on targets,</li>
-            <li>First release of a GUI based on Grand.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.1 (25 May 2004)</dt>
-        <dd>
-          <ul>
-            <li>Grand is now compiled against Ant 1.6.1, although it probably still work with 1.6,</li>
-            <li>Add the FilterChain class to handle a set of filters as one filter,</li>
-            <li>Implements a preliminary support for <code>ant</code> task,</li>
-            <li>Some code cleanup.</li>
-          </ul>
-        </dd>
-        <dt>Version 1.0 (28 Feb. 2004)</dt>
-        <dd>
-          <p>Nothing much (again), more code cleanup (removed jikes warning when compiling the test cases), tests on Ant 1.6.1 and Java 1.5.0 beta.</p>
-        </dd>
-        <dt>Version 0.9 (18 Feb. 2004)</dt>
-        <dd>
-          <p>Nothing much except some code cleanup to be more checkstyle compliant. The obsolete <code>net.ggtools.grand.App</code> class is no longer there.</p>
-        </dd>
-        <dt>Version 0.4 (12 Feb. 2004)</dt>
-        <dd>
-          <ul>
-            <li>Grand supports the <code>foreach</code> task,</li>
-            <li>When a target depends on a non existing one, Grand used to discard the link. Starting from this release, when a target depends on a non existing target, a dummy node will be created; this node will be marked as a <em>missing</em> node, those nodes can be filtered out using the new <code>missingnode</code> filter,</li>
-            <li>Grand has now a mechanism to set and use properties when processing dependencies,</li>
-            <li>The <code>propertyfile</code> attribute from the <code>grand</code> task had been superseded by <code>outputconfigfile</code> in order to avoid confusion.</li>
-          </ul>
-        </dd>
-        <dt>Version 0.3.1 (6 Feb. 2004)</dt>
-        <dd>
-          <p>Corrects <code>NullPointerException</code> issue on some build files.</p>
-        </dd>
-        <dt>Version 0.3 (5 Feb. 2004)</dt>
-        <dd>
-          <p>This version implements filters and can display <code>antcall</code> task as <em>weak links</em>.</p>
-        </dd>
-        <dt>Version 0.2 (29 Jan. 2004)</dt>
-        <dd>
-          <p>No new features but some code rewrite to ease the implementation of filters in a (hopefully) near future.</p>
-        </dd>
-      </dl>
+      <p>Please see the Grand and GrandUI <a href="changes-report.html#Release_History">release history</a>. Latest versions (as well as quick download links) are displayed on the <a href="../..">front page</a> if JavaScript is enabled in your browser.</p>
     </subsection>
     <subsection name="Download">
       <h4>Core/Ant task</h4>
-      <p>The latest version of Grand is available as <a href="https://github.com/Ant-Grand/Grand/releases/download/1.9.4/grand-1.9.4.jar">grand.jar</a>. Source distributions and old versions should be fetched from the <a href="https://github.com/Ant-Grand/Grand/releases">download directory</a>.</p>
+      <p>The latest version of Grand is available as a <a href="https://github.com/Ant-Grand/Grand/releases/latest">jar file</a>. Old versions are available in the <a href="https://github.com/Ant-Grand/Grand/releases">download directory</a>.</p>
       <p>You'll also need to grab <a href="http://ant.apache.org">Ant</a>. The recommended version is 1.8.0 or later.</p>
       <h4>GUI</h4>
-      <p>The GUI is available as a complete binary distribution as <a href="https://github.com/Ant-Grand/GrandUI/releases/download/0.8.3/grand-ui-0.8.3.zip">grand-ui.zip</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. The source distributions should be grabbed from the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.</p>
+      <p>The GUI is available as a complete binary distribution in a <a href="https://github.com/Ant-Grand/GrandUI/releases/latest">zip file</a>. This archive should work for macOS (x86_64), Linux and Windows (both x86 and x86_64) systems. Old versions are available in the <a href="https://github.com/Ant-Grand/GrandUI/releases">download directory</a>.</p>
     </subsection>
     <subsection name="Compilation, installation">
       <p>If you want to recompile Grand, you'll first need to install <a href="http://maven.apache.org/">Maven</a>. After that the compilation process should be straightforward: untar or unzip, cd to the Grand directory, and type <code>mvn package</code>. Maven will download the required libraries, compile the classes, run the (few) unit tests and create a jar.</p>
-      <p>As an alternative to Maven, the source archive also provides a <code>build.xml</code> file to be used with <a href="http://ant.apache.org">Ant</a>. This file had been generated by Maven so it tries to mimic its behaviour. By default, this file will make Ant download the dependencies. You can prevent this by running Ant with <code>-Dnoget=yes</code>. In this case you'll have to put the following jars in the classpath or in the <code>target/lib</code> directory:</p>
-      <ul>
-        <li><code>ant.jar</code> and <code>ant-launcher.jar</code> from Ant 1.9.7 (any version down to 1.8.0 should still work),</li>
-        <li><code>junit.jar</code> from <a href="http://www.junit.org">JUnit</a> 4.12 and its dependency <code>hamcrest-core.jar</code>.</li>
-      </ul>
+      <p>As an alternative to Maven, the source archive also provides a <code>build.xml</code> file to be used with <a href="http://ant.apache.org">Ant</a>. This file had been generated by Maven so it tries to mimic its behaviour. By default, the build will download the dependencies using Ivy. You can prevent this by running Ant with <code>-Dnoget=yes</code>. In this case you'll have to put all jars listed in the <a href="dependencies.html">dependency report</a> in the classpath or in the <code>target/lib</code> directory.</p>
     </subsection>
     <subsection name="Using the Ant task">
       <p>To use the Ant task you should first define the <code>grand</code> task:</p>
@@ -491,6 +245,7 @@ dot.missingnode.attributes=color="gray",fontcolor="gray"</source>
     <subsection name="Contact">
       <p>Don't hesitate to <a href="mailto:grand@ggtools.net">contact me</a> for anything relative to Grand (bug, suggestion, etc.).</p>
     </subsection>
+    </section>
   </body>
 
 </document>
