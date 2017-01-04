@@ -74,7 +74,7 @@ div.floating-sample-image img {
 
 .grandmenu {
     background-color: white;
-    border: solid 2px black;
+    border: 2px solid black;
     width: 10em;
     right: 10px;
     top: 10px;
@@ -83,7 +83,7 @@ div.floating-sample-image img {
 
 @media screen {
     .grandmenu {
-        position: fixed
+        position: fixed;
     }
 }
 
@@ -91,7 +91,7 @@ div.floating-sample-image img {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    border: none
+    border: none;
 }
 
 .grandmenu li {
@@ -112,7 +112,7 @@ div.floating-sample-image img {
 }
 
 .grandmenu li:first-child {
-    border: none
+    border: none;
 }
 
 .grandmenu li.icon {
@@ -142,6 +142,7 @@ div.floating-sample-image img {
         position: absolute;
         right: 0;
         top: 0;
+        border: none;
     }
 
     .grandmenu.responsive span {

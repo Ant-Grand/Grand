@@ -148,7 +148,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.12</version>
+        <version>2.12.1</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -158,6 +158,58 @@
         </reportSets>
         <configuration>
           <xmlPath>${basedir}/src/site/changes.xml</xmlPath>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <linkXRef>false</linkXRef>
+          <encoding>UTF-8</encoding>
+          <emptyComments>true</emptyComments>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Code Review</displayName>
+                <tags>
+                  <tag>
+                    <matchString>todo</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>@to.do</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>fixme</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>Deprecated Code</displayName>
+                <tags>
+                  <tag>
+                    <matchString>@deprecated</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+          <linkXRef>false</linkXRef>
         </configuration>
       </plugin>
       <plugin>

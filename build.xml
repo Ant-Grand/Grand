@@ -3,11 +3,14 @@
 <project default="jar" name="grand" basedir="."
          xmlns:ivy="antlib:org.apache.ivy.ant"
          xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+  <property name="srcdir" value="src/main/java"/>
+  <property name="confdir" value="src/main/resources"/>
+  <property name="testsrcdir" value="src/test/java"/>
   <property name="defaulttargetdir" value="target"/>
-  <property name="libdir" value="target/lib"/>
-  <property name="classesdir" value="target/classes"/>
-  <property name="testclassesdir" value="target/test-classes"/>
-  <property name="testreportdir" value="target/test-reports"/>
+  <property name="libdir" value="${defaulttargetdir}/lib"/>
+  <property name="classesdir" value="${defaulttargetdir}/classes"/>
+  <property name="testclassesdir" value="${defaulttargetdir}/test-classes"/>
+  <property name="testreportdir" value="${defaulttargetdir}/test-reports"/>
   <property name="distdir" value="dist"/>
   <property name="javadocdir" value="dist/docs/api"/>
   <property name="java.target" value="1.6"/>
@@ -41,22 +44,22 @@
     <mkdir dir="${classesdir}">
     </mkdir>
     <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
-           srcdir="src/main/java" destdir="${classesdir}" excludes="**/package.html" classpathref="project.classpath"/>
-    <propertyfile file="src/main/resources/net/ggtools/grand/buildnum.properties">
+           srcdir="${srcdir}" destdir="${classesdir}" excludes="**/package.html" classpathref="project.classpath"/>
+    <propertyfile file="${confdir}/net/ggtools/grand/buildnum.properties">
       <entry key="build.time" type="date" value="now" pattern="HH:mm:ss"/>
       <entry key="build.number" type="int" default="0" operation="+"/>
       <entry key="build.version.string" value="${project.version}"/>
       <entry key="build.date" type="date" value="now" pattern="yyyy-MM-dd"/>
     </propertyfile>
     <copy todir="${classesdir}">
-      <fileset dir="src/main/resources">
+      <fileset dir="${confdir}">
         <include name="**/*.properties"/>
         <include name="**/*.xml"/>
       </fileset>
     </copy>
   </target>
   <target name="jar" description="o Create the jar" depends="test">
-    <jar jarfile="target/${product.name}" excludes="**/package.html" basedir="${classesdir}">
+    <jar jarfile="${defaulttargetdir}/${product.name}" excludes="**/package.html" basedir="${classesdir}">
       <manifest>
         <section name="net/ggtools/grand">
           <attribute name="Specification-Title" value="${ant.project.name}"/>
@@ -95,7 +98,7 @@
         <pathelement path="${classesdir}"/>
       </classpath>
       <batchtest todir="${testreportdir}">
-        <fileset dir="src/test/java">
+        <fileset dir="${testsrcdir}">
           <include name="**/AllTests.java"/>
           <exclude name="org/apache/**"/>
         </fileset>
@@ -105,7 +108,7 @@
   <target name="compile-tests" depends="compile">
     <mkdir dir="${testclassesdir}"/>
     <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
-           srcdir="src/test/java" destdir="${testclassesdir}" excludes="**/package.html">
+           srcdir="${testsrcdir}" destdir="${testclassesdir}" excludes="**/package.html">
       <classpath>
         <path refid="project.classpath"/>
         <pathelement path="${classesdir}"/>
@@ -142,10 +145,10 @@
     <property name="copyright" value="Copyright &amp;copy;${years} ${project.vendor}. All Rights Reserved."/>
     <property name="title" value="Grand: Graphical Representation of ANt Dependencies ${project.version} API"/>
     <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" windowtitle="Grand" doctitle="${title}" bottom="${copyright}"
-             sourcepath="src/main/java" packagenames="net.ggtools.grand.*">
+             sourcepath="${srcdir}" packagenames="net.ggtools.grand.*">
       <classpath>
         <path refid="project.classpath"/>
-        <pathelement location="target/${product.name}"/>
+        <pathelement location="${defaulttargetdir}/${product.name}"/>
       </classpath>
       <arg value="-tag"/>
       <arg value="to.do:a:To do:"/>
