@@ -17,7 +17,8 @@
   </head>
 
   <body>
-    <section name="Grand: Ant build visualisation tool">
+    <!-- This section name is intentionally left empty -->
+    <section name="">
     <div class="grandmenu" id="grandMenu">
       <ul>
         <li><a href="#WhatWhy">What/Why?</a></li>
