@@ -46,6 +46,10 @@
       <url>${project.scm.connection}</url>
     </site>
   </distributionManagement>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.apache.ant</groupId>
@@ -61,6 +65,13 @@
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.6.0</version>
@@ -166,7 +177,6 @@
         <version>2.4</version>
         <configuration>
           <linkXRef>false</linkXRef>
-          <encoding>UTF-8</encoding>
           <emptyComments>true</emptyComments>
           <tagListOptions>
             <tagClasses>
