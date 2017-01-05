@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<project name="Grand">
+<project name="Grand"
+         xmlns="http://maven.apache.org/DECORATION/1.7.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
@@ -20,7 +23,6 @@
     <menu name="Grand">
       <item name="Introduction" href="grand.html"/>
     </menu>
-    <menu ref="parent"/>
     <menu ref="reports"/>
   </body>
 </project>
