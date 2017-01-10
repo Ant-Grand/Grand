@@ -38,7 +38,7 @@
   </scm>
   <issueManagement>
       <system>GitHub</system>
-      <url>${project.scm.url}/issues</url>
+      <url>${project.scm.url}/issues/</url>
    </issueManagement>
   <distributionManagement>
     <site>

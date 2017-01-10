@@ -8,715 +8,715 @@
     </properties>
     <body>
         <release version="GUI 0.8.3" date="2016-12-31" description="Upgrade to Eclipse 4.6.2 and Ant 1.10.0; remove dot fallback for GTK in PrintAction">
-            <action dev="twogee" type="remove" system="grand" date="2016-12-31">
+            <action dev="twogee" type="remove" date="2016-12-31">
                 Remove dot fallback for GTK from PrintAction.
             </action>
-            <action dev="twogee" type="fix" system="grand" date="2016-12-31">
+            <action dev="twogee" type="fix" date="2016-12-31">
                 Download JzGraph from GitHub.
             </action>
-            <action dev="twogee" type="update" system="grand-ui" date="2016-12-31">
+            <action dev="twogee" type="update" date="2016-12-31">
                 Use Grand core 1.9.4.
             </action>
-            <action dev="twogee" type="update" system="grand" date="2016-12-31">
+            <action dev="twogee" type="update" date="2016-12-31">
                 Upgrade to Ant 1.10.0.
             </action>
-            <action dev="twogee" type="update" system="grand" date="2016-12-24">
+            <action dev="twogee" type="update" date="2016-12-24">
                 Upgrade to Eclipse 4.6.2.
             </action>
         </release>
         <release version="1.9.4" date="2016-12-31" description="Use project properties to configure graph rendering; upgrade to Ant 1.9.8">
-            <action dev="twogee" type="update" system="grand" date="2016-12-31">
+            <action dev="twogee" type="update" date="2016-12-31">
                 Upgrade to Ant 1.9.8.
             </action>
-            <action dev="twogee" type="add" system="grand-ui" date="2016-12-25">
+            <action dev="twogee" type="add" date="2016-12-25">
                 Use project properties to configure graph rendering (outputconfigprefix).
             </action>
-            <action dev="twogee" type="add" system="grand-ui" date="2016-11-09">
+            <action dev="twogee" type="add" date="2016-11-09">
                 Generate site with Maven and publish to GitHub Pages.
             </action>
         </release>
         <release version="GUI 0.8.2" date="2016-11-09" description="Repackaged GUI 0.8.1 release because of incorrect file permissions in distribution">
-            <action dev="twogee" type="fix" system="grand-ui" date="2016-11-09">
+            <action dev="twogee" type="fix" date="2016-11-09">
                 Correct file execute permissions in distribution archives.
             </action>
-            <action dev="twogee" type="update" system="grand-ui" date="2016-11-09">
+            <action dev="twogee" type="update" date="2016-11-09">
                 Use Grand core 1.9.3.
             </action>
         </release>
         <release version="1.9.3" date="2016-10-29" description="Repackaged 1.9.2 release because of out-of-sync pom.xml; added pom.xml property checks for Ant builds; fixed test-bed tests">
-            <action dev="twogee" type="update" system="grand-ui" date="2016-10-29">
+            <action dev="twogee" type="update" date="2016-10-29">
                 Update pom.xml.
             </action>
-            <action dev="twogee" type="add" system="grand-ui" date="2016-10-29">
+            <action dev="twogee" type="add" date="2016-10-29">
                 Add pom.xml property checks in build.xml.
             </action>
-            <action dev="twogee" type="fix" system="grand-ui" date="2016-10-27">
+            <action dev="twogee" type="fix" date="2016-10-27">
                 Fix test-bed tests (wrong clean target).
             </action>
         </release>
         <release version="GUI 0.8.1" date="2016-10-19" description="Upgrade to Eclipse 4.6.1; macOS-friendly menus and accelerators; an updated equivalent of 0.7.2">
-            <action dev="twogee" type="update" system="grand-ui" date="2016-10-19">
+            <action dev="twogee" type="update" date="2016-10-19">
                 Upgrade to Eclipse 4.6.1.
             </action>
-            <action dev="twogee" type="update" system="grand-ui" date="2016-10-19">
+            <action dev="twogee" type="update" date="2016-10-19">
                 Launch GrandUI directly (java -jar) on Windows and Linux.
             </action>
-            <action dev="twogee" type="remove" system="grand-ui" date="2016-10-19">
+            <action dev="twogee" type="remove" date="2016-10-19">
                 Remove JNLP and related launchers.
             </action>
-            <action dev="twogee" type="add" system="grand-ui" date="2016-10-17">
+            <action dev="twogee" type="add" date="2016-10-17">
                 Build application bundle for macOS.
             </action>
-            <action dev="twogee" type="add" system="grand-ui" date="2016-10-16">
+            <action dev="twogee" type="add" date="2016-10-16">
                 Use SpinnerField for preferences.
             </action>
-            <action dev="twogee" type="add" system="grand-ui" date="2016-10-13">
+            <action dev="twogee" type="add" date="2016-10-13">
                 Macify menus and accelerators.
             </action>
         </release>
         <release version="GUI 0.8" date="2016-09-28" description="Upgrade to Eclipse 4.6 and Grand core 1.9.2; new action for prefixed node filter">
-            <action dev="twogee" type="add" system="grand-ui" date="2016-09-28">
+            <action dev="twogee" type="add" date="2016-09-28">
                 Add an action for prefixed node filter.
             </action>
-            <action dev="twogee" type="fix" system="grand-ui" date="2016-09-28">
+            <action dev="twogee" type="fix" date="2016-09-28">
                 Download Grand core from GitHub.
             </action>
-            <action dev="twogee" type="update" system="grand-ui" date="2016-09-28">
+            <action dev="twogee" type="update" date="2016-09-28">
                 Use Grand core 1.9.2.
             </action>
-            <action dev="twogee" type="update" system="grand-ui" date="2016-09-27">
+            <action dev="twogee" type="update" date="2016-09-27">
                 Use Java 6.
             </action>
-            <action dev="twogee" type="update" system="grand-ui" date="2016-08-31">
+            <action dev="twogee" type="update" date="2016-08-31">
                 Upgrade to Eclipse 4.6.
             </action>
-            <action dev="ggtools" due-to="twogee" type="update" system="grand-ui" date="2014-10-12">
+            <action dev="ggtools" due-to="twogee" type="update" date="2014-10-12">
                 Run on Mac OS X natively using Cocoa support in SWT, no need for JNLP.
             </action>
-            <action dev="ggtools" due-to="twogee" type="update" system="grand-ui" date="2013-09-28">
+            <action dev="ggtools" due-to="twogee" type="update" date="2013-09-28">
                 Upgrade to Eclipse 4.3.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2006-07-04">
+            <action dev="ggtools" type="update" date="2006-07-04">
                 Use Java 1.5.0.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-08-26">
+            <action dev="ggtools" type="add" date="2005-08-26">
                 Implement a launcher to solve JNLP classpath problems.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-08-20">
+            <action dev="ggtools" type="update" date="2005-08-20">
                 Ticket #101: make Application public.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-07-09">
+            <action dev="ggtools" type="add" date="2005-07-09">
                 Ticket #103: create a launcher based on Ant to set the correct classpath.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-06-29">
+            <action dev="ggtools" type="update" date="2005-06-29">
                 Upgrade to Eclipse 3.1.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2015-06-27">
+            <action dev="ggtools" type="update" date="2015-06-27">
                 Upgrade to Ant 1.6.5.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-05-30">
+            <action dev="ggtools" type="update" date="2005-05-30">
                 Add Mac OS X support to JNLP.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2005-05-30">
+            <action dev="ggtools" type="fix" date="2005-05-30">
                 Change platform information logging level from debug to info.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-05-20">
+            <action dev="ggtools" type="add" date="2005-05-20">
                 Add Ant version information to Application (logging) and AboutDialog.
             </action>
         </release>
         <release version="1.9.2" date="2016-08-30" description="Support additions to subant task in Ant 1.7+; re-enable Maven builds; upgrade to Ant 1.9.7">
-            <action dev="twogee" type="update" system="grand" date="2015-08-30">
+            <action dev="twogee" type="update" date="2015-08-30">
                 Upgrade to Ant 1.9.7.
             </action>
-            <action dev="twogee" due-to="hiluo" issue="1" type="update" system="grand" date="2015-08-30">
+            <action dev="twogee" due-to="hiluo" issue="1" type="update" system="GitHub" date="2015-08-30">
                 Handle target and buildpath in subant (Java 1.7+ API).
             </action>
-            <action dev="twogee" type="update" system="grand" date="2015-08-28">
+            <action dev="twogee" type="update" date="2015-08-28">
                 Convert old Maven 1 configuration to pom.xml.
             </action>
         </release>
         <release version="1.9.1" date="2015-07-13" description="Correct default color names; upgrade to Ant 1.9.6">
-            <action dev="twogee" type="update" system="grand" date="2015-07-12">
+            <action dev="twogee" type="update" date="2015-07-12">
                 Upgrade to Ant 1.9.6.
             </action>
-            <action dev="twogee" type="update" system="grand" date="2015-07-12">
+            <action dev="twogee" type="update" date="2015-07-12">
                 Upgrade to Java 6.
             </action>
-            <action dev="twogee" type="update" system="grand" date="2015-07-12">
+            <action dev="twogee" type="update" date="2015-07-12">
                 Use Ivy dependency management.
             </action>
-            <action dev="twogee" due-to="pendor" issue="2" type="fix" system="grand" date="2015-04-03">
+            <action dev="twogee" due-to="pendor" issue="4" type="fix" system="GitHub" date="2015-04-03">
                 Change default graph properties, use limegreen instead of lime (defined only in svg but not x11 namespace).
             </action>
         </release>
         <release version="1.9" date="2015-01-25" description="Upgrade to Ant 1.9.2 and JUnit 4; new filter type: prefixed">
-            <action dev="ggtools" due-to="twogee" type="update" system="grand" date="2013-10-28">
+            <action dev="ggtools" due-to="twogee" type="update" date="2013-10-28">
                 Use Junit 4.
             </action>
-            <action dev="ggtools" due-to="twogee" type="add" system="grand" date="2013-10-18">
+            <action dev="ggtools" due-to="twogee" type="add" date="2013-10-18">
                 Implement prefixed node filter.
             </action>
-            <action dev="ggtools" due-to="twogee" type="update" system="grand" date="2013-10-18">
+            <action dev="ggtools" due-to="twogee" type="update" date="2013-10-18">
                 Change default graph properties, use lime instead of cyan for nodes with description.
             </action>
-            <action dev="ggtools" due-to="twogee" type="update" system="grand" date="2013-09-25">
+            <action dev="ggtools" due-to="twogee" type="update" date="2013-09-25">
                 Upgrade to Ant 1.9.2.
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2006-07-04">
+            <action dev="ggtools" type="update" date="2006-07-04">
                 Use Java 1.5.0.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2006-02-17">
+            <action dev="ggtools" type="add" date="2006-02-17">
                 Make it possible to add property files to AntTaskNode.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2005-08-26">
+            <action dev="ggtools" type="add" date="2005-08-26">
                 More dependency generating tasks from ant-contrib (antcallback, antfetch, switch, try/catch).
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2005-07-04">
+            <action dev="ggtools" type="fix" date="2005-07-04">
                 Bad cut-and-paste in postInit().
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2015-06-27">
+            <action dev="ggtools" type="update" date="2015-06-27">
                 Upgrade to Ant 1.6.5.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2005-05-20">
+            <action dev="ggtools" type="add" date="2005-05-20">
                 Add Ant version information to Configuration.
             </action>
         </release>
         <release version="GUI 0.7.2" date="2005-05-19" description="Fix problem with missing libraries in builds">
-            <action dev="ggtools" type="fix" system="grand-ui" date="2005-05-18">
+            <action dev="ggtools" type="fix" date="2005-05-18">
                 Fix the problem with missing SWT shared libraries in builds.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-05-18">
+            <action dev="ggtools" type="update" date="2005-05-18">
                 Upgrade to Ant 1.6.3.
             </action>
         </release>
         <release version="GUI 0.7.1" date="2005-05-03" description="Fix compilation with javac 1.4 on Windows">
-            <action dev="ggtools" type="fix" system="grand-ui" date="2005-05-03">
+            <action dev="ggtools" type="fix" date="2005-05-03">
                 Fix compilation with javac 1.4 on Windows.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-04-15">
+            <action dev="ggtools" type="update" date="2005-04-15">
                 Upgrade to Eclipse RCP 3.1.0.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-04-15">
+            <action dev="ggtools" type="update" date="2005-04-15">
                 Use setAccelerator in constructor rather than overriding getAccelerator.
             </action>
         </release>
         <release version="GUI 0.7" date="2005-04-14" description="Export graph as image; sort properties in editor; sort outline panel; autorefresh in log viewer">
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-04-13">
+            <action dev="ggtools" type="update" date="2005-04-13">
                 Use Grand core 1.8.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-04-11">
+            <action dev="ggtools" type="add" date="2005-04-11">
                 Ticket #90: Add an autorefresh toggle for LogViewer.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-04-11">
+            <action dev="ggtools" type="add" date="2005-04-11">
                 Ticket #93: add a small "T" on the trace icon.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-04-11">
+            <action dev="ggtools" type="add" date="2005-04-11">
                 Implement sorting of outline panel.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-04-02">
+            <action dev="ggtools" type="add" date="2005-04-02">
                 Ticket #100: implement export of graph as an image.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-03-25">
+            <action dev="ggtools" type="add" date="2005-03-25">
                 Ticket #97: add a specific event to refresh the complete property list instead of sending an add event for each property on set input.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-03-25">
+            <action dev="ggtools" type="add" date="2005-03-25">
                 Ticket #99: sort property editor columns
             </action>
         </release>
         <release version="1.8" date="2005-04-11" description="Support for target element in ant and antcall; distinguish between targets with the same name in different files">
-            <action dev="ggtools" type="update" system="grand" date="2005-04-11">
+            <action dev="ggtools" type="update" date="2005-04-11">
                 Ticket #94: duplicate AntProjectTest to perform the same tests using the File constructor.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2005-04-10">
+            <action dev="ggtools" type="fix" date="2005-04-10">
                 Ticket #28: add a numeric suffix for targets with the same name in different build files.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2005-04-10">
+            <action dev="ggtools" type="add" date="2005-04-10">
                 Ticket #102: add support for the target element in ant and antcall tasks.
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2005-04-05">
+            <action dev="ggtools" type="update" date="2005-04-05">
                 Upgrade to Ant 1.6.3.
             </action>
         </release>
         <release version="GUI 0.6" date="2005-03-17" description="Log window; support for mouse wheel; Open File action complemented with property editor dialog">
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-03-15">
+            <action dev="ggtools" type="update" date="2005-03-15">
                 Use Grand core 1.7.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-03-15">
+            <action dev="ggtools" type="update" date="2005-03-15">
                 Upgrade to Eclipse RCP 3.1M5a.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-03-14">
+            <action dev="ggtools" type="add" date="2005-03-14">
                 Ticket #75: implement property editor dialog to complement Open File action.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-03-02">
+            <action dev="ggtools" type="add" date="2005-03-02">
                 Ticket #75: Implement property storage in XML.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-02-28">
+            <action dev="ggtools" type="update" date="2005-02-28">
                 Ticket #75: use a plain PreferenceStore rather than the JDK preference API.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-02-28">
+            <action dev="ggtools" type="update" date="2005-02-28">
                 Upgrade to Draw2d 3.1.0M3.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-14">
+            <action dev="ggtools" type="add" date="2005-02-14">
                 Ticket #91: display trace and debug messages in LogViewer.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-12">
+            <action dev="ggtools" type="add" date="2005-02-12">
                 Ticket #84: add a tooltip mechanism to LogViewer.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-11">
+            <action dev="ggtools" type="add" date="2005-02-11">
                 Ticket #89: add an event detail dialog.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-09">
+            <action dev="ggtools" type="add" date="2005-02-09">
                 Ticket #86: rewrite default LogViewer layout.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-08">
+            <action dev="ggtools" type="add" date="2005-02-08">
                 Ticket #88: make addFilter and clearFilter methods run asynchronously.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-08">
+            <action dev="ggtools" type="add" date="2005-02-08">
                 Ticket #80: add progressMonitor.done() at the end of addFilter and clearFilter.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-08">
+            <action dev="ggtools" type="add" date="2005-02-08">
                 Ticket #81: add a flag to prevent the centering of the graph on the selected node when the selection comes from the graph itself.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-07">
+            <action dev="ggtools" type="add" date="2005-02-07">
                 Add images for debug and trace log levels.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-07">
+            <action dev="ggtools" type="add" date="2005-02-07">
                 Ticket #85: implement a simple class to load and display a saved log.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-02-06">
+            <action dev="ggtools" type="add" date="2005-02-06">
                 Ticket #82: add images for log levels: info, warning, error, fatal.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-01-29">
+            <action dev="ggtools" type="add" date="2005-01-29">
                 Ticket #76: Create a log window.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2005-01-29">
+            <action dev="ggtools" type="add" date="2005-01-29">
                 Add a filter to remove a set of nodes from view.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2005-01-29">
+            <action dev="ggtools" type="fix" date="2005-01-29">
                 Ticket #79: add a test for taskdef.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2005-01-16">
+            <action dev="ggtools" type="fix" date="2005-01-16">
                 Ticket #72: improved sync between outline and other panels.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2005-01-16">
+            <action dev="ggtools" type="update" date="2005-01-16">
                 Use Grand core 1.6.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-12-20">
+            <action dev="ggtools" type="add" date="2004-12-20">
                 Add zoom actions on mouse wheel.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-11-17">
+            <action dev="ggtools" type="add" date="2004-11-17">
                 Add Java version information to AboutDialog.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-26">
+            <action dev="ggtools" type="add" date="2004-10-26">
                 Use new core logging API.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-19">
+            <action dev="ggtools" type="add" date="2004-10-19">
                 Use common logging in Grand's core.
             </action>
         </release>
         <release version="1.7" date="2005-03-15" description="New filter type: removenode; improved handling of taskdef outside of a target">
-            <action dev="ggtools" type="add" system="grand" date="2005-02-26">
+            <action dev="ggtools" type="add" date="2005-02-26">
                 Ticket #75: add AntProject constructor with a set of properties.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2005-02-16">
+            <action dev="ggtools" type="add" date="2005-02-16">
                 Ticket #79: hook a helper on taskdef to ignore the class loading problem (alternate solution using AntXMLContext breaks import task).
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2005-01-19">
+            <action dev="ggtools" type="add" date="2005-01-19">
                 Ticket #92: implement NodeRemoverFilter.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2005-01-06">
+            <action dev="ggtools" type="add" date="2005-01-06">
                 Ticket #16/28: support for subgraphs.
             </action>
         </release>
         <release version="1.6" date="2004-12-23" description="Logging API; specific style for subant generic ant file links; DOT generator uses visitor API">
-            <action dev="ggtools" type="add" system="grand" date="2004-12-15">
+            <action dev="ggtools" type="add" date="2004-12-15">
                 Ticket #68: implement a specific style for subant generic ant file links.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-12-14">
+            <action dev="ggtools" type="fix" date="2004-12-14">
                 Keep DOT files for failed tests.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-12-13">
+            <action dev="ggtools" type="fix" date="2004-12-13">
                 Start nodes lack the comment set.
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2004-12-13">
+            <action dev="ggtools" type="update" date="2004-12-13">
                 Ticket #36: rewrite DotWriter to use the new visitor API.
             </action>
-            <action dev="ggtools" type="remove" system="grand" date="2004-11-14">
+            <action dev="ggtools" type="remove" date="2004-11-14">
                 Ticket #73: remove references to the old logging API.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-10-26">
+            <action dev="ggtools" type="add" date="2004-10-26">
                 Ticket #35: implement new logging API.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-10-19">
+            <action dev="ggtools" type="fix" date="2004-10-19">
                 Ticket #4: add the ability to use common logging with UI.
             </action>
         </release>
         <release version="GUI 0.5" date="2004-10-16" description="Outline panel; maskable outline and source code panels; line style preferences for subant generic ant file links">
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-15">
+            <action dev="ggtools" type="add" date="2004-10-15">
                 Ticket #56: add decorator to the outline view.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-10-15">
+            <action dev="ggtools" type="fix" date="2004-10-15">
                 Ticket #71: fix scrolling to target with a zoom other than 1:1.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-15">
+            <action dev="ggtools" type="add" date="2004-10-15">
                 Implement preliminary support for outline window.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-10-14">
+            <action dev="ggtools" type="update" date="2004-10-14">
                 Move Zoom feature to a Menu/Action system.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-13">
+            <action dev="ggtools" type="add" date="2004-10-13">
                 When opening a graph by double-clicking on a link node, focus on the linked target.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
+            <action dev="ggtools" type="add" date="2004-10-11">
                 Ticket #70: add Show Source Panel toggle to the View menu.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
+            <action dev="ggtools" type="add" date="2004-10-11">
                 Create View menu.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-10-11">
+            <action dev="ggtools" type="fix" date="2004-10-11">
                 Fix the order of the recent files.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-10-11">
+            <action dev="ggtools" type="add" date="2004-10-11">
                 Ticket #69: add line style preferences for subant generic ant file links.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-09-29">
+            <action dev="ggtools" type="update" date="2004-09-29">
                 Upgrade dependencies to Eclipse 3.0.1.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-09-29">
+            <action dev="ggtools" type="fix" date="2004-09-29">
                 Ticket #66: add swt-lib.jar to the deploy target.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-07-30">
+            <action dev="ggtools" type="add" date="2004-07-30">
                 Create a JNLP launcher.
             </action>
         </release>
         <release version="1.5" date="2004-10-05" description="Support for subant task; improved handling of ant task; use Ant 1.6.2 API for target execution conditions">
-            <action dev="ggtools" type="add" system="grand" date="2004-10-05">
+            <action dev="ggtools" type="add" date="2004-10-05">
                 Ticket #58: support for subant task.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-10-04">
+            <action dev="ggtools" type="fix" date="2004-10-04">
                 Ticket #67: use getAbsolutePath() to make tests independent of OS.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-10-03">
+            <action dev="ggtools" type="fix" date="2004-10-03">
                 Automatically increment build numbers when releasing.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-08-23">
+            <action dev="ggtools" type="fix" date="2004-08-23">
                 Ticket #65: correct tooltip for unless attribute.
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2004-07-21">
+            <action dev="ggtools" type="update" date="2004-07-21">
                 Upgrade to Ant 1.6.2.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-07-21">
+            <action dev="ggtools" type="add" date="2004-07-21">
                 Ticket #53: add build info to Configuration.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-07-06">
+            <action dev="ggtools" type="fix" date="2004-07-06">
                 Ticket #59: correctly process ant task with no target specified.
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2004-07-02">
+            <action dev="ggtools" type="update" date="2004-07-02">
                 Implement TargetConditionHelper using the new Ant 1.6.2 API.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-06-30">
+            <action dev="ggtools" type="add" date="2004-06-30">
                 Add a draft API to attach the source code to every node.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-06-30">
+            <action dev="ggtools" type="fix" date="2004-06-30">
                 When processing an ant task with the dir attribute set, prepend attribute value with the project base dir if it is not an absolute path.
             </action>
         </release>
         <release version="GUI 0.4" date="2004-07-21" description="Preferences dialog; recent files menu; target source code panel">
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-07-21">
+            <action dev="ggtools" type="add" date="2004-07-21">
                 Ticket #63: removed NPE on dead graphs when changing preferences.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-07-21">
+            <action dev="ggtools" type="update" date="2004-07-21">
                 Upgrade to Ant 1.6.2.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-07-21">
+            <action dev="ggtools" type="add" date="2004-07-21">
                 Ticket #62: add core build info to the About dialog.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-07-21">
+            <action dev="ggtools" type="add" date="2004-07-21">
                 Ticket #13: add preference dialog.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-07-12">
+            <action dev="ggtools" type="add" date="2004-07-12">
                 Add IPreferenceStore based entirely on JDK 1.4 prefs API.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-07-09">
+            <action dev="ggtools" type="fix" date="2004-07-09">
                 Put the Grand icon on all windows used in the application.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-07-04">
+            <action dev="ggtools" type="add" date="2004-07-04">
                 Ticket #19: add Recent Files to File menu.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-07-03">
+            <action dev="ggtools" type="fix" date="2004-07-03">
                 Ticket #53: node listener makes the graph leave the drag mode on mouseReleased event.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-30">
+            <action dev="ggtools" type="update" date="2004-06-30">
                 Upgrade to GEF 3.0.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-30">
+            <action dev="ggtools" type="fix" date="2004-06-30">
                 Ticket #55: do not spawn a thread when toggling bus routing.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-30">
+            <action dev="ggtools" type="fix" date="2004-06-30">
                 Ticket #54: use an empty string to represent a node with no source.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-30">
+            <action dev="ggtools" type="add" date="2004-06-30">
                 Ticket #38: add a target source code panel.
             </action>
         </release>
         <release version="GUI 0.3.1" date="2004-06-29" description="Repackaged 0.3 release because of corrupted jar files">
         </release>
         <release version="GUI 0.3" date="2004-06-27" description="Zoom; doubleclick to open files; page setup dialog">
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-27">
+            <action dev="ggtools" type="add" date="2004-06-27">
                 Ticket #39: add zoom feature.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-26">
+            <action dev="ggtools" type="update" date="2004-06-26">
                 Upgrade to Eclipse RCP 3.0 and GEF 20040619.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-26">
+            <action dev="ggtools" type="add" date="2004-06-26">
                 Ticket #47: openfile and reload graph must be synchronous.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-26">
+            <action dev="ggtools" type="fix" date="2004-06-26">
                 Change event processing: the canvas will no longer go in scroll mode when button 1 is clicked on a node.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-26">
+            <action dev="ggtools" type="fix" date="2004-06-26">
                 Bug: if a mouse up event is missed, then the graph always stays in drag mode.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-25">
+            <action dev="ggtools" type="add" date="2004-06-25">
                 Add Page Setup dialog.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-24">
+            <action dev="ggtools" type="fix" date="2004-06-24">
                 Ticket #50: update About image.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-24">
+            <action dev="ggtools" type="add" date="2004-06-24">
                 Ticket #22: add Help menu with an About dialog.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-23">
+            <action dev="ggtools" type="add" date="2004-06-23">
                 A double click on a external node opens the build file.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-23">
+            <action dev="ggtools" type="add" date="2004-06-23">
                 Add Ant build file name as a tab tooltip.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-22">
+            <action dev="ggtools" type="fix" date="2004-06-22">
                 Ticket #9: compute the actual bounding box since getBounds() return values are incorrect.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-22">
+            <action dev="ggtools" type="fix" date="2004-06-22">
                 Ticket #49: GraphControler must not send events if the selection hasn't changed.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-22">
+            <action dev="ggtools" type="fix" date="2004-06-22">
                 Add cursor changes.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-20">
+            <action dev="ggtools" type="add" date="2004-06-20">
                 Add splash screen.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-20">
+            <action dev="ggtools" type="update" date="2004-06-20">
                 Refactor EventManager and Dispatcher.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-17">
+            <action dev="ggtools" type="update" date="2004-06-17">
                 Refactor Main and AppData into Application.
             </action>
         </release>
         <release version="GUI 0.2" date="2004-06-16" description="Bus routing; multiple graphs in tabs; improved tooltips">
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="add" date="2004-06-15">
                 Ticket #45: implement toggle for bus routing.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="fix" date="2004-06-15">
                 Ticket #44: add alternative font properties for Windows.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="add" date="2004-06-15">
                 Ticket #43: add tooltip on bus links.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="fix" date="2004-06-15">
                 Ticket #46: output "Link #n" rather than "Link #: n" in the tooltip.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="add" date="2004-06-15">
                 Add bus routing.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="update" date="2004-06-15">
                 Update icons.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="add" date="2004-06-15">
                 Ticket #40: add the link order in the tooltip.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="add" date="2004-06-15">
                 Ticket #21: add a listener mechanism for the availability of the graph controllers.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-15">
+            <action dev="ggtools" type="update" date="2004-06-15">
                 Upgrade to Eclipse RCP 3.0RC2 and Draw2d 20040610.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-14">
+            <action dev="ggtools" type="add" date="2004-06-14">
                 Ticket #27: open multiple graphs.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-14">
+            <action dev="ggtools" type="update" date="2004-06-14">
                 Upgrade to Grand 1.4.
             </action>
-            <action dev="ggtools" type="fix" system="grand-ui" date="2004-06-13">
+            <action dev="ggtools" type="fix" date="2004-06-13">
                 Ticket #32: do not clear the filter chain when reloading the graph.
             </action>
-            <action dev="ggtools" type="update" system="grand-ui" date="2004-06-13">
+            <action dev="ggtools" type="update" date="2004-06-13">
                 Rewrite GraphController using visitor API.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-12">
+            <action dev="ggtools" type="add" date="2004-06-12">
                 Implement font and image registries, improve tooltips.
             </action>
         </release>
         <release version="1.4" date="2004-06-15" description="Fixes for GUI release 0.2">
-            <action dev="ggtools" type="fix" system="grand" date="2004-06-14">
+            <action dev="ggtools" type="fix" date="2004-06-14">
                 Ticket #41: replace properties in ant/antcall parameters and build file names.
             </action>
         </release>
         <release version="1.3" date="2004-06-11" description="Full support for dependencies created by tasks">
-            <action dev="ggtools" type="fix" system="grand" date="2004-06-11">
+            <action dev="ggtools" type="fix" date="2004-06-11">
                 Ticket #34: handle runtarget task.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-06-11">
+            <action dev="ggtools" type="fix" date="2004-06-11">
                 Ticket #29: correctly display nested ant, antcall and similar tasks.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-06-11">
+            <action dev="ggtools" type="add" date="2004-06-11">
                 Add AntTaskLink and LinkFinderVisitor for dependencies created by tasks.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-06-09">
+            <action dev="ggtools" type="add" date="2004-06-09">
                 Add visitor API to links and nodes.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-06-09">
+            <action dev="ggtools" type="add" date="2004-06-09">
                 AntProject must find out whether ant task calls an internal or an external target.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-06-05">
+            <action dev="ggtools" type="add" date="2004-06-05">
                 Add conditional attribute on links and nodes.
             </action>
         </release>
         <release version="GUI 0.1" date="2004-06-04" description="Initial release">
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-04">
+            <action dev="ggtools" type="add" date="2004-06-04">
                 Ticket #30: add graph name in doPrint.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-02">
+            <action dev="ggtools" type="add" date="2004-06-02">
                 Ticket #26: FilterChainModel removes the filters prior to graph loading.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-02">
+            <action dev="ggtools" type="add" date="2004-06-02">
                 Ticket #1: add ConnectionAnchor type.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-06-02">
+            <action dev="ggtools" type="add" date="2004-06-02">
                 Ticket #18: add print action with a dot fallback for GTK.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-27">
+            <action dev="ggtools" type="add" date="2004-05-27">
                 Manage filtering and graph reload.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-26">
+            <action dev="ggtools" type="add" date="2004-05-26">
                 Create EventManager and DispatcherFactory.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-18">
+            <action dev="ggtools" type="add" date="2004-05-18">
                 Ticket #15: implement color change for weak links.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-24">
+            <action dev="ggtools" type="add" date="2004-05-24">
                 Ticket #7: add selection events.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-13">
+            <action dev="ggtools" type="add" date="2004-05-13">
                 Add more attributes on nodes, labels on links.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-12">
+            <action dev="ggtools" type="add" date="2004-05-12">
                 Ticket #2: mark note nature with different shapes and colors.
             </action>
-            <action dev="ggtools" type="add" system="grand-ui" date="2004-05-11">
+            <action dev="ggtools" type="add" date="2004-05-11">
                 Use JzGraph.
             </action>
         </release>
         <release version="1.2" date="2004-06-03" description="More information on targets">
-            <action dev="ggtools" type="add" system="grand" date="2004-06-03">
+            <action dev="ggtools" type="add" date="2004-06-03">
                 Ticket #24: add GraphElementFactory interface and specialized classes for Ant graph.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-06-02">
+            <action dev="ggtools" type="fix" date="2004-06-02">
                 ReflectConditionHelper must send null when no if/unless conditions are defined.
             </action>
         </release>
         <release version="1.1" date="2004-05-25" description="Filter chains; preliminary support for ant task">
-            <action dev="ggtools" type="update" system="grand" date="2004-05-25">
+            <action dev="ggtools" type="update" date="2004-05-25">
                 Compile against Ant 1.6.1.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-05-25">
+            <action dev="ggtools" type="add" date="2004-05-25">
                 Implement preliminary support for ant task.
             </action>
-            <action dev="ggtools" type="update" system="grand" date="2004-05-25">
+            <action dev="ggtools" type="update" date="2004-05-25">
                 Fix jikes warning.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-05-25">
+            <action dev="ggtools" type="add" date="2004-05-25">
                 Ticket #12: add FilterChain class; remove getFilteredNodes from GraphFilter interface.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-05-24">
+            <action dev="ggtools" type="fix" date="2004-05-24">
                 Ticket #11: getGraph returns null before the producer is set.
             </action>
         </release>
         <release version="1.0" date="2004-02-28" description="Official release: code cleanup">
-            <action dev="ggtools" type="update" system="grand" date="2004-02-28">
+            <action dev="ggtools" type="update" date="2004-02-28">
                 Fix jikes warnings.
             </action>
         </release>
         <release version="0.9" date="2004-02-18" description="Official beta: code cleanup">
-            <action dev="ggtools" type="update" system="grand" date="2004-02-17">
+            <action dev="ggtools" type="update" date="2004-02-17">
                 Run Checkstyle inspection and adjust coding style.
             </action>
-            <action dev="ggtools" type="remove" system="grand" date="2004-02-15">
+            <action dev="ggtools" type="remove" date="2004-02-15">
                 Remove obsolete net.ggtools.grand.App class.
             </action>
         </release>
         <release version="0.4" date="2004-02-12" description="Property setting in GrandTask; improved handling of missing targets; support for foreach task">
-            <action dev="ggtools" type="update" system="grand" date="2004-02-12">
+            <action dev="ggtools" type="update" date="2004-02-12">
                 Rename propertyfile task attribute to outputconfigfile.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-02-12">
+            <action dev="ggtools" type="add" date="2004-02-12">
                 Handle foreach task.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-02-12">
+            <action dev="ggtools" type="add" date="2004-02-12">
                 Create missing targets to satisfy dependencies, implement MissingNodeFilter to remove generated nodes from graph.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="">
+            <action dev="ggtools" type="add" date="">
                 Add a property setting mechanism in GrandTask.
             </action>
        </release>
         <release version="0.3.1" date="2004-02-06" description="Display graph name">
-            <action dev="ggtools" type="add" system="grand" date="2004-02-06">
+            <action dev="ggtools" type="add" date="2004-02-06">
                 Implement showgraphname task attribute.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-02-05">
+            <action dev="ggtools" type="fix" date="2004-02-05">
                 Update build.xml in test-bed.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-02-05">
+            <action dev="ggtools" type="fix" date="2004-02-05">
                 Adjust assertions about log contents to prevent failures due to different path separator on Windows.
             </action>
-            <action dev="ggtools" type="fix" system="grand" date="2004-02-05">
+            <action dev="ggtools" type="fix" date="2004-02-05">
                 Make handling of antcall task more robust: do not crash when a target is defined by property or when getTaskType returns null.
             </action>
         </release>
         <release version="0.3" date="2004-02-04" description="Filters; weak links to support antcall task">
-            <action dev="ggtools" type="add" system="grand" date="2004-02-03">
+            <action dev="ggtools" type="add" date="2004-02-03">
                 Implement weak links to support antcall task.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-02-03">
+            <action dev="ggtools" type="add" date="2004-02-03">
                 Implement ConnectedFilter.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-02-02">
+            <action dev="ggtools" type="add" date="2004-02-02">
                 Implement ToNodeFilter.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-02-02">
+            <action dev="ggtools" type="add" date="2004-02-02">
                 Create GraphWalkFilter.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-01-31">
+            <action dev="ggtools" type="add" date="2004-01-31">
                 Implement FromNodeFilter.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-01-31">
+            <action dev="ggtools" type="add" date="2004-01-31">
                 Implement IsolatedNodeFilter.
             </action>
         </release>
         <release version="0.2" date="2004-01-29" description="Internal refactoring to prepare for filtering; use antlib.xml for task and type declaration">
-            <action dev="ggtools" type="add" system="grand" date="2004-01-29">
+            <action dev="ggtools" type="add" date="2004-01-29">
                 Replace the previous proxification of Ant target with independent objects (Graph).
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-01-29">
+            <action dev="ggtools" type="add" date="2004-01-29">
                 Introduce the GraphProducer, GraphConsumers and GraphFilters to add versatility to the process.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-01-29">
+            <action dev="ggtools" type="add" date="2004-01-29">
                 Add a stupid log class.
             </action>
-            <action dev="ggtools" type="add" system="grand" date="2004-01-29">
+            <action dev="ggtools" type="add" date="2004-01-29">
                 Use antlib.xml for task (and type) declaration.
             </action>
         </release>
         <release version="0.1.1" date="2004-01-26" description="Fix Maven compilation problem">
-            <action dev="ggtools" type="fix" system="grand" date="2004-01-26">
+            <action dev="ggtools" type="fix" date="2004-01-26">
                 Fix Maven compilation problem.
             </action>
         </release>
