@@ -41,8 +41,7 @@
     </path>
   </target>
   <target name="compile" description="o Compile the code" depends="get-deps">
-    <mkdir dir="${classesdir}">
-    </mkdir>
+    <mkdir dir="${classesdir}"/>
     <javac source="${java.target}" target="${java.target}" includeantruntime="false" deprecation="true" debug="true" optimize="false"
            srcdir="${srcdir}" destdir="${classesdir}" excludes="**/package.html" classpathref="project.classpath"/>
     <propertyfile file="${confdir}/net/ggtools/grand/buildnum.properties">
@@ -121,6 +120,13 @@
              classpath="${libdir}/maven-ant-tasks-2.1.3.jar"/>
     <artifact:pom id="grand.pom" file="pom.xml"/>
     <echo>The pom version is ${grand.pom.version}</echo>
+    <fail message="maven-compiler-plugin must be first in build plugin list!">
+      <condition>
+        <not>
+          <equals arg1="maven-compiler-plugin" arg2="${grand.pom.build.plugins[0].artifactId}"/>
+        </not>
+      </condition>
+    </fail>
     <xmlproperty keeproot="false" prefix="grand.pom.build">
       <string value="${grand.pom.build.plugins[0].configuration}"/>
     </xmlproperty>

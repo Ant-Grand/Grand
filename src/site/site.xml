@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<project name="Grand">
+<project name="Grand"
+         xmlns="http://maven.apache.org/DECORATION/1.7.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd">
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
@@ -12,15 +15,54 @@
   <version/>
   <body>
     <head>
-      <![CDATA[<link rel="icon" href="images/icon.png" type="image/png"/>]]>
+      <![CDATA[
+    <!-- For old IEs -->
+    <link rel="shortcut icon" href="/favicon.ico"/>
+
+    <!-- For new browsers - multisize ico -->
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="/favicon.ico"/>
+
+    <!-- Chrome v31+ for Android -->
+    <link rel="icon" sizes="192x192" type="image/png" href="/apple-touch-icon.png"/>
+
+    <!-- For Old Chrome -->
+    <link rel="icon" sizes="32x32" type="image/png" href="/images/favicon-32.png"/>
+
+    <!-- Chrome for Android -->
+    <link rel="manifest" href="/manifest.json"/>
+    <link rel="icon" sizes="192x192" type="image/png" href="/apple-touch-icon.png"/>
+
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png"/>
+
+    <!-- For the iPad mini and the first- and second-generation iPad on iOS ≤ 6: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72x72-precomposed.png"/>
+
+    <!-- For iPhone with high-resolution Retina display running iOS ≤ 6: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png"/>
+
+    <!-- For iPad with high-resolution Retina display running iOS ≤ 6: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144x144-precomposed.png"/>
+
+    <!-- For non-Retina iPhone and iPod Touch on iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/apple-touch-icon-60x60-precomposed.png"/>
+
+    <!-- For the iPad mini and the first- and second-generation iPad on iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/apple-touch-icon-76x76-precomposed.png"/>
+
+    <!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/apple-touch-icon-120x120-precomposed.png"/>
+
+    <!-- For iPad with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/apple-touch-icon-152x152-precomposed.png"/>
+      ]]>
     </head>
     <links>
-      <item name="Grand: Graphical Representation of ANt Dependencies" href="../.."/>
+      <item name="Grand: Graphical Representation of ANt Dependencies" href=".."/>
     </links>
     <menu name="Grand">
       <item name="Introduction" href="grand.html"/>
     </menu>
-    <menu ref="parent"/>
     <menu ref="reports"/>
   </body>
 </project>
