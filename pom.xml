@@ -80,6 +80,9 @@
           <archive>
             <index>true</index>
           </archive>
+          <excludes>
+            <exclude>**/cobertura.properties</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
