@@ -7,6 +7,28 @@
         <author email="grand@ggtools.net">Christophe Labouisse</author>
     </properties>
     <body>
+        <release version="GUI 0.8.5" date="2017-02-06" description="More accelerators; upgrade to Ant 1.10.1; include Ant Contrib">
+            <action dev="twogee" type="add" date="2017-02-06">
+                Include Ant Contrib.
+            </action>
+            <action dev="twogee" type="update" date="2017-02-06">
+                Use Grand core 1.9.5.
+            </action>
+            <action dev="twogee" type="update" date="2017-02-06">
+                Upgrade to Ant 1.10.1.
+            </action>
+            <action dev="twogee" type="update" date="2017-01-16">
+                Added more accelerators for actions in Graph menu.
+            </action>
+        </release>
+        <release version="1.9.5" date="2017-02-06" description="Upgrade to Ant 1.9.9">
+            <action dev="twogee" type="update" date="2017-02-06">
+                Upgrade to Ant 1.9.9.
+            </action>
+            <action dev="twogee" type="update" date="2017-01-24">
+                Revise documentation.
+            </action>
+        </release>
         <release version="GUI 0.8.4" date="2017-01-15" description="Basic gesture support; new icons based on SVG master">
             <action dev="twogee" type="update" date="2017-01-07">
                 New application icons for macOS based on SVG master.
