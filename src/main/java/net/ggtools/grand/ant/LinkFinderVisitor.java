@@ -30,7 +30,7 @@ package net.ggtools.grand.ant;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -168,9 +168,8 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     @Override
     public final void defaultVisit(final RuntimeConfigurable wrapper)
             throws GrandException {
-        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
-        while (children.hasMoreElements()) {
-            visit(children.nextElement());
+        for (RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {
+            visit(child);
         }
     }
 
@@ -262,13 +261,11 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private List<Object> getTargetElementNames(final RuntimeConfigurable wrapper) {
         final List<Object> targetElements = new ArrayList<Object>();
-        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
-        while (children.hasMoreElements()) {
-            final RuntimeConfigurable child = children.nextElement();
+        for (final RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {
             if ("target".equals(child.getElementTag())) {
                 final Map<String, Object> childAttributeMap =
                         child.getAttributeMap();
-                // name is supposed to be a string however since we are putting
+                // name is supposed to be a string; however, since we are putting
                 // it in an object collection, there is no need to cast it as a
                 // String right now.
                 final Object name = childAttributeMap.get(ATTR_NAME);
@@ -457,9 +454,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     private void addNestPropertiesParameters(final RuntimeConfigurable wrapper,
             final AntTaskLink[] links, final String elementName) {
         final Project antProject = project.getAntProject();
-        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
-        while (children.hasMoreElements()) {
-            final RuntimeConfigurable child = children.nextElement();
+        for (final RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {
             if (elementName.equals(child.getElementTag())) {
                 final Map<String, Object> childAttributeMap =
                         child.getAttributeMap();

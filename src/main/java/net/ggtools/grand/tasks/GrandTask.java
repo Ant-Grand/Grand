@@ -35,7 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -394,15 +394,14 @@ public class GrandTask extends Task {
      * @param destProject Project
      */
     private void addAlmostAll(final Project destProject, final Properties props) {
-        final Enumeration<Object> e = props.keys();
-        while (e.hasMoreElements()) {
-            final String key = e.nextElement().toString();
+        for (Object o : Collections.list(props.keys())) {
+            final String key = o.toString();
             if ("basedir".equals(key) || "ant.file".equals(key)) {
                 // basedir and ant.file should not be altered.
                 continue;
             }
 
-            final String value = props.get(key).toString();
+            final String value = props.get(o).toString();
             // don't re-set user properties, avoid the warning message
             if (destProject.getProperty(key) == null) {
                 // no user property
