@@ -57,12 +57,6 @@ public class GraphImpl implements Graph {
         private Node lastNode;
 
         /**
-         * Logger for this class.
-         */
-        @SuppressWarnings("unused")
-        private final Log log = LoggerManager.getLog(NodeIterator.class);
-
-        /**
          * Field underlying.
          */
         private final Iterator<Node> underlying;
