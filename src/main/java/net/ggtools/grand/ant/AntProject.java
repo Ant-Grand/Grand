@@ -85,7 +85,7 @@ public class AntProject implements GraphProducer {
          * be loaded.
          * @throws NoSuchMethodException when methods are not found
          */
-        public GetterConditionHelper() throws NoSuchMethodException {
+        private GetterConditionHelper() throws NoSuchMethodException {
             final Class<?>[] parameters = new Class[]{};
             Target.class.getMethod("getIf", parameters);
             Target.class.getMethod("getUnless", parameters);
@@ -165,7 +165,7 @@ public class AntProject implements GraphProducer {
          * Constructor for ReflectHelper.
          * @throws NoSuchFieldException when fields are not found
          */
-        public ReflectHelper() throws NoSuchFieldException {
+        private ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
             unlessCondition = Target.class.getDeclaredField("unlessCondition");
             AccessibleObject.setAccessible(new AccessibleObject[]{ ifCondition, unlessCondition }, true);

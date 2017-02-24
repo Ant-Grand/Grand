@@ -71,7 +71,7 @@ public class GraphImpl implements Graph {
          * @param iterator
          *            underlying iterator.
          */
-        public NodeIterator(final Iterator<Node> iterator) {
+        private NodeIterator(final Iterator<Node> iterator) {
             underlying = iterator;
         }
 
