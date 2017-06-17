@@ -1,4 +1,4 @@
 language: java
-script: ant test
+script: mvn test -B
 jdk:
   - openjdk6
