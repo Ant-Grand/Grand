@@ -27,7 +27,7 @@
  */
 package net.ggtools.grand.ant;
 
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -93,13 +93,12 @@ class TargetTasksExplorer {
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
 
-        final Enumeration<String> dependencies = target.getDependencies();
-        if (dependencies.hasMoreElements()) {
+        final List<String> dependencies = Collections.list(target.getDependencies());
+        if (!dependencies.isEmpty()) {
             addText(" depends=\"", AntTargetNode.SOURCE_MARKUP);
-            while (dependencies.hasMoreElements()) {
-                final String dependency = dependencies.nextElement();
+            for (String dependency : dependencies) {
                 addText(dependency, AntTargetNode.SOURCE_ATTRIBUTE);
-                if (dependencies.hasMoreElements()) {
+                if (dependencies.indexOf(dependency) != dependencies.size() - 1) {
                     addText(", ", AntTargetNode.SOURCE_ATTRIBUTE);
                 }
             }
@@ -172,10 +171,12 @@ class TargetTasksExplorer {
             addText("\"", AntTargetNode.SOURCE_MARKUP);
         }
 
-        final Enumeration<RuntimeConfigurable> children = wrapper.getChildren();
+        final List<RuntimeConfigurable> children = Collections.list(wrapper.getChildren());
+        final boolean hasChildren = !children.isEmpty();
+
         final String trimmedText = wrapper.getText().toString().trim();
         final boolean hasText = !"".equals(trimmedText);
-        final boolean hasChildren = children.hasMoreElements();
+
         final boolean hasNestedElements = hasChildren || hasText;
 
         // TODO process text elements.
@@ -188,8 +189,7 @@ class TargetTasksExplorer {
             addText(" />\n", AntTargetNode.SOURCE_MARKUP);
         }
 
-        while (children.hasMoreElements()) {
-            final RuntimeConfigurable childWrapper = children.nextElement();
+        for (final RuntimeConfigurable childWrapper : children) {
             exploreTask(childWrapper, level + 1);
         }
 

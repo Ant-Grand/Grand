@@ -30,7 +30,7 @@ package net.ggtools.grand.ant;
 import java.io.File;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -85,7 +85,7 @@ public class AntProject implements GraphProducer {
          * be loaded.
          * @throws NoSuchMethodException when methods are not found
          */
-        public GetterConditionHelper() throws NoSuchMethodException {
+        private GetterConditionHelper() throws NoSuchMethodException {
             final Class<?>[] parameters = new Class[]{};
             Target.class.getMethod("getIf", parameters);
             Target.class.getMethod("getUnless", parameters);
@@ -165,7 +165,7 @@ public class AntProject implements GraphProducer {
          * Constructor for ReflectHelper.
          * @throws NoSuchFieldException when fields are not found
          */
-        public ReflectHelper() throws NoSuchFieldException {
+        private ReflectHelper() throws NoSuchFieldException {
             ifCondition = Target.class.getDeclaredField("ifCondition");
             unlessCondition = Target.class.getDeclaredField("unlessCondition");
             AccessibleObject.setAccessible(new AccessibleObject[]{ ifCondition, unlessCondition }, true);
@@ -491,7 +491,6 @@ public class AntProject implements GraphProducer {
                 continue;
             }
 
-            final Enumeration<String> deps = target.getDependencies();
             final String startNodeName = target.getName();
             final AntTargetNode startNode =
                     (AntTargetNode) graph.getNode(startNodeName);
@@ -499,14 +498,13 @@ public class AntProject implements GraphProducer {
                 startNode.setAttributes(Node.ATTR_PREFIXED_NODE);
             }
 
-            while (deps.hasMoreElements()) {
-                createLink(graph, null, startNode, deps.nextElement());
+            for (String dependency : Collections.list(target.getDependencies())) {
+                createLink(graph, null, startNode, dependency);
             }
 
             taskLinkFinder.setGraph(graph);
             taskLinkFinder.setStartNode(startNode);
-            final Task[] tasks = target.getTasks();
-            for (final Task element : tasks) {
+            for (final Task element : target.getTasks()) {
                 taskLinkFinder.visit(element.getRuntimeConfigurableWrapper());
             }
         }

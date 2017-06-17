@@ -105,7 +105,7 @@ public class AntGraph extends GraphImpl {
     }
 
     /**
-     * Getter/Instanciator to {@link #elementFactory}. Used internally to keep
+     * Getter/Instantiator to {@link #elementFactory}. Used internally to keep
      * the {@link AntGraphElementFactory}type.
      * @return AntGraphElementFactory
      */

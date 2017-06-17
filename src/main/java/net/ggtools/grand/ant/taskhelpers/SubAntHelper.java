@@ -43,8 +43,8 @@ import org.apache.tools.ant.types.DirSet;
 import org.apache.tools.ant.types.FileList;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.types.PropertySet;
 import org.apache.tools.ant.types.Path.PathElement;
+import org.apache.tools.ant.types.PropertySet;
 import org.apache.tools.ant.types.Reference;
 import org.apache.tools.ant.types.ResourceCollection;
 

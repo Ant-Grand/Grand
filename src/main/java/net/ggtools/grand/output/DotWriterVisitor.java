@@ -38,9 +38,6 @@ import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.graph.visit.LinkVisitor;
 import net.ggtools.grand.graph.visit.NodeVisitor;
-import net.ggtools.grand.log.LoggerManager;
-
-import org.apache.commons.logging.Log;
 
 /**
  * Visitor class creating a graph description in dot format.
@@ -231,12 +228,6 @@ class DotWriterVisitor implements NodeVisitor {
      */
     private static final String DOT_WEAK_LINK_ATTRIBUTES =
             "dot.weaklink.attributes";
-
-    /**
-     * Field log.
-     */
-    @SuppressWarnings("unused")
-    private static final Log LOG = LoggerManager.getLog(DotWriterVisitor.class);
 
     /**
      * Field config.
