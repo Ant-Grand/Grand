@@ -28,7 +28,8 @@
 
 package net.ggtools.grand.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.IOException;

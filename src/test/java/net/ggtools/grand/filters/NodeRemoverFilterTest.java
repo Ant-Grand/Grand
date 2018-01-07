@@ -28,7 +28,8 @@
 
 package net.ggtools.grand.filters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.HashSet;
 import java.util.Iterator;

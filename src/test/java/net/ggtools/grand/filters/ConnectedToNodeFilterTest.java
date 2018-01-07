@@ -31,7 +31,9 @@
 
 package net.ggtools.grand.filters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -64,10 +66,10 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * Field NODES_AFTER_FILTERING.
      */
     private static final Set<String> NODES_AFTER_FILTERING =
-            new HashSet<String>(Arrays.asList(new String[]{"dist", "test",
+            new HashSet<String>(Arrays.asList("dist", "test",
                     "jar", "compile", "compile.java", "compile.jni",
                     "compile.cpp", "prepare", "init", "process-config-files",
-                    "process-one-config-file"}));
+                    "process-one-config-file"));
 
     /**
      * Method setUp.
@@ -118,15 +120,11 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
-    @Test
+    @Test(expected = NonExistentNodeException.class)
     public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
-        try {
-            filter.getGraph();
-            fail("Should have raised a NonExistentNode exception");
-        } catch (final NonExistentNodeException e) {
-        }
+        filter.getGraph();
     }
 
 }

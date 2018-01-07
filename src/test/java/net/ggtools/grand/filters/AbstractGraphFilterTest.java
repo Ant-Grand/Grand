@@ -28,7 +28,7 @@
 
 package net.ggtools.grand.filters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 
 import java.util.Collection;
 import java.util.LinkedList;
