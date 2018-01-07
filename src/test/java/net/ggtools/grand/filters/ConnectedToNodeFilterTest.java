@@ -118,15 +118,11 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      *
      * @throws GrandException if {@link GraphFilter#getGraph()} fails
      */
-    @Test
+    @Test(expected = NonExistentNodeException.class)
     public final void testNonExistentNode() throws GrandException {
         final GraphFilter filter = new ConnectedToNodeFilter("gruik-gruik-you-won't-find-me");
         filter.setProducer(producer);
-        try {
-            filter.getGraph();
-            fail("Should have raised a NonExistentNode exception");
-        } catch (final NonExistentNodeException e) {
-        }
+        filter.getGraph();
     }
 
 }
