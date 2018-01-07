@@ -79,6 +79,13 @@
         <configuration>
           <archive>
             <index>true</index>
+            <manifest>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <Automatic-Module-Name>net.ggtools.grand</Automatic-Module-Name>
+            </manifestEntries>
           </archive>
           <excludes>
             <exclude>**/cobertura.properties</exclude>

@@ -58,8 +58,9 @@
     </copy>
   </target>
   <target name="jar" description="o Create the jar" depends="test">
-    <jar jarfile="${defaulttargetdir}/${product.name}" excludes="**/package.html" basedir="${classesdir}">
+    <jar jarfile="${defaulttargetdir}/${product.name}" index="true" excludes="**/package.html" basedir="${classesdir}">
       <manifest>
+        <attribute name="Automatic-Module-Name" value="net.ggtools.grand"/>
         <section name="net/ggtools/grand">
           <attribute name="Specification-Title" value="${ant.project.name}"/>
           <attribute name="Specification-Version" value="${project.version}"/>
