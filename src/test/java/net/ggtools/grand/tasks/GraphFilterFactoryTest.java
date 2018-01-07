@@ -31,7 +31,7 @@
 
 package net.ggtools.grand.tasks;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.tools.ant.BuildException;
 import org.junit.Before;
