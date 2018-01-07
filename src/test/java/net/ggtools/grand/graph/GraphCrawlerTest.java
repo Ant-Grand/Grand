@@ -60,11 +60,11 @@ public class GraphCrawlerTest extends AbstractAntTester {
      * Field NODES_AFTER_FILTERING.
      */
     private static final Set<String> NODES_AFTER_FILTERING =
-            new HashSet<String>(Arrays.asList(new String[]{"build", "init",
+            new HashSet<String>(Arrays.asList("build", "init",
                     "build.core", "build.examples", "build.xml", "jaxp",
                     "jaxpCheck", "build.javamail", "javamail",
                     "javamailCheck", "build.jms", "jms", "jmsCheck", "jndi",
-                    "jndiCheck", "build.jmx", "jmx", "jmxCheck"}));
+                    "jndiCheck", "build.jmx", "jmx", "jmxCheck"));
 
     /**
      * Method getTestBuildFileName.

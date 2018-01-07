@@ -64,10 +64,10 @@ public class ConnectedToNodeFilterTest extends AbstractAntTester {
      * Field NODES_AFTER_FILTERING.
      */
     private static final Set<String> NODES_AFTER_FILTERING =
-            new HashSet<String>(Arrays.asList(new String[]{"dist", "test",
+            new HashSet<String>(Arrays.asList("dist", "test",
                     "jar", "compile", "compile.java", "compile.jni",
                     "compile.cpp", "prepare", "init", "process-config-files",
-                    "process-one-config-file"}));
+                    "process-one-config-file"));
 
     /**
      * Method setUp.

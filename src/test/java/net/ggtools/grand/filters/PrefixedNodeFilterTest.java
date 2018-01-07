@@ -63,10 +63,9 @@ public class PrefixedNodeFilterTest extends AbstractAntTester {
      * Field NODES_AFTER_FILTERING.
      */
     private static final Set<String> NODES_AFTER_FILTERING =
-            new HashSet<String>(Arrays.asList(new String[]{"jar", "grand.jar",
+            new HashSet<String>(Arrays.asList("jar", "grand.jar",
                     "install-maven", "compile-tests", "compile", "javadoc", "test",
-                    "clean", "dist", "get-deps", "init", "internal-test"
-            }));
+                    "clean", "dist", "get-deps", "init", "internal-test"));
 
     /**
      * Method setUp.

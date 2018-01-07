@@ -64,9 +64,9 @@ public class ToNodeFilterTest extends AbstractAntTester {
      * Field NODES_AFTER_FILTERING.
      */
     private static final Set<String> NODES_AFTER_FILTERING =
-            new HashSet<String>(Arrays.asList(new String[]{"dist", "jar",
+            new HashSet<String>(Arrays.asList("dist", "jar",
                     "log4j.jar", "prejar", "chainsaw", "build",
-                    "build.jms", "jndi", "jndiCheck", "build.jmx"}));
+                    "build.jms", "jndi", "jndiCheck", "build.jmx"));
 
     /**
      * Method setUp.
