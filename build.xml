@@ -26,7 +26,7 @@
   <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
   <target name="get.ivy" description="o Get Ivy jar unless already cached" unless="has.ivy">
     <mkdir dir="${ivy.dir}"/>
-    <get usetimestamp="true" src="https://repository.apache.org/content/repositories/releases/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
+    <get usetimestamp="true" src="http://apache.mirrors.spacedump.net//ant/ivy/${ivy.version}/maven2/${ivy.version}/${ivy.jar.name}"
          skipexisting="true"
          dest="${ivy.dir}/${ivy.jar.name}"/>
   </target>
