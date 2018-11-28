@@ -136,10 +136,9 @@ public class GrandTaskTest extends AbstractAntTester {
 
     /**
      * Method testImpossibleOverride.
-     * @throws IOException if file comparator fails
      */
     @Test
-    public final void testImpossibleOverride() throws IOException {
+    public final void testImpossibleOverride() {
         expectBuildException("output-config-file-and-prefix", "cannot specify both outputconfigfile and outputconfigprefix");
    }
 

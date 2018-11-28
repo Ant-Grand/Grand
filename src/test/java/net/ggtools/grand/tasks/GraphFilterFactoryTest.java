@@ -53,7 +53,6 @@ public class GraphFilterFactoryTest extends AbstractAntTester {
 
     /**
      * Method setUp.
-     * @see junit.framework.TestCase#setUp()
      */
     @Before
     public final void setUp() {
