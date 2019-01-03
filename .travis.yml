@@ -1,4 +1,7 @@
 language: java
-script: mvn test -B
+install: true
+script: ant
 jdk:
   - openjdk7
+  - openjdk8
+  - openjdk9

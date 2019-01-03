@@ -105,15 +105,8 @@ public class NodeImpl extends AttributeManager implements Node {
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj instanceof Node) {
-            final Node otherNode = (Node) obj;
-            return (graph == otherNode.getGraph())
-                    && (name.equals(otherNode.getName()));
-        }
-        return false;
+        return this == obj || obj instanceof Node && graph == ((Node) obj).getGraph()
+                && name.equals(((Node) obj).getName());
     }
 
     /**
