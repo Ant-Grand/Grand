@@ -43,14 +43,14 @@ public class Configuration {
 
     /**
      * Field ANT_VERSION_TXT.
-     * (value is ""/org/apache/tools/ant/version.txt"")
+     * (value is {@value #ANT_VERSION_TXT})
      */
     private static final String ANT_VERSION_TXT =
             "/org/apache/tools/ant/version.txt";
 
     /**
      * Field ANT_MAIN_CLASS.
-     * (value is ""org.apache.tools.ant.Main"")
+     * (value is {@value #ANT_MAIN_CLASS})
      */
     private static final String ANT_MAIN_CLASS =
             "org.apache.tools.ant.Main";

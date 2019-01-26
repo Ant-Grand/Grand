@@ -157,28 +157,30 @@ public class DotWriter implements GraphWriter {
             writer.close();
         }
     }
+
     /**
      * Field log.
      */
     private static final Log LOG = LoggerManager.getLog(DotWriter.class);
+
     /**
      * Field DOT_GRAPH_ATTRIBUTES.
-     * (value is ""dot.graph.attributes"")
+     * (value is {@value #DOT_GRAPH_ATTRIBUTES})
      */
     private static final String DOT_GRAPH_ATTRIBUTES = "dot.graph.attributes";
 
     /**
      * Field DOT_LINK_ATTRIBUTES.
-     * (value is ""dot.link.attributes"")
+     * (value is {@value #DOT_LINK_ATTRIBUTES})
      */
     private static final String DOT_LINK_ATTRIBUTES = "dot.link.attributes";
 
-
     /**
      * Field DOT_NODE_ATTRIBUTES.
-     * (value is ""dot.node.attributes"")
+     * (value is {@value #DOT_NODE_ATTRIBUTES})
      */
     private static final String DOT_NODE_ATTRIBUTES = "dot.node.attributes";
+
     /**
      * Field graphAttributes.
      */

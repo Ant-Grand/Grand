@@ -102,25 +102,25 @@ public class AntTargetNode extends NodeImpl {
 
     /**
      * Field SOURCE_ATTRIBUTE.
-     * (value is 2)
+     * (value is {@value #SOURCE_ATTRIBUTE})
      */
     public static final int SOURCE_ATTRIBUTE = 2;
 
     /**
      * Field SOURCE_UNKNOWN.
-     * (value is 0)
+     * (value is {@value #SOURCE_UNKNOWN})
      */
     public static final int SOURCE_UNKNOWN = 0;
 
     /**
      * Field SOURCE_MARKUP.
-     * (value is 1)
+     * (value is {@value #SOURCE_MARKUP})
      */
     public static final int SOURCE_MARKUP = 1;
 
     /**
      * Field SOURCE_TEXT.
-     * (value is 3)
+     * (value is {@value #SOURCE_TEXT})
      */
     public static final int SOURCE_TEXT = 3;
 

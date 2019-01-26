@@ -46,19 +46,19 @@ public class SubGraphImplTest {
 
     /**
      * Field NODE_NAME_2.
-     * (value is ""Node2"")
+     * (value is {@value #NODE_NAME_2})
      */
     private static final String NODE_NAME_2 = "Node2";
 
     /**
      * Field NODE_NAME_1.
-     * (value is ""Node1"")
+     * (value is {@value #NODE_NAME_1})
      */
     private static final String NODE_NAME_1 = "Node1";
 
     /**
      * Field UNKNOWN_NODE_NAME.
-     * (value is ""Node3"")
+     * (value is {@value #UNKNOWN_NODE_NAME})
      */
     private static final String UNKNOWN_NODE_NAME = "Node3";
 
@@ -73,7 +73,7 @@ public class SubGraphImplTest {
 
         /**
          * Constructor for TestIterator.
-         * @param iterator Iterator<Node>
+         * @param iterator Iterator&lt;Node&gt;
          */
         private TestIterator(final Iterator<Node> iterator) {
             underlying = iterator;
@@ -108,7 +108,7 @@ public class SubGraphImplTest {
 
     /**
      * Field SUBGRAPH_NAME.
-     * (value is ""myname"")
+     * (value is {@value #SUBGRAPH_NAME}")
      */
     private static final String SUBGRAPH_NAME = "myname";
 

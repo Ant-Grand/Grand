@@ -175,56 +175,56 @@ class DotWriterVisitor implements NodeVisitor {
 
     /**
      * Field DOT_GRAPH_ATTRIBUTES.
-     * (value is ""dot.graph.attributes"")
+     * (value is {@value #DOT_GRAPH_ATTRIBUTES})
      */
     private static final String DOT_GRAPH_ATTRIBUTES =
             "dot.graph.attributes";
 
     /**
      * Field DOT_LINK_ATTRIBUTES.
-     * (value is ""dot.link.attributes"")
+     * (value is {@value #DOT_LINK_ATTRIBUTES})
      */
     private static final String DOT_LINK_ATTRIBUTES =
             "dot.link.attributes";
 
     /**
      * Field DOT_MAINNODE_ATTRIBUTES.
-     * (value is ""dot.mainnode.attributes"")
+     * (value is {@value #DOT_MAINNODE_ATTRIBUTES})
      */
     private static final String DOT_MAINNODE_ATTRIBUTES =
             "dot.mainnode.attributes";
 
     /**
      * Field DOT_MISSINGNODE_ATTRIBUTES.
-     * (value is ""dot.missingnode.attributes"")
+     * (value is {@value #DOT_MISSINGNODE_ATTRIBUTES})
      */
     private static final String DOT_MISSINGNODE_ATTRIBUTES =
             "dot.missingnode.attributes";
 
     /**
      * Field DOT_NODE_ATTRIBUTES.
-     * (value is ""dot.node.attributes"")
+     * (value is {@value #DOT_NODE_ATTRIBUTES})
      */
     private static final String DOT_NODE_ATTRIBUTES =
             "dot.node.attributes";
 
     /**
      * Field DOT_STARTNODE_ATTRIBUTES.
-     * (value is ""dot.startnode.attributes"")
+     * (value is {@value #DOT_STARTNODE_ATTRIBUTES})
      */
     private static final String DOT_STARTNODE_ATTRIBUTES =
             "dot.startnode.attributes";
 
     /**
      * Field DOT_SUBANTLINK_ATTRIBUTES.
-     * (value is ""dot.subantlink.attributes"")
+     * (value is {@value #DOT_SUBANTLINK_ATTRIBUTES})
      */
     private static final String DOT_SUBANTLINK_ATTRIBUTES =
             "dot.subantlink.attributes";
 
     /**
      * Field DOT_WEAK_LINK_ATTRIBUTES.
-     * (value is ""dot.weaklink.attributes"")
+     * (value is {@value #DOT_WEAK_LINK_ATTRIBUTES})
      */
     private static final String DOT_WEAK_LINK_ATTRIBUTES =
             "dot.weaklink.attributes";

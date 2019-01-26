@@ -52,19 +52,19 @@ import org.junit.runner.Description;
 public abstract class AbstractAntTester extends BuildFileTest {
     /**
      * Field JUNIT_TEST_NAME.
-     * (value is ""junit.test.name"")
+     * (value is {@value #JUNIT_TEST_NAME})
      */
     protected static final String JUNIT_TEST_NAME = "junit.test.name";
 
     /**
      * Field TEMP_FILE_PROP.
-     * (value is ""temp.file"")
+     * (value is {@value #TEMP_FILE_PROP})
      */
     protected static final String TEMP_FILE_PROP = "temp.file";
 
     /**
      * Field TESTCASES_DIR.
-     * (value is ""src/test/resources/testcases/"")
+     * (value is {@value #TESTCASES_DIR})
      */
     protected static final String TESTCASES_DIR = "src/test/resources/testcases/";
 
