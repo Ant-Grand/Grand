@@ -43,10 +43,17 @@ public class Configuration {
 
     /**
      * Field ANT_VERSION_TXT.
-     * (value is ""/org/apache/tools/ant/version.txt"")
+     * (value is {@value #ANT_VERSION_TXT})
      */
     private static final String ANT_VERSION_TXT =
             "/org/apache/tools/ant/version.txt";
+
+    /**
+     * Field ANT_MAIN_CLASS.
+     * (value is {@value #ANT_MAIN_CLASS})
+     */
+    private static final String ANT_MAIN_CLASS =
+            "org.apache.tools.ant.Main";
 
     /**
      * Field defaultConfiguration.
@@ -162,8 +169,17 @@ public class Configuration {
                 + buildProperties.getProperty("build.date") + ")";
 
         final Properties antProperties = new Properties();
-        final InputStream antVersionStream =
+        InputStream antVersionStream =
                 getClass().getResourceAsStream(ANT_VERSION_TXT);
+        // when on module path, try harder
+        if (antVersionStream == null) {
+            try {
+                antVersionStream = Class.forName(ANT_MAIN_CLASS)
+                        .getResourceAsStream(ANT_VERSION_TXT);
+            } catch (ClassNotFoundException e) {
+                // ignore
+            }
+        }
 
         if (antVersionStream != null) {
             antProperties.load(antVersionStream);

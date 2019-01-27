@@ -18,6 +18,7 @@
   <property name="project.version" value="1.9.5"/>
   <property name="project.vendor" value="ggTools"/>
   <property name="product.name" value="${ant.project.name}-${project.version}.jar"/>
+  <property name="module.name" value="${ant.project.name}-module-${project.version}.jar"/>
   <!-- Ivy -->
   <property name="central.repo" value="http://repo1.maven.org/maven2"/>
   <property name="ivy.version" value="2.4.0"/>
@@ -58,9 +59,21 @@
     </copy>
   </target>
   <target name="jar" description="o Create the jar" depends="test">
-    <jar jarfile="${defaulttargetdir}/${product.name}" index="true" excludes="**/package.html" basedir="${classesdir}">
+    <jar jarfile="${defaulttargetdir}/${module.name}" index="true" excludes="**/package.html,org/**,task.properties" basedir="${classesdir}">
       <manifest>
         <attribute name="Automatic-Module-Name" value="net.ggtools.grand"/>
+        <section name="net/ggtools/grand">
+          <attribute name="Specification-Title" value="${ant.project.name}"/>
+          <attribute name="Specification-Version" value="${project.version}"/>
+          <attribute name="Specification-Vendor" value="${project.vendor}"/>
+          <attribute name="Implementation-Title" value="${ant.project.name}"/>
+          <attribute name="Implementation-Version" value="${project.version}"/>
+          <attribute name="Implementation-Vendor" value="${project.vendor}"/>
+        </section>
+      </manifest>
+    </jar>
+    <jar jarfile="${defaulttargetdir}/${product.name}" index="true" excludes="**/package.html" basedir="${classesdir}">
+      <manifest>
         <section name="net/ggtools/grand">
           <attribute name="Specification-Title" value="${ant.project.name}"/>
           <attribute name="Specification-Version" value="${project.version}"/>

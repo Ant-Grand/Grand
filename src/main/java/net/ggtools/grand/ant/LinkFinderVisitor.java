@@ -81,55 +81,55 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 
     /**
      * Field ANT_FILE_PROPERTY.
-     * (value is ""ant.file"")
+     * (value is {@value #ANT_FILE_PROPERTY})
      */
     private static final String ANT_FILE_PROPERTY = "ant.file";
 
     /**
      * Field ATTR_ANTFILE.
-     * (value is ""antfile"")
+     * (value is {@value #ATTR_ANTFILE})
      */
     private static final String ATTR_ANTFILE = "antfile";
 
     /**
      * Field ATTR_DIR.
-     * (value is ""dir"")
+     * (value is {@value #ATTR_DIR})
      */
     private static final String ATTR_DIR = "dir";
 
     /**
      * Field ATTR_NAME.
-     * (value is ""name"")
+     * (value is {@value #ATTR_NAME})
      */
     private static final String ATTR_NAME = "name";
 
     /**
      * Field ATTR_TARGET.
-     * (value is ""target"")
+     * (value is {@value #ATTR_TARGET})
      */
     private static final String ATTR_TARGET = "target";
 
     /**
      * Field ATTR_VALUE.
-     * (value is ""value"")
+     * (value is {@value #ATTR_VALUE})
      */
     private static final String ATTR_VALUE = "value";
 
     /**
      * Field BUILD_XML.
-     * (value is ""build.xml"")
+     * (value is {@value #BUILD_XML})
      */
     private static final String BUILD_XML = "build.xml";
 
     /**
      * Field PARAM_ELEMENT.
-     * (value is ""param"")
+     * (value is {@value #PARAM_ELEMENT})
      */
     private static final String PARAM_ELEMENT = "param";
 
     /**
      * Field PROPERTY_ELEMENT.
-     * (value is ""property"")
+     * (value is {@value #PROPERTY_ELEMENT})
      */
     private static final String PROPERTY_ELEMENT = "property";
 

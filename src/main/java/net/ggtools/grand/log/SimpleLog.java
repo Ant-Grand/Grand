@@ -37,42 +37,42 @@ import org.apache.commons.logging.Log;
 class SimpleLog implements Log {
     /**
      * Field LEVEL_NONE.
-     * (value is 0)
+     * (value is {@value #LEVEL_NONE})
      */
     protected static final int LEVEL_NONE = 0;
     /**
      * Field LEVEL_FATAL.
-     * (value is 1)
+     * (value is {@value #LEVEL_FATAL})
      */
     protected static final int LEVEL_FATAL = 1;
     /**
      * Field LEVEL_ERROR.
-     * (value is 2)
+     * (value is {@value #LEVEL_ERROR})
      */
     protected static final int LEVEL_ERROR = 2;
     /**
      * Field LEVEL_WARN.
-     * (value is 3)
+     * (value is {@value #LEVEL_WARN})
      */
     protected static final int LEVEL_WARN = 3;
     /**
      * Field LEVEL_INFO.
-     * (value is 4)
+     * (value is {@value #LEVEL_INFO})
      */
     protected static final int LEVEL_INFO = 4;
     /**
      * Field LEVEL_DEBUG.
-     * (value is 5)
+     * (value is {@value #LEVEL_DEBUG})
      */
     protected static final int LEVEL_DEBUG = 5;
     /**
      * Field LEVEL_TRACE.
-     * (value is 6)
+     * (value is {@value #LEVEL_TRACE})
      */
     protected static final int LEVEL_TRACE = 6;
     /**
      * Field LEVEL_ALL.
-     * (value is 7)
+     * (value is {@value #LEVEL_ALL})
      */
     protected static final int LEVEL_ALL = 7;
 
