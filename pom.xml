@@ -173,13 +173,14 @@
         <version>3.1.0</version>
         <configuration>
           <show>private</show>
-            <tags>
-              <tag>
-                <name>to.do</name>
-                <placement>a</placement>
-                <head>To do:</head>
-              </tag>
-            </tags>
+          <source>6</source>
+          <tags>
+            <tag>
+              <name>to.do</name>
+              <placement>a</placement>
+              <head>To do:</head>
+            </tag>
+          </tags>
         </configuration>
       </plugin>
     </plugins>
@@ -283,6 +284,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
+          <source>6</source>
           <tags>
             <tag>
               <name>to.do</name>
