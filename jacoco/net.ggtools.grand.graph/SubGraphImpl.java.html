@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubGraphImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.graph</a> &gt; <span class="el_source">SubGraphImpl.java</span></div><h1>SubGraphImpl.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.graph;
+
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import net.ggtools.grand.exceptions.DuplicateElementException;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
+
+/**
+ * @author Christophe Labouisse
+ */
+class SubGraphImpl implements SubGraph {
+    /**
+     * @author Christophe Labouisse
+     */
+    interface NodeIteratorFactory {
+        /**
+         * Create a new iterator from an existing one. A trivial implementation
+         * may merely return &lt;code&gt;iterator&lt;/code&gt;.
+         *
+         * @param iterator Iterator&amp;lt;Node&amp;gt;
+         * @return Iterator&amp;lt;Node&amp;gt;
+         */
+        Iterator&lt;Node&gt; createNodeIterator(final Iterator&lt;Node&gt; iterator);
+    }
+
+    /**
+     * Field log.
+     */
+<span class="fc" id="L60">    private static final Log LOG = LoggerManager.getLog(SubGraphImpl.class);</span>
+
+    /**
+     * Field name.
+     */
+    private final String name;
+
+    /**
+     * Field nodeIteratorFactory.
+     */
+    private final NodeIteratorFactory nodeIteratorFactory;
+
+    /**
+     * Field nodeList.
+     */
+<span class="fc" id="L75">    private final Map&lt;String, Node&gt; nodeList = new LinkedHashMap&lt;String, Node&gt;();</span>
+
+    /**
+     * Creates a new instance using a trivial
+     * {@link SubGraphImpl.NodeIteratorFactory}.
+     * @param name
+     *            sub graph name.
+     */
+    SubGraphImpl(final String name) {
+<span class="nc" id="L84">        this(name, new NodeIteratorFactory() {</span>
+            public final Iterator&lt;Node&gt; createNodeIterator(final Iterator&lt;Node&gt; iterator) {
+<span class="nc" id="L86">                return iterator;</span>
+            }
+        });
+<span class="nc" id="L89">    }</span>
+
+    /**
+     * Creates a new instance using a specific
+     * {@link SubGraphImpl.NodeIteratorFactory}.
+     * @param name
+     *            sub graph name.
+     * @param nodeIteratorFactory
+     *            factory to be used for {@link #getNodes()}.
+     */
+<span class="fc" id="L99">    SubGraphImpl(final String name, final NodeIteratorFactory nodeIteratorFactory) {</span>
+<span class="fc" id="L100">        this.name = name;</span>
+<span class="fc" id="L101">        this.nodeIteratorFactory = nodeIteratorFactory;</span>
+<span class="fc" id="L102">    }</span>
+
+    /**
+     * Method addNode.
+     * @param node Node
+     * @throws DuplicateElementException
+     *             if there is already a node with the same name.
+     * @see net.ggtools.grand.graph.SubGraph#addNode(Node)
+     */
+    public void addNode(final Node node) throws DuplicateElementException {
+<span class="fc" id="L112">        final String nodeName = node.getName();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (nodeList.containsKey(nodeName)) {</span>
+<span class="nc" id="L114">            LOG.error(&quot;addNode() - Cannot add two nodes with the same name : nodeName = &quot;</span>
+                    + nodeName, null);
+<span class="nc" id="L116">            throw new DuplicateElementException(&quot;Creating two nodes named &quot; + nodeName);</span>
+        }
+<span class="fc" id="L118">        nodeList.put(nodeName, node);</span>
+<span class="fc" id="L119">    }</span>
+
+    /**
+     * Method getName.
+     * @return String
+     * @see net.ggtools.grand.graph.SubGraph#getName()
+     */
+    public String getName() {
+<span class="fc" id="L127">        return name;</span>
+    }
+
+    /**
+     * Method getNode.
+     * @param nodeName String
+     * @return Node
+     * @see net.ggtools.grand.graph.NodeContainer#getNode(java.lang.String)
+     */
+    public Node getNode(final String nodeName) {
+<span class="fc" id="L137">        return nodeList.get(nodeName);</span>
+    }
+
+    /**
+     * Method getNodes.
+     * @return Iterator&amp;lt;Node&amp;gt;
+     * @see net.ggtools.grand.graph.NodeContainer#getNodes()
+     */
+    public Iterator&lt;Node&gt; getNodes() {
+<span class="fc" id="L146">        return nodeIteratorFactory.createNodeIterator(nodeList.values().iterator());</span>
+    }
+
+    /**
+     * Method hasNode.
+     * @param nodeName String
+     * @return boolean
+     * @see net.ggtools.grand.graph.NodeContainer#hasNode(java.lang.String)
+     */
+    public boolean hasNode(final String nodeName) {
+<span class="fc" id="L156">        return nodeList.containsKey(nodeName);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

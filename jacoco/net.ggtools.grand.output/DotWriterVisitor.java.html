@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DotWriterVisitor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.output</a> &gt; <span class="el_source">DotWriterVisitor.java</span></div><h1>DotWriterVisitor.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.output;
+
+import java.util.Collection;
+
+import net.ggtools.grand.Configuration;
+import net.ggtools.grand.ant.AntLink;
+import net.ggtools.grand.ant.AntTargetNode;
+import net.ggtools.grand.ant.AntTaskLink;
+import net.ggtools.grand.ant.SubantTaskLink;
+import net.ggtools.grand.graph.Link;
+import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.graph.visit.LinkVisitor;
+import net.ggtools.grand.graph.visit.NodeVisitor;
+
+/**
+ * Visitor class creating a graph description in dot format.
+ *
+ * @author Christophe Labouisse
+ */
+class DotWriterVisitor implements NodeVisitor {
+    /**
+     * A visitor dedicated to the links of a specific node.
+     *
+     * @author Christophe Labouisse
+     */
+    private final class NodeLinksVisitor implements LinkVisitor {
+
+        /**
+         * Field node.
+         */
+        @SuppressWarnings(&quot;unused&quot;)
+        private final Node node;
+
+        /**
+         * Field nodeInfo.
+         */
+        private final String nodeInfo;
+
+        /**
+         * Field numDeps.
+         */
+        private final int numDeps;
+
+        /**
+         * Field visitedLinks.
+         */
+        private int visitedLinks;
+
+        /**
+         * Constructor for NodeLinksVisitor.
+         * @param node Node
+         */
+<span class="fc" id="L80">        private NodeLinksVisitor(final Node node) {</span>
+<span class="fc" id="L81">            this.node = node;</span>
+
+<span class="fc" id="L83">            nodeInfo = node.getName();</span>
+<span class="fc" id="L84">            numDeps = node.getLinks().size();</span>
+<span class="fc" id="L85">            visitedLinks = 0;</span>
+<span class="fc" id="L86">        }</span>
+
+        /**
+         * Method visitLink.
+         * @param link AntLink
+         * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.AntLink)
+         */
+        public void visitLink(final AntLink link) {
+<span class="fc" id="L94">            visitLink((Link) link);</span>
+<span class="fc" id="L95">        }</span>
+
+        /**
+         * Method visitLink.
+         * @param link AntTaskLink
+         * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.AntTaskLink)
+         */
+        public void visitLink(final AntTaskLink link) {
+<span class="fc" id="L103">            visitLink((Link) link);</span>
+<span class="fc" id="L104">        }</span>
+
+        /**
+         * Method visitLink.
+         * @param link Link
+         * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.graph.Link)
+         */
+        public void visitLink(final Link link) {
+<span class="fc" id="L112">            String attributes = null;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">            if (link.hasAttributes(Link.ATTR_WEAK_LINK)) {</span>
+<span class="fc" id="L114">                attributes = weakLinkAttributes;</span>
+            }
+<span class="fc" id="L116">            outputOneLink(link, attributes);</span>
+<span class="fc" id="L117">        }</span>
+
+        /**
+         * Method visitLink.
+         * @param link SubantTaskLink
+         * @see net.ggtools.grand.graph.visit.LinkVisitor#visitLink(net.ggtools.grand.ant.SubantTaskLink)
+         */
+        public void visitLink(final SubantTaskLink link) {
+<span class="nc" id="L125">            outputOneLink(link, subantLinkAttributes,</span>
+<span class="nc" id="L126">                    link.getDirectories().size());</span>
+<span class="nc" id="L127">        }</span>
+
+        /**
+         * Method outputOneLink.
+         * @param link Link
+         * @param attributes String
+         */
+        private void outputOneLink(final Link link, final String attributes) {
+<span class="fc" id="L135">            outputOneLink(link, attributes, 1);</span>
+<span class="fc" id="L136">        }</span>
+
+        /**
+         * Method outputOneLink.
+         * @param link Link
+         * @param attributes String
+         * @param visits int
+         */
+        private void outputOneLink(final Link link, final String attributes, final int visits) {
+<span class="fc" id="L145">            visitedLinks++;</span>
+<span class="fc" id="L146">            final Node depNode = link.getEndNode();</span>
+
+<span class="fc" id="L148">            output.append(&quot;\&quot;&quot;).appendEscaped(nodeInfo).append(&quot;\&quot;&quot;).append(&quot; -&gt; \&quot;&quot;)</span>
+<span class="fc" id="L149">                    .appendEscaped(depNode.getName()).append(&quot;\&quot;&quot;);</span>
+
+            // TODO create a proper attribute manager.
+<span class="pc bpc" id="L152" title="1 of 6 branches missed.">            if ((numDeps &gt; 1) || (visits &gt; 1) || (attributes != null)) {</span>
+<span class="fc" id="L153">                output.append(&quot; [&quot;);</span>
+<span class="pc bpc" id="L154" title="1 of 4 branches missed.">                if ((numDeps &gt; 1) || (visits &gt; 1)) {</span>
+<span class="fc" id="L155">                    output.append(&quot;label=\&quot;&quot;).append(visitedLinks);</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">                    if (visits &gt; 1) {</span>
+<span class="nc" id="L157">                        visitedLinks += visits - 1;</span>
+<span class="nc" id="L158">                        output.append(&quot;-&quot;).append(visitedLinks);</span>
+                    }
+<span class="fc" id="L160">                    output.append(&quot;\&quot;&quot;);</span>
+                }
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                if (attributes != null) {</span>
+<span class="pc bpc" id="L163" title="1 of 4 branches missed.">                    if ((numDeps &gt; 1) || (visits &gt; 1)) {</span>
+<span class="fc" id="L164">                        output.append(&quot;, &quot;);</span>
+                    }
+
+<span class="fc" id="L167">                    output.append(attributes);</span>
+                }
+<span class="fc" id="L169">                output.append(&quot;]&quot;);</span>
+            }
+<span class="fc" id="L171">            output.append(&quot;;&quot;).newLine();</span>
+<span class="fc" id="L172">        }</span>
+
+    }
+
+    /**
+     * Field DOT_GRAPH_ATTRIBUTES.
+     * (value is {@value #DOT_GRAPH_ATTRIBUTES})
+     */
+    private static final String DOT_GRAPH_ATTRIBUTES =
+            &quot;dot.graph.attributes&quot;;
+
+    /**
+     * Field DOT_LINK_ATTRIBUTES.
+     * (value is {@value #DOT_LINK_ATTRIBUTES})
+     */
+    private static final String DOT_LINK_ATTRIBUTES =
+            &quot;dot.link.attributes&quot;;
+
+    /**
+     * Field DOT_MAINNODE_ATTRIBUTES.
+     * (value is {@value #DOT_MAINNODE_ATTRIBUTES})
+     */
+    private static final String DOT_MAINNODE_ATTRIBUTES =
+            &quot;dot.mainnode.attributes&quot;;
+
+    /**
+     * Field DOT_MISSINGNODE_ATTRIBUTES.
+     * (value is {@value #DOT_MISSINGNODE_ATTRIBUTES})
+     */
+    private static final String DOT_MISSINGNODE_ATTRIBUTES =
+            &quot;dot.missingnode.attributes&quot;;
+
+    /**
+     * Field DOT_NODE_ATTRIBUTES.
+     * (value is {@value #DOT_NODE_ATTRIBUTES})
+     */
+    private static final String DOT_NODE_ATTRIBUTES =
+            &quot;dot.node.attributes&quot;;
+
+    /**
+     * Field DOT_STARTNODE_ATTRIBUTES.
+     * (value is {@value #DOT_STARTNODE_ATTRIBUTES})
+     */
+    private static final String DOT_STARTNODE_ATTRIBUTES =
+            &quot;dot.startnode.attributes&quot;;
+
+    /**
+     * Field DOT_SUBANTLINK_ATTRIBUTES.
+     * (value is {@value #DOT_SUBANTLINK_ATTRIBUTES})
+     */
+    private static final String DOT_SUBANTLINK_ATTRIBUTES =
+            &quot;dot.subantlink.attributes&quot;;
+
+    /**
+     * Field DOT_WEAK_LINK_ATTRIBUTES.
+     * (value is {@value #DOT_WEAK_LINK_ATTRIBUTES})
+     */
+    private static final String DOT_WEAK_LINK_ATTRIBUTES =
+            &quot;dot.weaklink.attributes&quot;;
+
+    /**
+     * Field config.
+     */
+    @SuppressWarnings(&quot;unused&quot;)
+    private final Configuration config;
+
+    /**
+     * Field graphAttributes.
+     */
+    @SuppressWarnings(&quot;unused&quot;)
+    private final String graphAttributes;
+
+    /**
+     * Field linkAttributes.
+     */
+    @SuppressWarnings(&quot;unused&quot;)
+    private final String linkAttributes;
+
+    /**
+     * Field mainNodeAttributes.
+     */
+    private final String mainNodeAttributes;
+
+    /**
+     * Field missingNodeAttributes.
+     */
+    private final String missingNodeAttributes;
+
+    /**
+     * Field nodeAttributes.
+     */
+    @SuppressWarnings(&quot;unused&quot;)
+    private final String nodeAttributes;
+
+    /**
+     * Field output.
+     */
+    private final DotWriterOutput output;
+
+    /**
+     * Field startNodeAttributes.
+     */
+    private final String startNodeAttributes;
+
+    /**
+     * Field subantLinkAttributes.
+     */
+    private final String subantLinkAttributes;
+
+    /**
+     * Field weakLinkAttributes.
+     */
+    private final String weakLinkAttributes;
+
+    /**
+     * Creates a new instance outputting to the supplied PrintWriter.
+     * @param output DotWriterOutput
+     * @param config Configuration
+     */
+<span class="fc" id="L291">    DotWriterVisitor(final DotWriterOutput output, final Configuration config) {</span>
+<span class="fc" id="L292">        this.output = output;</span>
+<span class="fc" id="L293">        this.config = config;</span>
+<span class="fc" id="L294">        graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);</span>
+<span class="fc" id="L295">        linkAttributes = config.get(DOT_LINK_ATTRIBUTES);</span>
+<span class="fc" id="L296">        weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);</span>
+<span class="fc" id="L297">        subantLinkAttributes = config.get(DOT_SUBANTLINK_ATTRIBUTES);</span>
+<span class="fc" id="L298">        mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);</span>
+<span class="fc" id="L299">        missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);</span>
+<span class="fc" id="L300">        nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);</span>
+<span class="fc" id="L301">        startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);</span>
+<span class="fc" id="L302">    }</span>
+
+    /**
+     * Method visitNode.
+     * @param node AntTargetNode
+     * @see net.ggtools.grand.graph.visit.NodeVisitor#visitNode(net.ggtools.grand.ant.AntTargetNode)
+     */
+    public void visitNode(final AntTargetNode node) {
+<span class="fc" id="L310">        visitNode((Node) node);</span>
+<span class="fc" id="L311">    }</span>
+
+    /**
+     * Method visitNode.
+     * @param node Node
+     * @see net.ggtools.grand.graph.visit.NodeVisitor#visitNode(net.ggtools.grand.graph.Node)
+     */
+    public void visitNode(final Node node) {
+
+<span class="fc" id="L320">        output.append(&quot;\&quot;&quot;).appendEscaped(node.getName()).append(&quot;\&quot;&quot;);</span>
+
+<span class="fc" id="L322">        String attributes = null;</span>
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (node.hasAttributes(Node.ATTR_START_NODE)) {</span>
+<span class="fc" id="L325">            attributes = startNodeAttributes;</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">        } else if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {</span>
+<span class="fc" id="L327">            attributes = mainNodeAttributes;</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">        } else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {</span>
+<span class="fc" id="L329">            attributes = missingNodeAttributes;</span>
+        }
+
+<span class="fc" id="L332">        final String description = node.getDescription();</span>
+<span class="pc bpc" id="L333" title="1 of 4 branches missed.">        if ((attributes != null) || (description != null)) {</span>
+<span class="fc" id="L334">            output.append(&quot; [&quot;);</span>
+
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">            if (attributes != null) {</span>
+<span class="fc" id="L337">                output.append(attributes);</span>
+            }
+
+<span class="fc bfc" id="L340" title="All 2 branches covered.">            if (description != null) {</span>
+<span class="pc bpc" id="L341" title="1 of 2 branches missed.">                if (attributes != null) {</span>
+<span class="fc" id="L342">                    output.append(&quot;,&quot;);</span>
+                }
+<span class="fc" id="L344">                output.append(&quot;comment=\&quot;&quot;).appendEscaped(description).append(&quot;\&quot;&quot;);</span>
+            }
+
+<span class="fc" id="L347">            output.append(&quot;];&quot;);</span>
+        }
+
+<span class="fc" id="L350">        output.newLine();</span>
+
+<span class="fc" id="L352">        final Collection&lt;Link&gt; deps = node.getLinks();</span>
+<span class="fc" id="L353">        final NodeLinksVisitor linkVisitor = new NodeLinksVisitor(node);</span>
+
+<span class="fc bfc" id="L355" title="All 2 branches covered.">        for (Link link : deps) {</span>
+<span class="fc" id="L356">            link.accept(linkVisitor);</span>
+<span class="fc" id="L357">        }</span>
+
+<span class="fc" id="L359">        output.newLine();</span>
+<span class="fc" id="L360">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

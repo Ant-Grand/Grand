@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ForwardLinkFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.graph</a> &gt; <span class="el_source">ForwardLinkFinder.java</span></div><h1>ForwardLinkFinder.java</h1><pre class="source lang-java linenums">// $Id$
+/* ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the following
+ *    disclaimer in the documentation and/or other materials provided
+ *    with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand.graph;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+/**
+ * A link finder returning links starting from nodes.
+ *
+ * @author Christophe Labouisse
+ */
+<span class="fc" id="L43">public class ForwardLinkFinder implements LinkFinder {</span>
+
+    /**
+     * Method getLinks.
+     * @param node Node
+     * @return Collection&amp;lt;Node&amp;gt;
+     * @see net.ggtools.grand.graph.LinkFinder#getLinks(net.ggtools.grand.graph.Node)
+     */
+    public final Collection&lt;Node&gt; getLinks(final Node node) {
+<span class="fc" id="L52">        final Collection&lt;Link&gt; links = node.getLinks();</span>
+
+<span class="fc" id="L54">        final Set&lt;Node&gt; result = new LinkedHashSet&lt;Node&gt;();</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (Link link : links) {</span>
+<span class="fc" id="L57">            result.add(link.getEndNode());</span>
+<span class="fc" id="L58">        }</span>
+
+<span class="fc" id="L60">        return result;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

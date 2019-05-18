@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DotWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.output</a> &gt; <span class="el_source">DotWriter.java</span></div><h1>DotWriter.java</h1><pre class="source lang-java linenums">// $Id$
+/* ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the following
+ *    disclaimer in the documentation and/or other materials provided
+ *    with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand.output;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Properties;
+
+import net.ggtools.grand.Configuration;
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.GraphWriter;
+import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
+
+/**
+ * A class to write dependency graph in dot format.
+ *
+ * The rendering can be customized either by properties at object creation or
+ * at runtime using various setters.
+ *
+ * The property names use the following scheme:
+ * &lt;code&gt;dot.&lt;i&gt;objecttype&lt;/i&gt;.attributes&lt;/code&gt;.
+ * Where &lt;i&gt;objecttype&lt;/i&gt; can be:
+ * &lt;ul&gt;
+ * &lt;li&gt;&lt;code&gt;node&lt;/code&gt; for &quot;common&quot; nodes,&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;link&lt;/code&gt; for dependency links,&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;mainnode&lt;/code&gt; for nodes with a special importance (i.e.: when
+ * node.isMainNode() is true),&lt;/li&gt;
+ * &lt;li&gt;&lt;code&gt;startnode&lt;/code&gt; for the start node,&lt;/li&gt;
+ * &lt;li&gt;and &lt;code&gt;graph&lt;/code&gt; for the graph itself.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * The property values are sets of valid dot attributes without the surrounding
+ * bracket.
+ *
+ * @to.do The current configuration scheme sucks, create something more generic.
+ *
+ * @author Christophe Labouisse
+ * @see &lt;a href=&quot;http://www.graphviz.org/&quot;&gt;Graphviz home page&lt;/a&gt;
+ * @see &lt;a href=&quot;http://www.graphviz.org/doc/info/attrs.html&quot;&gt;Dot attributes&lt;/a&gt;
+ */
+public class DotWriter implements GraphWriter {
+    /**
+     * @author Christophe Labouisse
+     */
+    private static final class Output implements DotWriterOutput {
+        /**
+         * Escapes a string from special dot chars.
+         *
+         * @param str string to escape.
+         * @return the escaped string.
+         */
+        private static String escapeString(final String str) {
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (str == null) {</span>
+<span class="nc" id="L92">                return null;</span>
+            }
+<span class="fc" id="L94">            return str.replaceAll(&quot;(\\\&quot;\\s)&quot;, &quot;\\\\\\1&quot;);</span>
+        }
+
+        /**
+         * Field writer.
+         */
+        private final PrintWriter writer;
+
+        /**
+         *
+         * @param stream OutputStream
+         */
+<span class="fc" id="L106">        private Output(final OutputStream stream) {</span>
+<span class="fc" id="L107">            writer = new PrintWriter(stream);</span>
+<span class="fc" id="L108">        }</span>
+
+        /**
+         * Method append.
+         * @param strValue String
+         * @return DotWriterOutput
+         * @see net.ggtools.grand.output.DotWriterOutput#append(java.lang.String)
+         */
+        public DotWriterOutput append(final String strValue) {
+<span class="fc" id="L117">            writer.print(strValue);</span>
+<span class="fc" id="L118">            return this;</span>
+        }
+
+        /**
+         * Method appendEscaped.
+         * @param strValue String
+         * @return DotWriterOutput
+         * @see net.ggtools.grand.output.DotWriterOutput#appendEscaped(java.lang.String)
+         */
+        public DotWriterOutput appendEscaped(final String strValue) {
+<span class="fc" id="L128">            writer.print(escapeString(strValue));</span>
+<span class="fc" id="L129">            return this;</span>
+        }
+
+        /**
+         * Method append.
+         * @param intValue int
+         * @return DotWriterOutput
+         * @see net.ggtools.grand.output.DotWriterOutput#append(int)
+         */
+        public DotWriterOutput append(final int intValue) {
+<span class="fc" id="L139">            writer.print(intValue);</span>
+<span class="fc" id="L140">            return this;</span>
+        }
+
+        /**
+         * Method newLine.
+         * @return DotWriterOutput
+         * @see net.ggtools.grand.output.DotWriterOutput#newLine()
+         */
+        public DotWriterOutput newLine() {
+<span class="fc" id="L149">            writer.println();</span>
+<span class="fc" id="L150">            return this;</span>
+        }
+
+        /**
+         * Method close.
+         */
+        private void close() {
+<span class="fc" id="L157">            writer.close();</span>
+<span class="fc" id="L158">        }</span>
+    }
+
+    /**
+     * Field log.
+     */
+<span class="fc" id="L164">    private static final Log LOG = LoggerManager.getLog(DotWriter.class);</span>
+
+    /**
+     * Field DOT_GRAPH_ATTRIBUTES.
+     * (value is {@value #DOT_GRAPH_ATTRIBUTES})
+     */
+    private static final String DOT_GRAPH_ATTRIBUTES = &quot;dot.graph.attributes&quot;;
+
+    /**
+     * Field DOT_LINK_ATTRIBUTES.
+     * (value is {@value #DOT_LINK_ATTRIBUTES})
+     */
+    private static final String DOT_LINK_ATTRIBUTES = &quot;dot.link.attributes&quot;;
+
+    /**
+     * Field DOT_NODE_ATTRIBUTES.
+     * (value is {@value #DOT_NODE_ATTRIBUTES})
+     */
+    private static final String DOT_NODE_ATTRIBUTES = &quot;dot.node.attributes&quot;;
+
+    /**
+     * Field graphAttributes.
+     */
+    private String graphAttributes;
+
+    /**
+     * Field linkAttributes.
+     */
+    private String linkAttributes;
+
+    /**
+     * Field nodeAttributes.
+     */
+    private String nodeAttributes;
+
+    /**
+     * Field config.
+     */
+    private final Configuration config;
+
+    /**
+     * Field graphProducer.
+     */
+    private GraphProducer graphProducer;
+
+    /**
+     * Field showGraphName.
+     */
+    private boolean showGraphName;
+
+    /**
+     * Creates a new DotWriter using default configuration.
+     * @throws IOException when the default configuration cannot be loaded.
+     */
+    public DotWriter() throws IOException {
+<span class="nc" id="L219">        this(null);</span>
+<span class="nc" id="L220">    }</span>
+
+    /**
+     * Creates a new DotWriter with custom properties. No
+     * overriding will take place if override is null.
+     *
+     * @param override
+     *            custom configuration.
+     * @throws IOException when the configuration cannot be loaded.
+     */
+<span class="fc" id="L230">    public DotWriter(final Properties override) throws IOException {</span>
+<span class="fc" id="L231">        config = Configuration.getConfiguration(override);</span>
+<span class="fc" id="L232">        graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);</span>
+<span class="fc" id="L233">        linkAttributes = config.get(DOT_LINK_ATTRIBUTES);</span>
+<span class="fc" id="L234">        nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);</span>
+<span class="fc" id="L235">    }</span>
+
+    /**
+     * Method write.
+     * @param output File
+     * @throws IOException when output cannot be created/written to
+     * @throws GrandException if an error occurs in getGraph()
+     * @see net.ggtools.grand.graph.GraphWriter#write(java.io.File)
+     */
+    public final void write(final File output)
+            throws IOException, GrandException {
+<span class="fc" id="L246">        LOG.info(&quot;Outputting to &quot; + output);</span>
+<span class="fc" id="L247">        final FileOutputStream oStream = new FileOutputStream(output);</span>
+<span class="fc" id="L248">        write(oStream);</span>
+<span class="fc" id="L249">        oStream.flush();</span>
+<span class="fc" id="L250">        oStream.close();</span>
+<span class="fc" id="L251">    }</span>
+
+    /**
+     * Method write.
+     * @param stream OutputStream
+     * @throws GrandException if an error occurs in getGraph()
+     * @see net.ggtools.grand.graph.GraphWriter#write(java.io.OutputStream)
+     */
+    public final void write(final OutputStream stream) throws GrandException {
+<span class="fc" id="L260">        final Output output = new Output(stream);</span>
+
+<span class="fc" id="L262">        final Graph graph = graphProducer.getGraph();</span>
+
+<span class="fc" id="L264">        output.append(&quot;digraph \&quot;&quot;).appendEscaped(graph.getName())</span>
+<span class="fc" id="L265">                .append(&quot;\&quot; {&quot;).newLine();</span>
+<span class="fc" id="L266">        output.append(&quot;graph [&quot;).append(graphAttributes);</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        if (showGraphName) {</span>
+<span class="fc" id="L268">            output.append(&quot;,label=\&quot;&quot;).append(graph.getName()).append(&quot;\&quot;&quot;);</span>
+        }
+<span class="fc" id="L270">        output.append(&quot;];&quot;).newLine();</span>
+<span class="fc" id="L271">        output.append(&quot;node [&quot;).append(nodeAttributes).append(&quot;];&quot;).newLine();</span>
+<span class="fc" id="L272">        output.append(&quot;edge [&quot;).append(linkAttributes).append(&quot;];&quot;).newLine();</span>
+
+<span class="fc" id="L274">        final DotWriterVisitor visitor = new DotWriterVisitor(output, config);</span>
+<span class="fc" id="L275">        final Node startNode = graph.getStartNode();</span>
+
+<span class="fc bfc" id="L277" title="All 2 branches covered.">        if (startNode != null) {</span>
+<span class="fc" id="L278">            startNode.accept(visitor);</span>
+        }
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        for (final Iterator&lt;Node&gt; iter = graph.getNodes(); iter.hasNext();) {</span>
+<span class="fc" id="L282">            final Node node = iter.next();</span>
+
+<span class="pc bpc" id="L284" title="1 of 4 branches missed.">            if (node.equals(startNode) || node.getName().equals(&quot;&quot;)) {</span>
+<span class="nc" id="L285">                continue;</span>
+            }
+<span class="fc" id="L287">            node.accept(visitor);</span>
+<span class="fc" id="L288">        }</span>
+
+<span class="fc" id="L290">        output.append(&quot;}&quot;).newLine();</span>
+
+<span class="fc" id="L292">        output.close();</span>
+<span class="fc" id="L293">    }</span>
+
+    /**
+     * Method setProducer.
+     * @param producer GraphProducer
+     * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
+     */
+    public final void setProducer(final GraphProducer producer) {
+<span class="fc" id="L301">        graphProducer = producer;</span>
+<span class="fc" id="L302">    }</span>
+
+    /**
+     * Method setShowGraphName.
+     * @param show boolean
+     * @see net.ggtools.grand.graph.GraphWriter#setShowGraphName(boolean)
+     */
+    public final void setShowGraphName(final boolean show) {
+<span class="fc" id="L310">        showGraphName = show;</span>
+<span class="fc" id="L311">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

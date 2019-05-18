@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AntLog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.log</a> &gt; <span class="el_source">AntLog.java</span></div><h1>AntLog.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.log;
+
+import org.apache.commons.logging.Log;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.Task;
+
+/**
+ * @author Christophe Labouisse
+ */
+public class AntLog extends SimpleLog implements Log {
+
+    /**
+     * Field currentProject.
+     */
+    private static Project currentProject;
+
+    /**
+     * Field currentTask.
+     */
+    private static Task currentTask;
+
+    /**
+     * Method setCurrentProject.
+     * @param newProject Project
+     */
+    public static void setCurrentProject(final Project newProject) {
+<span class="fc" id="L54">        currentProject = newProject;</span>
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * Method setCurrentTask.
+     * @param newTask Task
+     */
+    public static void setCurrentTask(final Task newTask) {
+<span class="fc" id="L62">        currentTask = newTask;</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Package only instantiation.
+     */
+<span class="fc" id="L68">    AntLog() {</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Method log.
+     * @param message Object
+     * @param t Throwable
+     * @param level int
+     * @see net.ggtools.grand.log.SimpleLog#log(java.lang.Object, java.lang.Throwable, int)
+     */
+    @Override
+    protected final void log(final Object message, final Throwable t,
+            final int level) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (currentProject != null) {</span>
+            // Translate into ant log levels.
+<span class="fc" id="L83">            int antMsgLevel = level - LEVEL_ERROR + Project.MSG_ERR;</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (antMsgLevel &lt; Project.MSG_ERR) {</span>
+<span class="nc" id="L85">                antMsgLevel = Project.MSG_ERR;</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">            } else if (antMsgLevel &gt; Project.MSG_DEBUG) {</span>
+<span class="nc" id="L87">                antMsgLevel = Project.MSG_DEBUG;</span>
+            }
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            if (currentTask == null) {</span>
+<span class="nc" id="L91">                currentProject.log(message.toString(), antMsgLevel);</span>
+            } else {
+<span class="fc" id="L93">                currentProject.log(currentTask, message.toString(),</span>
+                        antMsgLevel);
+            }
+<span class="fc" id="L96">        } else {</span>
+<span class="fc" id="L97">            super.log(message, t, level);</span>
+        }
+<span class="fc" id="L99">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

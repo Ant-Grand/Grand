@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGraphFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.filters</a> &gt; <span class="el_source">AbstractGraphFilter.java</span></div><h1>AbstractGraphFilter.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand.filters;
+
+import java.util.Collection;
+import java.util.Iterator;
+
+import org.apache.commons.logging.Log;
+
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
+
+/**
+ * @author Christophe Labouisse
+ */
+public abstract class AbstractGraphFilter implements GraphFilter {
+    /**
+     * Field log.
+     */
+<span class="fc" id="L49">    private static final Log LOG =</span>
+<span class="fc" id="L50">            LoggerManager.getLog(AbstractGraphFilter.class);</span>
+
+    /**
+     * Field graphProducer.
+     */
+    private GraphProducer graphProducer;
+
+    /**
+     * Field producersGraph.
+     */
+    private Graph producersGraph;
+
+    /**
+     * Field name.
+     */
+    protected final String name;
+
+    /**
+     * Creates an anonymous filter.
+     *
+     */
+    protected AbstractGraphFilter() {
+<span class="fc" id="L72">        this(&quot;Anonymous&quot;);</span>
+<span class="fc" id="L73">    }</span>
+
+    /**
+     * Creates a named filter.
+     *
+     * @param name String
+     */
+<span class="fc" id="L80">    protected AbstractGraphFilter(final String name) {</span>
+<span class="fc" id="L81">        this.name = name;</span>
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Method getGraph.
+     * @return Graph
+     * @throws GrandException if an error occurs in getNodes()/getFilteredNodes()
+     * @see net.ggtools.grand.graph.GraphProducer#getGraph()
+     */
+    public final Graph getGraph() throws GrandException {
+<span class="fc" id="L91">        LOG.debug(&quot;Triggering AbstractGraphFilter&quot;);</span>
+<span class="fc" id="L92">        final Graph graph = getProducersGraph();</span>
+
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (graph != null) {</span>
+<span class="fc" id="L95">            final Collection&lt;Node&gt; nodeList = getFilteredNodes();</span>
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            for (final Iterator&lt;Node&gt; iter = graph.getNodes(); iter.hasNext();) {</span>
+<span class="fc" id="L98">                final Node node = iter.next();</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">                if (!nodeList.contains(node)) {</span>
+<span class="fc" id="L101">                    iter.remove();</span>
+                }
+<span class="fc" id="L103">            }</span>
+        }
+
+        // The graph had been filtered so it must not be used
+        // if the filter is called again.
+<span class="fc" id="L108">        producersGraph = null;</span>
+
+<span class="fc" id="L110">        return graph;</span>
+    }
+
+    /**
+     * Method setProducer.
+     * @param producer GraphProducer
+     * @see net.ggtools.grand.graph.GraphConsumer#setProducer(net.ggtools.grand.graph.GraphProducer)
+     */
+    public final void setProducer(final GraphProducer producer) {
+<span class="fc" id="L119">        graphProducer = producer;</span>
+<span class="fc" id="L120">        producersGraph = null;</span>
+<span class="fc" id="L121">    }</span>
+
+    /**
+     * Method getName.
+     * @return String
+     * @see net.ggtools.grand.filters.GraphFilter#getName()
+     */
+    public final String getName() {
+<span class="nc" id="L129">        return name;</span>
+    }
+
+    /**
+     * Get the nodes from the graph that pass the filter. This method should not
+     * alter the input graph. The returned collection may be read only and
+     * return {@link UnsupportedOperationException}on modification methods.
+     *
+     * @return a collection of nodes.
+     * @throws GrandException
+     *             if the filtering cannot be done
+     */
+    protected abstract Collection&lt;Node&gt; getFilteredNodes()
+            throws GrandException;
+
+    /**
+     * Returns the current graph producer.
+     *
+     * @return graph producer.
+     */
+    protected final GraphProducer getGraphProducer() {
+<span class="nc" id="L150">        return graphProducer;</span>
+    }
+
+    /**
+     * Returns the graph from the current producer. This method is intended to
+     * prevent calling several time the producer to get a graph.
+     *
+     * @return current graph.
+     * @throws GrandException
+     *             if something goes wrong.
+     */
+    protected final Graph getProducersGraph() throws GrandException {
+<span class="pc bpc" id="L162" title="1 of 4 branches missed.">        if ((producersGraph == null) &amp;&amp; (graphProducer != null)) {</span>
+<span class="fc" id="L163">            producersGraph = graphProducer.getGraph();</span>
+        }
+<span class="fc" id="L165">        return producersGraph;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

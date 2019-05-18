@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TargetTasksExplorer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.ant</a> &gt; <span class="el_source">TargetTasksExplorer.java</span></div><h1>TargetTasksExplorer.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.ant;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import net.ggtools.grand.ant.AntTargetNode.SourceElement;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
+import org.apache.tools.ant.RuntimeConfigurable;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Task;
+
+/**
+ * A class to recursively explore the tasks of a target to rebuild the source
+ * code.
+ *
+ * @author Christophe Labouisse
+ */
+class TargetTasksExplorer {
+    /**
+     * Field log.
+     */
+<span class="fc" id="L54">    private static final Log LOG =</span>
+<span class="fc" id="L55">            LoggerManager.getLog(TargetTasksExplorer.class);</span>
+
+    /**
+     * Field textElements.
+     */
+    private List&lt;SourceElement&gt; textElements;
+
+    /**
+     * Creates a new TargetTasksExplorer instance for a specific project.
+     *
+     * @param antProject
+     *            associated project.
+     */
+<span class="fc" id="L68">    TargetTasksExplorer(final AntProject antProject) {</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Rebuild a node source by exploring.
+     *
+     * @param node AntTargetNode
+     * @param target Target
+     */
+    public void exploreTarget(final AntTargetNode node, final Target target) {
+<span class="fc" id="L78">        LOG.trace(&quot;Exploring target &quot; + target.getName());</span>
+<span class="fc" id="L79">        textElements = new LinkedList&lt;SourceElement&gt;();</span>
+<span class="fc" id="L80">        addText(&quot;&lt;target name=\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L81">        addText(target.getName(), AntTargetNode.SOURCE_ATTRIBUTE);</span>
+<span class="fc" id="L82">        addText(&quot;\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (node.getIfCondition() != null) {</span>
+<span class="fc" id="L85">            addText(&quot; if=\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L86">            addText(node.getIfCondition(), AntTargetNode.SOURCE_ATTRIBUTE);</span>
+<span class="fc" id="L87">            addText(&quot;\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (node.getUnlessCondition() != null) {</span>
+<span class="fc" id="L91">            addText(&quot; unless=\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L92">            addText(node.getUnlessCondition(), AntTargetNode.SOURCE_ATTRIBUTE);</span>
+<span class="fc" id="L93">            addText(&quot;\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+<span class="fc" id="L96">        final List&lt;String&gt; dependencies = Collections.list(target.getDependencies());</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (!dependencies.isEmpty()) {</span>
+<span class="fc" id="L98">            addText(&quot; depends=\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">            for (String dependency : dependencies) {</span>
+<span class="fc" id="L100">                addText(dependency, AntTargetNode.SOURCE_ATTRIBUTE);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">                if (dependencies.indexOf(dependency) != dependencies.size() - 1) {</span>
+<span class="fc" id="L102">                    addText(&quot;, &quot;, AntTargetNode.SOURCE_ATTRIBUTE);</span>
+                }
+<span class="fc" id="L104">            }</span>
+<span class="fc" id="L105">            addText(&quot;\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (target.getDescription() != null) {</span>
+<span class="fc" id="L109">            addText(&quot; description=\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L110">            addText(target.getDescription(), AntTargetNode.SOURCE_ATTRIBUTE);</span>
+<span class="fc" id="L111">            addText(&quot;\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+<span class="fc" id="L114">        final Task[] taskArray = target.getTasks();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        final boolean hasChildren = taskArray.length &gt; 0;</span>
+
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (hasChildren) {</span>
+<span class="fc" id="L118">            addText(&quot;&gt;\n&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        } else {
+<span class="fc" id="L120">            addText(&quot; /&gt;\n&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (final Task task : taskArray) {</span>
+<span class="fc" id="L124">            exploreTask(task.getRuntimeConfigurableWrapper(), 1);</span>
+        }
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (hasChildren) {</span>
+<span class="fc" id="L128">            addText(&quot;&lt;/target&gt;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+        // Merge contiguous source elements of the same style.
+<span class="fc" id="L132">        SourceElement previous = null;</span>
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        for (final Iterator&lt;SourceElement&gt; iter = textElements.iterator(); iter.hasNext();) {</span>
+<span class="fc" id="L135">            final SourceElement element = iter.next();</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">            if (previous == null) {</span>
+<span class="fc" id="L137">                previous = element;</span>
+            } else {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">                if (previous.getStyle() == element.getStyle()) {</span>
+<span class="fc" id="L140">                    previous.setText(previous.getText().concat(element.getText()));</span>
+<span class="fc" id="L141">                    iter.remove();</span>
+                } else {
+<span class="fc" id="L143">                    previous = element;</span>
+                }
+            }
+<span class="fc" id="L146">        }</span>
+<span class="fc" id="L147">        node.setRichSource(textElements.toArray(new SourceElement[0]));</span>
+
+<span class="fc" id="L149">        final StringBuilder buffer = new StringBuilder();</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        for (SourceElement element : textElements) {</span>
+<span class="fc" id="L151">            buffer.append(element.getText());</span>
+<span class="fc" id="L152">        }</span>
+<span class="fc" id="L153">        node.setSource(buffer.toString());</span>
+<span class="fc" id="L154">    }</span>
+
+    /**
+     * Method exploreTask.
+     * @param wrapper RuntimeConfigurable
+     * @param level int
+     */
+    private void exploreTask(final RuntimeConfigurable wrapper, final int level) {
+<span class="fc" id="L162">        indent(level);</span>
+<span class="fc" id="L163">        addText(&quot;&lt;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L164">        addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L165">        final Map&lt;String, Object&gt; attributes = wrapper.getAttributeMap();</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        for (final Map.Entry&lt;String, Object&gt; entry : attributes.entrySet()) {</span>
+<span class="fc" id="L167">            addText(&quot; &quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L168">            addText(entry.getKey(), AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L169">            addText(&quot;=\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L170">            addText((String) entry.getValue(), AntTargetNode.SOURCE_ATTRIBUTE);</span>
+<span class="fc" id="L171">            addText(&quot;\&quot;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L172">        }</span>
+
+<span class="fc" id="L174">        final List&lt;RuntimeConfigurable&gt; children = Collections.list(wrapper.getChildren());</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        final boolean hasChildren = !children.isEmpty();</span>
+
+<span class="fc" id="L177">        final String trimmedText = wrapper.getText().toString().trim();</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        final boolean hasText = !&quot;&quot;.equals(trimmedText);</span>
+
+<span class="fc bfc" id="L180" title="All 4 branches covered.">        final boolean hasNestedElements = hasChildren || hasText;</span>
+
+        // TODO process text elements.
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        if (hasNestedElements) {</span>
+<span class="fc" id="L184">            addText(&quot;&gt;&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            if (hasChildren) {</span>
+<span class="fc" id="L186">                addText(&quot;\n&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+            }
+        } else {
+<span class="fc" id="L189">            addText(&quot; /&gt;\n&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+
+<span class="fc bfc" id="L192" title="All 2 branches covered.">        for (final RuntimeConfigurable childWrapper : children) {</span>
+<span class="fc" id="L193">            exploreTask(childWrapper, level + 1);</span>
+<span class="fc" id="L194">        }</span>
+
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (hasText) {</span>
+<span class="fc" id="L197">            addText(trimmedText, AntTargetNode.SOURCE_TEXT);</span>
+        }
+
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (hasNestedElements) {</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">            if (!hasText) {</span>
+<span class="fc" id="L202">                indent(level);</span>
+            }
+<span class="fc" id="L204">            addText(&quot;&lt;/&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L205">            addText(wrapper.getElementTag(), AntTargetNode.SOURCE_MARKUP);</span>
+<span class="fc" id="L206">            addText(&quot;&gt;\n&quot;, AntTargetNode.SOURCE_MARKUP);</span>
+        }
+<span class="fc" id="L208">    }</span>
+
+    /**
+     * Method addText.
+     * @param text String
+     * @param style int
+     */
+    private void addText(final String text, final int style) {
+<span class="fc" id="L216">        textElements.add(new SourceElement(text, style));</span>
+<span class="fc" id="L217">    }</span>
+
+    /**
+     * Method indent.
+     * @param level int
+     */
+    private void indent(final int level) {
+<span class="fc" id="L224">        final StringBuilder buffer = new StringBuilder(level * 4);</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        for (int i = 0; i &lt; level; i++) {</span>
+<span class="fc" id="L226">            buffer.append(&quot;   &quot;);</span>
+        }
+<span class="fc" id="L228">        addText(buffer.toString(), AntTargetNode.SOURCE_TEXT);</span>
+<span class="fc" id="L229">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

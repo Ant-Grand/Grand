@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReflectTaskVisitorBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.ant</a> &gt; <span class="el_source">ReflectTaskVisitorBase.java</span></div><h1>ReflectTaskVisitorBase.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.ant;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
+import org.apache.tools.ant.RuntimeConfigurable;
+
+/**
+ * A base class using reflectivity in order to invoke a method depending on the
+ * visited wrapper.
+ *
+ * @author Christophe Labouisse
+ */
+<span class="fc" id="L47">abstract class ReflectTaskVisitorBase implements TaskVisitor {</span>
+    /**
+     * Field log.
+     */
+<span class="fc" id="L51">    private static final Log LOG =</span>
+<span class="fc" id="L52">            LoggerManager.getLog(ReflectTaskVisitorBase.class);</span>
+
+    /**
+     * Field METHOD_PARAMETER_TYPES.
+     */
+<span class="fc" id="L57">    private static final Class&lt;?&gt;[] METHOD_PARAMETER_TYPES =</span>
+            new Class[]{RuntimeConfigurable.class};
+
+    /**
+     * Field methodCache.
+     */
+<span class="fc" id="L63">    private final Map&lt;String, Method&gt; methodCache =</span>
+            new HashMap&lt;String, Method&gt;();
+
+    /**
+     * Invoke the &lt;em&gt;right&lt;/em&gt; method depending on the wrapper's element
+     * tag. The algorithm is:
+     * &lt;ol&gt;
+     * &lt;li&gt;get the wrapper's element tag name,&lt;/li&gt;
+     * &lt;li&gt;if the cache already contain a method, use it,&lt;/li&gt;
+     * &lt;li&gt;call {@link #getAliasForTask(String)}to find out if there is an
+     * alias for this task,&lt;/li&gt;
+     * &lt;li&gt;try to get the method called
+     * &lt;code&gt;reflectVisit_&lt;em&gt;task_name&lt;/em&gt;&lt;/code&gt;,&lt;/li&gt;
+     * &lt;li&gt;call the found method.&lt;/li&gt;
+     * &lt;/ol&gt;
+     *
+     * If the following algorithm fails then we'll use the
+     * {@link #defaultVisit(RuntimeConfigurable)}fallback method.
+     *
+     * @param wrapper
+     *            Wrapper to visit.
+     * @throws GrandException
+     *             if something goes wrong.
+     * @see net.ggtools.grand.ant.TaskVisitor#visit(org.apache.tools.ant.RuntimeConfigurable)
+     */
+    public void visit(final RuntimeConfigurable wrapper) throws GrandException {
+<span class="fc" id="L89">        final String taskName = wrapper.getElementTag();</span>
+<span class="fc" id="L90">        Method visitMethod = methodCache.get(taskName);</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (visitMethod == null) {</span>
+<span class="fc" id="L93">            final String methodName = &quot;reflectVisit_&quot; + getAliasForTask(taskName);</span>
+            try {
+<span class="fc" id="L95">                visitMethod = getClass().getDeclaredMethod(methodName, METHOD_PARAMETER_TYPES);</span>
+<span class="fc" id="L96">                methodCache.put(taskName, visitMethod);</span>
+<span class="nc" id="L97">            } catch (final SecurityException e) {</span>
+<span class="nc" id="L98">                LOG.warn(&quot;Caught Security exception looking for&quot; + methodName, e);</span>
+<span class="fc" id="L99">            } catch (final NoSuchMethodException e) {</span>
+<span class="fc" id="L100">                LOG.debug(&quot;Cannot find method &quot; + methodName);</span>
+<span class="pc" id="L101">            }</span>
+        }
+
+<span class="fc" id="L104">        boolean invocationOk = false;</span>
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (visitMethod != null) {</span>
+            try {
+<span class="fc" id="L108">                visitMethod.invoke(this, wrapper);</span>
+<span class="fc" id="L109">                invocationOk = true;</span>
+<span class="nc" id="L110">            } catch (final IllegalAccessException e) {</span>
+<span class="nc" id="L111">                LOG.warn(&quot;Caught IllegalAccessException invoking &quot;</span>
+                        + visitMethod, e);
+<span class="nc" id="L113">            } catch (final InvocationTargetException e) {</span>
+                // Process the exception raised by the method invocation.
+                // GrandException &amp; RuntimeException are propagated.
+<span class="nc" id="L116">                final Throwable cause = e.getCause();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                if (cause instanceof GrandException) {</span>
+<span class="nc" id="L118">                    throw (GrandException) cause;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                } else if (cause instanceof RuntimeException) {</span>
+<span class="nc" id="L120">                    throw (RuntimeException) cause;</span>
+                } else {
+                    // FIXME that's a real exception what to do with it?
+<span class="nc" id="L123">                    LOG.error(&quot;Caught unexpected exception &quot; + cause + &quot; on &quot;</span>
+                            + visitMethod, e);
+                }
+<span class="pc" id="L126">            }</span>
+        }
+
+        // If the reflective invocation hasn't taken place, use the default
+        // method.
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (!invocationOk) {</span>
+<span class="fc" id="L132">            defaultVisit(wrapper);</span>
+        }
+<span class="fc" id="L134">    }</span>
+
+    /**
+     * Method defaultVisit.
+     * @param wrapper RuntimeConfigurable
+     * @throws GrandException see visit()
+     */
+    public abstract void defaultVisit(RuntimeConfigurable wrapper)
+            throws GrandException;
+
+    /**
+     * A default implementation returning the task name.
+     *
+     * @param taskName String
+     * @return the name to use when look for the method to invoke. Should not be
+     *         &lt;code&gt;null&lt;/code&gt;.
+     */
+    public String getAliasForTask(final String taskName) {
+<span class="nc" id="L152">        return taskName;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

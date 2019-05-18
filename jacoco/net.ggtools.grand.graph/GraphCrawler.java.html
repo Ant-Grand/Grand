@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GraphCrawler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.graph</a> &gt; <span class="el_source">GraphCrawler.java</span></div><h1>GraphCrawler.java</h1><pre class="source lang-java linenums">// $Id$
+/* ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the following
+ *    disclaimer in the documentation and/or other materials provided
+ *    with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand.graph;
+
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Set;
+
+/**
+ * Walks a graph starting from a specific node to find all the nodes
+ * accessible from it.
+ *
+ * @author Christophe Labouisse
+ */
+public class GraphCrawler {
+
+    /**
+     * Field graph.
+     */
+    @SuppressWarnings(&quot;unused&quot;)
+    private final Graph graph;
+    /**
+     * Field finder.
+     */
+    private final LinkFinder finder;
+
+    /**
+     * Creates a new crawler.
+     *
+     * @param graph graph to inspect
+     * @param finder finder to use.
+     */
+<span class="fc" id="L63">    public GraphCrawler(final Graph graph, final LinkFinder finder) {</span>
+<span class="fc" id="L64">        this.graph = graph;</span>
+<span class="fc" id="L65">        this.finder = finder;</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * Walks the graph from &lt;code&gt;startNode&lt;/code&gt; and returns the traversed
+     * nodes.
+     *
+     * The method maintain a list of nodes to visit initialized with
+     * &lt;code&gt;startNode&lt;/code&gt; and a  LinkedHashSet of results.
+     *
+     * The startNode is popped from the list, added to the result set,
+     * and the finder is used to find all the accessible nodes from it.
+     * The nodes founds are added to the list of nodes to visit.
+     *
+     * This continue until there is no node to visit.
+     *
+     * @param startNode node to start the crawl from.
+     * @return a collection containing the traversed nodes.
+     */
+    public final Collection&lt;Node&gt; crawl(final Node startNode) {
+<span class="fc" id="L85">        final Set&lt;Node&gt; result = new LinkedHashSet&lt;Node&gt;();</span>
+<span class="fc" id="L86">        final LinkedList&lt;Node&gt; nodesToVisit = new LinkedList&lt;Node&gt;();</span>
+<span class="fc" id="L87">        nodesToVisit.add(startNode);</span>
+
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        while (!nodesToVisit.isEmpty()) {</span>
+<span class="fc" id="L90">            final Node current = nodesToVisit.removeFirst();</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            if (!result.contains(current)) {</span>
+<span class="fc" id="L93">                result.add(current);</span>
+<span class="fc" id="L94">                nodesToVisit.addAll(finder.getLinks(current));</span>
+            }
+<span class="fc" id="L96">        }</span>
+
+<span class="fc" id="L98">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

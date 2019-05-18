@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AntTargetNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.ant</a> &gt; <span class="el_source">AntTargetNode.java</span></div><h1>AntTargetNode.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand.ant;
+
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.NodeImpl;
+import net.ggtools.grand.graph.visit.NodeVisitor;
+
+/**
+ * A node implementation specialized for ant target.
+ *
+ * @author Christophe Labouisse
+ */
+public class AntTargetNode extends NodeImpl {
+
+    /**
+     * Inner class SourceElement.
+     * @author Christophe Labouisse
+     */
+    public static class SourceElement {
+
+        /**
+         * Field style.
+         */
+        private int style;
+
+        /**
+         * Field text.
+         */
+        private String text;
+
+        /**
+         * Constructor for SourceElement.
+         * @param text String
+         * @param style int
+         */
+<span class="fc" id="L63">        public SourceElement(final String text, final int style) {</span>
+<span class="fc" id="L64">            this.text = text;</span>
+<span class="fc" id="L65">            this.style = style;</span>
+<span class="fc" id="L66">        }</span>
+
+        /**
+         * Method getStyle.
+         * @return Returns the style.
+         */
+        public final int getStyle() {
+<span class="fc" id="L73">            return style;</span>
+        }
+
+        /**
+         * Method getText.
+         * @return Returns the text.
+         */
+        public final String getText() {
+<span class="fc" id="L81">            return text;</span>
+        }
+
+        /**
+         * Method setStyle.
+         * @param style
+         *            The style to set.
+         */
+        final void setStyle(final int style) {
+<span class="nc" id="L90">            this.style = style;</span>
+<span class="nc" id="L91">        }</span>
+
+        /**
+         * Method setText.
+         * @param text
+         *            The text to set.
+         */
+        final void setText(final String text) {
+<span class="fc" id="L99">            this.text = text;</span>
+<span class="fc" id="L100">        }</span>
+    }
+
+    /**
+     * Field SOURCE_ATTRIBUTE.
+     * (value is {@value #SOURCE_ATTRIBUTE})
+     */
+    public static final int SOURCE_ATTRIBUTE = 2;
+
+    /**
+     * Field SOURCE_UNKNOWN.
+     * (value is {@value #SOURCE_UNKNOWN})
+     */
+    public static final int SOURCE_UNKNOWN = 0;
+
+    /**
+     * Field SOURCE_MARKUP.
+     * (value is {@value #SOURCE_MARKUP})
+     */
+    public static final int SOURCE_MARKUP = 1;
+
+    /**
+     * Field SOURCE_TEXT.
+     * (value is {@value #SOURCE_TEXT})
+     */
+    public static final int SOURCE_TEXT = 3;
+
+    /**
+     * Field buildFile.
+     */
+    private String buildFile;
+
+    /**
+     * Field ifCondition.
+     */
+    private String ifCondition;
+
+    /**
+     * Field richSource.
+     */
+    private SourceElement[] richSource;
+
+    /**
+     * Field unlessCondition.
+     */
+    private String unlessCondition;
+
+    /**
+     * Constructor.
+     * @param name String
+     * @param graph Graph
+     */
+    public AntTargetNode(final String name, final Graph graph) {
+<span class="fc" id="L153">        super(name, graph);</span>
+<span class="fc" id="L154">    }</span>
+
+    /**
+     * Method accept.
+     * @param visitor NodeVisitor
+     * @see net.ggtools.grand.graph.Node#accept(net.ggtools.grand.graph.visit.NodeVisitor)
+     */
+    @Override
+    public final void accept(final NodeVisitor visitor) {
+<span class="fc" id="L163">        visitor.visitNode(this);</span>
+<span class="fc" id="L164">    }</span>
+
+    /**
+     * Returns this node build file or &lt;code&gt;null&lt;/code&gt; if the build file is
+     * the &lt;em&gt;current&lt;/em&gt; project.
+     *
+     * @return Returns the buildFile.
+     */
+    public final String getBuildFile() {
+<span class="fc" id="L173">        return buildFile;</span>
+    }
+
+    /**
+     * Returns the &lt;em&gt;if condition&lt;/em&gt; for the target or &lt;code&gt;null&lt;/code&gt;
+     * if none defined.
+     *
+     * @return Returns the &lt;em&gt;if condition&lt;/em&gt;.
+     */
+    public final String getIfCondition() {
+<span class="fc" id="L183">        return ifCondition;</span>
+    }
+
+    /**
+     * @return Returns the richSource.
+     */
+    public final SourceElement[] getRichSource() {
+<span class="nc" id="L190">        return richSource;</span>
+    }
+
+    /**
+     * Returns the &lt;em&gt;unless condition&lt;/em&gt; for the target or
+     * &lt;code&gt;null&lt;/code&gt; if none defined.
+     *
+     * @return Returns the &lt;em&gt;unless condition&lt;/em&gt;.
+     */
+    public final String getUnlessCondition() {
+<span class="fc" id="L200">        return unlessCondition;</span>
+    }
+
+    /**
+     * @param richSource
+     *            The richSource to set.
+     */
+    public final void setRichSource(final SourceElement[] richSource) {
+<span class="fc" id="L208">        this.richSource = richSource;</span>
+<span class="fc" id="L209">    }</span>
+
+    /**
+     * @param buildFile
+     *            The buildFile to set.
+     */
+    final void setBuildFile(final String buildFile) {
+<span class="fc" id="L216">        this.buildFile = buildFile;</span>
+<span class="fc" id="L217">    }</span>
+
+    /**
+     * @param ifCondition
+     *            The ifCondition to set.
+     */
+    final void setIfCondition(final String ifCondition) {
+<span class="fc" id="L224">        this.ifCondition = ifCondition;</span>
+<span class="fc" id="L225">    }</span>
+
+    /**
+     * @param unlessCondition
+     *            The unlessCondition to set.
+     */
+    final void setUnlessCondition(final String unlessCondition) {
+<span class="fc" id="L232">        this.unlessCondition = unlessCondition;</span>
+<span class="fc" id="L233">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

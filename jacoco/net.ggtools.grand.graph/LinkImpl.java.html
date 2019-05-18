@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LinkImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.graph</a> &gt; <span class="el_source">LinkImpl.java</span></div><h1>LinkImpl.java</h1><pre class="source lang-java linenums">// $Id$
+/* ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above
+ *    copyright notice, this list of conditions and the following
+ *    disclaimer in the documentation and/or other materials provided
+ *    with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand.graph;
+
+import net.ggtools.grand.graph.visit.LinkVisitor;
+
+/**
+ *
+ *
+ * @author Christophe Labouisse
+ */
+public class LinkImpl extends AttributeManager implements Link {
+    /**
+     * Field startNode.
+     */
+    private final Node startNode;
+
+    /**
+     * Field endNode.
+     */
+    private final Node endNode;
+
+    /**
+     * Field graph.
+     */
+    private final Graph graph;
+
+    /**
+     * Field name.
+     */
+    private final String name;
+
+    /**
+     * Creates a new Link.
+     *
+     * @param name link's name, may be &lt;code&gt;null&lt;/code&gt;.
+     * @param graph owning graph.
+     * @param startNode start node of the link
+     * @param endNode link's end node.
+     */
+    public LinkImpl(final String name, final Graph graph, final Node startNode,
+<span class="fc" id="L71">            final Node endNode) {</span>
+<span class="fc" id="L72">        this.name = name;</span>
+<span class="fc" id="L73">        this.graph = graph;</span>
+<span class="fc" id="L74">        this.startNode = startNode;</span>
+<span class="fc" id="L75">        this.endNode = endNode;</span>
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * Method toString.
+     * @return String
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public final String toString() {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        return ((name == null) ? &quot;&quot;</span>
+                : name) + &quot; (&quot; + startNode + &quot; -&gt; &quot; + endNode + &quot;)&quot;;
+    }
+
+    /**
+     * Method getStartNode.
+     * @return Node
+     * @see net.ggtools.grand.graph.Link#getStartNode()
+     */
+    public final Node getStartNode() {
+<span class="fc" id="L95">        return startNode;</span>
+    }
+
+    /**
+     * Method getEndNode.
+     * @return Node
+     * @see net.ggtools.grand.graph.Link#getEndNode()
+     */
+    public final Node getEndNode() {
+<span class="fc" id="L104">        return endNode;</span>
+    }
+
+    /**
+     * Method getGraph.
+     * @return Graph
+     * @see net.ggtools.grand.graph.GraphObject#getGraph()
+     */
+    public final Graph getGraph() {
+<span class="nc" id="L113">        return graph;</span>
+    }
+
+    /**
+     * Method getName.
+     * @return String
+     * @see net.ggtools.grand.graph.GraphObject#getName()
+     */
+    public final String getName() {
+<span class="nc" id="L122">        return name;</span>
+    }
+
+    /**
+     * Method accept.
+     * @param visitor LinkVisitor
+     * @see net.ggtools.grand.graph.Link#accept(net.ggtools.grand.graph.visit.LinkVisitor)
+     */
+    public void accept(final LinkVisitor visitor) {
+<span class="nc" id="L131">        visitor.visitLink(this);</span>
+<span class="nc" id="L132">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

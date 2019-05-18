@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AntProject.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.ant</a> &gt; <span class="el_source">AntProject.java</span></div><h1>AntProject.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.ant;
+
+import java.io.File;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+
+import net.ggtools.grand.ant.taskhelpers.SubAntHelper;
+import net.ggtools.grand.ant.taskhelpers.TaskDefHelper;
+import net.ggtools.grand.exceptions.DuplicateElementException;
+import net.ggtools.grand.exceptions.GrandException;
+import net.ggtools.grand.graph.Graph;
+import net.ggtools.grand.graph.GraphProducer;
+import net.ggtools.grand.graph.Node;
+import net.ggtools.grand.log.LoggerManager;
+
+import org.apache.commons.logging.Log;
+import org.apache.tools.ant.AntTypeDefinition;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.ComponentHelper;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectHelper;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Task;
+
+/**
+ * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
+ * objects. The nodes will be the project's target and the links will be the
+ * dependencies between targets. Beside &lt;i&gt;hard&lt;/i&gt; dependencies, this producer
+ * is also able to create weak links from dependencies introduced by the use of
+ * the &lt;code&gt;antcall&lt;/code&gt; or &lt;code&gt;foreach&lt;/code&gt; tasks.
+ *
+ * @author Christophe Labouisse
+ * @see &lt;a href=&quot;http://ant-contrib.sourceforge.net/&quot;&gt;Ant contrib tasks&lt;/a&gt; for
+ *      the &lt;code&gt;foreach&lt;/code&gt; task.
+ */
+public class AntProject implements GraphProducer {
+    /**
+     * Field log.
+     */
+<span class="fc" id="L72">    private static final Log LOG = LoggerManager.getLog(AntProject.class);</span>
+
+    /**
+     * A condition helper using the {@link Target#getIf()} &amp;amp;
+     * {@link Target#getUnless()} methods introduced in Ant 1.6.2.
+     * @author Christophe Labouisse
+     */
+    private static class GetterConditionHelper
+        implements TargetConditionHelper {
+
+        /**
+         * Build a new GetterConditionHelper. Since the need methods are only
+         * available in the last versions of Ant, we check if those method can
+         * be loaded.
+         * @throws NoSuchMethodException when methods are not found
+         */
+<span class="fc" id="L88">        private GetterConditionHelper() throws NoSuchMethodException {</span>
+<span class="fc" id="L89">            final Class&lt;?&gt;[] parameters = new Class[]{};</span>
+<span class="fc" id="L90">            Target.class.getMethod(&quot;getIf&quot;, parameters);</span>
+<span class="fc" id="L91">            Target.class.getMethod(&quot;getUnless&quot;, parameters);</span>
+<span class="fc" id="L92">        }</span>
+
+        /**
+         * Method getIfCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         */
+        public String getIfCondition(final Target target) {
+<span class="fc" id="L101">            return target.getIf();</span>
+        }
+
+        /**
+         * Method getUnlessCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         */
+        public String getUnlessCondition(final Target target) {
+<span class="fc" id="L111">            return target.getUnless();</span>
+        }
+
+    }
+
+    /**
+     * A condition helper always returning &lt;code&gt;null&lt;/code&gt;. This class will
+     * be used as a fallback helper
+     *
+     * @author Christophe Labouisse
+     */
+    private static class NullConditionHelper implements TargetConditionHelper {
+
+        /**
+         * Method getIfCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         */
+        public String getIfCondition(final Target target) {
+<span class="nc" id="L131">            return null;</span>
+        }
+
+        /**
+         * Method getUnlessCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         */
+        public String getUnlessCondition(final Target target) {
+<span class="nc" id="L141">            return null;</span>
+        }
+
+    }
+
+    /**
+     * A dirty hack using {@link Field} methods in order to gain access to the
+     * private {@link Target#ifCondition} and {@link Target#unlessCondition}
+     * attributes.
+     *
+     * @author Christophe Labouisse
+     */
+    private static class ReflectHelper implements TargetConditionHelper {
+        /**
+         * Field ifCondition.
+         */
+        private final Field ifCondition;
+
+        /**
+         * Field unlessCondition.
+         */
+        private final Field unlessCondition;
+
+        /**
+         * Constructor for ReflectHelper.
+         * @throws NoSuchFieldException when fields are not found
+         */
+<span class="nc" id="L168">        private ReflectHelper() throws NoSuchFieldException {</span>
+<span class="nc" id="L169">            ifCondition = Target.class.getDeclaredField(&quot;ifCondition&quot;);</span>
+<span class="nc" id="L170">            unlessCondition = Target.class.getDeclaredField(&quot;unlessCondition&quot;);</span>
+<span class="nc" id="L171">            AccessibleObject.setAccessible(new AccessibleObject[]{ifCondition, unlessCondition}, true);</span>
+<span class="nc" id="L172">        }</span>
+
+        /**
+         * Method getIfCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getIfCondition(org.apache.tools.ant.Target)
+         */
+        public String getIfCondition(final Target target) {
+<span class="nc" id="L181">            String result = null;</span>
+
+            try {
+<span class="nc" id="L184">                result = (String) ifCondition.get(target);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                if (&quot;&quot;.equals(result)) {</span>
+<span class="nc" id="L186">                    result = null;</span>
+                }
+<span class="nc" id="L188">            } catch (final Exception e) {</span>
+<span class="nc" id="L189">                LOG.error(&quot;Caught exception, ignoring if condition&quot;, e);</span>
+<span class="nc" id="L190">            }</span>
+
+<span class="nc" id="L192">            return result;</span>
+        }
+
+        /**
+         * Method getUnlessCondition.
+         * @param target Target
+         * @return String
+         * @see net.ggtools.grand.ant.AntProject.TargetConditionHelper#getUnlessCondition(org.apache.tools.ant.Target)
+         */
+        public String getUnlessCondition(final Target target) {
+<span class="nc" id="L202">            String result = null;</span>
+
+            try {
+<span class="nc" id="L205">                result = (String) unlessCondition.get(target);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">                if (&quot;&quot;.equals(result)) {</span>
+<span class="nc" id="L207">                    result = null;</span>
+                }
+<span class="nc" id="L209">            } catch (final Exception e) {</span>
+<span class="nc" id="L210">                LOG.error(&quot;Caught exception, ignoring unless condition&quot;, e);</span>
+<span class="nc" id="L211">            }</span>
+
+<span class="nc" id="L213">            return result;</span>
+        }
+
+    }
+
+    /**
+     * Helper interface to access the &lt;em&gt;if&lt;/em&gt; and &lt;em&gt;unless&lt;/em&gt;
+     * conditions of targets.
+     *
+     * @author Christophe Labouisse
+     */
+    private interface TargetConditionHelper {
+        /**
+         * Returns the &lt;em&gt;if condition&lt;/em&gt; for a specific target.
+         *
+         * @param target Target
+         * @return the &lt;em&gt;if condition&lt;/em&gt; or &lt;code&gt;null&lt;/code&gt; if none
+         *         defined.
+         */
+        String getIfCondition(final Target target);
+
+        /**
+         * Returns the &lt;em&gt;unless condition&lt;/em&gt; for a specific target.
+         *
+         * @param target Target
+         * @return the &lt;em&gt;unless condition&lt;/em&gt; or &lt;code&gt;null&lt;/code&gt; if
+         *         none defined.
+         */
+        String getUnlessCondition(final Target target);
+    }
+
+    /**
+     * Factory class creating TargetConditionHelper objects.
+     *
+     * @author Christophe Labouisse
+     */
+    private static final class TargetConditionHelperFactory {
+
+        /**
+         * Creates a new TargetConditionHelper.
+         *
+         * @return the best help available.
+         */
+        public static TargetConditionHelper getTargetConditionHelper() {
+            TargetConditionHelper result;
+
+            try {
+<span class="fc" id="L260">                result = new GetterConditionHelper();</span>
+<span class="fc" id="L261">                LOG.debug(&quot;Using Ant getter&quot;);</span>
+<span class="nc" id="L262">            } catch (final Exception e) {</span>
+<span class="nc" id="L263">                LOG.debug(&quot;Cannot create GetterConditionHelper, trying next one&quot;);</span>
+<span class="nc" id="L264">                result = null;</span>
+<span class="fc" id="L265">            }</span>
+
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            if (result == null) {</span>
+                try {
+<span class="nc" id="L269">                    result = new ReflectHelper();</span>
+<span class="nc" id="L270">                    LOG.debug(&quot;Using ReflectHelper&quot;);</span>
+<span class="nc" id="L271">                } catch (final Exception e) {</span>
+<span class="nc" id="L272">                    LOG.debug(&quot;Cannot create ReflectHelper, trying next one&quot;);</span>
+<span class="nc" id="L273">                    result = null;</span>
+<span class="nc" id="L274">                }</span>
+            }
+
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">            if (result == null) {</span>
+<span class="nc" id="L278">                result = new NullConditionHelper();</span>
+            }
+
+<span class="fc" id="L281">            return result;</span>
+        }
+
+        /**
+         * Constructor for TargetConditionHelperFactory.
+         */
+        private TargetConditionHelperFactory() {
+        }
+    }
+
+    /**
+     * Field antProject.
+     */
+    private final Project antProject;
+
+    /**
+     * Field targetConditionHelper.
+     */
+<span class="fc" id="L299">    private final TargetConditionHelper targetConditionHelper =</span>
+<span class="fc" id="L300">            TargetConditionHelperFactory.getTargetConditionHelper();</span>
+
+    /**
+     * Field targetExplorer.
+     */
+<span class="fc" id="L305">    private final TargetTasksExplorer targetExplorer =</span>
+            new TargetTasksExplorer(this);
+
+    /**
+     * Field taskLinkFinder.
+     */
+    private LinkFinderVisitor taskLinkFinder;
+
+    /**
+     * Creates a new project from an ant build file.
+     *
+     * The source object can be anything supported by {@link ProjectHelper}
+     * which is at least a File.
+     *
+     * @param source
+     *            The source for XML configuration.
+     * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
+     * @throws GrandException
+     *             if the project cannot be loaded.
+     */
+    public AntProject(final File source) throws GrandException {
+<span class="fc" id="L326">        this(source, null);</span>
+<span class="fc" id="L327">    }</span>
+
+    /**
+     * Creates a new project from an ant build file.
+     *
+     * The source object can be anything supported by {@link ProjectHelper}
+     * which is at least a File.
+     *
+     * @param source
+     *            The source for XML configuration.
+     * @param properties
+     *            a set of properties to be preset when opening the graph or
+     *            &lt;code&gt;null&lt;/code&gt; if no properties should be preset.
+     * @see ProjectHelper#parse(org.apache.tools.ant.Project, java.lang.Object)
+     * @throws GrandException
+     *             if the project cannot be loaded.
+     */
+    public AntProject(final File source, final Properties properties)
+<span class="fc" id="L345">            throws GrandException {</span>
+<span class="fc" id="L346">        LOG.info(&quot;Parsing from &quot; + source);</span>
+<span class="fc" id="L347">        antProject = new Project();</span>
+<span class="pc bpc" id="L348" title="1 of 2 branches missed.">        if (properties != null) {</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">            for (final Entry&lt;Object, Object&gt; element : properties.entrySet()) {</span>
+<span class="nc" id="L350">                antProject.setProperty((String) element.getKey(),</span>
+<span class="nc" id="L351">                        (String) element.getValue());</span>
+<span class="nc" id="L352">            }</span>
+        }
+<span class="fc" id="L354">        antProject.setSystemProperties();</span>
+<span class="fc" id="L355">        antProject.init();</span>
+<span class="fc" id="L356">        antProject.setUserProperty(&quot;ant.file&quot;, source.getAbsolutePath());</span>
+
+<span class="fc" id="L358">        postInit();</span>
+
+        try {
+<span class="fc" id="L361">            final ProjectHelper loader = ProjectHelper.getProjectHelper();</span>
+<span class="fc" id="L362">            antProject.addReference(&quot;ant.projectHelper&quot;, loader);</span>
+<span class="fc" id="L363">            loader.parse(antProject, source);</span>
+<span class="fc" id="L364">            LOG.debug(&quot;Done parsing&quot;);</span>
+<span class="fc" id="L365">        } catch (final BuildException e) {</span>
+<span class="fc" id="L366">            final String message = &quot;Cannot open project file &quot; + source;</span>
+<span class="fc" id="L367">            LOG.error(message, e);</span>
+            // TODO better rethrowing?
+<span class="fc" id="L369">            throw new GrandException(message, e);</span>
+<span class="fc" id="L370">        }</span>
+<span class="fc" id="L371">    }</span>
+
+    /**
+     * Perform common operations after the object building.
+     */
+    private void postInit() {
+<span class="fc" id="L377">        taskLinkFinder = new LinkFinderVisitor(this);</span>
+
+        // Change the component helper to instantiate SubAntHelper for subant
+        // task.
+<span class="fc" id="L381">        final ComponentHelper helper = antProject.getReference(&quot;ant.ComponentHelper&quot;);</span>
+<span class="pc bpc" id="L382" title="1 of 2 branches missed.">        if (helper != null) {</span>
+<span class="fc" id="L383">            final AntTypeDefinition subAntDef = helper.getDefinition(&quot;subant&quot;);</span>
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">            if (subAntDef == null) {</span>
+<span class="nc" id="L385">                LOG.warn(&quot;No definition found for the subant task in ComponentHelper, disabling subant&quot;);</span>
+            } else {
+<span class="fc" id="L387">                subAntDef.setClass(SubAntHelper.class);</span>
+            }
+<span class="fc" id="L389">            final AntTypeDefinition taskDefDef = helper.getDefinition(&quot;taskdef&quot;);</span>
+<span class="pc bpc" id="L390" title="1 of 2 branches missed.">            if (taskDefDef == null) {</span>
+<span class="nc" id="L391">                LOG.warn(&quot;No definition found for the taskdef task in ComponentHelper, some file may not load properly&quot;);</span>
+            } else {
+<span class="fc" id="L393">                taskDefDef.setClass(TaskDefHelper.class);</span>
+            }
+<span class="fc" id="L395">        } else {</span>
+<span class="nc" id="L396">            LOG.warn(&quot;No component helper in current project&quot;);</span>
+        }
+<span class="fc" id="L398">    }</span>
+
+    /**
+     * Creates a new project from an existing ant project.
+     *
+     * @param project
+     *            project to create the graph from.
+     */
+<span class="fc" id="L406">    public AntProject(final Project project) {</span>
+<span class="fc" id="L407">        antProject = project;</span>
+<span class="fc" id="L408">        postInit();</span>
+<span class="fc" id="L409">    }</span>
+
+    /**
+     * Returns the underlying ant project.
+     *
+     * @return underlying ant project.
+     */
+    public final Project getAntProject() {
+<span class="fc" id="L417">        return antProject;</span>
+    }
+
+    /**
+     * Convert an Ant project to a Grand Graph.
+     *
+     * The conversion is done in several steps:
+     *
+     * &lt;ol&gt;
+     * &lt;li&gt;Each ant target will be converted to a Grand Node using both the
+     * target's name and description the the node's ones. Targets with a non
+     * empty description will be converted to Nodes with the
+     * {@link Node#ATTR_MAIN_NODE}attribute set. If the project element has a
+     * valid default target, the corresponding node will be the graph start
+     * target.&lt;/li&gt;
+     * &lt;li&gt;&lt;code&gt;depends&lt;/code&gt; attributes on targets will be translated into
+     * links. &lt;code&gt;antcall&lt;/code&gt; s or the contributed &lt;code&gt;foreach&lt;/code&gt;
+     * task will be translated in links with the
+     * {@link net.ggtools.grand.graph.Link#ATTR_WEAK_LINK}set.&lt;/li&gt;
+     * &lt;/ol&gt;
+     *
+     * @return a graph representing the dependency of the ant project.
+     * @throws GrandException
+     *             if the project cannot be converted to a graph.
+     * @see GraphProducer#getGraph()
+     */
+    public final Graph getGraph() throws GrandException {
+<span class="fc" id="L444">        LOG.debug(&quot;Triggering AntProject&quot;);</span>
+
+<span class="fc" id="L446">        final AntGraph graph = new AntGraph(antProject);</span>
+<span class="fc" id="L447">        final Map&lt;String, String&gt; targetMap = new HashMap&lt;String, String&gt;();</span>
+
+        // First pass, create the nodes.
+<span class="fc bfc" id="L450" title="All 2 branches covered.">        for (final Target target : antProject.getTargets().values()) {</span>
+<span class="fc bfc" id="L451" title="All 2 branches covered.">            if (target.getName().equals(&quot;&quot;)) {</span>
+<span class="fc" id="L452">                continue;</span>
+            }
+
+<span class="fc" id="L455">            final String targetName = target.getName();</span>
+<span class="fc" id="L456">            final AntTargetNode node =</span>
+<span class="fc" id="L457">                    (AntTargetNode) graph.createNode(targetName);</span>
+
+            // Prefixed nodes have the same location as non-prefixed; skip them.
+<span class="fc" id="L460">            String location = target.getLocation().toString();</span>
+<span class="fc bfc" id="L461" title="All 2 branches covered.">            if (!targetMap.containsKey(location)</span>
+<span class="fc bfc" id="L462" title="All 2 branches covered.">                    || targetMap.get(location).length() &gt; targetName.length()) {</span>
+<span class="fc" id="L463">                targetMap.put(location, targetName);</span>
+            }
+
+            // Mark nodes with a description as MAIN.
+<span class="fc" id="L467">            final String targetDescription = target.getDescription();</span>
+<span class="pc bpc" id="L468" title="1 of 4 branches missed.">            if ((targetDescription != null) &amp;&amp; (!targetDescription.equals(&quot;&quot;))) {</span>
+<span class="fc" id="L469">                node.setAttributes(Node.ATTR_MAIN_NODE);</span>
+<span class="fc" id="L470">                node.setDescription(targetDescription);</span>
+            }
+
+<span class="fc" id="L473">            node.setIfCondition(targetConditionHelper.getIfCondition(target));</span>
+<span class="fc" id="L474">            node.setUnlessCondition(targetConditionHelper.getUnlessCondition(target));</span>
+<span class="fc" id="L475">            targetExplorer.exploreTarget(node, target);</span>
+<span class="fc" id="L476">        }</span>
+
+        // Sets the start node if needed.
+<span class="fc" id="L479">        final String defaultTarget = antProject.getDefaultTarget();</span>
+<span class="pc bpc" id="L480" title="1 of 2 branches missed.">        if (defaultTarget != null) {</span>
+<span class="fc" id="L481">            final Node startNode = graph.getNode(defaultTarget);</span>
+
+<span class="fc bfc" id="L483" title="All 2 branches covered.">            if (startNode != null) {</span>
+<span class="fc" id="L484">                graph.setStartNode(startNode);</span>
+            }
+        }
+
+        // Second pass, create the links
+<span class="fc bfc" id="L489" title="All 2 branches covered.">        for (final Target target : antProject.getTargets().values()) {</span>
+<span class="fc bfc" id="L490" title="All 2 branches covered.">            if (target.getName().equals(&quot;&quot;)) {</span>
+<span class="fc" id="L491">                continue;</span>
+            }
+
+<span class="fc" id="L494">            final String startNodeName = target.getName();</span>
+<span class="fc" id="L495">            final AntTargetNode startNode =</span>
+<span class="fc" id="L496">                    (AntTargetNode) graph.getNode(startNodeName);</span>
+<span class="fc bfc" id="L497" title="All 2 branches covered.">            if (!targetMap.containsValue(startNodeName)) {</span>
+<span class="fc" id="L498">                startNode.setAttributes(Node.ATTR_PREFIXED_NODE);</span>
+            }
+
+<span class="fc bfc" id="L501" title="All 2 branches covered.">            for (String dependency : Collections.list(target.getDependencies())) {</span>
+<span class="fc" id="L502">                createLink(graph, null, startNode, dependency);</span>
+<span class="fc" id="L503">            }</span>
+
+<span class="fc" id="L505">            taskLinkFinder.setGraph(graph);</span>
+<span class="fc" id="L506">            taskLinkFinder.setStartNode(startNode);</span>
+<span class="fc bfc" id="L507" title="All 2 branches covered.">            for (final Task element : target.getTasks()) {</span>
+<span class="fc" id="L508">                taskLinkFinder.visit(element.getRuntimeConfigurableWrapper());</span>
+            }
+<span class="fc" id="L510">        }</span>
+
+<span class="fc" id="L512">        return graph;</span>
+    }
+
+    /**
+     * Creates a new link. The end node will be created if needed with the
+     * MISSING_NODE attribute set.
+     *
+     * @param graph
+     *            owning graph
+     * @param linkName
+     *            name of the created link, can be &lt;code&gt;null&lt;/code&gt;.
+     * @param startNode
+     *            start node of the link.
+     * @param endNodeName
+     *            name of the end node.
+     * @return a new link.
+     * @throws DuplicateElementException
+     *             if there is already a node name &lt;code&gt;endNodeName&lt;/code&gt; in
+     *             the graph.
+     */
+    private AntLink createLink(final Graph graph, final String linkName, final Node startNode,
+            final String endNodeName) throws DuplicateElementException {
+<span class="fc" id="L534">        Node endNode = graph.getNode(endNodeName);</span>
+
+<span class="fc bfc" id="L536" title="All 2 branches covered.">        if (endNode == null) {</span>
+<span class="fc" id="L537">            LOG.warn(&quot;Target &quot; + startNode + &quot; has dependency to non existent target &quot;</span>
+                    + endNodeName + &quot;, creating a dummy node&quot;);
+<span class="fc" id="L539">            endNode = graph.createNode(endNodeName);</span>
+<span class="fc" id="L540">            endNode.setAttributes(Node.ATTR_MISSING_NODE);</span>
+        }
+
+<span class="fc" id="L543">        LOG.debug(&quot;Creating link from &quot; + startNode + &quot; to &quot; + endNodeName);</span>
+<span class="fc" id="L544">        return (AntLink) graph.createLink(linkName, startNode, endNode);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SubAntHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.ant.taskhelpers</a> &gt; <span class="el_source">SubAntHelper.java</span></div><h1>SubAntHelper.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.ant.taskhelpers;
+
+import java.io.File;
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.tools.ant.Location;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.RuntimeConfigurable;
+import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Ant;
+import org.apache.tools.ant.taskdefs.Property;
+import org.apache.tools.ant.taskdefs.SubAnt;
+import org.apache.tools.ant.types.DirSet;
+import org.apache.tools.ant.types.FileList;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Path.PathElement;
+import org.apache.tools.ant.types.PropertySet;
+import org.apache.tools.ant.types.Reference;
+import org.apache.tools.ant.types.ResourceCollection;
+
+/**
+ * A Proxy for the {@link org.apache.tools.ant.taskdefs.SubAnt}class allowing
+ * to retrieve some data after configuration.
+ *
+ * @author Christophe Labouisse
+ */
+public class SubAntHelper extends Task {
+    /**
+     * Field antfile.
+     */
+<span class="pc" id="L61">    private String antfile = &quot;build.xml&quot;;</span>
+
+    /**
+     * Field buildpath.
+     */
+    private Path buildpath;
+
+    /**
+     * Field genericantfile.
+     */
+<span class="pc" id="L71">    private File genericantfile = null;</span>
+
+    /**
+     * Field properties.
+     */
+<span class="pc" id="L76">    private final Vector&lt;Property&gt; properties = new Vector&lt;Property&gt;();</span>
+
+    /**
+     * Field propertySets.
+     */
+<span class="pc" id="L81">    private final Vector&lt;PropertySet&gt; propertySets = new Vector&lt;PropertySet&gt;();</span>
+
+    /**
+     * Field references.
+     */
+<span class="pc" id="L86">    private final Vector&lt;Ant.Reference&gt; references = new Vector&lt;Ant.Reference&gt;();</span>
+
+    /**
+     * Field subAntTarget.
+     */
+<span class="pc" id="L91">    private String subAntTarget = null;</span>
+
+    /**
+     * Field underlying.
+     */
+    private final SubAnt underlying;
+
+    /**
+     * Constructor for SubAntHelper.
+     */
+<span class="fc" id="L101">    public SubAntHelper() {</span>
+<span class="fc" id="L102">        underlying = new SubAnt();</span>
+<span class="fc" id="L103">    }</span>
+
+    /**
+     * Constructor for SubAntHelper.
+     * @param underlying SubAnt
+     */
+<span class="nc" id="L109">    public SubAntHelper(final SubAnt underlying) {</span>
+<span class="nc" id="L110">        this.underlying = underlying;</span>
+<span class="nc" id="L111">    }</span>
+
+    /**
+     * @param set DirSet
+     */
+    public final void addDirset(final DirSet set) {
+<span class="fc" id="L117">        getBuildpath().addDirset(set);</span>
+<span class="fc" id="L118">    }</span>
+
+    /**
+     * @param list FileList
+     */
+    public final void addFilelist(final FileList list) {
+<span class="nc" id="L124">        getBuildpath().addFilelist(list);</span>
+<span class="nc" id="L125">    }</span>
+
+    /**
+     * @param set FileSet
+     */
+    public final void addFileset(final FileSet set) {
+<span class="fc" id="L131">        getBuildpath().addFileset(set);</span>
+<span class="fc" id="L132">    }</span>
+
+    /**
+     * @param p Property
+     */
+    public final void addProperty(final Property p) {
+<span class="fc" id="L138">        properties.addElement(p);</span>
+<span class="fc" id="L139">        underlying.addProperty(p);</span>
+<span class="fc" id="L140">    }</span>
+
+    /**
+     * @param ps PropertySet
+     */
+    public final void addPropertyset(final PropertySet ps) {
+<span class="nc" id="L146">        propertySets.addElement(ps);</span>
+<span class="nc" id="L147">        underlying.addPropertyset(ps);</span>
+<span class="nc" id="L148">    }</span>
+
+    /**
+     * @param r Reference
+     */
+    public final void addReference(final Ant.Reference r) {
+<span class="nc" id="L154">        references.addElement(r);</span>
+<span class="nc" id="L155">        underlying.addReference(r);</span>
+<span class="nc" id="L156">    }</span>
+
+    /**
+     * @param t Ant.TargetElement
+     */
+    public void addConfiguredTarget(final Ant.TargetElement t) {
+<span class="fc" id="L162">        underlying.addConfiguredTarget(t);</span>
+<span class="fc" id="L163">    }</span>
+
+    /**
+     * @return Path
+     */
+    public final Path createBuildpath() {
+<span class="nc" id="L169">        return getBuildpath().createPath();</span>
+    }
+
+    /**
+     * @return PathElement
+     */
+    public final PathElement createBuildpathElement() {
+<span class="nc" id="L176">        return getBuildpath().createPathElement();</span>
+    }
+
+    /**
+     * Method equals.
+     * @param obj Object
+     * @return boolean
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public final boolean equals(final Object obj) {
+<span class="nc" id="L187">        return underlying.equals(obj);</span>
+    }
+
+    /**
+     * Method execute.
+     * @see org.apache.tools.ant.Task#execute()
+     */
+    @Override
+    public final void execute() {
+<span class="nc" id="L196">        underlying.setBuildpath(buildpath);</span>
+<span class="nc" id="L197">        underlying.execute();</span>
+<span class="nc" id="L198">    }</span>
+
+    /**
+     * @return Returns the antfile.
+     */
+    public final String getAntfile() {
+<span class="fc" id="L204">        return antfile;</span>
+    }
+
+    /**
+     * Gets the implicit build path, creating it if &lt;code&gt;null&lt;/code&gt;.
+     *
+     * @return the implicit build path.
+     */
+    public final Path getBuildpath() {
+<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (buildpath == null) {</span>
+<span class="fc" id="L214">            buildpath = new Path(getProject());</span>
+        }
+<span class="fc" id="L216">        return buildpath;</span>
+    }
+
+    /**
+     * Method getDescription.
+     * @return String
+     * @see org.apache.tools.ant.Task#getDescription()
+     */
+    @Override
+    public final String getDescription() {
+<span class="nc" id="L226">        return underlying.getDescription();</span>
+    }
+
+    /**
+     * @return Returns the genericantfile.
+     */
+    public final File getGenericAntfile() {
+<span class="fc" id="L233">        return genericantfile;</span>
+    }
+
+    /**
+     * Method getLocation.
+     * @return Location
+     * @see org.apache.tools.ant.Task#getLocation()
+     */
+    @Override
+    public final Location getLocation() {
+<span class="nc" id="L243">        return underlying.getLocation();</span>
+    }
+
+    /**
+     * Method getOwningTarget.
+     * @return Target
+     * @see org.apache.tools.ant.Task#getOwningTarget()
+     */
+    @Override
+    public final Target getOwningTarget() {
+<span class="nc" id="L253">        return underlying.getOwningTarget();</span>
+    }
+
+    /**
+     * Method getProject.
+     * @return Project
+     * @see org.apache.tools.ant.ProjectComponent#getProject()
+     */
+    @Override
+    public final Project getProject() {
+<span class="fc" id="L263">        return underlying.getProject();</span>
+    }
+
+    /**
+     * @return Returns the properties.
+     */
+    public final List&lt;Property&gt; getProperties() {
+<span class="fc" id="L270">        return properties;</span>
+    }
+
+    /**
+     * @return Returns the propertySets.
+     */
+    public final List&lt;PropertySet&gt; getPropertySets() {
+<span class="nc" id="L277">        return propertySets;</span>
+    }
+
+    /**
+     * @return Returns the references.
+     */
+    public final List&lt;Ant.Reference&gt; getReferences() {
+<span class="nc" id="L284">        return references;</span>
+    }
+
+    /**
+     * Method getRuntimeConfigurableWrapper.
+     * @return RuntimeConfigurable
+     * @see org.apache.tools.ant.Task#getRuntimeConfigurableWrapper()
+     */
+    @Override
+    public final RuntimeConfigurable getRuntimeConfigurableWrapper() {
+<span class="nc" id="L294">        return underlying.getRuntimeConfigurableWrapper();</span>
+    }
+
+    /**
+     * Method getTaskName.
+     * @return String
+     * @see org.apache.tools.ant.Task#getTaskName()
+     */
+    @Override
+    public final String getTaskName() {
+<span class="nc" id="L304">        return underlying.getTaskName();</span>
+    }
+
+    /**
+     * Method getTaskType.
+     * @return String
+     * @see org.apache.tools.ant.Task#getTaskType()
+     */
+    @Override
+    public final String getTaskType() {
+<span class="nc" id="L314">        return underlying.getTaskType();</span>
+    }
+
+    /**
+     * Method hashCode.
+     * @return int
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public final int hashCode() {
+<span class="nc" id="L324">        return underlying.hashCode();</span>
+    }
+
+    /**
+     * Method init.
+     * @see org.apache.tools.ant.Task#init()
+     */
+    @Override
+    public final void init() {
+<span class="fc" id="L333">        underlying.init();</span>
+<span class="fc" id="L334">    }</span>
+
+    /**
+     * Method log.
+     * @param msg String
+     * @see org.apache.tools.ant.Task#log(java.lang.String)
+     */
+    @Override
+    public final void log(final String msg) {
+<span class="nc" id="L343">        underlying.log(msg);</span>
+<span class="nc" id="L344">    }</span>
+
+    /**
+     * Method log.
+     * @param msg String
+     * @param msgLevel int
+     * @see org.apache.tools.ant.Task#log(java.lang.String, int)
+     */
+    @Override
+    public final void log(final String msg, final int msgLevel) {
+<span class="nc" id="L354">        underlying.log(msg, msgLevel);</span>
+<span class="nc" id="L355">    }</span>
+
+    /**
+     * Method maybeConfigure.
+     * @see org.apache.tools.ant.Task#maybeConfigure()
+     */
+    @Override
+    public final void maybeConfigure() {
+<span class="fc" id="L363">        underlying.maybeConfigure();</span>
+<span class="fc" id="L364">    }</span>
+
+    /**
+     * Method reconfigure.
+     * @see org.apache.tools.ant.Task#reconfigure()
+     */
+    @Override
+    public final void reconfigure() {
+<span class="nc" id="L372">        underlying.reconfigure();</span>
+<span class="nc" id="L373">    }</span>
+
+    /**
+     * @param antfile String
+     */
+    public final void setAntfile(final String antfile) {
+<span class="nc" id="L379">        this.antfile = antfile;</span>
+<span class="nc" id="L380">        underlying.setAntfile(antfile);</span>
+<span class="nc" id="L381">    }</span>
+
+    /**
+     * @param rc ResourceCollection
+     */
+    public void add(final ResourceCollection rc) {
+<span class="nc" id="L387">        getBuildpath().add(rc);</span>
+<span class="nc" id="L388">    }</span>
+
+    /**
+     * @param s Path
+     */
+    public final void setBuildpath(final Path s) {
+<span class="nc" id="L394">        getBuildpath().append(s);</span>
+<span class="nc" id="L395">    }</span>
+
+    /**
+     * @param r Reference
+     */
+    public final void setBuildpathRef(final Reference r) {
+<span class="nc" id="L401">        createBuildpath().setRefid(r);</span>
+<span class="nc" id="L402">    }</span>
+
+    /**
+     * Method setDescription.
+     * @param desc String
+     * @see org.apache.tools.ant.Task#setDescription(java.lang.String)
+     */
+    @Override
+    public final void setDescription(final String desc) {
+<span class="nc" id="L411">        underlying.setDescription(desc);</span>
+<span class="nc" id="L412">    }</span>
+
+    /**
+     * @param failOnError boolean
+     */
+    public final void setFailonerror(final boolean failOnError) {
+<span class="nc" id="L418">        underlying.setFailonerror(failOnError);</span>
+<span class="nc" id="L419">    }</span>
+
+    /**
+     * @param afile File
+     */
+    public final void setGenericAntfile(final File afile) {
+<span class="fc" id="L425">        genericantfile = afile;</span>
+<span class="fc" id="L426">        underlying.setGenericAntfile(afile);</span>
+<span class="fc" id="L427">    }</span>
+
+    /**
+     * @param b boolean
+     */
+    public final void setInheritall(final boolean b) {
+<span class="nc" id="L433">        underlying.setInheritall(b);</span>
+<span class="nc" id="L434">    }</span>
+
+    /**
+     * @param b boolean
+     */
+    public final void setInheritrefs(final boolean b) {
+<span class="nc" id="L440">        underlying.setInheritrefs(b);</span>
+<span class="nc" id="L441">    }</span>
+
+    /**
+     * Method setLocation.
+     * @param location Location
+     * @see org.apache.tools.ant.Task#setLocation(org.apache.tools.ant.Location)
+     */
+    @Override
+    public final void setLocation(final Location location) {
+<span class="fc" id="L450">        underlying.setLocation(location);</span>
+<span class="fc" id="L451">    }</span>
+
+    /**
+     * @return Returns the target.
+     */
+    public final String getTarget() {
+<span class="fc" id="L457">        return subAntTarget;</span>
+    }
+
+    /**
+     * @param s String
+     */
+    public final void setOutput(final String s) {
+<span class="nc" id="L464">        underlying.setOutput(s);</span>
+<span class="nc" id="L465">    }</span>
+
+    /**
+     * Method setOwningTarget.
+     * @param target Target
+     * @see org.apache.tools.ant.Task#setOwningTarget(org.apache.tools.ant.Target)
+     */
+    @Override
+    public final void setOwningTarget(final Target target) {
+<span class="fc" id="L474">        underlying.setOwningTarget(target);</span>
+<span class="fc" id="L475">    }</span>
+
+    /**
+     * Method setProject.
+     * @param project Project
+     * @see org.apache.tools.ant.ProjectComponent#setProject(org.apache.tools.ant.Project)
+     */
+    @Override
+    public final void setProject(final Project project) {
+<span class="fc" id="L484">        underlying.setProject(project);</span>
+<span class="fc" id="L485">    }</span>
+
+    /**
+     * Method setRuntimeConfigurableWrapper.
+     * @param wrapper RuntimeConfigurable
+     * @see org.apache.tools.ant.Task#setRuntimeConfigurableWrapper(org.apache.tools.ant.RuntimeConfigurable)
+     */
+    @Override
+    public final void setRuntimeConfigurableWrapper(final RuntimeConfigurable wrapper) {
+<span class="fc" id="L494">        underlying.setRuntimeConfigurableWrapper(wrapper);</span>
+<span class="fc" id="L495">    }</span>
+
+    /**
+     * @param target String
+     */
+    public final void setTarget(final String target) {
+<span class="fc" id="L501">        subAntTarget = target;</span>
+<span class="fc" id="L502">        underlying.setTarget(target);</span>
+<span class="fc" id="L503">    }</span>
+
+    /**
+     * Method setTaskName.
+     * @param name String
+     * @see org.apache.tools.ant.Task#setTaskName(java.lang.String)
+     */
+    @Override
+    public final void setTaskName(final String name) {
+<span class="fc" id="L512">        underlying.setTaskName(name);</span>
+<span class="fc" id="L513">    }</span>
+
+    /**
+     * Method setTaskType.
+     * @param type String
+     * @see org.apache.tools.ant.Task#setTaskType(java.lang.String)
+     */
+    @Override
+    public final void setTaskType(final String type) {
+<span class="fc" id="L522">        underlying.setTaskType(type);</span>
+<span class="fc" id="L523">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

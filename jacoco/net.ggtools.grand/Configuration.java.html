@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Configuration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand</a> &gt; <span class="el_source">Configuration.java</span></div><h1>Configuration.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2003, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.ggtools.grand;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+/**
+ * A singleton class for configuration.
+ *
+ * @author Christophe Labouisse
+ */
+public class Configuration {
+
+    /**
+     * Field ANT_VERSION_TXT.
+     * (value is {@value #ANT_VERSION_TXT})
+     */
+    private static final String ANT_VERSION_TXT =
+            &quot;/org/apache/tools/ant/version.txt&quot;;
+
+    /**
+     * Field ANT_MAIN_CLASS.
+     * (value is {@value #ANT_MAIN_CLASS})
+     */
+    private static final String ANT_MAIN_CLASS =
+            &quot;org.apache.tools.ant.Main&quot;;
+
+    /**
+     * Field defaultConfiguration.
+     */
+    private static Configuration defaultConfiguration;
+
+    /**
+     * Field defaultProperties.
+     */
+    private static volatile Properties defaultProperties;
+
+    /**
+     * Field defaultPropertiesMonitor.
+     */
+<span class="fc" id="L71">    private static final Object DEFAULT_PROPERTIES_MONITOR =</span>
+            new Object();
+
+    /**
+     * Get a configuration with the default values.
+     *
+     * @return new configuration
+     * @throws IOException
+     *             if the default properties were not loadable.
+     */
+    public static Configuration getConfiguration() throws IOException {
+<span class="nc" id="L82">        synchronized (Configuration.class) {</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            if (defaultConfiguration == null) {</span>
+<span class="nc" id="L84">                defaultConfiguration = getConfiguration((Properties) null);</span>
+            }
+<span class="nc" id="L86">        }</span>
+
+<span class="nc" id="L88">        return defaultConfiguration;</span>
+    }
+
+    /**
+     * Returns an new configuration overriding some parameters from a file.
+     *
+     * @param propFile
+     *            override file
+     * @return new configuration
+     * @throws IOException
+     *             if the default properties were not loadable.
+     */
+    public static Configuration getConfiguration(final File propFile)
+            throws IOException {
+<span class="nc" id="L102">        final Properties override = new Properties();</span>
+<span class="nc" id="L103">        override.load(new FileInputStream(propFile));</span>
+<span class="nc" id="L104">        return getConfiguration(override);</span>
+    }
+
+    /**
+     * Returns a new configuration overriding some parameters.
+     *
+     * @param override
+     *            the properties to override.
+     * @return new configuration
+     * @throws IOException
+     *             if the default properties were not loadable.
+     */
+    public static Configuration getConfiguration(final Properties override)
+            throws IOException {
+<span class="fc" id="L118">        synchronized (DEFAULT_PROPERTIES_MONITOR) {</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            if (defaultProperties == null) {</span>
+<span class="fc" id="L120">                defaultProperties = new Properties();</span>
+<span class="fc" id="L121">                defaultProperties.load(Configuration.class</span>
+<span class="fc" id="L122">                        .getResourceAsStream(&quot;Default.properties&quot;));</span>
+            }
+<span class="fc" id="L124">        }</span>
+
+<span class="fc" id="L126">        return new Configuration(override);</span>
+    }
+
+    /**
+     * Field antVersionString.
+     */
+    private final String antVersionString;
+
+    /**
+     * Field buildProperties.
+     */
+    private final Properties buildProperties;
+
+    /**
+     * Field properties.
+     */
+    private final Properties properties;
+
+    /**
+     * Field versionString.
+     */
+    private final String versionString;
+
+    /**
+     * Creates a new configuration. The new object's get methods will return
+     * values from the supplied properties if the demanded key exists or from
+     * the default properties in other case.
+     *
+     * @param override
+     *            properties to override in the default configuration.
+     * @throws IOException if an error occurs in load()
+     */
+<span class="fc" id="L158">    protected Configuration(final Properties override) throws IOException {</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        if (override != null) {</span>
+<span class="fc" id="L160">            properties = new Properties(defaultProperties);</span>
+<span class="fc" id="L161">            properties.putAll(override);</span>
+        } else {
+<span class="fc" id="L163">            properties = defaultProperties;</span>
+        }
+<span class="fc" id="L165">        buildProperties = new Properties();</span>
+<span class="fc" id="L166">        buildProperties.load(getClass().getResourceAsStream(&quot;buildnum.properties&quot;));</span>
+<span class="fc" id="L167">        versionString = &quot;v&quot; + buildProperties.getProperty(&quot;build.version.string&quot;)</span>
+<span class="fc" id="L168">                + &quot; (build &quot; + buildProperties.getProperty(&quot;build.number&quot;) + &quot; &quot;</span>
+<span class="fc" id="L169">                + buildProperties.getProperty(&quot;build.date&quot;) + &quot;)&quot;;</span>
+
+<span class="fc" id="L171">        final Properties antProperties = new Properties();</span>
+<span class="fc" id="L172">        InputStream antVersionStream =</span>
+<span class="fc" id="L173">                getClass().getResourceAsStream(ANT_VERSION_TXT);</span>
+        // when on module path, try harder
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if (antVersionStream == null) {</span>
+            try {
+<span class="nc" id="L177">                antVersionStream = Class.forName(ANT_MAIN_CLASS)</span>
+<span class="nc" id="L178">                        .getResourceAsStream(ANT_VERSION_TXT);</span>
+<span class="nc" id="L179">            } catch (ClassNotFoundException e) {</span>
+                // ignore
+<span class="nc" id="L181">            }</span>
+        }
+
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (antVersionStream != null) {</span>
+<span class="fc" id="L185">            antProperties.load(antVersionStream);</span>
+<span class="fc" id="L186">            antVersionString = antProperties.getProperty(&quot;VERSION&quot;)</span>
+<span class="fc" id="L187">                    + &quot; (&quot; + antProperties.getProperty(&quot;DATE&quot;, &quot;Unknown&quot;) + &quot;)&quot;;</span>
+        } else {
+<span class="nc" id="L189">            antVersionString = null;</span>
+        }
+<span class="fc" id="L191">    }</span>
+
+    /**
+     * Get a parameter as a String.
+     *
+     * @param key
+     *            parameter to look for.
+     * @return parameter value.
+     */
+    public final String get(final String key) {
+<span class="fc" id="L201">        return properties.getProperty(key);</span>
+    }
+
+    /**
+     * Method getAntVersionString.
+     * @return String
+     */
+    public final String getAntVersionString() {
+<span class="nc" id="L209">        return antVersionString;</span>
+    }
+
+    /**
+     * @return Returns the buildProperties.
+     */
+    public final Properties getBuildProperties() {
+<span class="nc" id="L216">        return buildProperties;</span>
+    }
+
+    /**
+     * @return Returns the versionString.
+     */
+    public final String getVersionString() {
+<span class="nc" id="L223">        return versionString;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

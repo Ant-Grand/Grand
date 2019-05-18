@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpleLog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Grand: Graphical Representation of ANt Dependencies</a> &gt; <a href="index.source.html" class="el_package">net.ggtools.grand.log</a> &gt; <span class="el_source">SimpleLog.java</span></div><h1>SimpleLog.java</h1><pre class="source lang-java linenums">// $Id$
+/*
+ * ====================================================================
+ * Copyright (c) 2002-2004, Christophe Labouisse All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package net.ggtools.grand.log;
+
+import org.apache.commons.logging.Log;
+
+/**
+ * Simple log class logging to stdout.
+ *
+ * @author Christophe Labouisse
+ */
+class SimpleLog implements Log {
+    /**
+     * Field LEVEL_NONE.
+     * (value is {@value #LEVEL_NONE})
+     */
+    protected static final int LEVEL_NONE = 0;
+    /**
+     * Field LEVEL_FATAL.
+     * (value is {@value #LEVEL_FATAL})
+     */
+    protected static final int LEVEL_FATAL = 1;
+    /**
+     * Field LEVEL_ERROR.
+     * (value is {@value #LEVEL_ERROR})
+     */
+    protected static final int LEVEL_ERROR = 2;
+    /**
+     * Field LEVEL_WARN.
+     * (value is {@value #LEVEL_WARN})
+     */
+    protected static final int LEVEL_WARN = 3;
+    /**
+     * Field LEVEL_INFO.
+     * (value is {@value #LEVEL_INFO})
+     */
+    protected static final int LEVEL_INFO = 4;
+    /**
+     * Field LEVEL_DEBUG.
+     * (value is {@value #LEVEL_DEBUG})
+     */
+    protected static final int LEVEL_DEBUG = 5;
+    /**
+     * Field LEVEL_TRACE.
+     * (value is {@value #LEVEL_TRACE})
+     */
+    protected static final int LEVEL_TRACE = 6;
+    /**
+     * Field LEVEL_ALL.
+     * (value is {@value #LEVEL_ALL})
+     */
+    protected static final int LEVEL_ALL = 7;
+
+    /**
+     * Field LEVEL_NAMES.
+     */
+<span class="fc" id="L82">    protected static final String[] LEVEL_NAMES = {&quot;NONE&quot;, &quot;FATAL&quot;,</span>
+        &quot;ERROR&quot;, &quot;WARN&quot;, &quot;INFO&quot;, &quot;DEBUG&quot;, &quot;TRACE&quot;, &quot;ALL&quot;};
+
+    /**
+     * Field logLevel.
+     */
+    private static final int LOG_LEVEL = LEVEL_WARN;
+
+    /**
+     * Package only instantiation.
+     */
+<span class="fc" id="L93">    SimpleLog() {</span>
+<span class="fc" id="L94">    }</span>
+
+    /**
+     * Method debug.
+     * @param message Object
+     * @see org.apache.commons.logging.Log#debug(java.lang.Object)
+     */
+    public void debug(final Object message) {
+<span class="fc" id="L102">        log(message, LEVEL_DEBUG);</span>
+<span class="fc" id="L103">    }</span>
+
+    /**
+     * Method debug.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#debug(java.lang.Object, java.lang.Throwable)
+     */
+    public void debug(final Object message, final Throwable t) {
+<span class="nc" id="L112">        log(message, t, LEVEL_DEBUG);</span>
+<span class="nc" id="L113">    }</span>
+
+    /**
+     * Method error.
+     * @param message Object
+     * @see org.apache.commons.logging.Log#error(java.lang.Object)
+     */
+    public void error(final Object message) {
+<span class="fc" id="L121">        log(message, LEVEL_ERROR);</span>
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * Method error.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#error(java.lang.Object, java.lang.Throwable)
+     */
+    public void error(final Object message, final Throwable t) {
+<span class="fc" id="L131">        log(message, t, LEVEL_ERROR);</span>
+<span class="fc" id="L132">    }</span>
+
+    /**
+     * Method fatal.
+     * @param message Object
+     * @see org.apache.commons.logging.Log#fatal(java.lang.Object)
+     */
+    public void fatal(final Object message) {
+<span class="nc" id="L140">        log(message, LEVEL_FATAL);</span>
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * Method fatal.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#fatal(java.lang.Object, java.lang.Throwable)
+     */
+    public void fatal(final Object message, final Throwable t) {
+<span class="nc" id="L150">        log(message, t, LEVEL_FATAL);</span>
+<span class="nc" id="L151">    }</span>
+
+    /**
+     * Method info.
+     * @param message Object
+     * @see org.apache.commons.logging.Log#info(java.lang.Object)
+     */
+    public void info(final Object message) {
+<span class="fc" id="L159">        log(message, LEVEL_INFO);</span>
+<span class="fc" id="L160">    }</span>
+
+    /**
+     * Method info.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#info(java.lang.Object, java.lang.Throwable)
+     */
+    public void info(final Object message, final Throwable t) {
+<span class="fc" id="L169">        log(message, t, LEVEL_INFO);</span>
+<span class="fc" id="L170">    }</span>
+
+    /**
+     * Method isDebugEnabled.
+     * @return boolean
+     * @see org.apache.commons.logging.Log#isDebugEnabled()
+     */
+    public boolean isDebugEnabled() {
+<span class="fc" id="L178">        return LOG_LEVEL &gt;= LEVEL_DEBUG;</span>
+    }
+
+    /**
+     * Method isErrorEnabled.
+     * @return boolean
+     * @see org.apache.commons.logging.Log#isErrorEnabled()
+     */
+    public boolean isErrorEnabled() {
+<span class="nc" id="L187">        return LOG_LEVEL &gt;= LEVEL_ERROR;</span>
+    }
+
+    /**
+     * Method isFatalEnabled.
+     * @return boolean
+     * @see org.apache.commons.logging.Log#isFatalEnabled()
+     */
+    public boolean isFatalEnabled() {
+<span class="nc" id="L196">        return LOG_LEVEL &gt;= LEVEL_FATAL;</span>
+    }
+
+    /**
+     * Method isInfoEnabled.
+     * @return boolean
+     * @see org.apache.commons.logging.Log#isInfoEnabled()
+     */
+    public boolean isInfoEnabled() {
+<span class="nc" id="L205">        return LOG_LEVEL &gt;= LEVEL_INFO;</span>
+    }
+
+    /**
+     * Method isTraceEnabled.
+     * @return boolean
+     * @see org.apache.commons.logging.Log#isTraceEnabled()
+     */
+    public boolean isTraceEnabled() {
+<span class="fc" id="L214">        return LOG_LEVEL &gt;= LEVEL_TRACE;</span>
+    }
+
+    /**
+     * Method isWarnEnabled.
+     * @return boolean
+     * @see org.apache.commons.logging.Log#isWarnEnabled()
+     */
+    public boolean isWarnEnabled() {
+<span class="nc" id="L223">        return LOG_LEVEL &gt;= LEVEL_WARN;</span>
+    }
+
+    /**
+     * Method trace.
+     * @param message Object
+     * @see org.apache.commons.logging.Log#trace(java.lang.Object)
+     */
+    public void trace(final Object message) {
+<span class="fc" id="L232">        log(message, LEVEL_TRACE);</span>
+<span class="fc" id="L233">    }</span>
+
+    /**
+     * Method trace.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#trace(java.lang.Object, java.lang.Throwable)
+     */
+    public void trace(final Object message, final Throwable t) {
+<span class="nc" id="L242">        log(message, t, LEVEL_TRACE);</span>
+<span class="nc" id="L243">    }</span>
+
+    /**
+     * Method warn.
+     * @param message Object
+     * @see org.apache.commons.logging.Log#warn(java.lang.Object)
+     */
+    public void warn(final Object message) {
+<span class="fc" id="L251">        log(message, LEVEL_WARN);</span>
+<span class="fc" id="L252">    }</span>
+
+    /**
+     * Method warn.
+     * @param message Object
+     * @param t Throwable
+     * @see org.apache.commons.logging.Log#warn(java.lang.Object, java.lang.Throwable)
+     */
+    public void warn(final Object message, final Throwable t) {
+<span class="nc" id="L261">        log(message, t, LEVEL_WARN);</span>
+<span class="nc" id="L262">    }</span>
+
+    /**
+     * Method log.
+     * @param message Object
+     * @param level int
+     */
+    protected void log(final Object message, final int level) {
+<span class="fc" id="L270">        log(message, null, level);</span>
+<span class="fc" id="L271">    }</span>
+
+    /**
+     * Method log.
+     * @param message Object
+     * @param t Throwable
+     * @param level int
+     */
+    protected void log(final Object message, final Throwable t,
+            final int level) {
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (level &lt;= LOG_LEVEL) {</span>
+<span class="fc" id="L282">            System.out.println(&quot;[&quot; + LEVEL_NAMES[level] + &quot;] &quot; + message);</span>
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            if (t != null) {</span>
+<span class="fc" id="L284">                t.printStackTrace(System.out);</span>
+            }
+        }
+<span class="fc" id="L287">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
