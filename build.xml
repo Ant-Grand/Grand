@@ -15,7 +15,7 @@
   <property name="javadocdir" value="dist/docs/api"/>
   <property name="java.target" value="1.6"/>
   <!-- version and product -->
-  <property name="project.version" value="1.9.5"/>
+  <property name="project.version" value="1.9.6"/>
   <property name="project.vendor" value="ggTools"/>
   <property name="product.name" value="${ant.project.name}-${project.version}.jar"/>
   <property name="module.name" value="${ant.project.name}-module-${project.version}.jar"/>
