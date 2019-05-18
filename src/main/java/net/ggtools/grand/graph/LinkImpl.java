@@ -82,8 +82,8 @@ public class LinkImpl extends AttributeManager implements Link {
      */
     @Override
     public final String toString() {
-        return ((name == null) ? ""
-                : name) + " (" + startNode + " -> " + endNode + ")";
+        return ((name == null) ? "" : name)
+                + " (" + startNode + " -> " + endNode + ")";
     }
 
     /**
