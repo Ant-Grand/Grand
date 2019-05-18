@@ -281,7 +281,7 @@ public class DotWriter implements GraphWriter {
         for (final Iterator<Node> iter = graph.getNodes(); iter.hasNext();) {
             final Node node = iter.next();
 
-            if (node.equals(startNode) || node.getName().equals("")) {
+            if (node.equals(startNode) || node.getName().isEmpty()) {
                 continue;
             }
             node.accept(visitor);

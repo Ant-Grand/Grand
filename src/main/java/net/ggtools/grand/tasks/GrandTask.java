@@ -334,7 +334,7 @@ public class GrandTask extends Task {
         if (propertyPrefix == null) {
             return;
         }
-        if ("".equals(propertyPrefix)) {
+        if (propertyPrefix.isEmpty()) {
             outputConfigurationPrefix = DEFAULT_OUTCONFIG_PREFIX;
             return;
         }

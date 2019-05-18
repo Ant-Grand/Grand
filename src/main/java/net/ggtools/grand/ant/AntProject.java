@@ -182,7 +182,7 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = (String) ifCondition.get(target);
-                if ("".equals(result)) {
+                if (result != null && result.isEmpty()) {
                     result = null;
                 }
             } catch (final Exception e) {
@@ -203,7 +203,7 @@ public class AntProject implements GraphProducer {
 
             try {
                 result = (String) unlessCondition.get(target);
-                if ("".equals(result)) {
+                if (result != null && result.isEmpty()) {
                     result = null;
                 }
             } catch (final Exception e) {
@@ -448,7 +448,7 @@ public class AntProject implements GraphProducer {
 
         // First pass, create the nodes.
         for (final Target target : antProject.getTargets().values()) {
-            if (target.getName().equals("")) {
+            if (target.getName().isEmpty()) {
                 continue;
             }
 
@@ -465,7 +465,7 @@ public class AntProject implements GraphProducer {
 
             // Mark nodes with a description as MAIN.
             final String targetDescription = target.getDescription();
-            if ((targetDescription != null) && (!targetDescription.equals(""))) {
+            if (targetDescription != null && !targetDescription.isEmpty()) {
                 node.setAttributes(Node.ATTR_MAIN_NODE);
                 node.setDescription(targetDescription);
             }
@@ -487,7 +487,7 @@ public class AntProject implements GraphProducer {
 
         // Second pass, create the links
         for (final Target target : antProject.getTargets().values()) {
-            if (target.getName().equals("")) {
+            if (target.getName().isEmpty()) {
                 continue;
             }
 
