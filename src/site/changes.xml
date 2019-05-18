@@ -7,6 +7,17 @@
         <author email="grand@ggtools.net">Christophe Labouisse</author>
     </properties>
     <body>
+        <release version="GUI 0.8.6" date="2019-05-18" description="Upgrade to Ant 1.10.6">
+            <action dev="twogee" type="update" date="2019-05-18">
+                Use Grand core 1.9.6 and Ant 1.10.6.
+            </action>
+            <action dev="twogee" type="update" date="2019-05-18">
+                Upgrade to Eclipse 4.9.
+            </action>
+            <action dev="twogee" type="fix" date="2019-01-27">
+                Use module path with Java 9+.
+            </action>
+        </release>
         <release version="1.9.6" date="2019-05-17" description="Upgrade to Ant 1.9.14">
             <action dev="twogee" type="update" date="2019-05-17">
                 Upgrade to Ant 1.9.14.
