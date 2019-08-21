@@ -73,8 +73,8 @@ import org.apache.commons.logging.Log;
  * @to.do The current configuration scheme sucks, create something more generic.
  *
  * @author Christophe Labouisse
- * @see <a href="http://www.graphviz.org/">Graphviz home page</a>
- * @see <a href="http://www.graphviz.org/doc/info/attrs.html">Dot attributes</a>
+ * @see <a href="https://www.graphviz.org/">Graphviz home page</a>
+ * @see <a href="https://www.graphviz.org/doc/info/attrs.html">Dot attributes</a>
  */
 public class DotWriter implements GraphWriter {
     /**
