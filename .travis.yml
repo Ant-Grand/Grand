@@ -1,7 +1,11 @@
 language: java
+before_install:
+  - sudo apt-get -qq update
+  # ant-optional contains Ant JUnit tasks
+  - sudo apt-get install ant-optional
 install: true
 script: ant
 jdk:
-  - openjdk7
   - openjdk8
   - openjdk9
+  - openjdk11

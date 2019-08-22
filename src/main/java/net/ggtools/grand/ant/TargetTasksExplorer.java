@@ -175,7 +175,7 @@ class TargetTasksExplorer {
         final boolean hasChildren = !children.isEmpty();
 
         final String trimmedText = wrapper.getText().toString().trim();
-        final boolean hasText = !"".equals(trimmedText);
+        final boolean hasText = !trimmedText.isEmpty();
 
         final boolean hasNestedElements = hasChildren || hasText;
 

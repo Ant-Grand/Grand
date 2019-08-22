@@ -79,7 +79,7 @@ public abstract class AbstractAntTester extends BuildFileTest {
             if (project.getProperty(TEMP_FILE_PROP) != null) {
                 sb.append(' ').append(project.getProperty(TEMP_FILE_PROP));
             }
-            if (!"".equals(getLog())) {
+            if (!getLog().isEmpty()) {
                 String ls = System.getProperty("line.separator");
                 sb.append(ls).append("Log was:").append(ls).append(getLog());
             }
