@@ -21,13 +21,13 @@
   <property name="module.name" value="${ant.project.name}-module-${project.version}.jar"/>
   <!-- Ivy -->
   <property name="central.repo" value="http://repo1.maven.org/maven2"/>
-  <property name="ivy.version" value="2.4.0"/>
+  <property name="ivy.version" value="2.5.0"/>
   <property name="ivy.dir" value="${user.home}/.ivy2/cache/org.apache.ivy/jars"/>
   <property name="ivy.jar.name" value="ivy-${ivy.version}.jar"/>
   <available property="has.ivy" file="${ivy.dir}/${ivy.jar.name}" type="file"/>
   <target name="get.ivy" description="o Get Ivy jar unless already cached" unless="has.ivy">
     <mkdir dir="${ivy.dir}"/>
-    <get usetimestamp="true" src="http://apache.mirrors.spacedump.net//ant/ivy/${ivy.version}/maven2/${ivy.version}/${ivy.jar.name}"
+    <get usetimestamp="true" src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.version}/${ivy.jar.name}"
          skipexisting="true"
          dest="${ivy.dir}/${ivy.jar.name}"/>
   </target>
