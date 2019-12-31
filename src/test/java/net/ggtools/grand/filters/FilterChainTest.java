@@ -51,7 +51,7 @@ public class FilterChainTest {
      *
      * @author Christophe Labouisse
      */
-    private final class DummyProducer implements GraphProducer {
+    private static final class DummyProducer implements GraphProducer {
         /**
          * Field graph.
          */

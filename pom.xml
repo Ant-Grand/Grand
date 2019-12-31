@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.ggtools</groupId>
   <artifactId>grand</artifactId>
-  <version>1.9.6</version>
+  <version>1.9.7</version>
   <name>Grand: Graphical Representation of ANt Dependencies</name>
   <description>
     Grand is a tool to create a visual representation of Ant target

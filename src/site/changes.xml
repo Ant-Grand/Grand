@@ -7,6 +7,31 @@
         <author email="grand@ggtools.net">Christophe Labouisse</author>
     </properties>
     <body>
+        <release version="GUI 0.9.0" date="2019-12-31" description="Upgrade to Ant 1.10.7 and Eclipse 4.12">
+            <action dev="twogee" type="update" date="2019-12-31">
+                Use Grand core 1.9.7 and Ant 1.10.7.
+            </action>
+            <action dev="twogee" due-to="nghinv" issue="18" type="fix" system="GitHub" date="2019-12-15">
+                Make ImageSaver work with GTK 3 by strictly conforming to SWT specification.
+            </action>
+            <action dev="twogee" type="update" date="2019-12-15">
+                Upgrade to Eclipse 4.12; drop 32-bit platform support and use Java 8 syntax.
+            </action>
+            <action dev="twogee" type="add" date="2019-10-28">
+                Use Ivy 2.5.0 for dependency management.
+            </action>
+        </release>
+        <release version="1.9.7" date="2019-12-31" description="Upgrade to Ant 1.9.14">
+            <action dev="twogee" due-to="NKame" type="add" date="2019-12-31">
+                Show node descriptions in the final graph (controlled by a configuration property).
+            </action>
+            <action dev="twogee" due-to="NKame" type="add" date="2019-12-31">
+                Add warning when ant task is missing a build file.
+            </action>
+            <action dev="twogee" type="update" date="2019-12-01">
+                Upgrade to Ivy 2.5.0; update Maven plugins and Fluido skin.
+            </action>
+       </release>
         <release version="GUI 0.8.6" date="2019-05-18" description="Upgrade to Ant 1.10.6">
             <action dev="twogee" type="update" date="2019-05-18">
                 Use Grand core 1.9.6 and Ant 1.10.6.
@@ -385,7 +410,7 @@
         </release>
         <release version="1.6" date="2004-12-23" description="Logging API; specific style for subant generic ant file links; DOT generator uses visitor API">
             <action dev="ggtools" type="add" date="2004-12-15">
-                Ticket #68: implement a specific style for subant generic ant file links.
+                Ticket #68: implement a specific style for subant generic Ant file links.
             </action>
             <action dev="ggtools" type="fix" date="2004-12-14">
                 Keep DOT files for failed tests.
@@ -432,7 +457,7 @@
                 Fix the order of the recent files.
             </action>
             <action dev="ggtools" type="add" date="2004-10-11">
-                Ticket #69: add line style preferences for subant generic ant file links.
+                Ticket #69: add line style preferences for subant generic Ant file links.
             </action>
             <action dev="ggtools" type="update" date="2004-09-29">
                 Upgrade dependencies to Eclipse 3.0.1.
