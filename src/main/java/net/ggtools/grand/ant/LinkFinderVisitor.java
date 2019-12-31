@@ -207,7 +207,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     public final void reflectVisit_ant(final RuntimeConfigurable wrapper)
             throws DuplicateElementException {
         final Project antProject = project.getAntProject();
-        LOG.info("Processing ant target in " + startNode.getName());
+        LOG.info("Processing Ant target in " + startNode.getName());
         // Find the build file.
         final String targetBuildDirectoryName =
                 (String) wrapper.getAttributeMap().get(ATTR_DIR);
@@ -232,6 +232,9 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
                 }
                 targetBuildFile = new File(parentDirectory, antFile);
             }
+        }
+        if (!(targetBuildFile.exists() && targetBuildFile.isFile())) {
+            LOG.warn("Ant file " + targetBuildFile + " is missing");
         }
 
         final List<Object> targetElements = getTargetElementNames(wrapper);

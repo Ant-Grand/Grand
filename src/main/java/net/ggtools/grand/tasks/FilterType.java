@@ -91,7 +91,7 @@ public class FilterType {
                 filter.setNodeName(nodeName);
             }
             // Use an HashMap for parameters?
-            // Pb: type conversion check ant's utility classes
+            // Pb: type conversion check Ant's utility classes
         }
     }
 

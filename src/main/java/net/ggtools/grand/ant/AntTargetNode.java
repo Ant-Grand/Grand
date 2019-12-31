@@ -33,7 +33,7 @@ import net.ggtools.grand.graph.NodeImpl;
 import net.ggtools.grand.graph.visit.NodeVisitor;
 
 /**
- * A node implementation specialized for ant target.
+ * A node implementation specialized for Ant target.
  *
  * @author Christophe Labouisse
  */

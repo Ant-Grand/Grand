@@ -39,15 +39,15 @@ import net.ggtools.grand.graph.visit.NodeVisitor;
 public interface Node extends GraphObject {
     /**
      * Attribute bit to be set on <i>main</i> nodes. The definition of a main
-     * node depends on the graph's source. For Ant a main node will be a target
-     * with a description attribute.
+     * node depends on the graph's source. For Ant, a main node will be a
+     * target with a description attribute.
      */
     int ATTR_MAIN_NODE = 1 << 0;
 
     /**
      * Attribute bit to be set on missing nodes, that is nodes created by the
      * graph producer even if no such node exists in the original data source.
-     * The cause of such creations depends on the graph's source. For ant
+     * The cause of such creations depends on the graph's source. For Ant
      * projects, <i>missing</i> nodes may be created when a target (or an
      * antcall) refers a non existing node.
      */
@@ -55,8 +55,8 @@ public interface Node extends GraphObject {
 
     /**
      * Attribute bit to be set on conditional nodes. A node is conditional if
-     * the whole content's execution is subject to a condition such like targets
-     * in ant with a <code>if</code> or <code>unless</code> attribute set.
+     * the whole content's execution is subject to a condition like Ant targets
+     * with a <code>if</code> or <code>unless</code> attribute set.
      */
     int ATTR_CONDITIONAL_NODE = 1 << 2;
 
@@ -77,8 +77,8 @@ public interface Node extends GraphObject {
 
     /**
      * Returns links originating from the node. The implementing class should
-     * insure that the returned list only contains objects implementing the Link
-     * interface.
+     * ensure that the returned list only contains objects implementing the
+     * Link interface.
      *
      * The returned collection should allow modification operations.
      *
@@ -87,7 +87,7 @@ public interface Node extends GraphObject {
     Collection<Link> getLinks();
 
     /**
-     * Returns links coming to the node. The implementing class should insure
+     * Returns links coming to the node. The implementing class should ensure
      * that the returned list only contains objects implementing the Link
      * interface.
      *
@@ -98,9 +98,9 @@ public interface Node extends GraphObject {
     Collection<Link> getBackLinks();
 
     /**
-     * Add a link to the node. This method should be called when the link starts
-     * from the node. The implementations should try to preserve the order in
-     * which the nodes were added.
+     * Add a link to the node. This method should be called when the link
+     * starts from the node. The implementations should try to preserve the
+     * order in which the nodes were added.
      *
      * @param link
      *            link to add

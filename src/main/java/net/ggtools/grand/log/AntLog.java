@@ -79,7 +79,7 @@ public class AntLog extends SimpleLog implements Log {
     protected final void log(final Object message, final Throwable t,
             final int level) {
         if (currentProject != null) {
-            // Translate into ant log levels.
+            // Translate into Ant log levels.
             int antMsgLevel = level - LEVEL_ERROR + Project.MSG_ERR;
             if (antMsgLevel < Project.MSG_ERR) {
                 antMsgLevel = Project.MSG_ERR;

@@ -47,7 +47,7 @@ import net.ggtools.grand.graph.visit.LinkVisitor;
 public class SubantTaskLink extends AntTaskLink {
 
     /**
-     * List of the directories to apply the generic ant file to.
+     * List of the directories to apply the generic Ant file to.
      */
     private final List<String> directories = new LinkedList<String>();
 
@@ -75,7 +75,7 @@ public class SubantTaskLink extends AntTaskLink {
 
     /**
      * Add a directory to the list of directory used when applying the generic
-     * ant file.
+     * Ant file.
      * @param newDir String
      */
     public final void addDirectory(final String newDir) {
@@ -83,7 +83,7 @@ public class SubantTaskLink extends AntTaskLink {
     }
 
     /**
-     * Gets the list of directories to apply the generic ant file onto.
+     * Gets the list of directories to apply the generic Ant file onto.
      *
      * @return a read-only list of directories.
      */

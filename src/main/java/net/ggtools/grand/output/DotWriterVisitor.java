@@ -230,6 +230,13 @@ class DotWriterVisitor implements NodeVisitor {
             "dot.weaklink.attributes";
 
     /**
+     * Field DOT_SHOW_DESCRIPTION.
+     * (value is {@value #DOT_SHOW_DESCRIPTION})
+     */
+    private static final String DOT_SHOW_DESCRIPTION =
+            "dot.node.show.description";
+
+    /**
      * Field config.
      */
     @SuppressWarnings("unused")
@@ -284,6 +291,11 @@ class DotWriterVisitor implements NodeVisitor {
     private final String weakLinkAttributes;
 
     /**
+     * Field showDescription.
+     */
+    private boolean showDescription = false;
+
+    /**
      * Creates a new instance outputting to the supplied PrintWriter.
      * @param output DotWriterOutput
      * @param config Configuration
@@ -299,6 +311,7 @@ class DotWriterVisitor implements NodeVisitor {
         missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);
         nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);
         startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);
+        showDescription = Boolean.parseBoolean(config.get(DOT_SHOW_DESCRIPTION));
     }
 
     /**
@@ -341,7 +354,11 @@ class DotWriterVisitor implements NodeVisitor {
                 if (attributes != null) {
                     output.append(",");
                 }
-                output.append("comment=\"").appendEscaped(description).append("\"");
+                if (showDescription) {
+                    output.append("label=\"").appendEscaped(node.getName()).append("\\n").appendEscaped(description).append("\"");
+                } else {
+                    output.append("comment=\"").appendEscaped(description).append("\"");
+                }
             }
 
             output.append("];");
