@@ -37,7 +37,7 @@ import net.ggtools.grand.graph.Node;
 import net.ggtools.grand.graph.visit.LinkVisitor;
 
 /**
- * A basic (<em>i.e.</em> dependency) link in ant build file.
+ * A basic (<em>i.e.</em> dependency) link in Ant build file.
  *
  * @author Christophe Labouisse
  */

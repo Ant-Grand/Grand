@@ -55,7 +55,7 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
- * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
+ * A graph producer from Ant build files or {@link org.apache.tools.ant.Project}
  * objects. The nodes will be the project's target and the links will be the
  * dependencies between targets. Beside <i>hard</i> dependencies, this producer
  * is also able to create weak links from dependencies introduced by the use of
@@ -311,7 +311,7 @@ public class AntProject implements GraphProducer {
     private LinkFinderVisitor taskLinkFinder;
 
     /**
-     * Creates a new project from an ant build file.
+     * Creates a new project from an Ant build file.
      *
      * The source object can be anything supported by {@link ProjectHelper}
      * which is at least a File.
@@ -327,7 +327,7 @@ public class AntProject implements GraphProducer {
     }
 
     /**
-     * Creates a new project from an ant build file.
+     * Creates a new project from an Ant build file.
      *
      * The source object can be anything supported by {@link ProjectHelper}
      * which is at least a File.
@@ -398,7 +398,7 @@ public class AntProject implements GraphProducer {
     }
 
     /**
-     * Creates a new project from an existing ant project.
+     * Creates a new project from an existing Ant project.
      *
      * @param project
      *            project to create the graph from.
@@ -409,9 +409,9 @@ public class AntProject implements GraphProducer {
     }
 
     /**
-     * Returns the underlying ant project.
+     * Returns the underlying Ant project.
      *
-     * @return underlying ant project.
+     * @return underlying Ant project.
      */
     public final Project getAntProject() {
         return antProject;
@@ -423,7 +423,7 @@ public class AntProject implements GraphProducer {
      * The conversion is done in several steps:
      *
      * <ol>
-     * <li>Each ant target will be converted to a Grand Node using both the
+     * <li>Each Ant target will be converted to a Grand Node using both the
      * target's name and description the the node's ones. Targets with a non
      * empty description will be converted to Nodes with the
      * {@link Node#ATTR_MAIN_NODE}attribute set. If the project element has a
@@ -435,7 +435,7 @@ public class AntProject implements GraphProducer {
      * {@link net.ggtools.grand.graph.Link#ATTR_WEAK_LINK}set.</li>
      * </ol>
      *
-     * @return a graph representing the dependency of the ant project.
+     * @return a graph representing the dependency of the Ant project.
      * @throws GrandException
      *             if the project cannot be converted to a graph.
      * @see GraphProducer#getGraph()

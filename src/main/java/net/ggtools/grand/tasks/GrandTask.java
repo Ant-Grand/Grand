@@ -236,9 +236,9 @@ public class GrandTask extends Task {
     }
 
     /**
-     * Load an initialize a new project from a ant build file.
+     * Load an initialize a new project from a Ant build file.
      *
-     * @return a new initialized ant project.
+     * @return a new initialized Ant project.
      */
     private Project loadNewProject() {
         final Project antProject = new Project();

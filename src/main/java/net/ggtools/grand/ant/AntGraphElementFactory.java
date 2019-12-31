@@ -33,7 +33,7 @@ import net.ggtools.grand.graph.Link;
 import net.ggtools.grand.graph.Node;
 
 /**
- * An element factory specialized in ant graph.
+ * An element factory specialized in Ant graph.
  *
  * @author Christophe Labouisse
  */

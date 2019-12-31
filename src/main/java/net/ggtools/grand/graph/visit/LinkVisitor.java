@@ -46,7 +46,7 @@ public interface LinkVisitor {
 
 
     /**
-     * Visit an ant link.
+     * Visit an Ant link.
      *
      * @param link AntLink
      */
@@ -54,7 +54,7 @@ public interface LinkVisitor {
 
 
     /**
-     * Visit an ant link created by a task.
+     * Visit an Ant link created by a task.
      *
      * @param link AntTaskLink
      */
@@ -62,7 +62,7 @@ public interface LinkVisitor {
 
 
     /**
-     * Visit an ant link created by a task.
+     * Visit an Ant link created by a task.
      *
      * @param link SubAntTaskLink
      */

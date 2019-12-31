@@ -45,7 +45,7 @@ public interface NodeVisitor {
     void visitNode(Node node);
 
     /**
-     * Visits a ant target node.
+     * Visit an Ant target node.
      *
      * @param node AntTargetNode
      */

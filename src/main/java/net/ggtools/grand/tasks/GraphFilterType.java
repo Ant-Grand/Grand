@@ -45,7 +45,7 @@ interface GraphFilterType {
     void checkParameters();
 
     /**
-     * Returns the actual GraphFilter underlying the ant filter.
+     * Returns the actual GraphFilter underlying the Ant filter.
      *
      * @return the actual configured filter.
      */
