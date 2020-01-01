@@ -207,7 +207,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
     public final void reflectVisit_ant(final RuntimeConfigurable wrapper)
             throws DuplicateElementException {
 <span class="fc" id="L209">        final Project antProject = project.getAntProject();</span>
-<span class="fc" id="L210">        LOG.info(&quot;Processing ant target in &quot; + startNode.getName());</span>
+<span class="fc" id="L210">        LOG.info(&quot;Processing Ant target in &quot; + startNode.getName());</span>
         // Find the build file.
 <span class="fc" id="L212">        final String targetBuildDirectoryName =</span>
 <span class="fc" id="L213">                (String) wrapper.getAttributeMap().get(ATTR_DIR);</span>
@@ -233,48 +233,51 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
 <span class="fc" id="L233">                targetBuildFile = new File(parentDirectory, antFile);</span>
             }
         }
+<span class="pc bpc" id="L236" title="1 of 4 branches missed.">        if (!(targetBuildFile.exists() &amp;&amp; targetBuildFile.isFile())) {</span>
+<span class="fc" id="L237">            LOG.warn(&quot;Ant file &quot; + targetBuildFile + &quot; is missing&quot;);</span>
+        }
 
-<span class="fc" id="L237">        final List&lt;Object&gt; targetElements = getTargetElementNames(wrapper);</span>
+<span class="fc" id="L240">        final List&lt;Object&gt; targetElements = getTargetElementNames(wrapper);</span>
 
         final AntTaskLink[] links;
 
-<span class="fc bfc" id="L241" title="All 2 branches covered.">        if (targetElements.size() &gt; 0) {</span>
-<span class="fc" id="L242">            links = new AntTaskLink[targetElements.size()];</span>
-<span class="fc" id="L243">            int i = 0;</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">            for (Object object : targetElements) {</span>
-<span class="fc" id="L245">                links[i++] = createAntTaskLink(targetBuildFile,</span>
-<span class="fc" id="L246">                        wrapper.getElementTag(), (String) object);</span>
-<span class="fc" id="L247">            }</span>
-<span class="fc" id="L248">        } else {</span>
-<span class="fc" id="L249">            links = new AntTaskLink[]{createAntTaskLink(targetBuildFile,</span>
-<span class="fc" id="L250">                    wrapper.getElementTag(),</span>
-<span class="fc" id="L251">                    (String) wrapper.getAttributeMap().get(ATTR_TARGET))};</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">        if (targetElements.size() &gt; 0) {</span>
+<span class="fc" id="L245">            links = new AntTaskLink[targetElements.size()];</span>
+<span class="fc" id="L246">            int i = 0;</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">            for (Object object : targetElements) {</span>
+<span class="fc" id="L248">                links[i++] = createAntTaskLink(targetBuildFile,</span>
+<span class="fc" id="L249">                        wrapper.getElementTag(), (String) object);</span>
+<span class="fc" id="L250">            }</span>
+<span class="fc" id="L251">        } else {</span>
+<span class="fc" id="L252">            links = new AntTaskLink[]{createAntTaskLink(targetBuildFile,</span>
+<span class="fc" id="L253">                    wrapper.getElementTag(),</span>
+<span class="fc" id="L254">                    (String) wrapper.getAttributeMap().get(ATTR_TARGET))};</span>
         }
 
         // Look to params children.
-<span class="fc" id="L255">        addNestPropertiesParameters(wrapper, links, PROPERTY_ELEMENT);</span>
-<span class="fc" id="L256">    }</span>
+<span class="fc" id="L258">        addNestPropertiesParameters(wrapper, links, PROPERTY_ELEMENT);</span>
+<span class="fc" id="L259">    }</span>
 
     /**
      * @param wrapper RuntimeConfigurable
      * @return List&amp;lt;Object&amp;gt;
      */
     private List&lt;Object&gt; getTargetElementNames(final RuntimeConfigurable wrapper) {
-<span class="fc" id="L263">        final List&lt;Object&gt; targetElements = new ArrayList&lt;Object&gt;();</span>
-<span class="fc bfc" id="L264" title="All 2 branches covered.">        for (final RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">            if (&quot;target&quot;.equals(child.getElementTag())) {</span>
-<span class="fc" id="L266">                final Map&lt;String, Object&gt; childAttributeMap =</span>
-<span class="fc" id="L267">                        child.getAttributeMap();</span>
+<span class="fc" id="L266">        final List&lt;Object&gt; targetElements = new ArrayList&lt;Object&gt;();</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">        for (final RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {</span>
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">            if (&quot;target&quot;.equals(child.getElementTag())) {</span>
+<span class="fc" id="L269">                final Map&lt;String, Object&gt; childAttributeMap =</span>
+<span class="fc" id="L270">                        child.getAttributeMap();</span>
                 // name is supposed to be a string; however, since we are putting
                 // it in an object collection, there is no need to cast it as a
                 // String right now.
-<span class="fc" id="L271">                final Object name = childAttributeMap.get(ATTR_NAME);</span>
-<span class="pc bpc" id="L272" title="1 of 2 branches missed.">                if (name != null) {</span>
-<span class="fc" id="L273">                    targetElements.add(name);</span>
+<span class="fc" id="L274">                final Object name = childAttributeMap.get(ATTR_NAME);</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">                if (name != null) {</span>
+<span class="fc" id="L276">                    targetElements.add(name);</span>
                 }
             }
-<span class="fc" id="L276">        }</span>
-<span class="fc" id="L277">        return targetElements;</span>
+<span class="fc" id="L279">        }</span>
+<span class="fc" id="L280">        return targetElements;</span>
     }
 
     /**
@@ -292,44 +295,44 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     public final void reflectVisit_antcall(final RuntimeConfigurable wrapper)
             throws DuplicateElementException {
-<span class="fc" id="L295">        LOG.info(&quot;Processing antcall target in &quot; + startNode.getName());</span>
-<span class="fc" id="L296">        final Project antProject = project.getAntProject();</span>
+<span class="fc" id="L298">        LOG.info(&quot;Processing antcall target in &quot; + startNode.getName());</span>
+<span class="fc" id="L299">        final Project antProject = project.getAntProject();</span>
 
-<span class="fc" id="L298">        final List&lt;Object&gt; targetElements = getTargetElementNames(wrapper);</span>
+<span class="fc" id="L301">        final List&lt;Object&gt; targetElements = getTargetElementNames(wrapper);</span>
 
         final AntTaskLink[] links;
 
-<span class="fc" id="L302">        final String elementTag = wrapper.getElementTag();</span>
-<span class="fc bfc" id="L303" title="All 2 branches covered.">        if (targetElements.size() &gt; 0) {</span>
-<span class="fc" id="L304">            links = new AntTaskLink[targetElements.size()];</span>
-<span class="fc" id="L305">            int i = 0;</span>
-<span class="fc bfc" id="L306" title="All 2 branches covered.">            for (Object object : targetElements) {</span>
-<span class="fc" id="L307">                final String endNodeName =</span>
-<span class="fc" id="L308">                        antProject.replaceProperties((String) object);</span>
+<span class="fc" id="L305">        final String elementTag = wrapper.getElementTag();</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">        if (targetElements.size() &gt; 0) {</span>
+<span class="fc" id="L307">            links = new AntTaskLink[targetElements.size()];</span>
+<span class="fc" id="L308">            int i = 0;</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">            for (Object object : targetElements) {</span>
+<span class="fc" id="L310">                final String endNodeName =</span>
+<span class="fc" id="L311">                        antProject.replaceProperties((String) object);</span>
 
-<span class="fc" id="L310">                final AntTargetNode endNode = findOrCreateNode(endNodeName);</span>
+<span class="fc" id="L313">                final AntTargetNode endNode = findOrCreateNode(endNodeName);</span>
 
-<span class="fc" id="L312">                LOG.debug(&quot;Creating link from &quot; + startNode</span>
+<span class="fc" id="L315">                LOG.debug(&quot;Creating link from &quot; + startNode</span>
                         + &quot; to &quot; + endNodeName);
 
-<span class="fc" id="L315">                links[i++] = graph.createTaskLink(null,</span>
+<span class="fc" id="L318">                links[i++] = graph.createTaskLink(null,</span>
                         startNode, endNode, elementTag);
-<span class="fc" id="L317">            }</span>
-<span class="fc" id="L318">        } else {</span>
-<span class="fc" id="L319">            final String endNodeName = antProject.replaceProperties((String)</span>
-<span class="fc" id="L320">                    wrapper.getAttributeMap().get(ATTR_TARGET));</span>
+<span class="fc" id="L320">            }</span>
+<span class="fc" id="L321">        } else {</span>
+<span class="fc" id="L322">            final String endNodeName = antProject.replaceProperties((String)</span>
+<span class="fc" id="L323">                    wrapper.getAttributeMap().get(ATTR_TARGET));</span>
 
-<span class="fc" id="L322">            final AntTargetNode endNode = findOrCreateNode(endNodeName);</span>
+<span class="fc" id="L325">            final AntTargetNode endNode = findOrCreateNode(endNodeName);</span>
 
-<span class="fc" id="L324">            LOG.debug(&quot;Creating link from &quot; + startNode + &quot; to &quot; + endNodeName);</span>
+<span class="fc" id="L327">            LOG.debug(&quot;Creating link from &quot; + startNode + &quot; to &quot; + endNodeName);</span>
 
-<span class="fc" id="L326">            links = new AntTaskLink[]{graph.createTaskLink(null,</span>
+<span class="fc" id="L329">            links = new AntTaskLink[]{graph.createTaskLink(null,</span>
                     startNode, endNode, elementTag)};
         }
 
         // Look to params children.
-<span class="fc" id="L331">        addNestPropertiesParameters(wrapper, links, PARAM_ELEMENT);</span>
-<span class="fc" id="L332">    }</span>
+<span class="fc" id="L334">        addNestPropertiesParameters(wrapper, links, PARAM_ELEMENT);</span>
+<span class="fc" id="L335">    }</span>
 
     /**
      * Process &lt;code&gt;subant&lt;/code&gt; task. Depending of the existence of the
@@ -345,102 +348,102 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     public final void reflectVisit_subant(final RuntimeConfigurable wrapper)
             throws DuplicateElementException {
-<span class="fc" id="L348">        LOG.info(&quot;Processing subant target in &quot; + startNode.getName());</span>
-<span class="fc" id="L349">        final Project antProject = project.getAntProject();</span>
+<span class="fc" id="L351">        LOG.info(&quot;Processing subant target in &quot; + startNode.getName());</span>
+<span class="fc" id="L352">        final Project antProject = project.getAntProject();</span>
 
         // Configure the wrapper's proxy and get the configured task.
-<span class="fc" id="L352">        ((Task) wrapper.getProxy()).maybeConfigure();</span>
-<span class="fc" id="L353">        final Object proxy = wrapper.getProxy();</span>
-<span class="pc bpc" id="L354" title="1 of 2 branches missed.">        if (proxy instanceof SubAntHelper) {</span>
-<span class="fc" id="L355">            final SubAntHelper helper = (SubAntHelper) proxy;</span>
+<span class="fc" id="L355">        ((Task) wrapper.getProxy()).maybeConfigure();</span>
+<span class="fc" id="L356">        final Object proxy = wrapper.getProxy();</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">        if (proxy instanceof SubAntHelper) {</span>
+<span class="fc" id="L358">            final SubAntHelper helper = (SubAntHelper) proxy;</span>
 
-<span class="fc" id="L357">            final Path buildPath = helper.getBuildpath();</span>
-<span class="fc" id="L358">            final String antfile = helper.getAntfile();</span>
-<span class="fc" id="L359">            final File genericantfile = helper.getGenericAntfile();</span>
-<span class="fc" id="L360">            final Collection&lt;Property&gt; properties = helper.getProperties();</span>
-<span class="fc" id="L361">            final String target = helper.getTarget();</span>
+<span class="fc" id="L360">            final Path buildPath = helper.getBuildpath();</span>
+<span class="fc" id="L361">            final String antfile = helper.getAntfile();</span>
+<span class="fc" id="L362">            final File genericantfile = helper.getGenericAntfile();</span>
+<span class="fc" id="L363">            final Collection&lt;Property&gt; properties = helper.getProperties();</span>
+<span class="fc" id="L364">            final String target = helper.getTarget();</span>
 
-<span class="fc" id="L363">            final List&lt;File&gt; genericantfileDirs = new LinkedList&lt;File&gt;();</span>
+<span class="fc" id="L366">            final List&lt;File&gt; genericantfileDirs = new LinkedList&lt;File&gt;();</span>
 
-<span class="pc bpc" id="L365" title="1 of 4 branches missed.">            if ((buildPath == null) || (buildPath.size() == 0)) {</span>
-<span class="fc" id="L366">                LOG.warn(&quot;buildPath is null or empty, subant task probably won't work&quot;);</span>
-<span class="fc" id="L367">                return;</span>
+<span class="pc bpc" id="L368" title="1 of 4 branches missed.">            if ((buildPath == null) || (buildPath.size() == 0)) {</span>
+<span class="fc" id="L369">                LOG.warn(&quot;buildPath is null or empty, subant task probably won't work&quot;);</span>
+<span class="fc" id="L370">                return;</span>
             }
 
-<span class="fc" id="L370">            final String[] filenames = buildPath.list();</span>
+<span class="fc" id="L373">            final String[] filenames = buildPath.list();</span>
 
-<span class="fc bfc" id="L372" title="All 2 branches covered.">            for (final String currentFileName : filenames) {</span>
-<span class="fc" id="L373">                File directory = null;</span>
-<span class="fc" id="L374">                File file = new File(currentFileName);</span>
-<span class="fc bfc" id="L375" title="All 2 branches covered.">                if (file.isDirectory()) {</span>
-<span class="fc bfc" id="L376" title="All 2 branches covered.">                    if (genericantfile != null) {</span>
-<span class="fc" id="L377">                        directory = file;</span>
-<span class="fc" id="L378">                        file = genericantfile;</span>
+<span class="fc bfc" id="L375" title="All 2 branches covered.">            for (final String currentFileName : filenames) {</span>
+<span class="fc" id="L376">                File directory = null;</span>
+<span class="fc" id="L377">                File file = new File(currentFileName);</span>
+<span class="fc bfc" id="L378" title="All 2 branches covered.">                if (file.isDirectory()) {</span>
+<span class="fc bfc" id="L379" title="All 2 branches covered.">                    if (genericantfile != null) {</span>
+<span class="fc" id="L380">                        directory = file;</span>
+<span class="fc" id="L381">                        file = genericantfile;</span>
                     } else {
-<span class="fc" id="L380">                        file = new File(file, antfile);</span>
+<span class="fc" id="L383">                        file = new File(file, antfile);</span>
                     }
                 }
 
-<span class="fc bfc" id="L384" title="All 2 branches covered.">                if (directory == null) {</span>
+<span class="fc bfc" id="L387" title="All 2 branches covered.">                if (directory == null) {</span>
                     // First case: antfile.
-<span class="fc" id="L386">                    final AntTaskLink link =</span>
-<span class="fc" id="L387">                            createAntTaskLink(file, wrapper.getElementTag(),</span>
+<span class="fc" id="L389">                    final AntTaskLink link =</span>
+<span class="fc" id="L390">                            createAntTaskLink(file, wrapper.getElementTag(),</span>
                             target);
 
-<span class="fc bfc" id="L390" title="All 2 branches covered.">                    for (final Property property : properties) {</span>
-<span class="pc bpc" id="L391" title="1 of 2 branches missed.">                        if (property.getName() != null) {</span>
+<span class="fc bfc" id="L393" title="All 2 branches covered.">                    for (final Property property : properties) {</span>
+<span class="pc bpc" id="L394" title="1 of 2 branches missed.">                        if (property.getName() != null) {</span>
                             // Simple property
-<span class="fc" id="L393">                            link.setParameter(property.getName(),</span>
-<span class="fc" id="L394">                                    antProject.replaceProperties(property.getValue()));</span>
-<span class="nc bnc" id="L395" title="All 2 branches missed.">                        } else if (property.getFile() != null) {</span>
+<span class="fc" id="L396">                            link.setParameter(property.getName(),</span>
+<span class="fc" id="L397">                                    antProject.replaceProperties(property.getValue()));</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">                        } else if (property.getFile() != null) {</span>
                             // Property file.
-<span class="nc" id="L397">                            final File propFile = property.getFile();</span>
-<span class="nc bnc" id="L398" title="All 2 branches missed.">                            if (LOG.isDebugEnabled()) {</span>
-<span class="nc" id="L399">                                LOG.debug(&quot;Loading &quot; + propFile.getAbsolutePath());</span>
+<span class="nc" id="L400">                            final File propFile = property.getFile();</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">                            if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L402">                                LOG.debug(&quot;Loading &quot; + propFile.getAbsolutePath());</span>
                             }
-<span class="nc" id="L401">                            link.addPropertyFile(propFile.getAbsolutePath());</span>
+<span class="nc" id="L404">                            link.addPropertyFile(propFile.getAbsolutePath());</span>
                         }
-<span class="fc" id="L403">                    }</span>
-<span class="fc" id="L404">                } else {</span>
+<span class="fc" id="L406">                    }</span>
+<span class="fc" id="L407">                } else {</span>
                     // Second case, genericantfile, push the directory on a list
                     // to be used latter.
-<span class="fc" id="L407">                    genericantfileDirs.add(directory);</span>
+<span class="fc" id="L410">                    genericantfileDirs.add(directory);</span>
                 }
             }
 
-<span class="fc bfc" id="L411" title="All 2 branches covered.">            if (genericantfileDirs.size() &gt; 0) {</span>
-<span class="fc" id="L412">                final AntTargetNode endNode =</span>
-<span class="fc" id="L413">                        findOrCreateNode(target, genericantfile);</span>
-<span class="fc" id="L414">                LOG.debug(&quot;Creating link from &quot; + startNode</span>
-<span class="fc" id="L415">                        + &quot; to &quot; + endNode.getName());</span>
-<span class="fc" id="L416">                final SubantTaskLink link = graph.createSubantTaskLink(null,</span>
-<span class="fc" id="L417">                        startNode, endNode, wrapper.getElementTag());</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">            if (genericantfileDirs.size() &gt; 0) {</span>
+<span class="fc" id="L415">                final AntTargetNode endNode =</span>
+<span class="fc" id="L416">                        findOrCreateNode(target, genericantfile);</span>
+<span class="fc" id="L417">                LOG.debug(&quot;Creating link from &quot; + startNode</span>
+<span class="fc" id="L418">                        + &quot; to &quot; + endNode.getName());</span>
+<span class="fc" id="L419">                final SubantTaskLink link = graph.createSubantTaskLink(null,</span>
+<span class="fc" id="L420">                        startNode, endNode, wrapper.getElementTag());</span>
 
-<span class="fc bfc" id="L419" title="All 2 branches covered.">                for (File currentDir : genericantfileDirs) {</span>
-<span class="fc" id="L420">                    link.addDirectory(currentDir.getAbsolutePath());</span>
-<span class="fc" id="L421">                }</span>
+<span class="fc bfc" id="L422" title="All 2 branches covered.">                for (File currentDir : genericantfileDirs) {</span>
+<span class="fc" id="L423">                    link.addDirectory(currentDir.getAbsolutePath());</span>
+<span class="fc" id="L424">                }</span>
             }
-<span class="fc" id="L423">        } else {</span>
-<span class="nc" id="L424">            LOG.warn(&quot;Cannot get information for subant task&quot;);</span>
-<span class="nc" id="L425">            LOG.debug(&quot;Task should be instance of SubAntHelper but is &quot; + proxy);</span>
+<span class="fc" id="L426">        } else {</span>
+<span class="nc" id="L427">            LOG.warn(&quot;Cannot get information for subant task&quot;);</span>
+<span class="nc" id="L428">            LOG.debug(&quot;Task should be instance of SubAntHelper but is &quot; + proxy);</span>
         }
-<span class="fc" id="L427">    }</span>
+<span class="fc" id="L430">    }</span>
 
     /**
      * @param graph
      *            The graph to set.
      */
     public final void setGraph(final AntGraph graph) {
-<span class="fc" id="L434">        this.graph = graph;</span>
-<span class="fc" id="L435">    }</span>
+<span class="fc" id="L437">        this.graph = graph;</span>
+<span class="fc" id="L438">    }</span>
 
     /**
      * @param startNode
      *            The startNode to set.
      */
     public final void setStartNode(final AntTargetNode startNode) {
-<span class="fc" id="L442">        this.startNode = startNode;</span>
-<span class="fc" id="L443">    }</span>
+<span class="fc" id="L445">        this.startNode = startNode;</span>
+<span class="fc" id="L446">    }</span>
 
     /**
      * Add to a given link the properties contained in an element.
@@ -453,29 +456,29 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private void addNestPropertiesParameters(final RuntimeConfigurable wrapper,
             final AntTaskLink[] links, final String elementName) {
-<span class="fc" id="L456">        final Project antProject = project.getAntProject();</span>
-<span class="fc bfc" id="L457" title="All 2 branches covered.">        for (final RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {</span>
-<span class="pc bpc" id="L458" title="1 of 2 branches missed.">            if (elementName.equals(child.getElementTag())) {</span>
-<span class="nc" id="L459">                final Map&lt;String, Object&gt; childAttributeMap =</span>
-<span class="nc" id="L460">                        child.getAttributeMap();</span>
-<span class="nc" id="L461">                final String name = (String) childAttributeMap.get(ATTR_NAME);</span>
-<span class="nc bnc" id="L462" title="All 2 branches missed.">                if (name != null) {</span>
-<span class="nc" id="L463">                    final String propertyValue = antProject.replaceProperties((String)</span>
-<span class="nc" id="L464">                            childAttributeMap.get(ATTR_VALUE));</span>
-<span class="nc bnc" id="L465" title="All 2 branches missed.">                    for (final AntTaskLink link : links) {</span>
-<span class="nc" id="L466">                        link.setParameter(name, propertyValue);</span>
+<span class="fc" id="L459">        final Project antProject = project.getAntProject();</span>
+<span class="fc bfc" id="L460" title="All 2 branches covered.">        for (final RuntimeConfigurable child : Collections.list(wrapper.getChildren())) {</span>
+<span class="pc bpc" id="L461" title="1 of 2 branches missed.">            if (elementName.equals(child.getElementTag())) {</span>
+<span class="nc" id="L462">                final Map&lt;String, Object&gt; childAttributeMap =</span>
+<span class="nc" id="L463">                        child.getAttributeMap();</span>
+<span class="nc" id="L464">                final String name = (String) childAttributeMap.get(ATTR_NAME);</span>
+<span class="nc bnc" id="L465" title="All 2 branches missed.">                if (name != null) {</span>
+<span class="nc" id="L466">                    final String propertyValue = antProject.replaceProperties((String)</span>
+<span class="nc" id="L467">                            childAttributeMap.get(ATTR_VALUE));</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">                    for (final AntTaskLink link : links) {</span>
+<span class="nc" id="L469">                        link.setParameter(name, propertyValue);</span>
                     }
-<span class="nc" id="L468">                } else {</span>
-<span class="nc" id="L469">                    final String fileName = (String) childAttributeMap.get(&quot;file&quot;);</span>
-<span class="nc bnc" id="L470" title="All 2 branches missed.">                    if (fileName != null) {</span>
-<span class="nc bnc" id="L471" title="All 2 branches missed.">                        for (final AntTaskLink link : links) {</span>
-<span class="nc" id="L472">                            link.addPropertyFile(antProject.replaceProperties(fileName));</span>
+<span class="nc" id="L471">                } else {</span>
+<span class="nc" id="L472">                    final String fileName = (String) childAttributeMap.get(&quot;file&quot;);</span>
+<span class="nc bnc" id="L473" title="All 2 branches missed.">                    if (fileName != null) {</span>
+<span class="nc bnc" id="L474" title="All 2 branches missed.">                        for (final AntTaskLink link : links) {</span>
+<span class="nc" id="L475">                            link.addPropertyFile(antProject.replaceProperties(fileName));</span>
                         }
                     }
                 }
             }
-<span class="fc" id="L477">        }</span>
-<span class="fc" id="L478">    }</span>
+<span class="fc" id="L480">        }</span>
+<span class="fc" id="L481">    }</span>
 
     /**
      * @param targetBuildFile File
@@ -487,10 +490,10 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private AntTaskLink createAntTaskLink(final File targetBuildFile, final String taskName,
             final String target) throws DuplicateElementException {
-<span class="fc" id="L490">        final AntTargetNode endNode = findOrCreateNode(target, targetBuildFile);</span>
+<span class="fc" id="L493">        final AntTargetNode endNode = findOrCreateNode(target, targetBuildFile);</span>
 
-<span class="fc" id="L492">        LOG.debug(&quot;Creating link from &quot; + startNode + &quot; to &quot; + endNode.getName());</span>
-<span class="fc" id="L493">        return graph.createTaskLink(null, startNode, endNode, taskName);</span>
+<span class="fc" id="L495">        LOG.debug(&quot;Creating link from &quot; + startNode + &quot; to &quot; + endNode.getName());</span>
+<span class="fc" id="L496">        return graph.createTaskLink(null, startNode, endNode, taskName);</span>
     }
 
     /**
@@ -501,7 +504,7 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private AntTargetNode findOrCreateNode(final String endNodeName)
             throws DuplicateElementException {
-<span class="fc" id="L504">        return findOrCreateNode(endNodeName, null);</span>
+<span class="fc" id="L507">        return findOrCreateNode(endNodeName, null);</span>
     }
 
     /**
@@ -513,69 +516,69 @@ public class LinkFinderVisitor extends ReflectTaskVisitorBase {
      */
     private AntTargetNode findOrCreateNode(final String target,
             File targetBuildFile) throws DuplicateElementException {
-<span class="fc" id="L516">        final Project antProject = project.getAntProject();</span>
-<span class="fc" id="L517">        final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));</span>
+<span class="fc" id="L519">        final Project antProject = project.getAntProject();</span>
+<span class="fc" id="L520">        final File projectFile = new File(antProject.getProperty(ANT_FILE_PROPERTY));</span>
 
-<span class="fc bfc" id="L519" title="All 2 branches covered.">        if (targetBuildFile == null) {</span>
-<span class="fc" id="L520">            targetBuildFile = projectFile;</span>
+<span class="fc bfc" id="L522" title="All 2 branches covered.">        if (targetBuildFile == null) {</span>
+<span class="fc" id="L523">            targetBuildFile = projectFile;</span>
         }
 
-<span class="fc" id="L523">        final boolean isSameBuildFile = projectFile.equals(targetBuildFile);</span>
+<span class="fc" id="L526">        final boolean isSameBuildFile = projectFile.equals(targetBuildFile);</span>
 
         String endNodeName;
 
-<span class="fc" id="L527">        String targetName = antProject.replaceProperties(target);</span>
+<span class="fc" id="L530">        String targetName = antProject.replaceProperties(target);</span>
 
         AntTargetNode endNode;
-<span class="fc bfc" id="L530" title="All 2 branches covered.">        if (isSameBuildFile) {</span>
-<span class="fc bfc" id="L531" title="All 2 branches covered.">            endNodeName = (targetName == null) ? antProject.getDefaultTarget() : targetName;</span>
-<span class="fc" id="L532">            endNode = (AntTargetNode) graph.getNode(endNodeName);</span>
+<span class="fc bfc" id="L533" title="All 2 branches covered.">        if (isSameBuildFile) {</span>
+<span class="fc bfc" id="L534" title="All 2 branches covered.">            endNodeName = (targetName == null) ? antProject.getDefaultTarget() : targetName;</span>
+<span class="fc" id="L535">            endNode = (AntTargetNode) graph.getNode(endNodeName);</span>
         } else {
-<span class="fc bfc" id="L534" title="All 2 branches covered.">            if (targetName == null) {</span>
+<span class="fc bfc" id="L537" title="All 2 branches covered.">            if (targetName == null) {</span>
                 try {
                     // TODO caching.
-<span class="fc" id="L537">                    LOG.debug(&quot;Reading project file &quot; + targetBuildFile);</span>
-<span class="fc" id="L538">                    final AntProject tmpProj = new AntProject(targetBuildFile);</span>
-<span class="fc" id="L539">                    targetName = tmpProj.getAntProject().getDefaultTarget();</span>
-<span class="fc" id="L540">                } catch (final GrandException e) {</span>
-<span class="fc" id="L541">                    LOG.info(&quot;Caught exception trying to read &quot; + targetBuildFile</span>
+<span class="fc" id="L540">                    LOG.debug(&quot;Reading project file &quot; + targetBuildFile);</span>
+<span class="fc" id="L541">                    final AntProject tmpProj = new AntProject(targetBuildFile);</span>
+<span class="fc" id="L542">                    targetName = tmpProj.getAntProject().getDefaultTarget();</span>
+<span class="fc" id="L543">                } catch (final GrandException e) {</span>
+<span class="fc" id="L544">                    LOG.info(&quot;Caught exception trying to read &quot; + targetBuildFile</span>
                             + &quot; using default target name&quot;, e);
-<span class="fc" id="L543">                    targetName = &quot;'default'&quot;;</span>
-<span class="fc" id="L544">                }</span>
+<span class="fc" id="L546">                    targetName = &quot;'default'&quot;;</span>
+<span class="fc" id="L547">                }</span>
 
             }
 
             // Find out the &quot;right&quot; node avoiding conflicts.
             // FIXME the current algorithm seems really bad, check if a cache is worth implementing.
-<span class="fc" id="L550">            int index = 1;</span>
-<span class="fc" id="L551">            boolean conflict = false;</span>
-<span class="fc" id="L552">            endNodeName = &quot;[&quot; + targetName + &quot;]&quot;;</span>
+<span class="fc" id="L553">            int index = 1;</span>
+<span class="fc" id="L554">            boolean conflict = false;</span>
+<span class="fc" id="L555">            endNodeName = &quot;[&quot; + targetName + &quot;]&quot;;</span>
             do {
-<span class="fc" id="L554">                conflict = false;</span>
-<span class="fc" id="L555">                endNode = (AntTargetNode) graph.getNode(endNodeName);</span>
-<span class="fc bfc" id="L556" title="All 2 branches covered.">                if ((endNode != null)</span>
-<span class="fc bfc" id="L557" title="All 2 branches covered.">                        &amp;&amp; !targetBuildFile.getAbsolutePath().equals(endNode.getBuildFile())) {</span>
-<span class="fc" id="L558">                    LOG.error(&quot;Conflict on build file &quot; + targetBuildFile + &quot; vs &quot;</span>
-<span class="fc" id="L559">                            + endNode.getBuildFile());</span>
-<span class="fc" id="L560">                    conflict = true;</span>
-<span class="fc" id="L561">                    index++;</span>
-<span class="fc" id="L562">                    endNodeName = &quot;[&quot; + targetName + &quot; (&quot; + index + &quot;)]&quot;;</span>
+<span class="fc" id="L557">                conflict = false;</span>
+<span class="fc" id="L558">                endNode = (AntTargetNode) graph.getNode(endNodeName);</span>
+<span class="fc bfc" id="L559" title="All 2 branches covered.">                if ((endNode != null)</span>
+<span class="fc bfc" id="L560" title="All 2 branches covered.">                        &amp;&amp; !targetBuildFile.getAbsolutePath().equals(endNode.getBuildFile())) {</span>
+<span class="fc" id="L561">                    LOG.error(&quot;Conflict on build file &quot; + targetBuildFile + &quot; vs &quot;</span>
+<span class="fc" id="L562">                            + endNode.getBuildFile());</span>
+<span class="fc" id="L563">                    conflict = true;</span>
+<span class="fc" id="L564">                    index++;</span>
+<span class="fc" id="L565">                    endNodeName = &quot;[&quot; + targetName + &quot; (&quot; + index + &quot;)]&quot;;</span>
                 }
-<span class="fc bfc" id="L564" title="All 2 branches covered.">            } while (conflict);</span>
+<span class="fc bfc" id="L567" title="All 2 branches covered.">            } while (conflict);</span>
         }
 
         // Creates an new node if none found.
-<span class="fc bfc" id="L568" title="All 2 branches covered.">        if (endNode == null) {</span>
-<span class="fc" id="L569">            LOG.info(&quot;Target &quot; + startNode + &quot; has dependency to non existent target &quot;</span>
+<span class="fc bfc" id="L571" title="All 2 branches covered.">        if (endNode == null) {</span>
+<span class="fc" id="L572">            LOG.info(&quot;Target &quot; + startNode + &quot; has dependency to non existent target &quot;</span>
                     + endNodeName + &quot;, creating a dummy node&quot;);
-<span class="fc" id="L571">            endNode = (AntTargetNode) graph.createNode(endNodeName);</span>
-<span class="fc" id="L572">            endNode.setAttributes(Node.ATTR_MISSING_NODE);</span>
+<span class="fc" id="L574">            endNode = (AntTargetNode) graph.createNode(endNodeName);</span>
+<span class="fc" id="L575">            endNode.setAttributes(Node.ATTR_MISSING_NODE);</span>
         }
 
-<span class="fc bfc" id="L575" title="All 2 branches covered.">        if (!isSameBuildFile) {</span>
-<span class="fc" id="L576">            endNode.setBuildFile(targetBuildFile.getAbsolutePath());</span>
+<span class="fc bfc" id="L578" title="All 2 branches covered.">        if (!isSameBuildFile) {</span>
+<span class="fc" id="L579">            endNode.setBuildFile(targetBuildFile.getAbsolutePath());</span>
         }
-<span class="fc" id="L578">        return endNode;</span>
+<span class="fc" id="L581">        return endNode;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -175,7 +175,7 @@ class TargetTasksExplorer {
 <span class="fc bfc" id="L175" title="All 2 branches covered.">        final boolean hasChildren = !children.isEmpty();</span>
 
 <span class="fc" id="L177">        final String trimmedText = wrapper.getText().toString().trim();</span>
-<span class="fc bfc" id="L178" title="All 2 branches covered.">        final boolean hasText = !&quot;&quot;.equals(trimmedText);</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        final boolean hasText = !trimmedText.isEmpty();</span>
 
 <span class="fc bfc" id="L180" title="All 4 branches covered.">        final boolean hasNestedElements = hasChildren || hasText;</span>
 
@@ -228,4 +228,4 @@ class TargetTasksExplorer {
 <span class="fc" id="L228">        addText(buffer.toString(), AntTargetNode.SOURCE_TEXT);</span>
 <span class="fc" id="L229">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -55,7 +55,7 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Task;
 
 /**
- * A graph producer from ant build files or {@link org.apache.tools.ant.Project}
+ * A graph producer from Ant build files or {@link org.apache.tools.ant.Project}
  * objects. The nodes will be the project's target and the links will be the
  * dependencies between targets. Beside &lt;i&gt;hard&lt;/i&gt; dependencies, this producer
  * is also able to create weak links from dependencies introduced by the use of
@@ -182,7 +182,7 @@ public class AntProject implements GraphProducer {
 
             try {
 <span class="nc" id="L184">                result = (String) ifCondition.get(target);</span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">                if (&quot;&quot;.equals(result)) {</span>
+<span class="nc bnc" id="L185" title="All 4 branches missed.">                if (result != null &amp;&amp; result.isEmpty()) {</span>
 <span class="nc" id="L186">                    result = null;</span>
                 }
 <span class="nc" id="L188">            } catch (final Exception e) {</span>
@@ -203,7 +203,7 @@ public class AntProject implements GraphProducer {
 
             try {
 <span class="nc" id="L205">                result = (String) unlessCondition.get(target);</span>
-<span class="nc bnc" id="L206" title="All 2 branches missed.">                if (&quot;&quot;.equals(result)) {</span>
+<span class="nc bnc" id="L206" title="All 4 branches missed.">                if (result != null &amp;&amp; result.isEmpty()) {</span>
 <span class="nc" id="L207">                    result = null;</span>
                 }
 <span class="nc" id="L209">            } catch (final Exception e) {</span>
@@ -311,7 +311,7 @@ public class AntProject implements GraphProducer {
     private LinkFinderVisitor taskLinkFinder;
 
     /**
-     * Creates a new project from an ant build file.
+     * Creates a new project from an Ant build file.
      *
      * The source object can be anything supported by {@link ProjectHelper}
      * which is at least a File.
@@ -327,7 +327,7 @@ public class AntProject implements GraphProducer {
 <span class="fc" id="L327">    }</span>
 
     /**
-     * Creates a new project from an ant build file.
+     * Creates a new project from an Ant build file.
      *
      * The source object can be anything supported by {@link ProjectHelper}
      * which is at least a File.
@@ -398,7 +398,7 @@ public class AntProject implements GraphProducer {
 <span class="fc" id="L398">    }</span>
 
     /**
-     * Creates a new project from an existing ant project.
+     * Creates a new project from an existing Ant project.
      *
      * @param project
      *            project to create the graph from.
@@ -409,9 +409,9 @@ public class AntProject implements GraphProducer {
 <span class="fc" id="L409">    }</span>
 
     /**
-     * Returns the underlying ant project.
+     * Returns the underlying Ant project.
      *
-     * @return underlying ant project.
+     * @return underlying Ant project.
      */
     public final Project getAntProject() {
 <span class="fc" id="L417">        return antProject;</span>
@@ -423,7 +423,7 @@ public class AntProject implements GraphProducer {
      * The conversion is done in several steps:
      *
      * &lt;ol&gt;
-     * &lt;li&gt;Each ant target will be converted to a Grand Node using both the
+     * &lt;li&gt;Each Ant target will be converted to a Grand Node using both the
      * target's name and description the the node's ones. Targets with a non
      * empty description will be converted to Nodes with the
      * {@link Node#ATTR_MAIN_NODE}attribute set. If the project element has a
@@ -435,7 +435,7 @@ public class AntProject implements GraphProducer {
      * {@link net.ggtools.grand.graph.Link#ATTR_WEAK_LINK}set.&lt;/li&gt;
      * &lt;/ol&gt;
      *
-     * @return a graph representing the dependency of the ant project.
+     * @return a graph representing the dependency of the Ant project.
      * @throws GrandException
      *             if the project cannot be converted to a graph.
      * @see GraphProducer#getGraph()
@@ -448,7 +448,7 @@ public class AntProject implements GraphProducer {
 
         // First pass, create the nodes.
 <span class="fc bfc" id="L450" title="All 2 branches covered.">        for (final Target target : antProject.getTargets().values()) {</span>
-<span class="fc bfc" id="L451" title="All 2 branches covered.">            if (target.getName().equals(&quot;&quot;)) {</span>
+<span class="fc bfc" id="L451" title="All 2 branches covered.">            if (target.getName().isEmpty()) {</span>
 <span class="fc" id="L452">                continue;</span>
             }
 
@@ -465,7 +465,7 @@ public class AntProject implements GraphProducer {
 
             // Mark nodes with a description as MAIN.
 <span class="fc" id="L467">            final String targetDescription = target.getDescription();</span>
-<span class="pc bpc" id="L468" title="1 of 4 branches missed.">            if ((targetDescription != null) &amp;&amp; (!targetDescription.equals(&quot;&quot;))) {</span>
+<span class="pc bpc" id="L468" title="1 of 4 branches missed.">            if (targetDescription != null &amp;&amp; !targetDescription.isEmpty()) {</span>
 <span class="fc" id="L469">                node.setAttributes(Node.ATTR_MAIN_NODE);</span>
 <span class="fc" id="L470">                node.setDescription(targetDescription);</span>
             }
@@ -487,7 +487,7 @@ public class AntProject implements GraphProducer {
 
         // Second pass, create the links
 <span class="fc bfc" id="L489" title="All 2 branches covered.">        for (final Target target : antProject.getTargets().values()) {</span>
-<span class="fc bfc" id="L490" title="All 2 branches covered.">            if (target.getName().equals(&quot;&quot;)) {</span>
+<span class="fc bfc" id="L490" title="All 2 branches covered.">            if (target.getName().isEmpty()) {</span>
 <span class="fc" id="L491">                continue;</span>
             }
 
@@ -544,4 +544,4 @@ public class AntProject implements GraphProducer {
 <span class="fc" id="L544">        return (AntLink) graph.createLink(linkName, startNode, endNode);</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

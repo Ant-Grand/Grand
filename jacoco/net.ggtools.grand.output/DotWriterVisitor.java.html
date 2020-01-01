@@ -230,6 +230,13 @@ class DotWriterVisitor implements NodeVisitor {
             &quot;dot.weaklink.attributes&quot;;
 
     /**
+     * Field DOT_SHOW_DESCRIPTION.
+     * (value is {@value #DOT_SHOW_DESCRIPTION})
+     */
+    private static final String DOT_SHOW_DESCRIPTION =
+            &quot;dot.node.show.description&quot;;
+
+    /**
      * Field config.
      */
     @SuppressWarnings(&quot;unused&quot;)
@@ -284,22 +291,28 @@ class DotWriterVisitor implements NodeVisitor {
     private final String weakLinkAttributes;
 
     /**
+     * Field showDescription.
+     */
+<span class="fc" id="L296">    private boolean showDescription = false;</span>
+
+    /**
      * Creates a new instance outputting to the supplied PrintWriter.
      * @param output DotWriterOutput
      * @param config Configuration
      */
-<span class="fc" id="L291">    DotWriterVisitor(final DotWriterOutput output, final Configuration config) {</span>
-<span class="fc" id="L292">        this.output = output;</span>
-<span class="fc" id="L293">        this.config = config;</span>
-<span class="fc" id="L294">        graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);</span>
-<span class="fc" id="L295">        linkAttributes = config.get(DOT_LINK_ATTRIBUTES);</span>
-<span class="fc" id="L296">        weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);</span>
-<span class="fc" id="L297">        subantLinkAttributes = config.get(DOT_SUBANTLINK_ATTRIBUTES);</span>
-<span class="fc" id="L298">        mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);</span>
-<span class="fc" id="L299">        missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);</span>
-<span class="fc" id="L300">        nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);</span>
-<span class="fc" id="L301">        startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);</span>
-<span class="fc" id="L302">    }</span>
+<span class="fc" id="L303">    DotWriterVisitor(final DotWriterOutput output, final Configuration config) {</span>
+<span class="fc" id="L304">        this.output = output;</span>
+<span class="fc" id="L305">        this.config = config;</span>
+<span class="fc" id="L306">        graphAttributes = config.get(DOT_GRAPH_ATTRIBUTES);</span>
+<span class="fc" id="L307">        linkAttributes = config.get(DOT_LINK_ATTRIBUTES);</span>
+<span class="fc" id="L308">        weakLinkAttributes = config.get(DOT_WEAK_LINK_ATTRIBUTES);</span>
+<span class="fc" id="L309">        subantLinkAttributes = config.get(DOT_SUBANTLINK_ATTRIBUTES);</span>
+<span class="fc" id="L310">        mainNodeAttributes = config.get(DOT_MAINNODE_ATTRIBUTES);</span>
+<span class="fc" id="L311">        missingNodeAttributes = config.get(DOT_MISSINGNODE_ATTRIBUTES);</span>
+<span class="fc" id="L312">        nodeAttributes = config.get(DOT_NODE_ATTRIBUTES);</span>
+<span class="fc" id="L313">        startNodeAttributes = config.get(DOT_STARTNODE_ATTRIBUTES);</span>
+<span class="fc" id="L314">        showDescription = Boolean.parseBoolean(config.get(DOT_SHOW_DESCRIPTION));</span>
+<span class="fc" id="L315">    }</span>
 
     /**
      * Method visitNode.
@@ -307,8 +320,8 @@ class DotWriterVisitor implements NodeVisitor {
      * @see net.ggtools.grand.graph.visit.NodeVisitor#visitNode(net.ggtools.grand.ant.AntTargetNode)
      */
     public void visitNode(final AntTargetNode node) {
-<span class="fc" id="L310">        visitNode((Node) node);</span>
-<span class="fc" id="L311">    }</span>
+<span class="fc" id="L323">        visitNode((Node) node);</span>
+<span class="fc" id="L324">    }</span>
 
     /**
      * Method visitNode.
@@ -317,47 +330,51 @@ class DotWriterVisitor implements NodeVisitor {
      */
     public void visitNode(final Node node) {
 
-<span class="fc" id="L320">        output.append(&quot;\&quot;&quot;).appendEscaped(node.getName()).append(&quot;\&quot;&quot;);</span>
+<span class="fc" id="L333">        output.append(&quot;\&quot;&quot;).appendEscaped(node.getName()).append(&quot;\&quot;&quot;);</span>
 
-<span class="fc" id="L322">        String attributes = null;</span>
+<span class="fc" id="L335">        String attributes = null;</span>
 
-<span class="fc bfc" id="L324" title="All 2 branches covered.">        if (node.hasAttributes(Node.ATTR_START_NODE)) {</span>
-<span class="fc" id="L325">            attributes = startNodeAttributes;</span>
-<span class="fc bfc" id="L326" title="All 2 branches covered.">        } else if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {</span>
-<span class="fc" id="L327">            attributes = mainNodeAttributes;</span>
-<span class="fc bfc" id="L328" title="All 2 branches covered.">        } else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {</span>
-<span class="fc" id="L329">            attributes = missingNodeAttributes;</span>
+<span class="fc bfc" id="L337" title="All 2 branches covered.">        if (node.hasAttributes(Node.ATTR_START_NODE)) {</span>
+<span class="fc" id="L338">            attributes = startNodeAttributes;</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        } else if (node.hasAttributes(Node.ATTR_MAIN_NODE)) {</span>
+<span class="fc" id="L340">            attributes = mainNodeAttributes;</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">        } else if (node.hasAttributes(Node.ATTR_MISSING_NODE)) {</span>
+<span class="fc" id="L342">            attributes = missingNodeAttributes;</span>
         }
 
-<span class="fc" id="L332">        final String description = node.getDescription();</span>
-<span class="pc bpc" id="L333" title="1 of 4 branches missed.">        if ((attributes != null) || (description != null)) {</span>
-<span class="fc" id="L334">            output.append(&quot; [&quot;);</span>
+<span class="fc" id="L345">        final String description = node.getDescription();</span>
+<span class="pc bpc" id="L346" title="1 of 4 branches missed.">        if ((attributes != null) || (description != null)) {</span>
+<span class="fc" id="L347">            output.append(&quot; [&quot;);</span>
 
-<span class="pc bpc" id="L336" title="1 of 2 branches missed.">            if (attributes != null) {</span>
-<span class="fc" id="L337">                output.append(attributes);</span>
+<span class="pc bpc" id="L349" title="1 of 2 branches missed.">            if (attributes != null) {</span>
+<span class="fc" id="L350">                output.append(attributes);</span>
             }
 
-<span class="fc bfc" id="L340" title="All 2 branches covered.">            if (description != null) {</span>
-<span class="pc bpc" id="L341" title="1 of 2 branches missed.">                if (attributes != null) {</span>
-<span class="fc" id="L342">                    output.append(&quot;,&quot;);</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">            if (description != null) {</span>
+<span class="pc bpc" id="L354" title="1 of 2 branches missed.">                if (attributes != null) {</span>
+<span class="fc" id="L355">                    output.append(&quot;,&quot;);</span>
                 }
-<span class="fc" id="L344">                output.append(&quot;comment=\&quot;&quot;).appendEscaped(description).append(&quot;\&quot;&quot;);</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">                if (showDescription) {</span>
+<span class="nc" id="L358">                    output.append(&quot;label=\&quot;&quot;).appendEscaped(node.getName()).append(&quot;\\n&quot;).appendEscaped(description).append(&quot;\&quot;&quot;);</span>
+                } else {
+<span class="fc" id="L360">                    output.append(&quot;comment=\&quot;&quot;).appendEscaped(description).append(&quot;\&quot;&quot;);</span>
+                }
             }
 
-<span class="fc" id="L347">            output.append(&quot;];&quot;);</span>
+<span class="fc" id="L364">            output.append(&quot;];&quot;);</span>
         }
 
-<span class="fc" id="L350">        output.newLine();</span>
+<span class="fc" id="L367">        output.newLine();</span>
 
-<span class="fc" id="L352">        final Collection&lt;Link&gt; deps = node.getLinks();</span>
-<span class="fc" id="L353">        final NodeLinksVisitor linkVisitor = new NodeLinksVisitor(node);</span>
+<span class="fc" id="L369">        final Collection&lt;Link&gt; deps = node.getLinks();</span>
+<span class="fc" id="L370">        final NodeLinksVisitor linkVisitor = new NodeLinksVisitor(node);</span>
 
-<span class="fc bfc" id="L355" title="All 2 branches covered.">        for (Link link : deps) {</span>
-<span class="fc" id="L356">            link.accept(linkVisitor);</span>
-<span class="fc" id="L357">        }</span>
+<span class="fc bfc" id="L372" title="All 2 branches covered.">        for (Link link : deps) {</span>
+<span class="fc" id="L373">            link.accept(linkVisitor);</span>
+<span class="fc" id="L374">        }</span>
 
-<span class="fc" id="L359">        output.newLine();</span>
-<span class="fc" id="L360">    }</span>
+<span class="fc" id="L376">        output.newLine();</span>
+<span class="fc" id="L377">    }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

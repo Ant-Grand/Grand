@@ -73,8 +73,8 @@ import org.apache.commons.logging.Log;
  * @to.do The current configuration scheme sucks, create something more generic.
  *
  * @author Christophe Labouisse
- * @see &lt;a href=&quot;http://www.graphviz.org/&quot;&gt;Graphviz home page&lt;/a&gt;
- * @see &lt;a href=&quot;http://www.graphviz.org/doc/info/attrs.html&quot;&gt;Dot attributes&lt;/a&gt;
+ * @see &lt;a href=&quot;https://www.graphviz.org/&quot;&gt;Graphviz home page&lt;/a&gt;
+ * @see &lt;a href=&quot;https://www.graphviz.org/doc/info/attrs.html&quot;&gt;Dot attributes&lt;/a&gt;
  */
 public class DotWriter implements GraphWriter {
     /**
@@ -281,7 +281,7 @@ public class DotWriter implements GraphWriter {
 <span class="fc bfc" id="L281" title="All 2 branches covered.">        for (final Iterator&lt;Node&gt; iter = graph.getNodes(); iter.hasNext();) {</span>
 <span class="fc" id="L282">            final Node node = iter.next();</span>
 
-<span class="pc bpc" id="L284" title="1 of 4 branches missed.">            if (node.equals(startNode) || node.getName().equals(&quot;&quot;)) {</span>
+<span class="pc bpc" id="L284" title="1 of 4 branches missed.">            if (node.equals(startNode) || node.getName().isEmpty()) {</span>
 <span class="nc" id="L285">                continue;</span>
             }
 <span class="fc" id="L287">            node.accept(visitor);</span>
@@ -311,4 +311,4 @@ public class DotWriter implements GraphWriter {
 <span class="fc" id="L311">    }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

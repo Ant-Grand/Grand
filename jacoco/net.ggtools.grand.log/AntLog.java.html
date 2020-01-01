@@ -79,7 +79,7 @@ public class AntLog extends SimpleLog implements Log {
     protected final void log(final Object message, final Throwable t,
             final int level) {
 <span class="fc bfc" id="L81" title="All 2 branches covered.">        if (currentProject != null) {</span>
-            // Translate into ant log levels.
+            // Translate into Ant log levels.
 <span class="fc" id="L83">            int antMsgLevel = level - LEVEL_ERROR + Project.MSG_ERR;</span>
 <span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (antMsgLevel &lt; Project.MSG_ERR) {</span>
 <span class="nc" id="L85">                antMsgLevel = Project.MSG_ERR;</span>
@@ -99,4 +99,4 @@ public class AntLog extends SimpleLog implements Log {
 <span class="fc" id="L99">    }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

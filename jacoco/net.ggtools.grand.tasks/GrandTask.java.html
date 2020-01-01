@@ -160,8 +160,8 @@ import org.apache.tools.ant.types.PropertySet;
 <span class="fc" id="L160">        }</span>
 
 <span class="fc bfc" id="L162" title="All 2 branches covered.">        if (numFilters &gt; 0) {</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            log(&quot;Loaded &quot; + numFilters + &quot; filter&quot;</span>
-                    + ((numFilters &gt; 1) ? &quot;s&quot; : &quot;&quot;));
+<span class="fc" id="L163">            log(&quot;Loaded &quot; + numFilters + &quot; filter&quot;</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">                    + ((numFilters &gt; 1) ? &quot;s&quot; : &quot;&quot;));</span>
         }
 
         try {
@@ -236,9 +236,9 @@ import org.apache.tools.ant.types.PropertySet;
     }
 
     /**
-     * Load an initialize a new project from a ant build file.
+     * Load an initialize a new project from a Ant build file.
      *
-     * @return a new initialized ant project.
+     * @return a new initialized Ant project.
      */
     private Project loadNewProject() {
 <span class="fc" id="L244">        final Project antProject = new Project();</span>
@@ -334,7 +334,7 @@ import org.apache.tools.ant.types.PropertySet;
 <span class="pc bpc" id="L334" title="1 of 2 branches missed.">        if (propertyPrefix == null) {</span>
 <span class="nc" id="L335">            return;</span>
         }
-<span class="pc bpc" id="L337" title="1 of 2 branches missed.">        if (&quot;&quot;.equals(propertyPrefix)) {</span>
+<span class="pc bpc" id="L337" title="1 of 2 branches missed.">        if (propertyPrefix.isEmpty()) {</span>
 <span class="nc" id="L338">            outputConfigurationPrefix = DEFAULT_OUTCONFIG_PREFIX;</span>
 <span class="nc" id="L339">            return;</span>
         }
@@ -410,4 +410,4 @@ import org.apache.tools.ant.types.PropertySet;
 <span class="fc" id="L410">    }</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
