@@ -1,5 +1,5 @@
 <ivysettings>
-  <property name="central.repo" value="http://repo1.maven.org/maven2" override="false"/>
+  <property name="central.repo" value="https://repo1.maven.org/maven2" override="false"/>
   <settings defaultResolver="default"/>
   <caches defaultCacheDir="${user.home}/.ivy2/cache"
           artifactPattern="[organisation]/[module]/[type]s/[artifact]-[revision](-[classifier]).[ext]"/>
