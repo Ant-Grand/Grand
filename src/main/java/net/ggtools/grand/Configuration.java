@@ -185,6 +185,7 @@ public class Configuration {
             antProperties.load(antVersionStream);
             antVersionString = antProperties.getProperty("VERSION")
                     + " (" + antProperties.getProperty("DATE", "Unknown") + ")";
+            antVersionStream.close();
         } else {
             antVersionString = null;
         }
