@@ -7,8 +7,8 @@
     <conf name="test" visibility="private"/>
   </configurations>
   <dependencies defaultconfmapping="*->default">
-    <dependency org="org.apache.ant" name="ant" rev="1.9.14"/>
-    <dependency org="org.apache.ant" name="ant-launcher" rev="1.9.14"/>
+    <dependency org="org.apache.ant" name="ant" rev="1.9.15"/>
+    <dependency org="org.apache.ant" name="ant-launcher" rev="1.9.15"/>
     <dependency org="junit" name="junit" rev="4.13" conf="test"/>
     <dependency org="org.hamcrest" name="hamcrest-core" rev="1.3" conf="test"/>
     <dependency org="org.apache.maven" name="maven-ant-tasks" rev="2.1.3" conf="test"/>
