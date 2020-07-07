@@ -162,7 +162,7 @@
     <tstamp>
       <format pattern="2004-yyyy" property="years"/>
     </tstamp>
-    <property name="copyright" value="Copyright &amp;copy;${years} ${project.vendor}. All Rights Reserved."/>
+    <property name="copyright" value="Copyright &amp;copy;${years} ${project.vendor}."/>
     <property name="title" value="Grand: Graphical Representation of ANt Dependencies ${project.version} API"/>
     <javadoc use="true" private="true" destdir="${javadocdir}" author="true" version="true" windowtitle="Grand" doctitle="${title}" bottom="${copyright}"
              sourcepath="${srcdir}" packagenames="net.ggtools.grand.*">
