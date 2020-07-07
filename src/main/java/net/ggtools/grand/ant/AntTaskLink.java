@@ -115,7 +115,7 @@ public class AntTaskLink extends AntLink {
      * @return String[]
      */
     public final String[] getPropertyFiles() {
-        return propertyFileList.toArray(new String[propertyFileList.size()]);
+        return propertyFileList.toArray(new String[0]);
     }
 
     /**
