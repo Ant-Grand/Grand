@@ -54,7 +54,7 @@
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.9.15</version>
+      <version>1.10.9</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -177,8 +177,7 @@
             </goals>
             <configuration>
               <target>
-                <replace token="Ant-Grand/Grand/issues/18" value="Ant-Grand/GrandUI/issues/18"
-                         file="${project.build.directory}/site/changes-report.html"/>
+                <replace token="Ant-Grand/Grand/issues/18" value="Ant-Grand/GrandUI/issues/18" file="${project.build.directory}/site/changes-report.html"/>
               </target>
             </configuration>
           </execution>
